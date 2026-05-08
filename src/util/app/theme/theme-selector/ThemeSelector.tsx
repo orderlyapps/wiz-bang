@@ -1,5 +1,5 @@
 import { Select } from "@ui/components/inputs/select/Select";
-import type { ThemeMode } from "../types";
+import type { ThemeMode } from "@util/app/theme/types";
 
 interface ThemeSelectorProps {
   value: ThemeMode;
@@ -19,6 +19,7 @@ export function ThemeSelector({ value, onChange }: ThemeSelectorProps) {
       value={value}
       options={theme_options}
       on_change={(val) => onChange(val as ThemeMode)}
+      interface_type="popover"
     />
   );
 }

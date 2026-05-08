@@ -1,6 +1,6 @@
+import { getStoredTheme, getSystemTheme, setStoredTheme, applyTheme } from "@util/app/theme";
+import type { ThemeMode } from "@util/app/theme/types";
 import { useState, useEffect, useCallback } from "react";
-import type { ThemeMode } from "../types";
-import { getStoredTheme, setStoredTheme, applyTheme, getSystemTheme } from "../utils";
 
 export function useTheme() {
   const [theme_mode, set_theme_mode] = useState<ThemeMode>(() => getStoredTheme() ?? "auto");
