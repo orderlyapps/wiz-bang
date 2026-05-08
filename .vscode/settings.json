@@ -19,5 +19,6 @@
     "source.fixAll.oxc": "explicit"
   },
   "js/ts.preferences.importModuleSpecifier": "non-relative",
-  "js/ts.preferences.includePackageJsonAutoImports": "off"
+  "js/ts.preferences.includePackageJsonAutoImports": "off",
+  "js/ts.preferences.preferTypeOnlyAutoImports": false
 }
