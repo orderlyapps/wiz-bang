@@ -15,7 +15,7 @@ export function NavigationContent() {
         description="A tappable list item used for navigating to a child route. Renders a label on the left and a chevron icon on the right."
         props={props}
       >
-        <NavItem label="Example" to="/settings" />
+        <NavItem label="Example" to="/settings/info/ui/components" />
       </ComponentSection>
     </IonList>
   );
