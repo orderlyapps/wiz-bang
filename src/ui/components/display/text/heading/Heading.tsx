@@ -1,11 +1,11 @@
 import { Body } from "@ui/components/display/text/body/Body";
 import type { IonicColor } from "@util/vendor/ionic/types/IonicColor";
-import type { TextSize } from "@ui/components/display/text/body/Body";
+import type { Size } from "@util/types/Size";
 
 interface HeadingProps {
   children: React.ReactNode;
   color?: IonicColor;
-  size?: TextSize;
+  size?: Size;
   bold?: boolean;
   italic?: boolean;
   className?: string;
