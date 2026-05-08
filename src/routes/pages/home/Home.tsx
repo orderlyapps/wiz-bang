@@ -1,8 +1,14 @@
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from "@ionic/react";
+
 function HomePage() {
   return (
-    <>
-      <main className="container">
-        <h3>Wiz Bang</h3>
+    <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>Wiz Bang</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent className="ion-padding">
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis ut distinctio error
           nesciunt, nisi quas deserunt harum saepe explicabo, rem dolores quisquam perspiciatis id
@@ -49,8 +55,8 @@ function HomePage() {
           quod sequi saepe ipsam tempore repudiandae atque praesentium quos rerum numquam magnam
           odio porro, corporis rem vitae incidunt.
         </p>
-      </main>
-    </>
+      </IonContent>
+    </IonPage>
   );
 }
 
