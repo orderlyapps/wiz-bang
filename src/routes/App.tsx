@@ -16,6 +16,7 @@ import FormatPage from "@routes/pages/settings/info/util/format/Format";
 import HooksPage from "@routes/pages/settings/info/util/hooks/Hooks";
 import SortPage from "@routes/pages/settings/info/util/sort/Sort";
 import VendorPage from "@routes/pages/settings/info/util/vendor/Vendor";
+import DataDisplayPage from "@routes/pages/settings/info/ui/components/display/data/Data";
 import TextDisplayPage from "@routes/pages/settings/info/ui/components/display/text/Text";
 import ButtonPage from "@routes/pages/settings/info/ui/components/inputs/button/Button";
 import DateTimePage from "@routes/pages/settings/info/ui/components/inputs/date-time/DateTime";
@@ -51,6 +52,16 @@ function App() {
         <Route path="/settings/info/ui/colors" render={() => <ColorsPage />} exact />
         <Route path="/settings/info/ui/components" render={() => <ComponentsPage />} exact />
         <Route path="/settings/info/ui/components/display" render={() => <DisplayPage />} exact />
+        <Route
+          path="/settings/info/ui/components/display/data"
+          render={() => <DataDisplayPage />}
+          exact
+        />
+        <Route
+          path="/settings/info/ui/components/display/text"
+          render={() => <TextDisplayPage />}
+          exact
+        />
         <Route path="/settings/info/ui/components/icons" render={() => <IconsPage />} exact />
         <Route path="/settings/info/ui/components/inputs" render={() => <InputsPage />} exact />
         <Route path="/settings/info/ui/components/layout" render={() => <LayoutPage />} exact />
@@ -67,11 +78,6 @@ function App() {
         <Route path="/settings/info/util/hooks" render={() => <HooksPage />} exact />
         <Route path="/settings/info/util/sort" render={() => <SortPage />} exact />
         <Route path="/settings/info/util/vendor" render={() => <VendorPage />} exact />
-        <Route
-          path="/settings/info/ui/components/display/text"
-          render={() => <TextDisplayPage />}
-          exact
-        />
         <Route
           path="/settings/info/ui/components/inputs/button"
           render={() => <ButtonPage />}
