@@ -1,35 +1,36 @@
-import { defineConfig } from 'vite-plus'
-import react, { reactCompilerPreset } from '@vitejs/plugin-react'
-import babel from '@rolldown/plugin-babel'
+import { defineConfig } from "vite-plus";
+import react, { reactCompilerPreset } from "@vitejs/plugin-react";
+import babel from "@rolldown/plugin-babel";
+import path from "node:path";
 
 // https://vite.dev/config/
 export default defineConfig({
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+      "@content": path.resolve(__dirname, "./src/content"),
+      "@global": path.resolve(__dirname, "./src/global"),
+      "@routes": path.resolve(__dirname, "./src/routes"),
+      "@ui": path.resolve(__dirname, "./src/ui"),
+    },
+  },
   staged: {
-    "*": "vp check --fix"
+    "*": "vp check --fix",
   },
   fmt: {},
   lint: {
-    "plugins": [
-      "oxc",
-      "typescript",
-      "unicorn",
-      "react"
-    ],
-    "categories": {
-      "correctness": "warn"
+    plugins: ["oxc", "typescript", "unicorn", "react"],
+    categories: {
+      correctness: "warn",
     },
-    "env": {
-      "builtin": true
+    env: {
+      builtin: true,
     },
-    "ignorePatterns": [
-      "dist"
-    ],
-    "overrides": [
+    ignorePatterns: ["dist"],
+    overrides: [
       {
-        "files": [
-          "**/*.{ts,tsx}"
-        ],
-        "rules": {
+        files: ["**/*.{ts,tsx}"],
+        rules: {
           "constructor-super": "error",
           "for-direction": "error",
           "getter-return": "error",
@@ -116,22 +117,19 @@ export default defineConfig({
           "react/only-export-components": [
             "error",
             {
-              "allowConstantExport": true
-            }
-          ]
+              allowConstantExport: true,
+            },
+          ],
         },
-        "env": {
-          "browser": true
-        }
-      }
+        env: {
+          browser: true,
+        },
+      },
     ],
-    "options": {
-      "typeAware": true,
-      "typeCheck": true
-    }
+    options: {
+      typeAware: true,
+      typeCheck: true,
+    },
   },
-  plugins: [
-    react(),
-    babel({ presets: [reactCompilerPreset()] })
-  ],
-})
+  plugins: [react(), babel({ presets: [reactCompilerPreset()] })],
+});
