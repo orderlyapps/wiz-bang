@@ -1,5 +1,6 @@
 import { IonItem, IonLabel } from "@ionic/react";
 import { Body } from "@ui/components/display/text/body/Body";
+import { Label } from "@ui/components/display/text/label/Label";
 import type { LabelValue } from "@util/types/LabelValue";
 import type { IonicColor } from "@util/vendor/ionic/types/IonicColor";
 
@@ -28,15 +29,13 @@ export function LabelValueItem({
       className="Label-value-item"
     >
       <IonLabel>
-        <Body color={label_color} size="sm" bold>
-          {label}
-        </Body>
+        <Label color={label_color}>{label}</Label>
+        <p>
+          <Body color={value_color} size="sm">
+            {value}
+          </Body>
+        </p>
       </IonLabel>
-      <div slot="end">
-        <Body color={value_color} size="sm">
-          {value}
-        </Body>
-      </div>
     </IonItem>
   );
 }

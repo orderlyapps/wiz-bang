@@ -1,7 +1,7 @@
-import { IonItem, IonLabel } from "@ionic/react";
+import { IonItem } from "@ionic/react";
+import { LabelValueItem } from "@ui/components/display/data/label-value/LabelValueItem";
 import { Body } from "@ui/components/display/text/body/Body";
 import { Heading } from "@ui/components/display/text/heading/Heading";
-import { Label } from "@ui/components/display/text/label/Label";
 import { Space } from "@ui/components/layout/space/Space";
 import type { ReactNode } from "react";
 import type { LabelValue } from "@util/types/LabelValue";
@@ -33,12 +33,7 @@ export function ComponentSection({ title, description, props, children }: Props)
       </IonItem>
 
       {props.map((prop) => (
-        <IonItem key={prop.label}>
-          <IonLabel>
-            <Label>{prop.label}</Label>
-          </IonLabel>
-          <Body>{prop.value}</Body>
-        </IonItem>
+        <LabelValueItem key={prop.label} label={prop.label} value={prop.value} />
       ))}
 
       <Space size="sm" />
