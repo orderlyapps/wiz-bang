@@ -1,7 +1,7 @@
 ion-content {
-    --padding-bottom: 15rem;
+  --padding-bottom: 15rem;
 }
 
 ion-content.remove-bottom-padding {
-    --padding-bottom: 0;
+  --padding-bottom: 0;
 }
