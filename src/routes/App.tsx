@@ -28,7 +28,6 @@ import SearchPage from "@routes/pages/settings/info/ui/components/inputs/search/
 import SelectPage from "@routes/pages/settings/info/ui/components/inputs/select/Select";
 import TextInputPage from "@routes/pages/settings/info/ui/components/inputs/text/Text";
 import TogglePage from "@routes/pages/settings/info/ui/components/inputs/toggle/Toggle";
-import NavItemPage from "@routes/pages/settings/info/ui/components/navigation/nav-item/NavItem";
 import AuthPage from "@routes/pages/settings/info/util/app/auth/Auth";
 import FeatureGuardPage from "@routes/pages/settings/info/util/app/feature-guard/FeatureGuard";
 import HelpTextPage from "@routes/pages/settings/info/util/app/help-text/HelpText";
@@ -118,11 +117,6 @@ function App() {
         <Route
           path="/settings/info/ui/components/inputs/toggle"
           render={() => <TogglePage />}
-          exact
-        />
-        <Route
-          path="/settings/info/ui/components/navigation/nav-item"
-          render={() => <NavItemPage />}
           exact
         />
         <Route path="/settings/info/util/app/auth" render={() => <AuthPage />} exact />
