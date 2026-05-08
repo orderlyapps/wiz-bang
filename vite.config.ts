@@ -9,9 +9,9 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src"),
       "@content": path.resolve(__dirname, "./src/content"),
-      "@global": path.resolve(__dirname, "./src/global"),
       "@routes": path.resolve(__dirname, "./src/routes"),
       "@ui": path.resolve(__dirname, "./src/ui"),
+      "@util": path.resolve(__dirname, "./src/util"),
     },
   },
   staged: {

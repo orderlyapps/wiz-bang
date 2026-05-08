@@ -25,9 +25,9 @@
     "paths": {
       "@/*": ["./src/*"],
       "@content/*": ["./src/content/*"],
-      "@global/*": ["./src/global/*"],
       "@routes/*": ["./src/routes/*"],
-      "@ui/*": ["./src/ui/*"]
+      "@ui/*": ["./src/ui/*"],
+      "@util/*": ["./src/util/*"]
     }
   },
   "include": ["src"]
