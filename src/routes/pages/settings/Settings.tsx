@@ -1,15 +1,15 @@
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from "@ionic/react";
+import { SettingsContent } from "@content/pages/settings/settings-content/SettingsContent";
+import { SettingsHeader } from "@content/pages/settings/settings-header/SettingsHeader";
+import { IonPage, IonHeader, IonContent } from "@ionic/react";
 
 function SettingsPage() {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
-          <IonTitle>Settings</IonTitle>
-        </IonToolbar>
+        <SettingsHeader />
       </IonHeader>
-      <IonContent className="ion-padding">
-        <p>Settings page content goes here.</p>
+      <IonContent>
+        <SettingsContent />
       </IonContent>
     </IonPage>
   );

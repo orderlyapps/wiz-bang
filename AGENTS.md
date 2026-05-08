@@ -26,3 +26,10 @@ Docs are local at `node_modules/vite-plus/docs` or online at https://viteplus.de
 
 - **All object properties**: Use `snake_case` (e.g., `user_id`, `first_name`, `is_active`)
 - **All functions**: Use `camelCase` (e.g., `fetchUserData()`, `calculateTotal()`, `handleFormSubmit()`)
+
+## Page Component Architecture
+
+- **Route pages** in `src/routes/pages` should be minimal wrapper components that only contain `IonPage`, `IonHeader`, and `IonContent` structure
+- **Content components** should be placed in `src/content/pages/{page-name}/` and split into separate files:
+  - `{page-name}-header/` - Contains the header content (e.g., `IonToolbar`, `IonTitle`)
+  - `{page-name}-content/` - Contains the main page content
