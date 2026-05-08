@@ -1,7 +1,7 @@
 import { IonList, IonItem } from "@ionic/react";
 import { Body } from "@ui/components/display/text/body/Body";
 import { Space } from "@ui/components/layout/space/Space";
-import { ComponentSection } from "../../../../shared/component-section/ComponentSection";
+import { ComponentSection } from "../../shared/component-section/ComponentSection";
 
 const props = [
   {

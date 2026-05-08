@@ -1,6 +1,6 @@
 import { IonList } from "@ionic/react";
 import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
-import { ComponentSection } from "../../../../shared/component-section/ComponentSection";
+import { ComponentSection } from "../../shared/component-section/ComponentSection";
 
 const props = [
   { label: "label", value: "— The text displayed in the list item." },

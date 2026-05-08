@@ -2,7 +2,7 @@ import { IonItem, IonLabel } from "@ionic/react";
 import { Body } from "@ui/components/display/text/body/Body";
 import { Label } from "@ui/components/display/text/label/Label";
 import { Space } from "@ui/components/layout/space/Space";
-import { ComponentSection } from "../../../../../../../shared/component-section/ComponentSection";
+import { ComponentSection } from "../../../../../shared/component-section/ComponentSection";
 
 const props = [
   { label: "children", value: "— The label text content." },

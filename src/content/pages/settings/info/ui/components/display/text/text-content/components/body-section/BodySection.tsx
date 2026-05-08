@@ -1,6 +1,6 @@
 import { IonItem } from "@ionic/react";
 import { Body } from "@ui/components/display/text/body/Body";
-import { ComponentSection } from "../../../../../../../shared/component-section/ComponentSection";
+import { ComponentSection } from "../../../../../shared/component-section/ComponentSection";
 
 const props = [
   { label: "children", value: "— The text content to display." },

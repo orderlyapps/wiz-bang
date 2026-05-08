@@ -1,6 +1,6 @@
 import { IonItem } from "@ionic/react";
 import { Heading } from "@ui/components/display/text/heading/Heading";
-import { ComponentSection } from "../../../../../../../shared/component-section/ComponentSection";
+import { ComponentSection } from "../../../../../shared/component-section/ComponentSection";
 
 const props = [
   { label: "children", value: "— The heading text content." },
