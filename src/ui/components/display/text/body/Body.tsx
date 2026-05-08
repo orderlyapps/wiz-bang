@@ -1,7 +1,7 @@
 import { IonText } from "@ionic/react";
 import type { IonicColor } from "@util/vendor/ionic/types/IonicColor";
 
-type TextSize = "sm" | "md" | "lg";
+type TextSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 
 interface BodyProps {
   children: React.ReactNode;
@@ -20,20 +20,37 @@ export function Body({
   italic = false,
   className,
 }: BodyProps) {
-  const getTextClass = () => {
-    const classes = [];
+  const getTextStyle = () => {
+    const style: React.CSSProperties = {};
 
-    if (size === "sm") classes.push("ion-text-sm");
-    if (size === "lg") classes.push("ion-text-lg");
+    switch (size) {
+      case "xs":
+        style.fontSize = "0.75rem";
+        break;
+      case "sm":
+        style.fontSize = "0.875rem";
+        break;
+      case "lg":
+        style.fontSize = "1.125rem";
+        break;
+      case "xl":
+        style.fontSize = "1.25rem";
+        break;
+      case "2xl":
+        style.fontSize = "1.5rem";
+        break;
+      default: // md
+        style.fontSize = "1rem";
+    }
 
-    if (bold) classes.push("ion-text-bold");
-    if (italic) classes.push("ion-text-italic");
+    if (bold) style.fontWeight = "bold";
+    if (italic) style.fontStyle = "italic";
 
-    return classes.join(" ");
+    return style;
   };
 
   return (
-    <IonText color={color} className={`${getTextClass()} ${className || ""}`}>
+    <IonText color={color} style={getTextStyle()} className={className}>
       {children}
     </IonText>
   );
