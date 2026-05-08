@@ -1,7 +1,7 @@
 import { IonText } from "@ionic/react";
 import type { IonicColor } from "@util/vendor/ionic/types/IonicColor";
 
-type TextSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
+export type TextSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 
 interface BodyProps {
   children: React.ReactNode;
