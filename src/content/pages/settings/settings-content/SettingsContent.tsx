@@ -1,3 +1,9 @@
+import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
+
 export function SettingsContent() {
-  return <p>Settings page content goes here.</p>;
+  return (
+    <>
+      <NavItem label="Info" to="/settings/info" />
+    </>
+  );
 }
