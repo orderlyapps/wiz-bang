@@ -1,5 +1,7 @@
 import HomePage from "@routes/pages/home/Home";
 import InfoPage from "@routes/pages/settings/info/Info";
+import UiPage from "@routes/pages/settings/info/ui/Ui";
+import UtilPage from "@routes/pages/settings/info/util/Util";
 import SettingsPage from "@routes/pages/settings/Settings";
 import { IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, IonRouterOutlet } from "@ionic/react";
 import { home, settings } from "ionicons/icons";
@@ -13,6 +15,8 @@ function App() {
         <Route path="/home" render={() => <HomePage />} exact />
         <Route path="/settings" render={() => <SettingsPage />} exact />
         <Route path="/settings/info" render={() => <InfoPage />} exact />
+        <Route path="/settings/info/ui" render={() => <UiPage />} exact />
+        <Route path="/settings/info/util" render={() => <UtilPage />} exact />
       </IonRouterOutlet>
 
       <IonTabBar slot="bottom">
