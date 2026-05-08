@@ -1,10 +1,9 @@
 import { IonItem, IonLabel } from "@ionic/react";
 import { Body } from "@ui/components/display/text/body/Body";
+import type { LabelValue } from "@util/types/LabelValue";
 import type { IonicColor } from "@util/vendor/ionic/types/IonicColor";
 
-interface KeyValueItemProps {
-  label: React.ReactNode;
-  value: React.ReactNode;
+interface LabelValueItemProps extends LabelValue {
   label_color?: IonicColor;
   value_color?: IonicColor;
   detail?: boolean;
@@ -12,7 +11,7 @@ interface KeyValueItemProps {
   on_click?: () => void;
 }
 
-export function KeyValueItem({
+export function LabelValueItem({
   label,
   value,
   label_color,
@@ -20,9 +19,14 @@ export function KeyValueItem({
   detail = false,
   router_link,
   on_click,
-}: KeyValueItemProps) {
+}: LabelValueItemProps) {
   return (
-    <IonItem routerLink={router_link} detail={detail} onClick={on_click} className="key-value-item">
+    <IonItem
+      routerLink={router_link}
+      detail={detail}
+      onClick={on_click}
+      className="Label-value-item"
+    >
       <IonLabel>
         <Body color={label_color} size="sm" bold>
           {label}
