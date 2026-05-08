@@ -1,3 +1,10 @@
+import { IonList } from "@ionic/react";
+import { SelectSection } from "./select-section/SelectSection";
+
 export function SelectContent() {
-  return <p>Select page content goes here.</p>;
+  return (
+    <IonList>
+      <SelectSection />
+    </IonList>
+  );
 }
