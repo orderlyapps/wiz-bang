@@ -7,11 +7,10 @@ import path from "node:path";
 export default defineConfig({
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
-      "@content": path.resolve(__dirname, "./src/content"),
-      "@routes": path.resolve(__dirname, "./src/routes"),
-      "@ui": path.resolve(__dirname, "./src/ui"),
-      "@util": path.resolve(__dirname, "./src/util"),
+      "@content": path.resolve(import.meta.dirname, "./src/content"),
+      "@routes": path.resolve(import.meta.dirname, "./src/routes"),
+      "@ui": path.resolve(import.meta.dirname, "./src/ui"),
+      "@util": path.resolve(import.meta.dirname, "./src/util"),
     },
   },
   staged: {

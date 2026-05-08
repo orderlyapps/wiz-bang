@@ -2,7 +2,6 @@
   "files": [],
   "compilerOptions": {
     "paths": {
-      "@/*": ["./src/*"],
       "@content/*": ["./src/content/*"],
       "@routes/*": ["./src/routes/*"],
       "@ui/*": ["./src/ui/*"],

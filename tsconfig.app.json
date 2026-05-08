@@ -23,7 +23,6 @@
 
     /* Path aliases */
     "paths": {
-      "@/*": ["./src/*"],
       "@content/*": ["./src/content/*"],
       "@routes/*": ["./src/routes/*"],
       "@ui/*": ["./src/ui/*"],

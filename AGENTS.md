@@ -13,3 +13,16 @@ Docs are local at `node_modules/vite-plus/docs` or online at https://viteplus.de
 - [ ] Check if there are `vite.config.ts` tasks or `package.json` scripts necessary for validation, run via `vp run <script>`.
 
 <!--VITE PLUS END-->
+
+## Code Style Guidelines
+
+### File and Folder Naming
+
+- **Folders**: Use `kebab-case` (e.g., `src/routes/pages/home`, `src/ui/form-inputs`)
+- **Component files**: Use `PascalCase` (e.g., `HomePage.tsx`, `FormInput.tsx`)
+- **TypeScript files**: Use `camelCase` (e.g., `apiClient.ts`, `utilityHelpers.ts`)
+
+### Object Properties
+
+- **All object properties**: Use `snake_case` (e.g., `user_id`, `first_name`, `is_active`)
+- **All functions**: Use `camelCase` (e.g., `fetchUserData()`, `calculateTotal()`, `handleFormSubmit()`)
