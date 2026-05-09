@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { IonButton } from "@ionic/react";
 import type { IonicColor } from "@util/vendor/ionic/types/IonicColor";
 import { ConfirmationAlert } from "@ui/components/display/alert/ConfirmationAlert";
+import { TextButton } from "../TextButton";
 
 interface DeleteTextButtonProps {
   label?: string;
@@ -34,17 +34,15 @@ export function DeleteTextButton({
 
   return (
     <>
-      <IonButton
+      <TextButton
+        label={label}
         color={color}
         fill={fill}
         size={size}
         expand={expand}
         disabled={disabled}
-        onClick={() => set_show_alert(true)}
-        className="ion-margin-horizontal"
-      >
-        {label}
-      </IonButton>
+        on_click={() => set_show_alert(true)}
+      />
       <ConfirmationAlert
         is_open={show_alert}
         header={alert_header}

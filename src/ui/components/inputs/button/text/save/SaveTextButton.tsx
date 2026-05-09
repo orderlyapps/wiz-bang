@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { IonButton } from "@ionic/react";
 import type { IonicColor } from "@util/vendor/ionic/types/IonicColor";
 import { ConfirmationAlert } from "@ui/components/display/alert/ConfirmationAlert";
+import { TextButton } from "../TextButton";
 
 interface SaveTextButtonProps {
   variant?: "save" | "update";
@@ -45,17 +45,15 @@ export function SaveTextButton({
 
   return (
     <>
-      <IonButton
+      <TextButton
+        label={resolved_label}
         color={color}
         fill={fill}
         size={size}
         expand={expand}
         disabled={disabled}
-        onClick={() => set_show_alert(true)}
-        className="ion-margin-horizontal"
-      >
-        {resolved_label}
-      </IonButton>
+        on_click={() => set_show_alert(true)}
+      />
       <ConfirmationAlert
         is_open={show_alert}
         header={resolved_header}
