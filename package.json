@@ -36,7 +36,8 @@
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.58.2",
     "vite": "catalog:",
-    "vite-plus": "catalog:"
+    "vite-plus": "catalog:",
+    "wrangler": "^4.90.0"
   },
   "packageManager": "pnpm@11.0.8"
 }
