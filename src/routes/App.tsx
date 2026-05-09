@@ -16,6 +16,7 @@ import FormatPage from "@routes/pages/settings/info/util/format/Format";
 import HooksPage from "@routes/pages/settings/info/util/hooks/Hooks";
 import SortPage from "@routes/pages/settings/info/util/sort/Sort";
 import VendorPage from "@routes/pages/settings/info/util/vendor/Vendor";
+import AlertDisplayPage from "@routes/pages/settings/info/ui/components/display/alert/Alert";
 import DataDisplayPage from "@routes/pages/settings/info/ui/components/display/data/Data";
 import TextDisplayPage from "@routes/pages/settings/info/ui/components/display/text/Text";
 import ButtonPage from "@routes/pages/settings/info/ui/components/inputs/button/Button";
@@ -52,6 +53,11 @@ function App() {
         <Route path="/settings/info/ui/colors" render={() => <ColorsPage />} exact />
         <Route path="/settings/info/ui/components" render={() => <ComponentsPage />} exact />
         <Route path="/settings/info/ui/components/display" render={() => <DisplayPage />} exact />
+        <Route
+          path="/settings/info/ui/components/display/alert"
+          render={() => <AlertDisplayPage />}
+          exact
+        />
         <Route
           path="/settings/info/ui/components/display/data"
           render={() => <DataDisplayPage />}
