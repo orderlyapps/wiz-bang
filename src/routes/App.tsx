@@ -19,6 +19,7 @@ import VendorPage from "@routes/pages/settings/info/util/vendor/Vendor";
 import AlertDisplayPage from "@routes/pages/settings/info/ui/components/display/alert/Alert";
 import DataDisplayPage from "@routes/pages/settings/info/ui/components/display/data/Data";
 import TextDisplayPage from "@routes/pages/settings/info/ui/components/display/text/Text";
+import InputWrapperPage from "@routes/pages/settings/info/ui/components/inputs/input-wrapper/InputWrapper";
 import ButtonPage from "@routes/pages/settings/info/ui/components/inputs/button/Button";
 import DateTimePage from "@routes/pages/settings/info/ui/components/inputs/date-time/DateTime";
 import EmailPage from "@routes/pages/settings/info/ui/components/inputs/email/Email";
@@ -84,6 +85,11 @@ function App() {
         <Route path="/settings/info/util/hooks" render={() => <HooksPage />} exact />
         <Route path="/settings/info/util/sort" render={() => <SortPage />} exact />
         <Route path="/settings/info/util/vendor" render={() => <VendorPage />} exact />
+        <Route
+          path="/settings/info/ui/components/inputs/input-wrapper"
+          render={() => <InputWrapperPage />}
+          exact
+        />
         <Route
           path="/settings/info/ui/components/inputs/button"
           render={() => <ButtonPage />}

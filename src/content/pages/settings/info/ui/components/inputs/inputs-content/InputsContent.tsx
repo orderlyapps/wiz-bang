@@ -4,6 +4,7 @@ export function InputsContent() {
   return (
     <>
       <NavItem label="Button" to="/settings/info/ui/components/inputs/button" />
+      <NavItem label="Input Wrapper" to="/settings/info/ui/components/inputs/input-wrapper" />
       <NavItem label="Date Time" to="/settings/info/ui/components/inputs/date-time" />
       <NavItem label="Email" to="/settings/info/ui/components/inputs/email" />
       <NavItem label="File" to="/settings/info/ui/components/inputs/file" />

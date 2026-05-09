@@ -1,5 +1,5 @@
-import { IonItem, IonLabel, IonSelect, IonSelectOption } from "@ionic/react";
-import { Label } from "@ui/components/display/text/label/Label";
+import { IonSelect, IonSelectOption } from "@ionic/react";
+import { InputWrapper } from "@ui/components/display/input/InputWrapper";
 import type { IonicColor } from "@util/vendor/ionic/types/IonicColor";
 
 interface SelectOption {
@@ -31,10 +31,7 @@ export function Select({
   on_change,
 }: SelectProps) {
   return (
-    <IonItem>
-      <IonLabel>
-        <Label>{label}</Label>
-      </IonLabel>
+    <InputWrapper label={label}>
       <IonSelect
         value={value}
         placeholder={placeholder}
@@ -51,6 +48,6 @@ export function Select({
           </IonSelectOption>
         ))}
       </IonSelect>
-    </IonItem>
+    </InputWrapper>
   );
 }
