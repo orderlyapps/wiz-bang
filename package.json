@@ -8,7 +8,8 @@
     "build": "tsc -b && vp build",
     "lint": "vp lint .",
     "preview": "vp preview",
-    "prepare": "vp config"
+    "prepare": "vp config",
+    "deploy": "vp build && wrangler pages deploy dist --project-name=orderly --branch=wiz-bang && echo DEPLOYED TO WIZ BANG"
   },
   "dependencies": {
     "@ionic/react": "^8.8.6",
