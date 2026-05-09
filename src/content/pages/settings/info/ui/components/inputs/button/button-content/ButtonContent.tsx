@@ -5,6 +5,9 @@ import { AddIconButtonSection } from "./add-icon-button-section/AddIconButtonSec
 import { CloseIconButtonSection } from "./close-icon-button-section/CloseIconButtonSection";
 import { DeleteIconButtonSection } from "./delete-icon-button-section/DeleteIconButtonSection";
 import { SaveIconButtonSection } from "./save-icon-button-section/SaveIconButtonSection";
+import { EditIconButtonSection } from "./edit-icon-button-section/EditIconButtonSection";
+import { SettingsIconButtonSection } from "./settings-icon-button-section/SettingsIconButtonSection";
+import { InfoIconButtonSection } from "./info-icon-button-section/InfoIconButtonSection";
 
 export function ButtonContent() {
   return (
@@ -16,6 +19,9 @@ export function ButtonContent() {
       <CloseIconButtonSection />
       <DeleteIconButtonSection />
       <SaveIconButtonSection />
+      <EditIconButtonSection />
+      <SettingsIconButtonSection />
+      <InfoIconButtonSection />
     </>
   );
 }
