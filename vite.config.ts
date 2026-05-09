@@ -2,6 +2,7 @@ import { defineConfig } from "vite-plus";
 import react, { reactCompilerPreset } from "@vitejs/plugin-react";
 import babel from "@rolldown/plugin-babel";
 import path from "node:path";
+import { VitePWA } from "vite-plugin-pwa";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -130,5 +131,39 @@ export default defineConfig({
       typeCheck: true,
     },
   },
-  plugins: [react(), babel({ presets: [reactCompilerPreset()] })],
+  plugins: [
+    react(),
+    babel({ presets: [reactCompilerPreset()] }),
+    VitePWA({
+      registerType: "autoUpdate",
+      includeAssets: ["favicon.svg"],
+      manifest: {
+        name: "Wiz Bang",
+        short_name: "Wiz Bang",
+        description: "Wiz Bang app",
+        theme_color: "#3880ff",
+        background_color: "#ffffff",
+        display: "standalone",
+        orientation: "portrait",
+        scope: "/",
+        start_url: "/",
+        icons: [
+          {
+            src: "favicon.svg",
+            sizes: "any",
+            type: "image/svg+xml",
+            purpose: "any maskable",
+          },
+        ],
+      },
+      workbox: {
+        globPatterns: ["**/*.{js,css,html,svg,png,ico,woff2}"],
+        cleanupOutdatedCaches: true,
+        clientsClaim: true,
+      },
+      devOptions: {
+        enabled: true,
+      },
+    }),
+  ],
 });
