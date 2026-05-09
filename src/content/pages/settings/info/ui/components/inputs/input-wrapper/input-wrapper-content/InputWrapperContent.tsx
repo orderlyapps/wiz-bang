@@ -1,4 +1,5 @@
 import { IonList } from "@ionic/react";
+import { DateInputSection } from "./components/date-input-section/DateInputSection";
 import { EmailInputSection } from "./components/email-input-section/EmailInputSection";
 import { NumberInputSection } from "./components/number-input-section/NumberInputSection";
 import { PasswordInputSection } from "./components/password-input-section/PasswordInputSection";
@@ -11,6 +12,7 @@ export function InputWrapperContent() {
       <NumberInputSection />
       <EmailInputSection />
       <PasswordInputSection />
+      <DateInputSection />
     </IonList>
   );
 }
