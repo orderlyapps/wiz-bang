@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { IonButton, IonAlert } from "@ionic/react";
+import { IonButton } from "@ionic/react";
 import type { IonicColor } from "@util/vendor/ionic/types/IonicColor";
+import { ConfirmationAlert } from "@ui/components/display/alert/ConfirmationAlert";
 
 interface DeleteTextButtonProps {
   label?: string;
@@ -44,15 +45,15 @@ export function DeleteTextButton({
       >
         {label}
       </IonButton>
-      <IonAlert
-        isOpen={show_alert}
-        onDidDismiss={() => set_show_alert(false)}
+      <ConfirmationAlert
+        is_open={show_alert}
         header={alert_header}
         message={alert_message}
-        buttons={[
-          { text: cancel_text, role: "cancel" },
-          { text: confirm_text, handler: on_click },
-        ]}
+        confirm_text={confirm_text}
+        confirm_color="danger"
+        cancel_text={cancel_text}
+        on_confirm={on_click}
+        on_cancel={() => set_show_alert(false)}
       />
     </>
   );

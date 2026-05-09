@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { IonButton, IonIcon, IonAlert } from "@ionic/react";
+import { IonButton, IonIcon } from "@ionic/react";
 import { close } from "ionicons/icons";
 import type { IonicColor } from "@util/vendor/ionic/types/IonicColor";
+import { ConfirmationAlert } from "@ui/components/display/alert/ConfirmationAlert";
 
 interface CloseIconButtonProps {
   color?: IonicColor;
@@ -39,15 +40,14 @@ export function CloseIconButton({
       >
         <IonIcon slot="icon-only" icon={close} />
       </IonButton>
-      <IonAlert
-        isOpen={show_alert}
-        onDidDismiss={() => set_show_alert(false)}
+      <ConfirmationAlert
+        is_open={show_alert}
         header={alert_header}
         message={alert_message}
-        buttons={[
-          { text: cancel_text, role: "cancel" },
-          { text: confirm_text, handler: on_click },
-        ]}
+        confirm_text={confirm_text}
+        cancel_text={cancel_text}
+        on_confirm={on_click}
+        on_cancel={() => set_show_alert(false)}
       />
     </>
   );
