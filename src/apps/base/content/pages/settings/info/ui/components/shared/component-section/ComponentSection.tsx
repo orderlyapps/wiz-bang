@@ -1,4 +1,4 @@
-import { IonAccordion, IonItem } from "@ionic/react";
+import { IonAccordion, IonItem, IonLabel } from "@ionic/react";
 import { LabelValueItem } from "@ui/components/display/data/label-value/LabelValueItem";
 import { Body } from "@ui/components/display/text/body/Body";
 import { Heading } from "@ui/components/display/text/heading/Heading";
@@ -16,8 +16,10 @@ type Props = {
 export function ComponentSection({ title, description, props, children }: Props) {
   return (
     <IonAccordion value={title}>
-      <IonItem slot="header">
-        <Heading size="xl">{title}</Heading>
+      <IonItem slot="header" lines="inset">
+        <IonLabel className="ion-margin">
+          <Heading size="xl">{title}</Heading>
+        </IonLabel>
       </IonItem>
 
       <div slot="content">
