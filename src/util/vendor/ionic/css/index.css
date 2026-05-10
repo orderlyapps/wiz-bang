@@ -1,3 +1,4 @@
+@import "./responsive.css";
 @import "./safe-area.css";
 
 @import "./overrides/content.css";

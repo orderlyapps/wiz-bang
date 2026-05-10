@@ -1,0 +1,46 @@
+@media screen and (min-width: 640px) {
+  ion-content::part(scroll) {
+    padding-left: 20%;
+    padding-right: 20%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  ion-content::part(scroll) {
+    padding-left: 20%;
+    padding-right: 20%;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  ion-content::part(scroll) {
+    padding-left: 25%;
+    padding-right: 25%;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  ion-content::part(scroll) {
+    padding-left: 30%;
+    padding-right: 30%;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  ion-content::part(scroll) {
+    padding-left: 35%;
+    padding-right: 35%;
+  }
+}
+
+/* Override padding for full screen content. eg. Map screens */
+ion-content#fullscreen::part(scroll) {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Override padding for using ion-content in ion-modal */
+ion-modal ion-content::part(scroll) {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
