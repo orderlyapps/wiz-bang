@@ -10,7 +10,7 @@ interface NavItemProps {
 export function NavItem({ label, to }: NavItemProps) {
   return (
     <IonItem routerLink={to} detail={false}>
-      <IonLabel>
+      <IonLabel className="ion-margin">
         <Heading>{label}</Heading>
       </IonLabel>
       <IonIcon icon={chevronForward} slot="end" />

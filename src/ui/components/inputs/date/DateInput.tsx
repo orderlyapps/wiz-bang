@@ -2,6 +2,7 @@ import { IonDatetime, IonModal } from "@ionic/react";
 import { useState } from "react";
 import { InputWrapper } from "@ui/components/display/input/InputWrapper";
 import { Body } from "@ui/components/display/text/body/Body";
+import { useThemeColorWhileOpen } from "@ui/components/inputs/date/hooks/useThemeColorWhileOpen";
 
 interface DateInputProps {
   label: string;
@@ -13,6 +14,7 @@ interface DateInputProps {
 export function DateInput({ label, value, disabled = false, on_change }: DateInputProps) {
   const [is_open, set_is_open] = useState(false);
   const iso_value = value ? `${value}T00:00:00` : undefined;
+  useThemeColorWhileOpen(is_open);
 
   function handleChange(detail_value: string | string[] | null | undefined) {
     if (!detail_value || Array.isArray(detail_value)) return;
