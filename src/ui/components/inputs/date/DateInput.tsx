@@ -1,5 +1,7 @@
-import { IonDatetime, IonDatetimeButton, IonModal } from "@ionic/react";
+import { IonDatetime, IonModal } from "@ionic/react";
+import { useState } from "react";
 import { InputWrapper } from "@ui/components/display/input/InputWrapper";
+import { Body } from "@ui/components/display/text/body/Body";
 
 interface DateInputProps {
   label: string;
@@ -9,6 +11,7 @@ interface DateInputProps {
 }
 
 export function DateInput({ label, value, disabled = false, on_change }: DateInputProps) {
+  const [is_open, set_is_open] = useState(false);
   const iso_value = value ? `${value}T00:00:00` : undefined;
 
   function handleChange(detail_value: string | string[] | null | undefined) {
@@ -18,10 +21,23 @@ export function DateInput({ label, value, disabled = false, on_change }: DateInp
 
   return (
     <InputWrapper label={label}>
-      <IonDatetimeButton datetime="date-input" disabled={disabled} />
-      <IonModal keepContentsMounted>
+      <div
+        onClick={() => !disabled && set_is_open(true)}
+        style={disabled ? { opacity: 0.4 } : undefined}
+      >
+        <Body color={disabled || !value ? "medium" : undefined}>
+          {value
+            ? new Date(value).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })
+            : "Select date"}
+        </Body>
+      </div>
+
+      <IonModal id="date-picker" isOpen={is_open} onDidDismiss={() => set_is_open(false)}>
         <IonDatetime
-          id="date-input"
           presentation="date"
           value={iso_value}
           showDefaultButtons
