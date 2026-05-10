@@ -3,16 +3,16 @@ import { EmailInputSection } from "@base-content/pages/settings/info/ui/componen
 import { NumberInputSection } from "@base-content/pages/settings/info/ui/components/inputs/input-wrapper/input-wrapper-content/components/number-input-section/NumberInputSection";
 import { PasswordInputSection } from "@base-content/pages/settings/info/ui/components/inputs/input-wrapper/input-wrapper-content/components/password-input-section/PasswordInputSection";
 import { TextInputSection } from "@base-content/pages/settings/info/ui/components/inputs/input-wrapper/input-wrapper-content/components/text-input-section/TextInputSection";
-import { IonList } from "@ionic/react";
+import { IonAccordionGroup } from "@ionic/react";
 
 export function InputWrapperContent() {
   return (
-    <IonList>
+    <IonAccordionGroup>
       <TextInputSection />
       <NumberInputSection />
       <EmailInputSection />
       <PasswordInputSection />
       <DateInputSection />
-    </IonList>
+    </IonAccordionGroup>
   );
 }

@@ -1,4 +1,4 @@
-import { IonList, IonItem } from "@ionic/react";
+import { IonAccordionGroup, IonItem } from "@ionic/react";
 import { Body } from "@ui/components/display/text/body/Body";
 import { Space } from "@ui/components/layout/space/Space";
 import { ComponentSection } from "@base-content/pages/settings/info/ui/components/shared/component-section/ComponentSection";
@@ -18,7 +18,7 @@ const props = [
 
 export function LayoutContent() {
   return (
-    <IonList>
+    <IonAccordionGroup>
       <ComponentSection
         title="Space"
         description="A blank spacer element that inserts vertical (or horizontal) whitespace between layout sections. Renders an aria-hidden div."
@@ -37,6 +37,6 @@ export function LayoutContent() {
         </IonItem>
         <Space size="lg" />
       </ComponentSection>
-    </IonList>
+    </IonAccordionGroup>
   );
 }

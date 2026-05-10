@@ -1,4 +1,4 @@
-import { IonList } from "@ionic/react";
+import { IonAccordionGroup } from "@ionic/react";
 import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
 import { ComponentSection } from "@base-content/pages/settings/info/ui/components/shared/component-section/ComponentSection";
 
@@ -9,7 +9,7 @@ const props = [
 
 export function NavigationContent() {
   return (
-    <IonList>
+    <IonAccordionGroup>
       <ComponentSection
         title="Nav Item"
         description="A tappable list item used for navigating to a child route. Renders a label on the left and a chevron icon on the right."
@@ -17,6 +17,6 @@ export function NavigationContent() {
       >
         <NavItem label="Example" to="/settings/info/ui/components" />
       </ComponentSection>
-    </IonList>
+    </IonAccordionGroup>
   );
 }

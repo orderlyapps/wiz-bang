@@ -8,10 +8,11 @@ import { SaveIconButtonSection } from "@base-content/pages/settings/info/ui/comp
 import { SaveTextButtonSection } from "@base-content/pages/settings/info/ui/components/inputs/button/button-content/save-text-button-section/SaveTextButtonSection";
 import { SettingsIconButtonSection } from "@base-content/pages/settings/info/ui/components/inputs/button/button-content/settings-icon-button-section/SettingsIconButtonSection";
 import { TextButtonSection } from "@base-content/pages/settings/info/ui/components/inputs/button/button-content/text-button-section/TextButtonSection";
+import { IonAccordionGroup } from "@ionic/react";
 
 export function ButtonContent() {
   return (
-    <>
+    <IonAccordionGroup>
       <TextButtonSection />
       <DeleteTextButtonSection />
       <SaveTextButtonSection />
@@ -22,6 +23,6 @@ export function ButtonContent() {
       <EditIconButtonSection />
       <SettingsIconButtonSection />
       <InfoIconButtonSection />
-    </>
+    </IonAccordionGroup>
   );
 }
