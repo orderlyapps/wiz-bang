@@ -5,7 +5,7 @@ import { IonReactRouter } from "@ionic/react-router";
 import "@util/vendor/ionic/helper/ionic-init";
 import "@ui/css/index.css";
 import { initTheme } from "@util/app/theme/utils";
-import App from "@routes/App";
+import App from "@base-routes/App";
 
 initTheme();
 

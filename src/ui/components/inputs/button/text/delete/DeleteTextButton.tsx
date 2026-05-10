@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { IonicColor } from "@util/vendor/ionic/types/IonicColor";
 import { ConfirmationAlert } from "@ui/components/display/alert/ConfirmationAlert";
-import { TextButton } from "../TextButton";
+import { TextButton } from "@ui/components/inputs/button/text/TextButton";
 
 interface DeleteTextButtonProps {
   label?: string;

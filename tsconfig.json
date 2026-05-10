@@ -2,8 +2,8 @@
   "files": [],
   "compilerOptions": {
     "paths": {
-      "@content/*": ["./src/content/*"],
-      "@routes/*": ["./src/routes/*"],
+      "@base-content/*": ["./src/apps/base/content/*"],
+      "@base-routes/*": ["./src/apps/base/routes/*"],
       "@ui/*": ["./src/ui/*"],
       "@util/*": ["./src/util/*"]
     }

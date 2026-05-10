@@ -8,8 +8,8 @@ import { VitePWA } from "vite-plugin-pwa";
 export default defineConfig({
   resolve: {
     alias: {
-      "@content": path.resolve(import.meta.dirname, "./src/content"),
-      "@routes": path.resolve(import.meta.dirname, "./src/routes"),
+      "@base-content": path.resolve(import.meta.dirname, "./src/apps/base/content"),
+      "@base-routes": path.resolve(import.meta.dirname, "./src/apps/base/routes"),
       "@ui": path.resolve(import.meta.dirname, "./src/ui"),
       "@util": path.resolve(import.meta.dirname, "./src/util"),
     },
