@@ -4,6 +4,7 @@ export function VendorContent() {
   return (
     <>
       <NavItem label="Ionic" to="/settings/info/util/vendor/ionic" />
+      <NavItem label="react-pdf" to="/settings/info/util/vendor/react-pdf" />
     </>
   );
 }
