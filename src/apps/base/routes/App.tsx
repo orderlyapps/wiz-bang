@@ -1,9 +1,18 @@
-import { lazy, Suspense } from "react";
-import { IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, IonRouterOutlet } from "@ionic/react";
+import { lazy, Suspense, type ComponentType } from "react";
+import {
+  IonTabs,
+  IonTabBar,
+  IonTabButton,
+  IonIcon,
+  IonLabel,
+  IonRouterOutlet,
+  IonSpinner,
+} from "@ionic/react";
 import { home, settings } from "ionicons/icons";
 import { Redirect, Route } from "react-router-dom";
+import HomePage from "@base-routes/pages/home/Home";
 
-const HomePage = lazy(() => import("@base-routes/pages/home/Home"));
+// const HomePage = lazy(() => import("@base-routes/pages/home/Home"));
 const SettingsPage = lazy(() => import("@base-routes/pages/settings/Settings"));
 const InfoPage = lazy(() => import("@base-routes/pages/settings/info/Info"));
 const UiPage = lazy(() => import("@base-routes/pages/settings/info/ui/Ui"));
@@ -93,11 +102,17 @@ const ReactPdfPage = lazy(
 
 function PageLoader() {
   return (
-    <div
-      style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}
-    >
-      <IonIcon icon={settings} />
+    <div className="flex-center">
+      <IonSpinner />
     </div>
+  );
+}
+
+function lazyPage(Component: ComponentType) {
+  return () => (
+    <Suspense fallback={<PageLoader />}>
+      <Component />
+    </Suspense>
   );
 }
 
@@ -105,118 +120,108 @@ function App() {
   return (
     <IonTabs>
       <IonRouterOutlet>
-        <Suspense fallback={<PageLoader />}>
-          <Redirect exact path="/" to="/home" />
-          <Route path="/home" render={() => <HomePage />} exact />
-          <Route path="/settings" render={() => <SettingsPage />} exact />
-          <Route path="/settings/info" render={() => <InfoPage />} exact />
-          <Route path="/settings/info/ui" render={() => <UiPage />} exact />
-          <Route path="/settings/info/ui/colors" render={() => <ColorsPage />} exact />
-          <Route path="/settings/info/ui/components" render={() => <ComponentsPage />} exact />
-          <Route path="/settings/info/ui/components/display" render={() => <DisplayPage />} exact />
-          <Route
-            path="/settings/info/ui/components/display/alert"
-            render={() => <AlertDisplayPage />}
-            exact
-          />
-          <Route
-            path="/settings/info/ui/components/display/data"
-            render={() => <DataDisplayPage />}
-            exact
-          />
-          <Route
-            path="/settings/info/ui/components/display/text"
-            render={() => <TextDisplayPage />}
-            exact
-          />
-          <Route path="/settings/info/ui/components/icons" render={() => <IconsPage />} exact />
-          <Route path="/settings/info/ui/components/inputs" render={() => <InputsPage />} exact />
-          <Route path="/settings/info/ui/components/layout" render={() => <LayoutPage />} exact />
-          <Route
-            path="/settings/info/ui/components/navigation"
-            render={() => <NavigationPage />}
-            exact
-          />
-          <Route path="/settings/info/ui/css" render={() => <CssPage />} exact />
-          <Route path="/settings/info/util" render={() => <UtilPage />} exact />
-          <Route path="/settings/info/util/app" render={() => <AppPage />} exact />
-          <Route path="/settings/info/util/constants" render={() => <ConstantsPage />} exact />
-          <Route path="/settings/info/util/format" render={() => <FormatPage />} exact />
-          <Route path="/settings/info/util/hooks" render={() => <HooksPage />} exact />
-          <Route path="/settings/info/util/sort" render={() => <SortPage />} exact />
-          <Route path="/settings/info/util/vendor" render={() => <VendorPage />} exact />
-          <Route
-            path="/settings/info/ui/components/inputs/input-wrapper"
-            render={() => <InputWrapperPage />}
-            exact
-          />
-          <Route
-            path="/settings/info/ui/components/inputs/button"
-            render={() => <ButtonPage />}
-            exact
-          />
-          <Route
-            path="/settings/info/ui/components/inputs/date-time"
-            render={() => <DateTimePage />}
-            exact
-          />
-          <Route
-            path="/settings/info/ui/components/inputs/email"
-            render={() => <EmailPage />}
-            exact
-          />
-          <Route
-            path="/settings/info/ui/components/inputs/file"
-            render={() => <FilePage />}
-            exact
-          />
-          <Route
-            path="/settings/info/ui/components/inputs/number"
-            render={() => <NumberPage />}
-            exact
-          />
-          <Route path="/settings/info/ui/components/inputs/otp" render={() => <OtpPage />} exact />
-          <Route
-            path="/settings/info/ui/components/inputs/password"
-            render={() => <PasswordPage />}
-            exact
-          />
-          <Route
-            path="/settings/info/ui/components/inputs/search"
-            render={() => <SearchPage />}
-            exact
-          />
-          <Route
-            path="/settings/info/ui/components/inputs/select"
-            render={() => <SelectPage />}
-            exact
-          />
-          <Route
-            path="/settings/info/ui/components/inputs/text"
-            render={() => <TextInputPage />}
-            exact
-          />
-          <Route
-            path="/settings/info/ui/components/inputs/toggle"
-            render={() => <TogglePage />}
-            exact
-          />
-          <Route path="/settings/info/util/app/auth" render={() => <AuthPage />} exact />
-          <Route
-            path="/settings/info/util/app/feature-guard"
-            render={() => <FeatureGuardPage />}
-            exact
-          />
-          <Route path="/settings/info/util/app/help-text" render={() => <HelpTextPage />} exact />
-          <Route path="/settings/info/util/app/pwa" render={() => <PwaPage />} exact />
-          <Route path="/settings/info/util/app/theme" render={() => <ThemePage />} exact />
-          <Route path="/settings/info/util/vendor/ionic" render={() => <IonicPage />} exact />
-          <Route
-            path="/settings/info/util/vendor/react-pdf"
-            render={() => <ReactPdfPage />}
-            exact
-          />
-        </Suspense>
+        <Redirect exact path="/" to="/home" />
+        <Route path="/home" component={HomePage} exact />
+        <Route path="/settings" render={lazyPage(SettingsPage)} exact />
+        <Route path="/settings/info" render={lazyPage(InfoPage)} exact />
+        <Route path="/settings/info/ui" render={lazyPage(UiPage)} exact />
+        <Route path="/settings/info/ui/colors" render={lazyPage(ColorsPage)} exact />
+        <Route path="/settings/info/ui/components" render={lazyPage(ComponentsPage)} exact />
+        <Route path="/settings/info/ui/components/display" render={lazyPage(DisplayPage)} exact />
+        <Route
+          path="/settings/info/ui/components/display/alert"
+          render={lazyPage(AlertDisplayPage)}
+          exact
+        />
+        <Route
+          path="/settings/info/ui/components/display/data"
+          render={lazyPage(DataDisplayPage)}
+          exact
+        />
+        <Route
+          path="/settings/info/ui/components/display/text"
+          render={lazyPage(TextDisplayPage)}
+          exact
+        />
+        <Route path="/settings/info/ui/components/icons" render={lazyPage(IconsPage)} exact />
+        <Route path="/settings/info/ui/components/inputs" render={lazyPage(InputsPage)} exact />
+        <Route path="/settings/info/ui/components/layout" render={lazyPage(LayoutPage)} exact />
+        <Route
+          path="/settings/info/ui/components/navigation"
+          render={lazyPage(NavigationPage)}
+          exact
+        />
+        <Route path="/settings/info/ui/css" render={lazyPage(CssPage)} exact />
+        <Route path="/settings/info/util" render={lazyPage(UtilPage)} exact />
+        <Route path="/settings/info/util/app" render={lazyPage(AppPage)} exact />
+        <Route path="/settings/info/util/constants" render={lazyPage(ConstantsPage)} exact />
+        <Route path="/settings/info/util/format" render={lazyPage(FormatPage)} exact />
+        <Route path="/settings/info/util/hooks" render={lazyPage(HooksPage)} exact />
+        <Route path="/settings/info/util/sort" render={lazyPage(SortPage)} exact />
+        <Route path="/settings/info/util/vendor" render={lazyPage(VendorPage)} exact />
+        <Route
+          path="/settings/info/ui/components/inputs/input-wrapper"
+          render={lazyPage(InputWrapperPage)}
+          exact
+        />
+        <Route
+          path="/settings/info/ui/components/inputs/button"
+          render={lazyPage(ButtonPage)}
+          exact
+        />
+        <Route
+          path="/settings/info/ui/components/inputs/date-time"
+          render={lazyPage(DateTimePage)}
+          exact
+        />
+        <Route
+          path="/settings/info/ui/components/inputs/email"
+          render={lazyPage(EmailPage)}
+          exact
+        />
+        <Route path="/settings/info/ui/components/inputs/file" render={lazyPage(FilePage)} exact />
+        <Route
+          path="/settings/info/ui/components/inputs/number"
+          render={lazyPage(NumberPage)}
+          exact
+        />
+        <Route path="/settings/info/ui/components/inputs/otp" render={lazyPage(OtpPage)} exact />
+        <Route
+          path="/settings/info/ui/components/inputs/password"
+          render={lazyPage(PasswordPage)}
+          exact
+        />
+        <Route
+          path="/settings/info/ui/components/inputs/search"
+          render={lazyPage(SearchPage)}
+          exact
+        />
+        <Route
+          path="/settings/info/ui/components/inputs/select"
+          render={lazyPage(SelectPage)}
+          exact
+        />
+        <Route
+          path="/settings/info/ui/components/inputs/text"
+          render={lazyPage(TextInputPage)}
+          exact
+        />
+        <Route
+          path="/settings/info/ui/components/inputs/toggle"
+          render={lazyPage(TogglePage)}
+          exact
+        />
+        <Route path="/settings/info/util/app/auth" render={lazyPage(AuthPage)} exact />
+        <Route
+          path="/settings/info/util/app/feature-guard"
+          render={lazyPage(FeatureGuardPage)}
+          exact
+        />
+        <Route path="/settings/info/util/app/help-text" render={lazyPage(HelpTextPage)} exact />
+        <Route path="/settings/info/util/app/pwa" render={lazyPage(PwaPage)} exact />
+        <Route path="/settings/info/util/app/theme" render={lazyPage(ThemePage)} exact />
+        <Route path="/settings/info/util/vendor/ionic" render={lazyPage(IonicPage)} exact />
+        <Route path="/settings/info/util/vendor/react-pdf" render={lazyPage(ReactPdfPage)} exact />
       </IonRouterOutlet>
 
       <IonTabBar slot="bottom">
