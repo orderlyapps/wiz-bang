@@ -17,4 +17,6 @@ import "@ionic/react/css/display.css";
 
 import "@ionic/react/css/palettes/dark.class.css";
 
-setupIonicReact();
+setupIonicReact({
+  swipeBackEnabled: false,
+});
