@@ -1,68 +1,60 @@
 import { IonItem } from "@ionic/react";
 import { ModuleSection } from "@base-content/pages/settings/info/util/vendor/ionic/ionic-content/components/shared/module-section/ModuleSection";
 import { PdfViewer } from "@util/vendor/react-pdf/PdfViewer";
-import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
+import { PdfDocument } from "@util/vendor/react-pdf/PdfDocument";
+import { PdfPage } from "@util/vendor/react-pdf/PdfPage";
+import { PdfView } from "@util/vendor/react-pdf/PdfView";
+import { PdfText } from "@util/vendor/react-pdf/PdfText";
+import { PdfDivider } from "@util/vendor/react-pdf/PdfDivider";
+import { PdfPageNumber } from "@util/vendor/react-pdf/PdfPageNumber";
 
-const styles = StyleSheet.create({
-  page: { padding: 40, fontFamily: "Helvetica" },
-  section: { marginBottom: 16 },
-  heading: { fontSize: 20, fontWeight: "bold", marginBottom: 8 },
-  body: { fontSize: 12, lineHeight: 1.6 },
-  row: { flexDirection: "row", justifyContent: "space-between", marginBottom: 4 },
-  label: { fontSize: 11, color: "#555" },
-  value: { fontSize: 11 },
-  divider: { borderBottomWidth: 1, borderBottomColor: "#ddd", marginVertical: 12 },
-});
+const rows = [
+  { label: "Name", value: "Jane Doe" },
+  { label: "Date", value: "18 May 2026" },
+  { label: "Amount", value: "$1,200.00" },
+];
 
 function ExampleDocument() {
   return (
-    <Document>
-      <Page size="A4" style={styles.page}>
-        <View style={styles.section}>
-          <Text style={styles.heading}>Example Document</Text>
-          <Text style={styles.body}>
-            This is an example PDF built with @react-pdf/renderer. Use the PdfViewer component from
-            src/util/vendor/react-pdf/PdfViewer to preview documents while designing them.
-          </Text>
-        </View>
+    <PdfDocument>
+      <PdfPage padding={40}>
+        <PdfText variant="h1">Example Document</PdfText>
+        <PdfText variant="body">
+          This PDF is built using the utility components from src/util/vendor/react-pdf. Each
+          component wraps a @react-pdf/renderer primitive with convenience props.
+        </PdfText>
 
-        <View style={styles.divider} />
+        <PdfDivider marginVertical={12} />
 
-        <View style={styles.section}>
-          <Text style={[styles.body, { fontWeight: "bold", marginBottom: 6 }]}>Sample Data</Text>
-          <View style={styles.row}>
-            <Text style={styles.label}>Name</Text>
-            <Text style={styles.value}>Jane Doe</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.label}>Date</Text>
-            <Text style={styles.value}>11 May 2026</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.label}>Amount</Text>
-            <Text style={styles.value}>$1,200.00</Text>
-          </View>
-        </View>
+        <PdfText variant="label">Sample Data</PdfText>
+        {rows.map((row) => (
+          <PdfView key={row.label} row style={{ justifyContent: "space-between", marginBottom: 4 }}>
+            <PdfText variant="caption" color="#555555">
+              {row.label}
+            </PdfText>
+            <PdfText variant="caption">{row.value}</PdfText>
+          </PdfView>
+        ))}
 
-        <View style={styles.divider} />
+        <PdfDivider marginVertical={12} />
 
-        <View style={styles.section}>
-          <Text style={styles.body}>
-            Wrap any Document element with PdfViewer to render it inline. Pass the document as a JSX
-            element via the document prop.
-          </Text>
-        </View>
-      </Page>
-    </Document>
+        <PdfText variant="body">
+          Wrap the document in PdfViewer to preview it inline during development.
+        </PdfText>
+
+        <PdfPageNumber align="center" />
+      </PdfPage>
+    </PdfDocument>
   );
 }
 
 const items = [
-  { label: "Document", value: "Root wrapper required by @react-pdf/renderer." },
-  { label: "Page", value: "Defines a page with size and padding via StyleSheet." },
-  { label: "View", value: "Box layout container — equivalent to a div." },
-  { label: "Text", value: "Renders text content." },
-  { label: "StyleSheet.create", value: "Defines reusable styles similar to React Native." },
+  { label: "PdfDocument", value: "Root wrapper — replaces Document from @react-pdf/renderer." },
+  { label: "PdfPage", value: "A4 page with padding prop — replaces Page + StyleSheet." },
+  { label: "PdfView", value: "Flexbox container with row, gap, flex shortcuts." },
+  { label: "PdfText", value: "Typed text with variant, bold, and color props." },
+  { label: "PdfDivider", value: "Horizontal rule with color, thickness, marginVertical." },
+  { label: "PdfPageNumber", value: "Fixed page number footer with align, color, fontSize." },
 ];
 
 export function ExampleSection() {
@@ -70,7 +62,7 @@ export function ExampleSection() {
     <ModuleSection
       title="Example"
       path="src/util/vendor/react-pdf/"
-      description="A live preview of a PDF document rendered inline using PdfViewer."
+      description="A live preview built entirely with the utility components."
       items={items}
     >
       <IonItem lines="none">

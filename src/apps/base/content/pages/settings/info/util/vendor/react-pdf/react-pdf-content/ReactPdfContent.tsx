@@ -10,8 +10,11 @@ export function ReactPdfContent() {
       <IonItem lines="none">
         <IonLabel>
           <Body>
-            The <code>src/util/vendor/react-pdf</code> module provides the <code>PdfViewer</code>{" "}
-            component for rendering and previewing PDF documents built with{" "}
+            The <code>src/util/vendor/react-pdf</code> module provides <code>PdfViewer</code> for
+            rendering PDF documents inline, plus a set of typed utility components —{" "}
+            <code>PdfDocument</code>, <code>PdfPage</code>, <code>PdfView</code>,{" "}
+            <code>PdfText</code>, <code>PdfImage</code>, <code>PdfLink</code>,{" "}
+            <code>PdfDivider</code>, and <code>PdfPageNumber</code> — built on top of{" "}
             <code>@react-pdf/renderer</code>.
           </Body>
         </IonLabel>
