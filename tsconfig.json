@@ -4,6 +4,8 @@
     "paths": {
       "@base-content/*": ["./src/apps/base/content/*"],
       "@base-routes/*": ["./src/apps/base/routes/*"],
+      "@admin-content/*": ["./src/apps/admin/content/*"],
+      "@admin-routes/*": ["./src/apps/admin/routes/*"],
       "@ui/*": ["./src/ui/*"],
       "@util/*": ["./src/util/*"]
     }

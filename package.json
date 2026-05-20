@@ -5,11 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vp dev --host",
+    "dev:app": "bash scripts/dev-app.sh",
     "build": "tsc -b && vp build",
+    "build:app": "bash scripts/build-app.sh",
     "lint": "vp lint .",
     "preview": "vp preview",
-    "prepare": "vp config",
-    "deploy": "vp build && wrangler pages deploy dist --project-name=orderly --branch=wiz-bang && echo DEPLOYED TO WIZ BANG"
+    "deploy": "vp build && wrangler pages deploy dist --project-name=orderly --branch=wiz-bang && echo DEPLOYED TO WIZ BANG",
+    "deploy:app": "bash scripts/deploy-app.sh"
   },
   "dependencies": {
     "@ionic/react": "^8.8.6",

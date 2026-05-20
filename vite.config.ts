@@ -2,18 +2,67 @@ import { defineConfig } from "vite-plus";
 import react, { reactCompilerPreset } from "@vitejs/plugin-react";
 import babel from "@rolldown/plugin-babel";
 import path from "node:path";
+import fs from "node:fs";
 import { VitePWA } from "vite-plugin-pwa";
+
+/**
+ * Discovers all apps in src/apps/ and returns their names
+ */
+function discoverApps(): string[] {
+  const appsDir = path.resolve(import.meta.dirname, "./src/apps");
+  if (!fs.existsSync(appsDir)) return [];
+
+  return fs
+    .readdirSync(appsDir, { withFileTypes: true })
+    .filter((dirent) => dirent.isDirectory())
+    .map((dirent) => dirent.name);
+}
+
+/**
+ * Generates path aliases for all discovered apps
+ */
+function generateAppAliases(apps: string[]): Record<string, string> {
+  const aliases: Record<string, string> = {
+    "@ui": path.resolve(import.meta.dirname, "./src/ui"),
+    "@util": path.resolve(import.meta.dirname, "./src/util"),
+  };
+
+  for (const app of apps) {
+    const appPath = path.resolve(import.meta.dirname, `./src/apps/${app}`);
+    aliases[`@${app}-content`] = path.join(appPath, "content");
+    aliases[`@${app}-routes`] = path.join(appPath, "routes");
+  }
+
+  return aliases;
+}
+
+/**
+ * Generates build input entries for each app
+ */
+function generateBuildInputs(apps: string[]): Record<string, string> {
+  const inputs: Record<string, string> = {};
+
+  for (const app of apps) {
+    const htmlPath = path.resolve(import.meta.dirname, `./src/apps/${app}/index.html`);
+    if (fs.existsSync(htmlPath)) {
+      inputs[app] = htmlPath;
+    }
+  }
+
+  // Default to root index.html if no app-specific HTML found
+  if (Object.keys(inputs).length === 0) {
+    inputs.main = path.resolve(import.meta.dirname, "./index.html");
+  }
+
+  return inputs;
+}
+
+const apps = discoverApps();
+const appAliases = generateAppAliases(apps);
+const buildInputs = generateBuildInputs(apps);
 
 // https://vite.dev/config/
 export default defineConfig({
-  resolve: {
-    alias: {
-      "@base-content": path.resolve(import.meta.dirname, "./src/apps/base/content"),
-      "@base-routes": path.resolve(import.meta.dirname, "./src/apps/base/routes"),
-      "@ui": path.resolve(import.meta.dirname, "./src/ui"),
-      "@util": path.resolve(import.meta.dirname, "./src/util"),
-    },
-  },
   staged: {
     "*": "vp check --fix",
   },
@@ -129,6 +178,17 @@ export default defineConfig({
     options: {
       typeAware: true,
       typeCheck: true,
+    },
+  },
+  envDir: import.meta.dirname,
+  resolve: {
+    alias: appAliases,
+  },
+  build: {
+    outDir: path.resolve(import.meta.dirname, "dist"),
+    emptyOutDir: true,
+    rollupOptions: {
+      input: buildInputs,
     },
   },
   plugins: [
