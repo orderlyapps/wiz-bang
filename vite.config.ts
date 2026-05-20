@@ -61,6 +61,10 @@ const apps = discoverApps();
 const appAliases = generateAppAliases(apps);
 const buildInputs = generateBuildInputs(apps);
 
+// Determine mode from environment or default to production
+const mode =
+  process.env.NODE_ENV === "production" ? "production" : (process.env.VITE_MODE ?? "base");
+
 // https://vite.dev/config/
 export default defineConfig({
   staged: {
@@ -77,6 +81,12 @@ export default defineConfig({
     },
     ignorePatterns: ["dist"],
     overrides: [
+      {
+        files: ["vite.config.ts"],
+        env: {
+          node: true,
+        },
+      },
       {
         files: ["**/*.{ts,tsx}"],
         rules: {
@@ -181,6 +191,10 @@ export default defineConfig({
     },
   },
   envDir: import.meta.dirname,
+  root:
+    mode === "production"
+      ? import.meta.dirname
+      : path.resolve(import.meta.dirname, `src/apps/${mode}`),
   resolve: {
     alias: appAliases,
   },
