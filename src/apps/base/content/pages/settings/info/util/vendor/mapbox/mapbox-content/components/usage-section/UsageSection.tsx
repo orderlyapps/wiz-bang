@@ -4,7 +4,10 @@ import { ModuleSection } from "@base-content/pages/settings/info/util/vendor/ion
 
 const items = [
   { label: "mapboxToken", value: "Reads VITE_MAPBOX_TOKEN from the environment." },
-  { label: "MapView", value: "Interactive map. Props: initialViewState, style, mapStyle." },
+  {
+    label: "MapView",
+    value: "Interactive map. Props: id, initialViewState, initialStyleId, styleId, height, style.",
+  },
   {
     label: "MapStyleSelect",
     value: "Controlled dropdown. Light/Dark pairs shown as one entry. Props: value, on_change.",
@@ -16,6 +19,15 @@ const items = [
   {
     label: "resolveMapStyle(styleId, resolved_theme)",
     value: "Returns the correct Mapbox style URL based on the selected style and current theme.",
+  },
+  {
+    label: "useMapLocation",
+    value: "Hook that manages view state and style selection with localStorage persistence.",
+  },
+  {
+    label: "useMapState",
+    value:
+      "Combines useMapLocation + resolveMapStyle. Returns viewState, styleId, setStyleId, onMove, mapStyle.",
   },
 ];
 
@@ -36,7 +48,7 @@ function MyMap() {
       <MapView
         id="my-map"
         initialViewState={INITIAL_VIEW}
-        initialStyleId={styleId}
+        styleId={styleId}
         height={400}
       />
     </>

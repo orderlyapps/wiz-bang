@@ -8,7 +8,10 @@ const EXAMPLE_MAP_ID = "example";
 const INITIAL_VIEW = { longitude: 144.9631, latitude: -37.8136, zoom: 10 };
 
 const items = [
-  { label: "MapView", value: "Interactive map. Props: id, initialViewState, initialStyleId." },
+  {
+    label: "MapView",
+    value: "Interactive map. Props: id, initialViewState, initialStyleId, styleId, height, style.",
+  },
   { label: "MapStyleSelect", value: "Dropdown to switch between all built-in Mapbox styles." },
   {
     label: "selectableStyles",
@@ -19,8 +22,13 @@ const items = [
     value: "Returns the correct style URL for a given selection and resolved theme.",
   },
   {
+    label: "useMapLocation",
+    value: "Hook that manages view state and style selection with localStorage persistence.",
+  },
+  {
     label: "useMapState",
-    value: "Hook that combines useMapLocation + resolveMapStyle. Persists location and style.",
+    value:
+      "Combines useMapLocation + resolveMapStyle. Returns viewState, styleId, setStyleId, onMove, mapStyle.",
   },
 ];
 
