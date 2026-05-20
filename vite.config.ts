@@ -37,33 +37,33 @@ function generateAppAliases(apps: string[]): Record<string, string> {
 }
 
 /**
- * Generates build input entries for each app
+ * Resolves the absolute root directory for the given app mode.
+ * Falls back to the project root when the mode does not match a known app.
  */
-function generateBuildInputs(apps: string[]): Record<string, string> {
-  const inputs: Record<string, string> = {};
-
-  for (const app of apps) {
-    const htmlPath = path.resolve(import.meta.dirname, `./src/apps/${app}/index.html`);
-    if (fs.existsSync(htmlPath)) {
-      inputs[app] = htmlPath;
-    }
+function getAppRoot(app: string): string {
+  const appRoot = path.resolve(import.meta.dirname, `src/apps/${app}`);
+  if (fs.existsSync(path.join(appRoot, "index.html"))) {
+    return appRoot;
   }
+  return import.meta.dirname;
+}
 
-  // Default to root index.html if no app-specific HTML found
-  if (Object.keys(inputs).length === 0) {
-    inputs.main = path.resolve(import.meta.dirname, "./index.html");
-  }
-
-  return inputs;
+/**
+ * Parses the --mode flag from process.argv. Vite+ requires a static default
+ * export so we cannot use defineConfig's function form to receive `mode`.
+ */
+function getModeFromArgs(): string {
+  const args = process.argv;
+  const flagIdx = args.findIndex((a) => a === "--mode" || a === "-m");
+  if (flagIdx !== -1 && args[flagIdx + 1]) return args[flagIdx + 1];
+  const eq = args.find((a) => a.startsWith("--mode="));
+  if (eq) return eq.slice("--mode=".length);
+  return "base";
 }
 
 const apps = discoverApps();
 const appAliases = generateAppAliases(apps);
-const buildInputs = generateBuildInputs(apps);
-
-// Determine mode from environment or default to production
-const mode =
-  process.env.NODE_ENV === "production" ? "production" : (process.env.VITE_MODE ?? "base");
+const mode = getModeFromArgs();
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -191,19 +191,13 @@ export default defineConfig({
     },
   },
   envDir: import.meta.dirname,
-  root:
-    mode === "production"
-      ? import.meta.dirname
-      : path.resolve(import.meta.dirname, `src/apps/${mode}`),
+  root: getAppRoot(mode),
   resolve: {
     alias: appAliases,
   },
   build: {
     outDir: path.resolve(import.meta.dirname, "dist"),
     emptyOutDir: true,
-    rollupOptions: {
-      input: buildInputs,
-    },
   },
   plugins: [
     react(),

@@ -26,25 +26,25 @@ export function VerticalTextSection() {
       <div style={{ display: "flex", gap: 24, padding: "8px 16px" }}>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
           <VerticalText>Bottom</VerticalText>
-          <small>align="bottom"</small>
+          <small>"bottom"</small>
         </div>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
           <VerticalText align="top">Top</VerticalText>
-          <small>align="top"</small>
+          <small>"top"</small>
         </div>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
           <VerticalText size="sm">Small but overflows</VerticalText>
-          <small>size="sm"</small>
+          <small>"sm"</small>
         </div>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
           <VerticalText size="lg">Large</VerticalText>
-          <small>size="lg"</small>
+          <small>"lg"</small>
         </div>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
           <VerticalText size="lg" align="top">
             Large
           </VerticalText>
-          <small>size="lg" align="top"</small>
+          <small>"lg" & "top"</small>
         </div>
       </div>
 
@@ -71,7 +71,7 @@ export function VerticalTextSection() {
         </div>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
           <VerticalText size="lg" align="top">
-            Large
+            Large Top
           </VerticalText>
         </div>
       </div>
