@@ -99,6 +99,7 @@ const IonicPage = lazy(() => import("@base-routes/pages/settings/info/util/vendo
 const ReactPdfPage = lazy(
   () => import("@base-routes/pages/settings/info/util/vendor/react-pdf/ReactPdf"),
 );
+const MapboxPage = lazy(() => import("@base-routes/pages/settings/info/util/vendor/mapbox/Mapbox"));
 
 function PageLoader() {
   return (
@@ -222,6 +223,7 @@ function App() {
         <Route path="/settings/info/util/app/theme" render={lazyPage(ThemePage)} exact />
         <Route path="/settings/info/util/vendor/ionic" render={lazyPage(IonicPage)} exact />
         <Route path="/settings/info/util/vendor/react-pdf" render={lazyPage(ReactPdfPage)} exact />
+        <Route path="/settings/info/util/vendor/mapbox" render={lazyPage(MapboxPage)} exact />
       </IonRouterOutlet>
 
       <IonTabBar slot="bottom">
