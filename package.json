@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vp dev --host",
     "dev:app": "bash scripts/dev-app.sh",
+    "dev:app:base": "vp run dev:app base",
     "build": "tsc -b && vp build",
     "build:app": "bash scripts/build-app.sh",
     "lint": "vp lint .",
