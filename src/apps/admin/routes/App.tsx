@@ -8,11 +8,12 @@ import {
   IonRouterOutlet,
   IonSpinner,
 } from "@ionic/react";
-import { grid, settings } from "ionicons/icons";
+import { grid, settings, tabletPortrait } from "ionicons/icons";
 import { Redirect, Route } from "react-router-dom";
 import DashboardPage from "@admin-routes/pages/dashboard/Dashboard";
 
 const SettingsPage = lazy(() => import("@admin-routes/pages/settings/Settings"));
+const TablesPage = lazy(() => import("@admin-routes/pages/tables/Tables"));
 
 function PageLoader() {
   return (
@@ -37,12 +38,17 @@ function App() {
         <Redirect exact path="/" to="/dashboard" />
         <Route path="/dashboard" component={DashboardPage} exact />
         <Route path="/settings" render={lazyPage(SettingsPage)} exact />
+        <Route path="/tables" render={lazyPage(TablesPage)} exact />
       </IonRouterOutlet>
 
       <IonTabBar slot="bottom">
         <IonTabButton tab="dashboard" href="/dashboard">
           <IonIcon icon={grid} />
           <IonLabel>Dashboard</IonLabel>
+        </IonTabButton>
+        <IonTabButton tab="tables" href="/tables">
+          <IonIcon icon={tabletPortrait} />
+          <IonLabel>Tables</IonLabel>
         </IonTabButton>
         <IonTabButton tab="settings" href="/settings">
           <IonIcon icon={settings} />
