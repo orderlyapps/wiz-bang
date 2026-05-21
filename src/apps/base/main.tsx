@@ -6,15 +6,18 @@ import "@util/vendor/ionic/helper/ionic-init";
 import "@ui/css/index.css";
 import { initTheme } from "@util/app/theme/utils";
 import App from "@base-routes/App";
+import { QueryProvider } from "@util/vendor/react-query";
 
 initTheme();
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <IonApp>
-      <IonReactRouter>
-        <App />
-      </IonReactRouter>
-    </IonApp>
+    <QueryProvider>
+      <IonApp>
+        <IonReactRouter>
+          <App />
+        </IonReactRouter>
+      </IonApp>
+    </QueryProvider>
   </StrictMode>,
 );
