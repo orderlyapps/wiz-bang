@@ -1,4 +1,4 @@
-import { defineConfig } from "vite-plus";
+import { defineConfig, loadEnv } from "vite-plus";
 import react, { reactCompilerPreset } from "@vitejs/plugin-react";
 import babel from "@rolldown/plugin-babel";
 import path from "node:path";
@@ -64,6 +64,9 @@ function getModeFromArgs(): string {
 const apps = discoverApps();
 const appAliases = generateAppAliases(apps);
 const mode = getModeFromArgs();
+
+// Load env vars for the current mode
+const env = loadEnv(mode, import.meta.dirname, "");
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -206,11 +209,11 @@ export default defineConfig({
       registerType: "autoUpdate",
       includeAssets: ["favicon.svg"],
       manifest: {
-        name: "Wiz Bang",
-        short_name: "Wiz Bang",
-        description: "Wiz Bang app",
-        theme_color: "#3880ff",
-        background_color: "#ffffff",
+        name: env.VITE_PWA_NAME || "Wiz Bang",
+        short_name: env.VITE_PWA_SHORT_NAME || "Wiz Bang",
+        description: env.VITE_PWA_DESCRIPTION || "Wiz Bang app",
+        theme_color: env.VITE_PWA_THEME_COLOR || "#3880ff",
+        background_color: env.VITE_PWA_BACKGROUND_COLOR || "#ffffff",
         display: "standalone",
         orientation: "portrait",
         scope: "/",
