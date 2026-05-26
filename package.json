@@ -8,6 +8,8 @@
     "dev:app": "bash scripts/dev-app.sh",
     "dev:app:base": "vp run dev:app base",
     "dev:app:admin": "vp run dev:app admin",
+    "dev:app:proclaimer": "vp run dev:app proclaimer",
+    "dev:app:subbie": "vp run dev:app subbie",
     "build": "tsc -b && vp build",
     "build:app": "bash scripts/build-app.sh",
     "lint": "vp lint .",
