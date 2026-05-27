@@ -15,6 +15,7 @@ import HomePage from "@base-routes/pages/home/Home";
 // const HomePage = lazy(() => import("@base-routes/pages/home/Home"));
 const SettingsPage = lazy(() => import("@base-routes/pages/settings/Settings"));
 const InfoPage = lazy(() => import("@base-routes/pages/settings/info/Info"));
+const AppearancePage = lazy(() => import("@base-routes/pages/settings/appearance/Appearance"));
 const UiPage = lazy(() => import("@base-routes/pages/settings/info/ui/Ui"));
 const ColorsPage = lazy(() => import("@base-routes/pages/settings/info/ui/colors/Colors"));
 const ComponentsPage = lazy(
@@ -131,6 +132,7 @@ function App() {
         <Route path="/home" component={HomePage} exact />
         <Route path="/settings" render={lazyPage(SettingsPage)} exact />
         <Route path="/settings/info" render={lazyPage(InfoPage)} exact />
+        <Route path="/settings/appearance" render={lazyPage(AppearancePage)} exact />
         <Route path="/settings/info/ui" render={lazyPage(UiPage)} exact />
         <Route path="/settings/info/ui/colors" render={lazyPage(ColorsPage)} exact />
         <Route path="/settings/info/ui/components" render={lazyPage(ComponentsPage)} exact />

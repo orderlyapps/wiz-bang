@@ -31,6 +31,7 @@
       "@proclaimer-routes/*": ["./src/apps/proclaimer/routes/*"],
       "@subbie-content/*": ["./src/apps/subbie/content/*"],
       "@subbie-routes/*": ["./src/apps/subbie/routes/*"],
+      "@shared/*": ["./src/apps/shared/*"],
       "@ui/*": ["./src/ui/*"],
       "@util/*": ["./src/util/*"]
     }

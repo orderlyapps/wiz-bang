@@ -23,6 +23,7 @@ function discoverApps(): string[] {
  */
 function generateAppAliases(apps: string[]): Record<string, string> {
   const aliases: Record<string, string> = {
+    "@shared": path.resolve(import.meta.dirname, "./src/apps/shared"),
     "@ui": path.resolve(import.meta.dirname, "./src/ui"),
     "@util": path.resolve(import.meta.dirname, "./src/util"),
   };
