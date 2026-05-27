@@ -1,5 +1,6 @@
 export const localStorageKeys = {
   themeMode: "theme_mode",
+  fontSize: "font_size",
   authToken: "auth_token",
   mapViewLocation: "map_view",
 } as const;

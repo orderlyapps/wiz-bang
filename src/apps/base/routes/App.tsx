@@ -88,6 +88,9 @@ const HelpTextPage = lazy(
 );
 const PwaPage = lazy(() => import("@base-routes/pages/settings/info/util/app/pwa/Pwa"));
 const ThemePage = lazy(() => import("@base-routes/pages/settings/info/util/app/theme/Theme"));
+const FontSizePage = lazy(
+  () => import("@base-routes/pages/settings/info/util/app/font-size/FontSize"),
+);
 const ConstantsPage = lazy(
   () => import("@base-routes/pages/settings/info/util/constants/Constants"),
 );
@@ -224,6 +227,7 @@ function App() {
         <Route path="/settings/info/util/app/help-text" render={lazyPage(HelpTextPage)} exact />
         <Route path="/settings/info/util/app/pwa" render={lazyPage(PwaPage)} exact />
         <Route path="/settings/info/util/app/theme" render={lazyPage(ThemePage)} exact />
+        <Route path="/settings/info/util/app/font-size" render={lazyPage(FontSizePage)} exact />
         <Route path="/settings/info/util/vendor/ionic" render={lazyPage(IonicPage)} exact />
         <Route path="/settings/info/util/vendor/react-pdf" render={lazyPage(ReactPdfPage)} exact />
         <Route path="/settings/info/util/vendor/mapbox" render={lazyPage(MapboxPage)} exact />

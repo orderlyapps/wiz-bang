@@ -5,10 +5,12 @@ import { IonReactRouter } from "@ionic/react-router";
 import "@util/vendor/ionic/helper/ionic-init";
 import "@ui/css/index.css";
 import { initTheme } from "@util/app/theme/utils";
+import { initFontSize } from "@util/app/font-size/utils";
 import App from "@base-routes/App";
 import { QueryProvider } from "@util/vendor/react-query";
 
 initTheme();
+initFontSize();
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
