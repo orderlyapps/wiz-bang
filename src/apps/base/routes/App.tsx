@@ -30,6 +30,9 @@ const AlertDisplayPage = lazy(
 const DataDisplayPage = lazy(
   () => import("@base-routes/pages/settings/info/ui/components/display/data/Data"),
 );
+const ModalDisplayPage = lazy(
+  () => import("@base-routes/pages/settings/info/ui/components/display/modal/Modal"),
+);
 const TextDisplayPage = lazy(
   () => import("@base-routes/pages/settings/info/ui/components/display/text/Text"),
 );
@@ -145,6 +148,11 @@ function App() {
         <Route
           path="/settings/info/ui/components/display/data"
           render={lazyPage(DataDisplayPage)}
+          exact
+        />
+        <Route
+          path="/settings/info/ui/components/display/modal"
+          render={lazyPage(ModalDisplayPage)}
           exact
         />
         <Route

@@ -1,0 +1,35 @@
+.responsive-list-table {
+  width: 100%;
+  border-collapse: collapse;
+  font: inherit;
+}
+
+.responsive-list-table thead th {
+  text-align: start;
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--ion-color-medium, #92949c);
+  border-bottom: 1px solid var(--ion-color-step-150, rgba(0, 0, 0, 0.08));
+  background: var(--ion-background-color, transparent);
+}
+
+.responsive-list-table tbody td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--ion-color-step-100, rgba(0, 0, 0, 0.05));
+  vertical-align: middle;
+}
+
+.responsive-list-row-clickable {
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+
+.responsive-list-row-clickable:hover {
+  background: var(--ion-color-step-50, rgba(0, 0, 0, 0.03));
+}
+
+.responsive-list-row-clickable:focus-visible {
+  outline: 2px solid var(--ion-color-primary, #3880ff);
+  outline-offset: -2px;
+}

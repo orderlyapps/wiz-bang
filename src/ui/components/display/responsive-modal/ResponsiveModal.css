@@ -1,0 +1,28 @@
+/*
+ * ResponsiveModal:
+ *   - Mobile: Ionic sheet modal (controlled via the breakpoints prop).
+ *   - Tablet/desktop: centered card with a fixed width/height per size variant.
+ */
+@media screen and (min-width: 768px) {
+  ion-modal.responsive-modal {
+    --border-radius: 12px;
+    --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.32);
+    --height: auto;
+    --max-height: 90vh;
+  }
+
+  ion-modal.responsive-modal-sm {
+    --width: 420px;
+    --max-width: 90vw;
+  }
+
+  ion-modal.responsive-modal-md {
+    --width: 640px;
+    --max-width: 90vw;
+  }
+
+  ion-modal.responsive-modal-lg {
+    --width: 960px;
+    --max-width: 95vw;
+  }
+}

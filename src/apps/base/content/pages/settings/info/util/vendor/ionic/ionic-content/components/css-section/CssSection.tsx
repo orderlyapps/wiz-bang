@@ -4,15 +4,30 @@ import { ModuleSection } from "@base-content/pages/settings/info/util/vendor/ion
 
 const items = [
   { label: "index.css", value: "Main entry point that imports all CSS modules." },
-  { label: "responsive.css", value: "Responsive padding for ion-content across breakpoints." },
+  { label: "text-size.css", value: "Font size scale variables used by useFontSize." },
+  {
+    label: "responsive.css",
+    value:
+      "Responsive content container. Caps ion-content at --content-max-width and centers it. Per-page modifiers: .content-wide, .content-full.",
+  },
   { label: "safe-area.css", value: "Safe area insets for notched devices." },
+  {
+    label: "desktop.css",
+    value:
+      "Desktop affordances: focus rings on buttons/items and hover backgrounds gated by (hover: hover) and (pointer: fine) so mobile is unaffected.",
+  },
   { label: "overrides/content.css", value: "Custom ion-content padding overrides." },
+  { label: "overrides/input.css", value: "Custom ion-input flex behavior." },
   { label: "overrides/modal.css", value: "Date picker modal styling." },
 ];
 
-const code = `@import "./responsive.css";
+const code = `@import "./text-size.css";
+@import "./responsive.css";
 @import "./safe-area.css";
+@import "./desktop.css";
+
 @import "./overrides/content.css";
+@import "./overrides/input.css";
 @import "./overrides/modal.css";`;
 
 export function CssSection() {
