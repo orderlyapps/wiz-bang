@@ -11,8 +11,9 @@ export function InputWrapper({ label, children }: InputWrapperProps) {
     <IonItem>
       <IonLabel>
         <Label>{label}</Label>
+        <br />
+        <div className="ion-text-end ion-display-flex ion-justify-content-end">{children}</div>
       </IonLabel>
-      <div className="ion-text-end">{children}</div>
     </IonItem>
   );
 }

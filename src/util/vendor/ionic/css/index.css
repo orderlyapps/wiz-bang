@@ -2,4 +2,5 @@
 @import "./safe-area.css";
 
 @import "./overrides/content.css";
+@import "./overrides/input.css";
 @import "./overrides/modal.css";
