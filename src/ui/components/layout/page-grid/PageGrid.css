@@ -1,0 +1,17 @@
+/*
+ * PageGrid: a responsive grid that is always 1 column on mobile and
+ * expands to N columns at the tablet breakpoint (>= 768px).
+ * The number of columns is controlled by the --page-grid-cols custom prop.
+ * Gap is controlled by --page-grid-gap.
+ */
+.page-grid {
+  display: grid;
+  gap: var(--page-grid-gap, 1rem);
+  grid-template-columns: 1fr;
+}
+
+@media screen and (min-width: 768px) {
+  .page-grid {
+    grid-template-columns: repeat(var(--page-grid-cols, 2), minmax(0, 1fr));
+  }
+}
