@@ -14,6 +14,23 @@ export const FONT_SCALE_MAP: Record<FontSize, number> = {
 
 export const DEFAULT_FONT_SIZE: FontSize = "md";
 
+type Listener = (size: FontSize) => void;
+const listeners: Listener[] = [];
+
+export function subscribeToFontSize(listener: Listener): () => void {
+  listeners.push(listener);
+  return () => {
+    const index = listeners.indexOf(listener);
+    if (index > -1) {
+      listeners.splice(index, 1);
+    }
+  };
+}
+
+export function notifyFontSizeChange(size: FontSize): void {
+  listeners.forEach((listener) => listener(size));
+}
+
 export function getStoredFontSize(): FontSize | null {
   const stored = localStorage.getItem(localStorageKeys.fontSize);
   if (stored && (FONT_SIZE_VALUES as readonly string[]).includes(stored)) {
@@ -24,6 +41,7 @@ export function getStoredFontSize(): FontSize | null {
 
 export function setStoredFontSize(size: FontSize): void {
   localStorage.setItem(localStorageKeys.fontSize, size);
+  notifyFontSizeChange(size);
 }
 
 export function applyFontSize(size: FontSize): void {

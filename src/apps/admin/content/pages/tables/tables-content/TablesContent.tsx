@@ -1,5 +1,6 @@
 import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
 import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiColumnList";
+import { IonList } from "@ionic/react";
 
 interface TableLink {
   label: string;
@@ -40,10 +41,13 @@ const table_links: TableLink[] = [
 
 export function TablesContent() {
   return (
-    <MultiColumnList
-      items={table_links}
-      get_id={(link) => link.to}
-      render_item={(link) => <NavItem label={link.label} to={link.to} />}
-    />
+    <IonList>
+      <MultiColumnList
+        items={table_links}
+        get_id={(link) => link.to}
+        render_item={(link) => <NavItem label={link.label} to={link.to} />}
+        column_offset={-1}
+      />
+    </IonList>
   );
 }

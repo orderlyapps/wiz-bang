@@ -15,6 +15,11 @@ const props = [
       '— Optional horizontal gap between columns. Uses the shared Size scale ("xs" → "2xl") or "none". Defaults to "sm". Rows stay flush.',
   },
   {
+    label: "column_offset",
+    value:
+      "— Optional number to add or subtract from the calculated column count. Positive values add columns, negative values reduce columns. Ignored on mobile.",
+  },
+  {
     label: "page setup",
     value:
       '— When using this component on a page, wrap the page in <IonContent className="content-wide"> for proper multi-column layout.',
@@ -35,7 +40,7 @@ export function MultiColumnListSection() {
   return (
     <ComponentSection
       title="MultiColumnList"
-      description="A responsive grid list that automatically adjusts the number of columns based on screen width and item count. 1 col on mobile (xs/sm), 2 on tablet (md), 3 on small desktop (lg), and 4 on large desktop (xl/2xl), capped by item count. Items fill left-to-right then wrap. Optional horizontal gap via the gap prop; rows stay flush."
+      description="A responsive grid list that automatically adjusts the number of columns based on screen width, item count, and font size. 1 col on mobile (xs/sm) always, 2 on tablet (md), 3 on small desktop (lg), and 4 on large desktop (xl/2xl), capped by item count. Items fill left-to-right then wrap. Column count automatically adjusts based on font size. Optional horizontal gap via the gap prop; rows stay flush. Optional column_offset prop for fine-tuning."
       props={props}
     >
       <MultiColumnList<Demo>
