@@ -1,3 +1,4 @@
+import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from "@ionic/react";
 
 function SettingsPage() {
@@ -8,8 +9,8 @@ function SettingsPage() {
           <IonTitle>Settings</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="ion-padding">
-        <h1>Admin Settings</h1>
+      <IonContent>
+        <NavItem label="Appearance" to="/settings/appearance" />
       </IonContent>
     </IonPage>
   );

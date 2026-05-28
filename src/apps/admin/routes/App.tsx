@@ -13,6 +13,7 @@ import { Redirect, Route } from "react-router-dom";
 import DashboardPage from "@admin-routes/pages/dashboard/Dashboard";
 
 const SettingsPage = lazy(() => import("@admin-routes/pages/settings/Settings"));
+const AppearancePage = lazy(() => import("@admin-routes/pages/settings/appearance/Appearance"));
 const TablesPage = lazy(() => import("@admin-routes/pages/tables/Tables"));
 
 // Collection table pages
@@ -95,6 +96,7 @@ function App() {
         <Redirect exact path="/" to="/dashboard" />
         <Route path="/dashboard" component={DashboardPage} exact />
         <Route path="/settings" render={lazyPage(SettingsPage)} exact />
+        <Route path="/settings/appearance" render={lazyPage(AppearancePage)} exact />
         <Route path="/tables" render={lazyPage(TablesPage)} exact />
         <Route path="/tables/auth-otp-log" render={lazyPage(AuthOtpLogPage)} exact />
         <Route path="/tables/auth-user" render={lazyPage(AuthUserPage)} exact />
