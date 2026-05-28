@@ -1,0 +1,12 @@
+.multi-column-list {
+  display: grid;
+  grid-template-columns: repeat(var(--multi-column-list-cols, 1), minmax(0, 1fr));
+  column-gap: var(--multi-column-list-gap, 0);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.multi-column-list__item {
+  min-width: 0;
+}

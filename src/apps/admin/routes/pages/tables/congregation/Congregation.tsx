@@ -8,7 +8,7 @@ function CongregationPage() {
       <IonHeader>
         <CongregationHeader />
       </IonHeader>
-      <IonContent>
+      <IonContent className="content-wide">
         <CongregationContent />
       </IonContent>
     </IonPage>
