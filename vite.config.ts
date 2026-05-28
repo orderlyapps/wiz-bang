@@ -208,7 +208,11 @@ export default defineConfig({
     babel({ presets: [reactCompilerPreset()] }),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: ["favicon.svg"],
+      includeAssets: [
+        "/assets/pwa/favicon-196.png",
+        "/assets/pwa/apple-icon-180.png",
+        "/assets/pwa/logo.svg",
+      ],
       manifest: {
         name: env.VITE_PWA_NAME || "Wiz Bang",
         short_name: env.VITE_PWA_SHORT_NAME || "Wiz Bang",
@@ -221,15 +225,21 @@ export default defineConfig({
         start_url: "/",
         icons: [
           {
-            src: "favicon.svg",
-            sizes: "any",
-            type: "image/svg+xml",
-            purpose: "any maskable",
+            src: "/assets/pwa/manifest-icon-192.maskable.png",
+            sizes: "192x192",
+            type: "image/png",
+            purpose: "maskable",
+          },
+          {
+            src: "/assets/pwa/manifest-icon-512.maskable.png",
+            sizes: "512x512",
+            type: "image/png",
+            purpose: "maskable",
           },
         ],
       },
       workbox: {
-        globPatterns: ["**/*.{js,css,html,svg,png,ico,woff2}"],
+        globPatterns: ["**/*.{js,css,html,svg,png,ico,woff2,jpg}"],
         cleanupOutdatedCaches: true,
         clientsClaim: true,
         navigateFallback: "index.html",
