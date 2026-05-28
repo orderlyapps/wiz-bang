@@ -8,7 +8,7 @@ function TablesPage() {
       <IonHeader>
         <TablesHeader />
       </IonHeader>
-      <IonContent>
+      <IonContent className="content-wide">
         <TablesContent />
       </IonContent>
     </IonPage>

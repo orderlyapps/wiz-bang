@@ -18,11 +18,6 @@ ion-content.content-wide {
   --content-max-width: 1200px;
 }
 
-ion-content::part(scroll) {
-  padding-left: max(var(--content-gutter), calc((100% - var(--content-max-width)) / 2));
-  padding-right: max(var(--content-gutter), calc((100% - var(--content-max-width)) / 2));
-}
-
 /* Full-bleed content (maps, fullscreen canvases). */
 ion-content.content-full::part(scroll),
 ion-content#fullscreen::part(scroll) {

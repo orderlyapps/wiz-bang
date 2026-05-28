@@ -14,6 +14,11 @@ const props = [
     value:
       '— Optional horizontal gap between columns. Uses the shared Size scale ("xs" → "2xl") or "none". Defaults to "sm". Rows stay flush.',
   },
+  {
+    label: "page setup",
+    value:
+      '— When using this component on a page, wrap the page in <IonContent className="content-wide"> for proper multi-column layout.',
+  },
 ];
 
 type Demo = { id: string; name: string };
