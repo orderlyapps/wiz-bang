@@ -1,15 +1,15 @@
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from "@ionic/react";
+import { CongregationContent } from "@admin-content/pages/tables/congregation/congregation-content/CongregationContent";
+import { CongregationHeader } from "@admin-content/pages/tables/congregation/congregation-header/CongregationHeader";
+import { IonPage, IonHeader, IonContent } from "@ionic/react";
 
 function CongregationPage() {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
-          <IonTitle>Congregation</IonTitle>
-        </IonToolbar>
+        <CongregationHeader />
       </IonHeader>
-      <IonContent className="ion-padding">
-        <h1>Congregation</h1>
+      <IonContent>
+        <CongregationContent />
       </IonContent>
     </IonPage>
   );
