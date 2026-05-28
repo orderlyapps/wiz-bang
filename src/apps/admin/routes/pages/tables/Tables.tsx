@@ -1,15 +1,15 @@
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from "@ionic/react";
+import { TablesContent } from "@admin-content/pages/tables/tables-content/TablesContent";
+import { TablesHeader } from "@admin-content/pages/tables/tables-header/TablesHeader";
+import { IonPage, IonHeader, IonContent } from "@ionic/react";
 
 function TablesPage() {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
-          <IonTitle>Tables</IonTitle>
-        </IonToolbar>
+        <TablesHeader />
       </IonHeader>
-      <IonContent className="ion-padding">
-        <h1>Tables</h1>
+      <IonContent>
+        <TablesContent />
       </IonContent>
     </IonPage>
   );
