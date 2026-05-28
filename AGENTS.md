@@ -45,3 +45,59 @@ Docs are local at `node_modules/vite-plus/docs` or online at https://viteplus.de
 - **Content components** should be placed in `src/content/pages/{page-name}/` and split into separate files:
   - `{page-name}-header/` - Contains the header content (e.g., `IonToolbar`, `IonTitle`)
   - `{page-name}-content/` - Contains the main page content
+
+## Responsive Design
+
+The apps are mobile-first but must work well on tablet and desktop. Always reach for these shared primitives instead of hand-rolling responsive code or hard-coded media queries.
+
+### Breakpoints
+
+Defined in `src/util/hooks/use-breakpoint/breakpoints.ts`:
+
+- `xs` < 640
+- `sm` >= 640
+- `md` >= 768 (tablet)
+- `lg` >= 1024 (desktop)
+- `xl` >= 1280
+- `2xl` >= 1440
+
+### Content width (`ion-content` modifier classes)
+
+`src/util/vendor/ionic/css/responsive.css` caps content with a centered max-width via `--content-max-width`. Set the appropriate class on every `IonContent`:
+
+- default (no class) → 720px — forms, settings, reading
+- `className="content-wide"` → 1200px — lists, tables, dashboards
+- `className="content-full"` → no cap — maps, canvases, fullscreen UI
+
+Do not add page-specific percent-padding or media queries to constrain content width.
+
+### Layout primitives
+
+- `PageGrid` (`src/ui/components/layout/page-grid/PageGrid.tsx`) — 1 col on mobile, N cols (2/3/4) on tablet+. Use it for any form or dashboard with multiple fields/cards. Prefer this over ad-hoc flex/grid CSS.
+- `Space` (`src/ui/components/layout/space/Space.tsx`) — vertical/horizontal whitespace using the shared `Size` scale.
+
+### Data display
+
+- `ResponsiveList<T>` (`src/ui/components/display/responsive-list/ResponsiveList.tsx`) — renders an accessible HTML `<table>` on desktop (>= lg) and `IonItem` cards on mobile/tablet. Use it for all tabular data; do not render raw tables or raw lists of `IonItem`s when the data is row/column shaped.
+
+### Modals
+
+- `ResponsiveModal` (`src/ui/components/display/responsive-modal/ResponsiveModal.tsx`) — Ionic sheet on mobile (< md), centered card (`size="sm" | "md" | "lg"`) on tablet/desktop. Use this as the default modal wrapper instead of `IonModal` directly.
+
+### Hooks
+
+- `useBreakpoint()` (`src/util/hooks/use-breakpoint/use-breakpoint.ts`) → `{ width, breakpoint, is_mobile, is_tablet, is_desktop }`. Use for behavior branching (popover vs sheet, conditional UI).
+- `useKeyboardShortcut(combo, handler, options?)` (`src/util/hooks/use-keyboard-shortcut/use-keyboard-shortcut.ts`) — global key bindings. Combo syntax: `"/"`, `"mod+k"`, `"shift+?"` where `mod` = ⌘ on mac, ctrl elsewhere. Skips text inputs by default. Use for desktop power-user affordances.
+
+### Desktop affordances
+
+`src/util/vendor/ionic/css/desktop.css` is loaded globally. It adds `:focus-visible` rings to buttons/items and hover backgrounds gated by `@media (hover: hover) and (pointer: fine)`. For an item to participate in hover/focus styles, ensure it is button-style (e.g. `<IonItem button>` or `<IonItem routerLink ... button>`).
+
+### When to use what
+
+- New form / settings panel with 2+ fields → wrap in `PageGrid`.
+- New list of records → `ResponsiveList<T>` with `columns` + `get_id`.
+- New modal/dialog → `ResponsiveModal`, not `IonModal` directly.
+- Need to branch behavior on viewport → `useBreakpoint()`, never `window.innerWidth` directly.
+- Wide page (catalog, dashboard, table) → `<IonContent className="content-wide">`.
+- Adding a keyboard shortcut → `useKeyboardShortcut`, never `window.addEventListener("keydown", ...)` ad hoc.
