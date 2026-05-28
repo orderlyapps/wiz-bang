@@ -6,10 +6,10 @@
 }
 
 /* Apply safe area insets for notch handling in all orientations */
-ion-header {
+/* ion-header {
   padding-left: var(--ion-safe-area-left);
   padding-right: var(--ion-safe-area-right);
-}
+} */
 
 ion-footer {
   padding-left: var(--ion-safe-area-left);
