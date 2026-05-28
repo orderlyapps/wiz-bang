@@ -232,6 +232,8 @@ export default defineConfig({
         globPatterns: ["**/*.{js,css,html,svg,png,ico,woff2}"],
         cleanupOutdatedCaches: true,
         clientsClaim: true,
+        navigateFallback: "index.html",
+        navigateFallbackAllowlist: [/^\/.*$/], // Match all paths starting with /
       },
       devOptions: {
         enabled: true,
