@@ -1,15 +1,15 @@
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from "@ionic/react";
+import { IonPage, IonHeader, IonContent } from "@ionic/react";
+import { HomeHeader } from "@proclaimer-content/pages/home/home-header/HomeHeader";
+import { HomeContent } from "@proclaimer-content/pages/home/home-content/HomeContent";
 
 function HomePage() {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
-          <IonTitle>Proclaimer</IonTitle>
-        </IonToolbar>
+        <HomeHeader />
       </IonHeader>
       <IonContent className="ion-padding">
-        <h1>Welcome to Proclaimer</h1>
+        <HomeContent />
       </IonContent>
     </IonPage>
   );
