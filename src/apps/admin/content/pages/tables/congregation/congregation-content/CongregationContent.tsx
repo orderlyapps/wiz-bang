@@ -1,13 +1,16 @@
 import { IonItem, IonLabel, IonList } from "@ionic/react";
 import { Spinner } from "@ui/components/display/spinner/Spinner";
 import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiColumnList";
-import { useLiveQuery } from "@tanstack/react-db";
+import { useLiveQuery, isNull } from "@tanstack/react-db";
 import { congregationCollection } from "@shared/database/collections/congregation";
 import type { Congregation } from "@shared/database/schemas/congregation";
 
 export function CongregationContent() {
   const { data, isLoading } = useLiveQuery((q) =>
-    q.from({ c: congregationCollection }).orderBy(({ c }) => c.name),
+    q
+      .from({ c: congregationCollection })
+      .where(({ c }) => isNull(c.congregation_id))
+      .orderBy(({ c }) => c.name),
   );
 
   if (!data || data.length === 0) {
@@ -21,7 +24,7 @@ export function CongregationContent() {
         get_id={(c) => c.id ?? ""}
         gap="sm"
         render_item={(c) => (
-          <IonItem lines="full">
+          <IonItem lines="full" routerLink={`/tables/congregation/${c.id}`} button>
             <IonLabel>{c.name}</IonLabel>
           </IonItem>
         )}

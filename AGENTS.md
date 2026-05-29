@@ -46,6 +46,15 @@ Docs are local at `node_modules/vite-plus/docs` or online at https://viteplus.de
   - `{page-name}-header/` - Contains the header content (e.g., `IonToolbar`, `IonTitle`)
   - `{page-name}-content/` - Contains the main page content
 
+### Folder Hierarchy
+
+The folder structure in `src/content/pages/` must match `src/routes/pages/`:
+
+- Child pages (like detail pages) should be nested inside their parent page folder:
+  - Route: `/tables/congregation` → `tables/congregation/`
+  - Route: `/tables/congregation/:id` → `tables/congregation/congregation-detail/`
+- Follow the pattern in `src/apps/base/` as the reference implementation
+
 ## Responsive Design
 
 The apps are mobile-first but must work well on tablet and desktop. Always reach for these shared primitives instead of hand-rolling responsive code or hard-coded media queries.

@@ -31,6 +31,9 @@ const CleanPermissionPage = lazy(
   () => import("@admin-routes/pages/tables/clean-permission/CleanPermission"),
 );
 const CongregationPage = lazy(() => import("@admin-routes/pages/tables/congregation/Congregation"));
+const CongregationDetailPage = lazy(
+  () => import("@admin-routes/pages/tables/congregation/congregation-detail/CongregationDetail"),
+);
 const CongregationAdminPage = lazy(
   () => import("@admin-routes/pages/tables/congregation-admin/CongregationAdmin"),
 );
@@ -106,6 +109,7 @@ function App() {
         <Route path="/tables/clean-minor" render={lazyPage(CleanMinorPage)} exact />
         <Route path="/tables/clean-permission" render={lazyPage(CleanPermissionPage)} exact />
         <Route path="/tables/congregation" render={lazyPage(CongregationPage)} exact />
+        <Route path="/tables/congregation/:id" render={lazyPage(CongregationDetailPage)} exact />
         <Route path="/tables/congregation-admin" render={lazyPage(CongregationAdminPage)} exact />
         <Route path="/tables/do-not-call" render={lazyPage(DoNotCallPage)} exact />
         <Route path="/tables/event" render={lazyPage(EventPage)} exact />
