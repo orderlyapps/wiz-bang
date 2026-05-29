@@ -33,7 +33,7 @@ export function ModalSelectTrigger({
           opacity: disabled ? 0.6 : 1,
         }}
       >
-        <Body color={!display_value || disabled ? "medium" : undefined} size="sm">
+        <Body color={!display_value || disabled ? "medium" : undefined}>
           {display_value || placeholder || "Select..."}
         </Body>
 
