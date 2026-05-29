@@ -8,6 +8,7 @@ import { initTheme } from "@util/app/theme/utils";
 import { initFontSize } from "@util/app/font-size/utils";
 import App from "@base-routes/App";
 import { QueryProvider } from "@util/vendor/react-query";
+import { PwaUpdateToast } from "@util/app/pwa/PwaUpdateToast";
 
 initTheme();
 initFontSize();
@@ -19,6 +20,7 @@ createRoot(document.getElementById("root")!).render(
         <IonReactRouter>
           <App />
         </IonReactRouter>
+        <PwaUpdateToast />
       </IonApp>
     </QueryProvider>
   </StrictMode>,
