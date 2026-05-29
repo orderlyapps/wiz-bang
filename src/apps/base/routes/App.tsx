@@ -65,6 +65,13 @@ const PasswordPage = lazy(
 const SearchPage = lazy(
   () => import("@base-routes/pages/settings/info/ui/components/inputs/search/Search"),
 );
+const ModalSelectPage = lazy(
+  () => import("@base-routes/pages/settings/info/ui/components/inputs/modal-select/ModalSelect"),
+);
+const ModalMultiSelectPage = lazy(
+  () =>
+    import("@base-routes/pages/settings/info/ui/components/inputs/modal-multi-select/ModalMultiSelect"),
+);
 const SelectPage = lazy(
   () => import("@base-routes/pages/settings/info/ui/components/inputs/select/Select"),
 );
@@ -212,6 +219,16 @@ function App() {
         <Route
           path="/settings/info/ui/components/inputs/search"
           render={lazyPage(SearchPage)}
+          exact
+        />
+        <Route
+          path="/settings/info/ui/components/inputs/modal-select"
+          render={lazyPage(ModalSelectPage)}
+          exact
+        />
+        <Route
+          path="/settings/info/ui/components/inputs/modal-multi-select"
+          render={lazyPage(ModalMultiSelectPage)}
           exact
         />
         <Route

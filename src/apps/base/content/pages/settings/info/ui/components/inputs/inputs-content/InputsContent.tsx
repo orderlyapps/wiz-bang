@@ -12,6 +12,11 @@ export function InputsContent() {
       <NavItem label="OTP" to="/settings/info/ui/components/inputs/otp" />
       <NavItem label="Password" to="/settings/info/ui/components/inputs/password" />
       <NavItem label="Search" to="/settings/info/ui/components/inputs/search" />
+      <NavItem label="Modal Select" to="/settings/info/ui/components/inputs/modal-select" />
+      <NavItem
+        label="Modal Multi Select"
+        to="/settings/info/ui/components/inputs/modal-multi-select"
+      />
       <NavItem label="Select" to="/settings/info/ui/components/inputs/select" />
       <NavItem label="Text" to="/settings/info/ui/components/inputs/text" />
       <NavItem label="Toggle" to="/settings/info/ui/components/inputs/toggle" />
