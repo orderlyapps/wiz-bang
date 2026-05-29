@@ -4,7 +4,7 @@ export function CongregationDetailHeader() {
   return (
     <IonToolbar>
       <IonButtons slot="start">
-        <IonBackButton defaultHref="/tables/congregation" text="Congregations" />
+        <IonBackButton defaultHref="/tables/congregation" />
       </IonButtons>
       <IonTitle>Congregation Details</IonTitle>
     </IonToolbar>
