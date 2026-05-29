@@ -16,6 +16,9 @@ const MinistryPage = lazy(() => import("@proclaimer-routes/pages/ministry/Minist
 const SchedulesPage = lazy(() => import("@proclaimer-routes/pages/schedules/Schedules"));
 const PublishersPage = lazy(() => import("@proclaimer-routes/pages/publishers/Publishers"));
 const SettingsPage = lazy(() => import("@proclaimer-routes/pages/settings/Settings"));
+const AppearancePage = lazy(
+  () => import("@proclaimer-routes/pages/settings/appearance/Appearance"),
+);
 
 function PageLoader() {
   return (
@@ -43,6 +46,7 @@ function App() {
         <Route path="/schedules" render={lazyPage(SchedulesPage)} exact />
         <Route path="/publishers" render={lazyPage(PublishersPage)} exact />
         <Route path="/settings" render={lazyPage(SettingsPage)} exact />
+        <Route path="/settings/appearance" render={lazyPage(AppearancePage)} exact />
       </IonRouterOutlet>
 
       <IonTabBar slot="bottom">
