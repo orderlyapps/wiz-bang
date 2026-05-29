@@ -51,7 +51,7 @@ export function ModalSelectSection() {
         placeholder="Choose a color"
         on_open={() => set_color_open(true)}
       />
-      <ResponsiveModal is_open={color_open} on_dismiss={() => set_color_open(false)} size="sm">
+      <ResponsiveModal isOpen={color_open} onDidDismiss={() => set_color_open(false)}>
         <IonHeader>
           <IonToolbar>
             <IonTitle>Pick a Color</IonTitle>

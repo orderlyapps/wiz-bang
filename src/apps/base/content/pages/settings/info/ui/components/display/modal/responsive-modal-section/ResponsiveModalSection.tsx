@@ -3,54 +3,74 @@ import { useState } from "react";
 import { Body } from "@ui/components/display/text/body/Body";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 import { ComponentSection } from "@base-content/pages/settings/info/ui/components/shared/component-section/ComponentSection";
+import { Space } from "@ui/components/layout/space/Space";
 
 const props = [
-  { label: "is_open", value: "— Whether the modal is open." },
-  { label: "on_dismiss", value: "— Called when the modal is dismissed." },
   {
-    label: "size",
+    label: "fullscreen",
     value:
-      '— Tablet/desktop card size. One of "sm" (420px) | "md" (640px) | "lg" (960px). Defaults to "md". Ignored on mobile.',
+      "— If true, the modal stays fullscreen at all screen sizes. Defaults to true. Set to false to use Ionic's default responsive behavior.",
   },
   {
-    label: "mobile_breakpoints",
-    value:
-      "— Sheet stop positions on mobile, as fractions of viewport height (e.g. [0, 0.5, 1]). Defaults to [0, 1].",
-  },
-  {
-    label: "initial_breakpoint",
-    value: "— Initial sheet position on mobile. Defaults to 1 (fully expanded).",
-  },
-  { label: "class_name", value: "— Additional class names. Optional." },
-  {
-    label: "ion_modal_props",
-    value: "— Escape hatch: extra props forwarded to the underlying IonModal.",
+    label: "...props",
+    value: "— All other IonModal props are supported (isOpen, onDidDismiss, breakpoints, etc.)",
   },
 ];
 
 export function ResponsiveModalSection() {
   const [open, set_open] = useState(false);
+  const [card_open, set_card_open] = useState(false);
+
   return (
     <ComponentSection
       title="ResponsiveModal"
-      description="A wrapper around IonModal that renders as a sheet on mobile (<768px) and as a centered card on tablet/desktop. Use it for any modal so it adapts to the device automatically."
+      description="A thin wrapper around IonModal that defaults to fullscreen at all screen sizes. Set fullscreen={false} to let Ionic handle the responsive behavior (sheet on mobile, card on tablet/desktop at 768px)."
       props={props}
     >
       <IonButton expand="block" onClick={() => set_open(true)}>
-        Open ResponsiveModal
+        Open Fullscreen Modal (default)
       </IonButton>
-      <ResponsiveModal is_open={open} on_dismiss={() => set_open(false)} size="md">
+      <Space size="sm" />
+      <IonButton expand="block" onClick={() => set_card_open(true)}>
+        Open Responsive Card Modal
+      </IonButton>
+
+      <ResponsiveModal isOpen={open} onDidDismiss={() => set_open(false)}>
         <IonHeader>
           <IonToolbar>
-            <IonTitle>Example</IonTitle>
+            <IonTitle>Fullscreen Modal</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding">
           <Body>
-            On a phone this slides up as a sheet. On a tablet or desktop it appears as a centered
-            card with the chosen size.
+            This modal stays fullscreen at all screen sizes. This is the default behavior.
           </Body>
           <IonButton expand="block" onClick={() => set_open(false)} style={{ marginTop: "1rem" }}>
+            Close
+          </IonButton>
+        </IonContent>
+      </ResponsiveModal>
+
+      <ResponsiveModal
+        isOpen={card_open}
+        onDidDismiss={() => set_card_open(false)}
+        fullscreen={false}
+      >
+        <IonHeader>
+          <IonToolbar>
+            <IonTitle>Responsive Card Modal</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent className="ion-padding">
+          <Body>
+            With fullscreen set to false, Ionic's default behavior applies: a sheet on mobile and a
+            centered card on tablet/desktop (starting at 768px).
+          </Body>
+          <IonButton
+            expand="block"
+            onClick={() => set_card_open(false)}
+            style={{ marginTop: "1rem" }}
+          >
             Close
           </IonButton>
         </IonContent>

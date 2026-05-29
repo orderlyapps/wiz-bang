@@ -71,7 +71,7 @@ export function ModalMultiSelectSection() {
         placeholder="Choose tags"
         on_open={() => set_tags_open(true)}
       />
-      <ResponsiveModal is_open={tags_open} on_dismiss={() => set_tags_open(false)} size="sm">
+      <ResponsiveModal isOpen={tags_open} onDidDismiss={() => set_tags_open(false)}>
         <IonHeader>
           <IonToolbar>
             <IonTitle>Select Tags</IonTitle>
@@ -107,7 +107,7 @@ export function ModalMultiSelectSection() {
         placeholder="Choose roles"
         on_open={() => set_roles_open(true)}
       />
-      <ResponsiveModal is_open={roles_open} on_dismiss={() => set_roles_open(false)} size="sm">
+      <ResponsiveModal isOpen={roles_open} onDidDismiss={() => set_roles_open(false)}>
         <IonHeader>
           <IonToolbar>
             <IonTitle>Select Roles</IonTitle>
