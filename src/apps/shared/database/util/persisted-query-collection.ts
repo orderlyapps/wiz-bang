@@ -11,6 +11,16 @@ export class OfflineError extends Error {
   }
 }
 
+const collectionQueryKeys = new WeakMap<object, ReadonlyArray<unknown>>();
+
+/**
+ * Returns the React Query base `queryKey` registered for a persisted collection,
+ * so callers (e.g. loading-state hooks) can observe its background fetch status.
+ */
+export function getCollectionQueryKey(collection: object): ReadonlyArray<unknown> | undefined {
+  return collectionQueryKeys.get(collection);
+}
+
 /**
  * Wraps `queryCollectionOptions` with `persistedCollectionOptions` and feeds the
  * result into `createCollection`, preserving zod schema-based type inference.
@@ -36,7 +46,7 @@ export function createPersistedQueryCollection<
   } as TConfig & { schema: TSchema };
 
   const persistedOptions = persistedCollectionOptions({
-    ...queryCollectionOptions(offlineAwareConfig),
+    ...queryCollectionOptions({ ...offlineAwareConfig, syncMode: "on-demand" }),
     persistence,
     schemaVersion,
   });
@@ -48,5 +58,11 @@ export function createPersistedQueryCollection<
     schema: config.schema,
   } as typeof persistedOptions & { schema: TSchema };
 
-  return createCollection(optionsWithSchema);
+  const collection = createCollection(optionsWithSchema);
+
+  if (Array.isArray(config.queryKey)) {
+    collectionQueryKeys.set(collection, config.queryKey);
+  }
+
+  return collection;
 }
