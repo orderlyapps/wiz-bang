@@ -1,5 +1,5 @@
 import { IonItem, IonLabel, IonList } from "@ionic/react";
-import { Spinner } from "@ui/components/display/spinner/Spinner";
+import { CongregationSkeleton } from "./components/congregation-skeleton/CongregationSkeleton";
 import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiColumnList";
 import { useLiveQuery, isNull } from "@tanstack/react-db";
 import { congregationCollection } from "@shared/database/collections/congregation";
@@ -14,7 +14,7 @@ export function CongregationContent() {
   );
 
   if (!data || data.length === 0) {
-    return isLoading ? <Spinner centered /> : <p>No congregations found.</p>;
+    return isLoading ? <CongregationSkeleton /> : <p>No congregations found.</p>;
   }
 
   return (

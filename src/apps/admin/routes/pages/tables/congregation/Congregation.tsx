@@ -1,6 +1,13 @@
-import { CongregationContent } from "@admin-content/pages/tables/congregation/congregation-content/CongregationContent";
+import { lazy, Suspense } from "react";
 import { CongregationHeader } from "@admin-content/pages/tables/congregation/congregation-header/CongregationHeader";
 import { IonPage, IonHeader, IonContent } from "@ionic/react";
+import { CongregationSkeleton } from "@admin-content/pages/tables/congregation/congregation-content/components/congregation-skeleton/CongregationSkeleton";
+
+const CongregationContent = lazy(() =>
+  import("@admin-content/pages/tables/congregation/congregation-content/CongregationContent").then(
+    (m) => ({ default: m.CongregationContent }),
+  ),
+);
 
 function CongregationPage() {
   return (
@@ -9,7 +16,9 @@ function CongregationPage() {
         <CongregationHeader />
       </IonHeader>
       <IonContent className="content-wide">
-        <CongregationContent />
+        <Suspense fallback={<CongregationSkeleton />}>
+          <CongregationContent />
+        </Suspense>
       </IonContent>
     </IonPage>
   );

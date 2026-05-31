@@ -18,7 +18,7 @@ const sizeToPixels = {
   "2xl": 96,
 };
 
-export function Spinner({ color, size = "md", centered = false, className }: SpinnerProps) {
+export function Spinner({ color, size = "md", centered = true, className }: SpinnerProps) {
   const style: React.CSSProperties = {
     width: sizeToPixels[size],
     height: sizeToPixels[size],
