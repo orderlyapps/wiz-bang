@@ -1,40 +1,12 @@
-import { lazy, Suspense, type ComponentType } from "react";
 import { Redirect, Route } from "react-router-dom";
-import {
-  IonTabs,
-  IonTabBar,
-  IonTabButton,
-  IonIcon,
-  IonLabel,
-  IonRouterOutlet,
-  IonSpinner,
-} from "@ionic/react";
+import { IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, IonRouterOutlet } from "@ionic/react";
 import { home, book, calendar, people, settings } from "ionicons/icons";
 import HomePage from "@proclaimer-routes/pages/home/Home";
-
-const MinistryPage = lazy(() => import("@proclaimer-routes/pages/ministry/Ministry"));
-const SchedulesPage = lazy(() => import("@proclaimer-routes/pages/schedules/Schedules"));
-const PublishersPage = lazy(() => import("@proclaimer-routes/pages/publishers/Publishers"));
-const SettingsPage = lazy(() => import("@proclaimer-routes/pages/settings/Settings"));
-const AppearancePage = lazy(
-  () => import("@proclaimer-routes/pages/settings/appearance/Appearance"),
-);
-
-function PageLoader() {
-  return (
-    <div className="flex-center">
-      <IonSpinner />
-    </div>
-  );
-}
-
-function lazyPage(Component: ComponentType) {
-  return () => (
-    <Suspense fallback={<PageLoader />}>
-      <Component />
-    </Suspense>
-  );
-}
+import MinistryPage from "@proclaimer-routes/pages/ministry/Ministry";
+import SchedulesPage from "@proclaimer-routes/pages/schedules/Schedules";
+import PublishersPage from "@proclaimer-routes/pages/publishers/Publishers";
+import SettingsPage from "@proclaimer-routes/pages/settings/Settings";
+import AppearancePage from "@proclaimer-routes/pages/settings/appearance/Appearance";
 
 function App() {
   return (
@@ -42,11 +14,11 @@ function App() {
       <IonRouterOutlet>
         <Redirect exact path="/" to="/home" />
         <Route path="/home" component={HomePage} exact />
-        <Route path="/ministry" render={lazyPage(MinistryPage)} exact />
-        <Route path="/schedules" render={lazyPage(SchedulesPage)} exact />
-        <Route path="/publishers" render={lazyPage(PublishersPage)} exact />
-        <Route path="/settings" render={lazyPage(SettingsPage)} exact />
-        <Route path="/settings/appearance" render={lazyPage(AppearancePage)} exact />
+        <Route path="/ministry" component={MinistryPage} exact />
+        <Route path="/schedules" component={SchedulesPage} exact />
+        <Route path="/publishers" component={PublishersPage} exact />
+        <Route path="/settings" component={SettingsPage} exact />
+        <Route path="/settings/appearance" component={AppearancePage} exact />
       </IonRouterOutlet>
 
       <IonTabBar slot="bottom">
