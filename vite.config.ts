@@ -240,6 +240,52 @@ export default defineConfig({
         cleanupOutdatedCaches: true,
         navigateFallback: "index.html",
         navigateFallbackAllowlist: [/^\//],
+        runtimeCaching: [
+          {
+            urlPattern: /\/api\/.*/,
+            handler: "StaleWhileRevalidate",
+            options: {
+              cacheName: "api-cache",
+              expiration: {
+                maxEntries: 100,
+                maxAgeSeconds: 7 * 24 * 60 * 60, // 7 days
+              },
+            },
+          },
+          {
+            urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp)$/,
+            handler: "StaleWhileRevalidate",
+            options: {
+              cacheName: "images-cache",
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+              },
+            },
+          },
+          {
+            urlPattern: /^https:\/\/api\.mapbox\.com\/v4\/.*/,
+            handler: "CacheFirst",
+            options: {
+              cacheName: "mapbox-tiles",
+              expiration: {
+                maxEntries: 5000,
+                maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+              },
+            },
+          },
+          {
+            urlPattern: /^https:\/\/api\.mapbox\.com\/(styles|fonts|sprites)\/.*/,
+            handler: "StaleWhileRevalidate",
+            options: {
+              cacheName: "mapbox-assets",
+              expiration: {
+                maxEntries: 100,
+                maxAgeSeconds: 7 * 24 * 60 * 60, // 7 days
+              },
+            },
+          },
+        ],
       },
       devOptions: {
         enabled: true,
