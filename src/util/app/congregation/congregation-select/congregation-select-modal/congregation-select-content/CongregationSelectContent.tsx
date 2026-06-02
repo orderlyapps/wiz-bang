@@ -1,4 +1,4 @@
-import { IonItem, IonLabel, IonList, IonIcon } from "@ionic/react";
+import { IonItem, IonLabel, IonList, IonIcon, IonSkeletonText } from "@ionic/react";
 import { checkmark } from "ionicons/icons";
 import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiColumnList";
 import { useLiveQuery, isNull } from "@tanstack/react-db";
@@ -29,11 +29,11 @@ export function CongregationSelectContent({
 
   if (isLoading) {
     return (
-      <IonList>
+      <IonList inset>
         {[1, 2, 3].map((i) => (
           <IonItem key={i}>
             <IonLabel>
-              <div style={{ height: "1.25rem", background: "var(--ion-color-light)" }} />
+              <IonSkeletonText style={{ width: "50%" }} />
             </IonLabel>
           </IonItem>
         ))}
@@ -43,7 +43,7 @@ export function CongregationSelectContent({
 
   if (!data || data.length === 0) {
     return (
-      <IonList>
+      <IonList inset>
         <IonItem>
           <IonLabel>No congregations available.</IonLabel>
         </IonItem>
@@ -52,7 +52,7 @@ export function CongregationSelectContent({
   }
 
   return (
-    <IonList>
+    <IonList className="ion-margin" inset>
       <MultiColumnList<Congregation>
         items={data}
         get_id={(c) => c.id ?? ""}
