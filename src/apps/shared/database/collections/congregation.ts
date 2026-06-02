@@ -3,7 +3,7 @@ import { supabase } from "@util/vendor/supabase/supabase-client";
 import { congregationSchema } from "@shared/database/schemas/congregation";
 import { createPersistedQueryCollection } from "@shared/database/util/persisted-query-collection";
 
-export const congregationCollection = createPersistedQueryCollection({
+const congregationCollection = createPersistedQueryCollection({
   id: "congregation",
   queryKey: ["congregation"],
   queryClient,
@@ -35,3 +35,5 @@ export const congregationCollection = createPersistedQueryCollection({
     }
   },
 });
+
+export { congregationCollection };
