@@ -36,6 +36,7 @@ export function CongregationSelectModal({
   return (
     <ResponsiveModal isOpen={isOpen}>
       <IonContent className="ion-padding content-wide">
+        <Space size="lg" />
         <div className="ion-text-center ion-margin ion-padding">
           <Heading size="2xl" bold balance>
             Welcome to the Proclaimer app
