@@ -1,8 +1,6 @@
-import { useState, useEffect } from "react";
 import { IonContent } from "@ionic/react";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 import { CongregationSelectContent } from "./congregation-select-content/CongregationSelectContent";
-import { getStoredCongregation } from "@util/app/congregation/utils";
 import { Heading } from "@ui/components/display/text/heading/Heading";
 import { Body } from "@ui/components/display/text/body/Body";
 import { Space } from "@ui/components/layout/space/Space";
@@ -19,16 +17,7 @@ export function CongregationSelectModal({
   onDismiss,
   onSelect,
 }: CongregationSelectModalProps) {
-  const [selectedId, setSelectedId] = useState<string | undefined>(undefined);
-
-  useEffect(() => {
-    if (isOpen) {
-      setSelectedId(getStoredCongregation()?.id);
-    }
-  }, [isOpen]);
-
   const handleSelect = () => {
-    setSelectedId(getStoredCongregation()?.id);
     onSelect?.();
     onDismiss();
   };
@@ -47,7 +36,7 @@ export function CongregationSelectModal({
             To get started, select your congregation below.
           </Body>
         </div>
-        <CongregationSelectContent onSelect={handleSelect} selectedId={selectedId} />
+        <CongregationSelectContent onSelect={handleSelect} />
       </IonContent>
     </ResponsiveModal>
   );
