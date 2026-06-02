@@ -15,7 +15,7 @@ interface HeadingProps {
 
 export function Heading({
   children,
-  color = "primary",
+  color,
   size = "xl",
   bold = false,
   italic = false,

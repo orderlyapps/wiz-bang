@@ -20,7 +20,7 @@ export function HomeContent() {
 
   return (
     <>
-      <Heading color={"medium"} size="2xl">
+      <Heading size="2xl" bold>
         Welcome to Proclaimer
       </Heading>
 

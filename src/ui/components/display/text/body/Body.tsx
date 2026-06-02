@@ -57,7 +57,7 @@ export function Body({
   const wrapClass = balance ? styles.balance : pretty ? styles.pretty : "";
 
   return (
-    <IonText color={color} style={getTextStyle()} className={className}>
+    <IonText {...(color && { color })} style={getTextStyle()} className={className}>
       {needsWrapper ? <span className={wrapClass}>{children}</span> : children}
     </IonText>
   );
