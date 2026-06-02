@@ -3,6 +3,7 @@ export const localStorageKeys = {
   fontSize: "font_size",
   authToken: "auth_token",
   mapViewLocation: "map_view",
+  selectedCongregation: "selected_congregation",
 } as const;
 
 export const localStorageKeyWithVariant = (
