@@ -15,6 +15,7 @@ import CleaningPage from "@proclaimer-routes/pages/schedules/cleaning/Cleaning";
 import PublishersPage from "@proclaimer-routes/pages/publishers/Publishers";
 import SettingsPage from "@proclaimer-routes/pages/settings/Settings";
 import AppearancePage from "@proclaimer-routes/pages/settings/appearance/Appearance";
+import ProfilePage from "@proclaimer-routes/pages/settings/profile/Profile";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
         <Route path="/publishers" component={PublishersPage} exact />
         <Route path="/settings" component={SettingsPage} exact />
         <Route path="/settings/appearance" component={AppearancePage} exact />
+        <Route path="/settings/profile" component={ProfilePage} exact />
       </IonRouterOutlet>
 
       <IonTabBar slot="bottom">

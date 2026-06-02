@@ -4,6 +4,7 @@ import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
 export function SettingsContent() {
   return (
     <IonList>
+      <NavItem label="Profile" to="/settings/profile" />
       <NavItem label="Appearance" to="/settings/appearance" />
     </IonList>
   );
