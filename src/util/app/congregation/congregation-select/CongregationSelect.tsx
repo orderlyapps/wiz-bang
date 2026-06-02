@@ -1,17 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ModalSelect } from "@ui/components/inputs/modal-select/ModalSelect";
 import { CongregationSelectModal } from "./congregation-select-modal/CongregationSelectModal";
-import { hasSelectedCongregation, getStoredCongregation } from "@util/app/congregation/utils";
+import { getStoredCongregation } from "@util/app/congregation/utils";
 
 export function CongregationSelect() {
   const [showModal, setShowModal] = useState(false);
   const [congregation, setCongregation] = useState(getStoredCongregation);
-
-  useEffect(() => {
-    if (!hasSelectedCongregation()) {
-      setShowModal(true);
-    }
-  }, []);
 
   const handleSelect = () => {
     setCongregation(getStoredCongregation());

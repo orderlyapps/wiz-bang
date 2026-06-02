@@ -1,5 +1,6 @@
 import { Redirect, Route } from "react-router-dom";
 import { IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, IonRouterOutlet } from "@ionic/react";
+import { CongregationGuard } from "@util/app/congregation/congregation-select/CongregationGuard";
 import { home, book, calendar, people, settings } from "ionicons/icons";
 import HomePage from "@proclaimer-routes/pages/home/Home";
 import MinistryPage from "@proclaimer-routes/pages/ministry/Ministry";
@@ -20,6 +21,7 @@ import ProfilePage from "@proclaimer-routes/pages/settings/profile/Profile";
 function App() {
   return (
     <IonTabs>
+      <CongregationGuard />
       <IonRouterOutlet>
         <Redirect exact path="/" to="/home" />
         <Route path="/home" component={HomePage} exact />
