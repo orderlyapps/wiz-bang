@@ -8,6 +8,8 @@ interface LabelProps {
   size?: Size;
   bold?: boolean;
   italic?: boolean;
+  balance?: boolean;
+  pretty?: boolean;
   className?: string;
 }
 
@@ -17,10 +19,20 @@ export function Label({
   size = "sm",
   bold = true,
   italic = false,
+  balance = false,
+  pretty = false,
   className,
 }: LabelProps) {
   return (
-    <Body color={color} size={size} bold={bold} italic={italic} className={className}>
+    <Body
+      color={color}
+      size={size}
+      bold={bold}
+      italic={italic}
+      balance={balance}
+      pretty={pretty}
+      className={className}
+    >
       {children}
     </Body>
   );

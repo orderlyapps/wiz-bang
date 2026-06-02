@@ -1,6 +1,7 @@
 import { IonText } from "@ionic/react";
 import type { Size } from "@util/types/Size";
 import type { IonicColor } from "@util/vendor/ionic/types/IonicColor";
+import styles from "./Body.module.css";
 
 interface BodyProps {
   children: React.ReactNode;
@@ -8,6 +9,8 @@ interface BodyProps {
   size?: Size;
   bold?: boolean;
   italic?: boolean;
+  balance?: boolean;
+  pretty?: boolean;
   className?: string;
 }
 
@@ -17,6 +20,8 @@ export function Body({
   size = "md",
   bold = false,
   italic = false,
+  balance = false,
+  pretty = false,
   className,
 }: BodyProps) {
   const getTextStyle = () => {
@@ -48,9 +53,12 @@ export function Body({
     return style;
   };
 
+  const needsWrapper = balance || pretty;
+  const wrapClass = balance ? styles.balance : pretty ? styles.pretty : "";
+
   return (
     <IonText color={color} style={getTextStyle()} className={className}>
-      {children}
+      {needsWrapper ? <span className={wrapClass}>{children}</span> : children}
     </IonText>
   );
 }
