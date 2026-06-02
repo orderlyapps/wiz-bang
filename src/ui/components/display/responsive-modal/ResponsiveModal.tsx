@@ -8,11 +8,13 @@ type ResponsiveModalProps = IonModalProps & {
   fullscreen?: boolean;
 };
 
-export function ResponsiveModal({ fullscreen = true, ...props }: ResponsiveModalProps) {
-  const defaultProps: ResponsiveModalProps = {
-    fullscreen,
-    ...props,
-  };
+export function ResponsiveModal({ fullscreen = true, className, ...props }: ResponsiveModalProps) {
+  const fullscreenClass = fullscreen ? "responsive-modal-fullscreen" : "";
+  const combinedClass = [fullscreenClass, className].filter(Boolean).join(" ");
 
-  return <IonModal {...defaultProps}>{defaultProps.children}</IonModal>;
+  return (
+    <IonModal className={combinedClass} {...props}>
+      {props.children}
+    </IonModal>
+  );
 }
