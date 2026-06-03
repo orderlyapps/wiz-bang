@@ -105,7 +105,7 @@ export function CongregationSelectContent({ onSelect }: CongregationSelectConten
       <IonAlert
         isOpen={passwordAlert.is_open}
         onDidDismiss={() => setPasswordAlert({ is_open: false, congregation: null })}
-        header={`Enter your congregations Zoom Meeting password for ${passwordAlert.congregation?.name} Congregation`}
+        header={`Enter the Zoom Meeting password for ${passwordAlert.congregation?.name} Congregation`}
         message={passwordAlert.error_message}
         inputs={[
           {
