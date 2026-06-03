@@ -15,7 +15,7 @@ interface LabelValueItemProps extends LabelValue {
 export function LabelValueItem({
   label,
   value,
-  label_color,
+  label_color = "medium",
   value_color,
   detail = false,
   router_link,
@@ -29,12 +29,12 @@ export function LabelValueItem({
       className="Label-value-item"
     >
       <IonLabel>
-        <Label color={label_color}>{label}</Label>
-        <p>
-          <Body color={value_color} size="sm">
-            {value}
-          </Body>
-        </p>
+        <Label color={label_color} size="sm">
+          {label}
+        </Label>
+        <div className="ion-padding-start">
+          <Body color={value_color}>{value}</Body>
+        </div>
       </IonLabel>
     </IonItem>
   );
