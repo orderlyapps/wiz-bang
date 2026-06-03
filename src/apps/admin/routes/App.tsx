@@ -1,6 +1,7 @@
 import { IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, IonRouterOutlet } from "@ionic/react";
 import { grid, settings, tabletPortrait } from "ionicons/icons";
 import { Redirect, Route } from "react-router-dom";
+import { AdminSignInGuard } from "../auth/admin-sign-in-guard/AdminSignInGuard";
 import DashboardPage from "@admin-routes/pages/dashboard/Dashboard";
 import SettingsPage from "@admin-routes/pages/settings/Settings";
 import AppearancePage from "@admin-routes/pages/settings/appearance/Appearance";
@@ -39,6 +40,7 @@ import WeekendParticipationPage from "@admin-routes/pages/tables/weekend-partici
 function App() {
   return (
     <IonTabs>
+      <AdminSignInGuard />
       <IonRouterOutlet>
         <Redirect exact path="/" to="/dashboard" />
         <Route path="/dashboard" component={DashboardPage} exact />
