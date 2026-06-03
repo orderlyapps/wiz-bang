@@ -13,10 +13,12 @@ export function getStoredPublisher(): Publisher | null {
 
 export function setStoredPublisher(publisher: Publisher): void {
   localStorage.setItem(localStorageKeys.selectedPublisher, JSON.stringify(publisher));
+  window.dispatchEvent(new Event("publisher-change"));
 }
 
 export function clearStoredPublisher(): void {
   localStorage.removeItem(localStorageKeys.selectedPublisher);
+  window.dispatchEvent(new Event("publisher-change"));
 }
 
 export function hasSelectedPublisher(): boolean {
