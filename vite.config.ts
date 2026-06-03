@@ -32,6 +32,7 @@ function generateAppAliases(apps: string[]): Record<string, string> {
     const appPath = path.resolve(import.meta.dirname, `./src/apps/${app}`);
     aliases[`@${app}-content`] = path.join(appPath, "content");
     aliases[`@${app}-routes`] = path.join(appPath, "routes");
+    aliases[`@${app}-shared`] = path.join(appPath, "shared");
   }
 
   return aliases;

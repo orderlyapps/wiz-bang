@@ -29,6 +29,7 @@
       "@admin-routes/*": ["./src/apps/admin/routes/*"],
       "@proclaimer-content/*": ["./src/apps/proclaimer/content/*"],
       "@proclaimer-routes/*": ["./src/apps/proclaimer/routes/*"],
+      "@proclaimer-shared/*": ["./src/apps/proclaimer/shared/*"],
       "@subbie-content/*": ["./src/apps/subbie/content/*"],
       "@subbie-routes/*": ["./src/apps/subbie/routes/*"],
       "@shared/*": ["./src/apps/shared/*"],

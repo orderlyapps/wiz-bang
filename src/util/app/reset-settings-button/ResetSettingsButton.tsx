@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ConfirmationAlert } from "@ui/components/display/alert/ConfirmationAlert";
 import { TextButton } from "@ui/components/inputs/button/text/TextButton";
 import { clearStoredCongregation } from "@util/app/congregation/utils";
+import { clearStoredPublisher } from "@proclaimer-shared/publisher/publisherUtils";
 import { setStoredFontSize, applyFontSize, DEFAULT_FONT_SIZE } from "@util/app/font-size/utils";
 import { setStoredTheme, applyTheme } from "@util/app/theme";
 
@@ -10,6 +11,7 @@ export function ResetSettingsButton() {
 
   const handleReset = () => {
     clearStoredCongregation();
+    clearStoredPublisher();
     setStoredFontSize(DEFAULT_FONT_SIZE);
     applyFontSize(DEFAULT_FONT_SIZE);
     setStoredTheme("auto");
@@ -28,7 +30,7 @@ export function ResetSettingsButton() {
       <ConfirmationAlert
         is_open={show_alert}
         header="Reset Settings"
-        message="This will clear your congregation selection and reset appearance settings to defaults."
+        message="This will clear your congregation and publisher selections and reset appearance settings to defaults."
         confirm_text="Reset"
         confirm_color="danger"
         cancel_text="Cancel"
