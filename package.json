@@ -12,6 +12,8 @@
     "dev:app:subbie": "vp run dev:app subbie",
     "build": "tsc -b && vp build",
     "build:app": "bash scripts/build-app.sh",
+    "supabase:update": "brew upgrade supabase",
+    "supabase:download:public_schema": "supabase db dump --schema public -f src/apps/shared/database/public_schema.sql",
     "lint": "vp lint .",
     "preview": "vp preview",
     "deploy": "vp build && wrangler pages deploy dist --project-name=orderly --branch=wiz-bang && echo DEPLOYED TO WIZ BANG",
