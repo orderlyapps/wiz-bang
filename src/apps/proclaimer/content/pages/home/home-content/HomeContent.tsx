@@ -9,13 +9,21 @@ export function HomeContent() {
 
   return (
     <>
-      <Space size="2xl" />
+      <Space />
       <div className="ion-text-center ion-padding">
         <LogoIcon size="5xl" color="primary" />
         <div className="ion-text-center ion-margin">
-          <Heading size="2xl" bold>
-            Welcome {publisher ? getPublisherDisplayName(publisher) : "to Proclaimer"}
-          </Heading>
+          {publisher && (
+            <Heading size="2xl" bold color="primary">
+              <div> Welcome </div>
+              <div>{getPublisherDisplayName(publisher)}</div>
+            </Heading>
+          )}
+          {!publisher && (
+            <Heading size="2xl" bold color="primary">
+              Welcome to Proclaimer
+            </Heading>
+          )}
         </div>
       </div>
     </>
