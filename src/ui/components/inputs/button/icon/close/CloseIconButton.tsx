@@ -9,6 +9,7 @@ interface CloseIconButtonProps {
   fill?: "clear" | "outline" | "solid" | "default";
   size?: "small" | "default" | "large";
   disabled?: boolean;
+  confirm?: boolean;
   alert_header?: string;
   alert_message?: string;
   confirm_text?: string;
@@ -21,6 +22,7 @@ export function CloseIconButton({
   fill = "clear",
   size = "default",
   disabled = false,
+  confirm = true,
   alert_header = "Confirm Close",
   alert_message = "Are you sure you want to close? Any unsaved changes will be lost.",
   confirm_text = "Close",
@@ -36,7 +38,7 @@ export function CloseIconButton({
         fill={fill}
         size={size}
         disabled={disabled}
-        onClick={() => set_show_alert(true)}
+        onClick={() => (confirm ? set_show_alert(true) : on_click())}
       >
         <IonIcon slot="icon-only" icon={close} />
       </IonButton>
