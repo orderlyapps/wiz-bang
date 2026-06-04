@@ -14,7 +14,7 @@ export function HomeContent() {
         <LogoIcon size="5xl" color="primary" />
         <div className="ion-text-center ion-margin">
           {publisher && (
-            <Heading size="2xl" bold color="primary">
+            <Heading size="xl" bold color="primary">
               <div> Welcome </div>
               <div>{getPublisherDisplayName(publisher)}</div>
             </Heading>
