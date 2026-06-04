@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const cleanPermissionSchema = z.object({
+export const serviceOverseerPermissionSchema = z.object({
   id: z.uuid().optional(),
   auth_user_id: z.uuid(),
   congregation_id: z.uuid(),
@@ -9,4 +9,4 @@ export const cleanPermissionSchema = z.object({
   updated_at: z.string().nullable().optional(),
 });
 
-export type CleanPermission = z.infer<typeof cleanPermissionSchema>;
+export type ServiceOverseerPermission = z.infer<typeof serviceOverseerPermissionSchema>;
