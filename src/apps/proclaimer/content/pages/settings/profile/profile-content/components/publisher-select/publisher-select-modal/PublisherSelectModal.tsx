@@ -1,4 +1,4 @@
-import { IonContent } from "@ionic/react";
+import { IonButton, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar } from "@ionic/react";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 import { PublisherSelectContent } from "./publisher-select-content/PublisherSelectContent";
 
@@ -15,7 +15,15 @@ export function PublisherSelectModal({ isOpen, onDismiss, onSelect }: PublisherS
   };
 
   return (
-    <ResponsiveModal isOpen={isOpen}>
+    <ResponsiveModal isOpen={isOpen} onDidDismiss={onDismiss}>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>Select Publisher</IonTitle>
+          <IonButtons slot="end">
+            <IonButton onClick={onDismiss}>Close</IonButton>
+          </IonButtons>
+        </IonToolbar>
+      </IonHeader>
       <IonContent className="ion-padding content-wide">
         <PublisherSelectContent onSelect={handleSelect} />
       </IonContent>

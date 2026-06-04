@@ -2,13 +2,18 @@ import type { IonicColor } from "@util/vendor/ionic/types/IonicColor";
 import type { Size } from "@util/types/Size";
 import type { SVGProps } from "react";
 
-const size_map: Record<Size, number> = {
+type LogoSize = Size | "3xl" | "4xl" | "5xl";
+
+const size_map: Record<LogoSize, number> = {
   xs: 12,
   sm: 16,
   md: 24,
   lg: 32,
   xl: 48,
   "2xl": 64,
+  "3xl": 96,
+  "4xl": 128,
+  "5xl": 192,
 };
 
 const color_map: Record<IonicColor, string> = {
@@ -24,7 +29,7 @@ const color_map: Record<IonicColor, string> = {
 };
 
 interface LogoIconProps extends Omit<SVGProps<SVGSVGElement>, "viewBox" | "xmlns" | "color"> {
-  size?: Size;
+  size?: LogoSize;
   color?: IonicColor;
 }
 
