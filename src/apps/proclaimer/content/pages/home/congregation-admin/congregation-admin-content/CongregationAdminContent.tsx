@@ -1,12 +1,10 @@
-import { Heading } from "@ui/components/display/text/heading/Heading";
+import { IonList } from "@ionic/react";
+import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
 
 export function CongregationAdminContent() {
   return (
-    <div className="ion-padding">
-      <Heading size="lg" bold>
-        Congregation Admin Permissions
-      </Heading>
-      <p>Manage congregation administrator access and settings.</p>
-    </div>
+    <IonList>
+      <NavItem label="Permissions" to="/home/congregation-admin/permissions" />
+    </IonList>
   );
 }

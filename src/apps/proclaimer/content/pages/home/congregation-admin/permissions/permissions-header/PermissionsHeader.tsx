@@ -1,12 +1,12 @@
 import { IonToolbar, IonTitle, IonButtons, IonBackButton } from "@ionic/react";
 
-export function CongregationAdminHeader() {
+export function PermissionsHeader() {
   return (
     <IonToolbar>
       <IonButtons slot="start">
         <IonBackButton />
       </IonButtons>
-      <IonTitle>Congregation Admin</IonTitle>
+      <IonTitle>Permissions</IonTitle>
     </IonToolbar>
   );
 }

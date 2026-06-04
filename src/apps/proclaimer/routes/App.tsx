@@ -22,6 +22,10 @@ import ReportsPage from "@proclaimer-routes/pages/home/reports/Reports";
 import SecretaryPage from "@proclaimer-routes/pages/home/secretary/Secretary";
 import CongregationAdminPage from "@proclaimer-routes/pages/home/congregation-admin/CongregationAdmin";
 import SuperAdminPage from "@proclaimer-routes/pages/home/super-admin/SuperAdmin";
+import PermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/Permissions";
+import CleanTablesPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/clean-tables/CleanTables";
+import ReportsPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/reports/Reports";
+import SecretaryPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/secretary/Secretary";
 
 function App() {
   return (
@@ -48,6 +52,22 @@ function App() {
         <Route path="/home/reports" component={ReportsPage} exact />
         <Route path="/home/secretary" component={SecretaryPage} exact />
         <Route path="/home/congregation-admin" component={CongregationAdminPage} exact />
+        <Route path="/home/congregation-admin/permissions" component={PermissionsPage} exact />
+        <Route
+          path="/home/congregation-admin/permissions/clean-tables"
+          component={CleanTablesPage}
+          exact
+        />
+        <Route
+          path="/home/congregation-admin/permissions/reports"
+          component={ReportsPermissionsPage}
+          exact
+        />
+        <Route
+          path="/home/congregation-admin/permissions/secretary"
+          component={SecretaryPermissionsPage}
+          exact
+        />
         <Route path="/home/super-admin" component={SuperAdminPage} exact />
       </IonRouterOutlet>
 
