@@ -3,6 +3,8 @@ import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherU
 import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
 import { Heading } from "@ui/components/display/text/heading/Heading";
 import { Space } from "@ui/components/layout/space/Space";
+import { IonList } from "@ionic/react";
+import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
 
 export function HomeContent() {
   const publisher = useStoredPublisher();
@@ -26,6 +28,14 @@ export function HomeContent() {
           )}
         </div>
       </div>
+      <Space size="lg" />
+      <IonList>
+        <NavItem label="Cleaning" to="/home/cleaning" />
+        <NavItem label="Reports" to="/home/reports" />
+        <NavItem label="Secretary" to="/home/secretary" />
+        <NavItem label="Congregation Admin" to="/home/congregation-admin" />
+        <NavItem label="Super Admin" to="/home/super-admin" />
+      </IonList>
     </>
   );
 }
