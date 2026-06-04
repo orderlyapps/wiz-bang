@@ -6,13 +6,20 @@ import {
   getStoredPublisher,
   getPublisherDisplayName,
 } from "@proclaimer-shared/publisher/publisherUtils";
+import type { Publisher } from "@shared/database/schemas/publisher";
 
-export function PublisherSelect() {
-  const [showModal, setShowModal] = useState(false);
+interface PublisherSelectProps {
+  on_change: (publisher: Publisher | null) => void;
+}
+
+export function PublisherSelect({ on_change }: PublisherSelectProps) {
+  const [showSelectModal, setShowSelectModal] = useState(false);
   const [publisher, setPublisher] = useState(getStoredPublisher);
 
   const handleSelect = () => {
-    setPublisher(getStoredPublisher());
+    const p = getStoredPublisher();
+    setPublisher(p);
+    on_change(p);
   };
 
   return (
@@ -24,12 +31,12 @@ export function PublisherSelect() {
           label="Publisher"
           display_value=""
           placeholder="Select publisher..."
-          on_open={() => setShowModal(true)}
+          on_open={() => setShowSelectModal(true)}
         />
       )}
       <PublisherSelectModal
-        isOpen={showModal}
-        onDismiss={() => setShowModal(false)}
+        isOpen={showSelectModal}
+        onDismiss={() => setShowSelectModal(false)}
         onSelect={handleSelect}
       />
     </>
