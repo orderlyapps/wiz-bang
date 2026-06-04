@@ -5,11 +5,13 @@ import { clearStoredCongregation } from "@util/app/congregation/utils";
 import { clearStoredPublisher } from "@proclaimer-shared/publisher/publisherUtils";
 import { setStoredFontSize, applyFontSize, DEFAULT_FONT_SIZE } from "@util/app/font-size/utils";
 import { setStoredTheme, applyTheme } from "@util/app/theme";
+import { supabase } from "@util/vendor/supabase/supabase-client";
 
 export function ResetSettingsButton() {
   const [show_alert, set_show_alert] = useState(false);
 
-  const handleReset = () => {
+  const handleReset = async () => {
+    await supabase.auth.signOut();
     clearStoredCongregation();
     clearStoredPublisher();
     setStoredFontSize(DEFAULT_FONT_SIZE);
