@@ -5,9 +5,12 @@ import { Heading } from "@ui/components/display/text/heading/Heading";
 import { Space } from "@ui/components/layout/space/Space";
 import { IonList } from "@ionic/react";
 import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
+import { PermissionGate } from "@shared/permissions";
+import { useAuthSession } from "@util/app/auth/useAuthSession";
 
 export function HomeContent() {
   const publisher = useStoredPublisher();
+  const session = useAuthSession();
 
   return (
     <>
@@ -29,13 +32,41 @@ export function HomeContent() {
         </div>
       </div>
       <Space size="lg" />
-      <IonList>
-        <NavItem label="Cleaning" to="/home/cleaning" />
-        <NavItem label="Reports" to="/home/reports" />
-        <NavItem label="Secretary" to="/home/secretary" />
-        <NavItem label="Congregation Admin" to="/home/congregation-admin" />
-        <NavItem label="Super Admin" to="/home/super-admin" />
-      </IonList>
+      {session && publisher && (
+        <IonList>
+          <PermissionGate
+            feature="cleaning"
+            context={{ congregation_id: publisher?.congregation_id }}
+          >
+            <NavItem label="Cleaning" to="/home/cleaning" />
+          </PermissionGate>
+
+          <PermissionGate
+            feature="reports"
+            context={{ congregation_id: publisher?.congregation_id }}
+          >
+            <NavItem label="Reports" to="/home/reports" />
+          </PermissionGate>
+
+          <PermissionGate
+            feature="secretary"
+            context={{ congregation_id: publisher?.congregation_id }}
+          >
+            <NavItem label="Secretary" to="/home/secretary" />
+          </PermissionGate>
+
+          <PermissionGate
+            feature="congregation_admin"
+            context={{ congregation_id: publisher?.congregation_id }}
+          >
+            <NavItem label="Congregation Admin" to="/home/congregation-admin" />
+          </PermissionGate>
+
+          <PermissionGate feature="super_admin">
+            <NavItem label="Super Admin" to="/home/super-admin" />
+          </PermissionGate>
+        </IonList>
+      )}
     </>
   );
 }

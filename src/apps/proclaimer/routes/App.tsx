@@ -23,7 +23,7 @@ import SecretaryPage from "@proclaimer-routes/pages/home/secretary/Secretary";
 import CongregationAdminPage from "@proclaimer-routes/pages/home/congregation-admin/CongregationAdmin";
 import SuperAdminPage from "@proclaimer-routes/pages/home/super-admin/SuperAdmin";
 import PermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/Permissions";
-import CleanTablesPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/clean-tables/CleanTables";
+import CleaningPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/cleaning/Cleaning";
 import ReportsPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/reports/Reports";
 import SecretaryPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/secretary/Secretary";
 
@@ -54,8 +54,8 @@ function App() {
         <Route path="/home/congregation-admin" component={CongregationAdminPage} exact />
         <Route path="/home/congregation-admin/permissions" component={PermissionsPage} exact />
         <Route
-          path="/home/congregation-admin/permissions/clean-tables"
-          component={CleanTablesPage}
+          path="/home/congregation-admin/permissions/cleaning"
+          component={CleaningPermissionsPage}
           exact
         />
         <Route

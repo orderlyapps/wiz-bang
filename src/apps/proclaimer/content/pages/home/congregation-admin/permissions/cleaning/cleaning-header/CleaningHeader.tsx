@@ -1,12 +1,12 @@
 import { IonToolbar, IonTitle, IonButtons, IonBackButton } from "@ionic/react";
 
-export function CleanTablesHeader() {
+export function CleaningHeader() {
   return (
     <IonToolbar>
       <IonButtons slot="start">
         <IonBackButton />
       </IonButtons>
-      <IonTitle>Clean Tables</IonTitle>
+      <IonTitle>Cleaning</IonTitle>
     </IonToolbar>
   );
 }
