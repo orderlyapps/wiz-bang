@@ -11,7 +11,7 @@ export function ResetSettingsButton() {
   const [show_alert, set_show_alert] = useState(false);
 
   const handleReset = async () => {
-    await supabase.auth.signOut();
+    await supabase.auth.signOut({ scope: "local" });
     clearStoredCongregation();
     clearStoredPublisher();
     setStoredFontSize(DEFAULT_FONT_SIZE);
