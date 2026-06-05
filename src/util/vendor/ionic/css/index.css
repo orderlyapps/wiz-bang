@@ -7,3 +7,10 @@
 @import "./overrides/input.css";
 @import "./overrides/modal.css";
 @import "./overrides/tabbar.css";
+
+@import "./colors/primary.css";
+@import "./colors/jw-blue.css";
+@import "./colors/jw-brown.css";
+@import "./colors/jw-purple.css";
+@import "./colors/jw-red.css";
+@import "./colors/jw-slate.css";
