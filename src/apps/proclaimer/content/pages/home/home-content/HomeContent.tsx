@@ -5,7 +5,6 @@ import { Heading } from "@ui/components/display/text/heading/Heading";
 import { Space } from "@ui/components/layout/space/Space";
 import { IonList } from "@ionic/react";
 import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
-import { PermissionGate } from "@shared/permissions";
 import { useAuthSession } from "@util/app/auth/useAuthSession";
 
 export function HomeContent() {
@@ -34,73 +33,27 @@ export function HomeContent() {
       <Space size="lg" />
       {session && publisher && (
         <IonList>
-          <PermissionGate
-            feature="cleaning"
-            context={{ congregation_id: publisher?.congregation_id }}
-          >
-            <NavItem label="Cleaning" to="/home/cleaning" />
-          </PermissionGate>
+          <NavItem label="Cleaning" to="/home/cleaning" />
 
-          <PermissionGate
-            feature="reports"
-            context={{ congregation_id: publisher?.congregation_id }}
-          >
-            <NavItem label="Reports" to="/home/reports" />
-          </PermissionGate>
+          <NavItem label="Reports" to="/home/reports" />
 
-          <PermissionGate
-            feature="secretary"
-            context={{ congregation_id: publisher?.congregation_id }}
-          >
-            <NavItem label="Secretary" to="/home/secretary" />
-          </PermissionGate>
+          <NavItem label="Secretary" to="/home/secretary" />
 
-          <PermissionGate feature="elder" context={{ congregation_id: publisher?.congregation_id }}>
-            <NavItem label="Elder" to="/home/elder" />
-          </PermissionGate>
+          <NavItem label="Elder" to="/home/elder" />
 
-          <PermissionGate
-            feature="clam_overseer"
-            context={{ congregation_id: publisher?.congregation_id }}
-          >
-            <NavItem label="CLAM Overseer" to="/home/clam-overseer" />
-          </PermissionGate>
+          <NavItem label="CLAM Overseer" to="/home/clam-overseer" />
 
-          <PermissionGate
-            feature="service_overseer"
-            context={{ congregation_id: publisher?.congregation_id }}
-          >
-            <NavItem label="Service Overseer" to="/home/service-overseer" />
-          </PermissionGate>
+          <NavItem label="Service Overseer" to="/home/service-overseer" />
 
-          <PermissionGate feature="cobe" context={{ congregation_id: publisher?.congregation_id }}>
-            <NavItem label="COBE" to="/home/cobe" />
-          </PermissionGate>
+          <NavItem label="COBE" to="/home/cobe" />
 
-          <PermissionGate
-            feature="territory_servant"
-            context={{ congregation_id: publisher?.congregation_id }}
-          >
-            <NavItem label="Territory Servant" to="/home/territory-servant" />
-          </PermissionGate>
+          <NavItem label="Territory Servant" to="/home/territory-servant" />
 
-          <PermissionGate
-            feature="av_overseer"
-            context={{ congregation_id: publisher?.congregation_id }}
-          >
-            <NavItem label="AV Overseer" to="/home/av-overseer" />
-          </PermissionGate>
+          <NavItem label="AV Overseer" to="/home/av-overseer" />
 
-          <PermissionGate
-            feature="congregation_admin"
-            context={{ congregation_id: publisher?.congregation_id }}
-          >
-            <NavItem label="Congregation Admin" to="/home/congregation-admin" />
-          </PermissionGate>
+          <NavItem label="Congregation Admin" to="/home/congregation-admin" />
 
-          <PermissionGate feature="super_admin">
-            <NavItem label="Super Admin" to="/home/super-admin" />
-          </PermissionGate>
+          <NavItem label="Super Admin" to="/home/super-admin" />
         </IonList>
       )}
     </>
