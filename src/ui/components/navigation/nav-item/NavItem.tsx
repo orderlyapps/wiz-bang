@@ -11,7 +11,7 @@ export function NavItem({ label, to }: NavItemProps) {
   return (
     <IonItem routerLink={to} detail={false} button>
       <IonLabel className="ion-margin ion-text-nowrap">
-        <Heading>{label}</Heading>
+        <Heading color="primary">{label}</Heading>
       </IonLabel>
       <IonIcon icon={chevronForward} slot="end" />
     </IonItem>
