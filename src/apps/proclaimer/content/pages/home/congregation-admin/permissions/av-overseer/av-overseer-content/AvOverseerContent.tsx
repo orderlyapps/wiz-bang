@@ -1,34 +1,37 @@
 import { IonItem, IonLabel, IonList } from "@ionic/react";
 import { useLiveQuery } from "@tanstack/react-db";
-import { secretaryPermissionCollection } from "@shared/database/collections/secretary-permission";
+import { avOverseerPermissionCollection } from "@shared/database/collections/av-overseer-permission";
 import { publisherCollection } from "@shared/database/collections/publisher";
 import { getStoredCongregation } from "@util/app/congregation/utils";
 import { DeleteIconButton } from "@ui/components/inputs/button/icon/delete/DeleteIconButton";
 import { AddPublisherModal } from "./components/add-publisher-modal/AddPublisherModal";
 
-interface SecretaryContentProps {
+interface AvOverseerContentProps {
   show_add_modal: boolean;
   on_dismiss_add_modal: () => void;
 }
 
-export function SecretaryContent({ show_add_modal, on_dismiss_add_modal }: SecretaryContentProps) {
+export function AvOverseerContent({
+  show_add_modal,
+  on_dismiss_add_modal,
+}: AvOverseerContentProps) {
   const congregation_id = getStoredCongregation()?.id;
 
-  const { data: permissions } = useLiveQuery((q) => q.from({ sp: secretaryPermissionCollection }));
+  const { data: permissions } = useLiveQuery((q) => q.from({ ap: avOverseerPermissionCollection }));
   const { data: publishers } = useLiveQuery((q) => q.from({ p: publisherCollection }));
 
   const congregation_permissions = permissions.filter(
-    (sp) => sp.congregation_id === congregation_id,
+    (ap) => ap.congregation_id === congregation_id,
   );
 
   const permitted_publishers = Object.values(
     congregation_permissions
-      .map((sp) => {
-        const publisher = publishers.find((p) => p.auth_id === sp.auth_user_id);
+      .map((ap) => {
+        const publisher = publishers.find((p) => p.auth_id === ap.auth_user_id);
         if (!publisher) return null;
         return {
           id: publisher.id,
-          permission_id: sp.id,
+          permission_id: ap.id,
           first_name: publisher.first_name,
           last_name: publisher.last_name,
           display_name: publisher.display_name,
@@ -54,7 +57,7 @@ export function SecretaryContent({ show_add_modal, on_dismiss_add_modal }: Secre
   ).sort((a, b) => (a.last_name ?? "").localeCompare(b.last_name ?? ""));
 
   const handleDelete = (permission_id: string) => {
-    secretaryPermissionCollection.delete(permission_id);
+    avOverseerPermissionCollection.delete(permission_id);
   };
 
   return (
@@ -63,7 +66,7 @@ export function SecretaryContent({ show_add_modal, on_dismiss_add_modal }: Secre
       <IonList inset>
         {permitted_publishers.length === 0 ? (
           <IonItem>
-            <IonLabel>No publishers with secretary permission.</IonLabel>
+            <IonLabel>No publishers with AV overseer permission.</IonLabel>
           </IonItem>
         ) : (
           permitted_publishers.map((p) => (

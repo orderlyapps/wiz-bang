@@ -26,6 +26,18 @@ import PermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/pe
 import CleaningPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/cleaning/Cleaning";
 import ReportsPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/reports/Reports";
 import SecretaryPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/secretary/Secretary";
+import ElderPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/elder/Elder";
+import ClamOverseerPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/clam-overseer/ClamOverseer";
+import ServiceOverseerPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/service-overseer/ServiceOverseer";
+import CobePermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/cobe/Cobe";
+import TerritoryServantPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/territory-servant/TerritoryServant";
+import AvOverseerPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/av-overseer/AvOverseer";
+import ElderPage from "@proclaimer-routes/pages/home/elder/Elder";
+import ClamOverseerPage from "@proclaimer-routes/pages/home/clam-overseer/ClamOverseer";
+import ServiceOverseerPage from "@proclaimer-routes/pages/home/service-overseer/ServiceOverseer";
+import CobePage from "@proclaimer-routes/pages/home/cobe/Cobe";
+import TerritoryServantPage from "@proclaimer-routes/pages/home/territory-servant/TerritoryServant";
+import AvOverseerPage from "@proclaimer-routes/pages/home/av-overseer/AvOverseer";
 
 function App() {
   return (
@@ -68,6 +80,42 @@ function App() {
           component={SecretaryPermissionsPage}
           exact
         />
+        <Route
+          path="/home/congregation-admin/permissions/elder"
+          component={ElderPermissionsPage}
+          exact
+        />
+        <Route
+          path="/home/congregation-admin/permissions/clam-overseer"
+          component={ClamOverseerPermissionsPage}
+          exact
+        />
+        <Route
+          path="/home/congregation-admin/permissions/service-overseer"
+          component={ServiceOverseerPermissionsPage}
+          exact
+        />
+        <Route
+          path="/home/congregation-admin/permissions/cobe"
+          component={CobePermissionsPage}
+          exact
+        />
+        <Route
+          path="/home/congregation-admin/permissions/territory-servant"
+          component={TerritoryServantPermissionsPage}
+          exact
+        />
+        <Route
+          path="/home/congregation-admin/permissions/av-overseer"
+          component={AvOverseerPermissionsPage}
+          exact
+        />
+        <Route path="/home/elder" component={ElderPage} exact />
+        <Route path="/home/clam-overseer" component={ClamOverseerPage} exact />
+        <Route path="/home/service-overseer" component={ServiceOverseerPage} exact />
+        <Route path="/home/cobe" component={CobePage} exact />
+        <Route path="/home/territory-servant" component={TerritoryServantPage} exact />
+        <Route path="/home/av-overseer" component={AvOverseerPage} exact />
         <Route path="/home/super-admin" component={SuperAdminPage} exact />
       </IonRouterOutlet>
 

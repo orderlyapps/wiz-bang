@@ -1,20 +1,25 @@
 import { IonItem, IonLabel, IonList } from "@ionic/react";
 import { useLiveQuery } from "@tanstack/react-db";
-import { secretaryPermissionCollection } from "@shared/database/collections/secretary-permission";
+import { serviceOverseerPermissionCollection } from "@shared/database/collections/service-overseer-permission";
 import { publisherCollection } from "@shared/database/collections/publisher";
 import { getStoredCongregation } from "@util/app/congregation/utils";
 import { DeleteIconButton } from "@ui/components/inputs/button/icon/delete/DeleteIconButton";
 import { AddPublisherModal } from "./components/add-publisher-modal/AddPublisherModal";
 
-interface SecretaryContentProps {
+interface ServiceOverseerContentProps {
   show_add_modal: boolean;
   on_dismiss_add_modal: () => void;
 }
 
-export function SecretaryContent({ show_add_modal, on_dismiss_add_modal }: SecretaryContentProps) {
+export function ServiceOverseerContent({
+  show_add_modal,
+  on_dismiss_add_modal,
+}: ServiceOverseerContentProps) {
   const congregation_id = getStoredCongregation()?.id;
 
-  const { data: permissions } = useLiveQuery((q) => q.from({ sp: secretaryPermissionCollection }));
+  const { data: permissions } = useLiveQuery((q) =>
+    q.from({ sp: serviceOverseerPermissionCollection }),
+  );
   const { data: publishers } = useLiveQuery((q) => q.from({ p: publisherCollection }));
 
   const congregation_permissions = permissions.filter(
@@ -54,7 +59,7 @@ export function SecretaryContent({ show_add_modal, on_dismiss_add_modal }: Secre
   ).sort((a, b) => (a.last_name ?? "").localeCompare(b.last_name ?? ""));
 
   const handleDelete = (permission_id: string) => {
-    secretaryPermissionCollection.delete(permission_id);
+    serviceOverseerPermissionCollection.delete(permission_id);
   };
 
   return (
@@ -63,7 +68,7 @@ export function SecretaryContent({ show_add_modal, on_dismiss_add_modal }: Secre
       <IonList inset>
         {permitted_publishers.length === 0 ? (
           <IonItem>
-            <IonLabel>No publishers with secretary permission.</IonLabel>
+            <IonLabel>No publishers with service overseer permission.</IonLabel>
           </IonItem>
         ) : (
           permitted_publishers.map((p) => (

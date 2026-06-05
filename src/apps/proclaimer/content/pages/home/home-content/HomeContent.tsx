@@ -55,6 +55,42 @@ export function HomeContent() {
             <NavItem label="Secretary" to="/home/secretary" />
           </PermissionGate>
 
+          <PermissionGate feature="elder" context={{ congregation_id: publisher?.congregation_id }}>
+            <NavItem label="Elder" to="/home/elder" />
+          </PermissionGate>
+
+          <PermissionGate
+            feature="clam_overseer"
+            context={{ congregation_id: publisher?.congregation_id }}
+          >
+            <NavItem label="CLAM Overseer" to="/home/clam-overseer" />
+          </PermissionGate>
+
+          <PermissionGate
+            feature="service_overseer"
+            context={{ congregation_id: publisher?.congregation_id }}
+          >
+            <NavItem label="Service Overseer" to="/home/service-overseer" />
+          </PermissionGate>
+
+          <PermissionGate feature="cobe" context={{ congregation_id: publisher?.congregation_id }}>
+            <NavItem label="COBE" to="/home/cobe" />
+          </PermissionGate>
+
+          <PermissionGate
+            feature="territory_servant"
+            context={{ congregation_id: publisher?.congregation_id }}
+          >
+            <NavItem label="Territory Servant" to="/home/territory-servant" />
+          </PermissionGate>
+
+          <PermissionGate
+            feature="av_overseer"
+            context={{ congregation_id: publisher?.congregation_id }}
+          >
+            <NavItem label="AV Overseer" to="/home/av-overseer" />
+          </PermissionGate>
+
           <PermissionGate
             feature="congregation_admin"
             context={{ congregation_id: publisher?.congregation_id }}

@@ -1,17 +1,17 @@
 import { IonToolbar, IonTitle, IonButtons, IonBackButton } from "@ionic/react";
 import { AddIconButton } from "@ui/components/inputs/button/icon/add/AddIconButton";
 
-interface SecretaryHeaderProps {
+interface ServiceOverseerHeaderProps {
   on_add: () => void;
 }
 
-export function SecretaryHeader({ on_add }: SecretaryHeaderProps) {
+export function ServiceOverseerHeader({ on_add }: ServiceOverseerHeaderProps) {
   return (
     <IonToolbar>
       <IonButtons slot="start">
         <IonBackButton />
       </IonButtons>
-      <IonTitle>Secretary</IonTitle>
+      <IonTitle>Service Overseer</IonTitle>
       <IonButtons slot="end">
         <AddIconButton on_click={on_add} />
       </IonButtons>
