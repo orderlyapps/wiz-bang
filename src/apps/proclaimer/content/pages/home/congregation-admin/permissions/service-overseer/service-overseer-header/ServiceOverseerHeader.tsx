@@ -1,20 +1,9 @@
-import { IonToolbar, IonTitle, IonButtons, IonBackButton } from "@ionic/react";
-import { AddIconButton } from "@ui/components/inputs/button/icon/add/AddIconButton";
+import { PermissionHeader } from "@proclaimer-content/pages/home/congregation-admin/permissions/shared/components/permission-header/PermissionHeader";
 
 interface ServiceOverseerHeaderProps {
   on_add: () => void;
 }
 
 export function ServiceOverseerHeader({ on_add }: ServiceOverseerHeaderProps) {
-  return (
-    <IonToolbar>
-      <IonButtons slot="start">
-        <IonBackButton />
-      </IonButtons>
-      <IonTitle>Service Overseer</IonTitle>
-      <IonButtons slot="end">
-        <AddIconButton on_click={on_add} />
-      </IonButtons>
-    </IonToolbar>
-  );
+  return <PermissionHeader title="Service Overseer" on_add={on_add} />;
 }

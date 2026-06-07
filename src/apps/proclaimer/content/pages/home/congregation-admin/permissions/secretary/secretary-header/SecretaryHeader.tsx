@@ -1,20 +1,9 @@
-import { IonToolbar, IonTitle, IonButtons, IonBackButton } from "@ionic/react";
-import { AddIconButton } from "@ui/components/inputs/button/icon/add/AddIconButton";
+import { PermissionHeader } from "@proclaimer-content/pages/home/congregation-admin/permissions/shared/components/permission-header/PermissionHeader";
 
 interface SecretaryHeaderProps {
   on_add: () => void;
 }
 
 export function SecretaryHeader({ on_add }: SecretaryHeaderProps) {
-  return (
-    <IonToolbar>
-      <IonButtons slot="start">
-        <IonBackButton />
-      </IonButtons>
-      <IonTitle>Secretary</IonTitle>
-      <IonButtons slot="end">
-        <AddIconButton on_click={on_add} />
-      </IonButtons>
-    </IonToolbar>
-  );
+  return <PermissionHeader title="Secretary" on_add={on_add} />;
 }

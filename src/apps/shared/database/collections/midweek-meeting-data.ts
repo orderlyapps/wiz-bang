@@ -1,9 +1,12 @@
+import { createCollection } from "@tanstack/react-db";
+import { queryCollectionOptions } from "@tanstack/query-db-collection";
+import { persistedCollectionOptions } from "@tanstack/browser-db-sqlite-persistence";
 import { queryClient } from "@util/vendor/react-query";
 import { supabase } from "@util/vendor/supabase/supabase-client";
 import { midweekMeetingDataSchema } from "@shared/database/schemas/midweek-meeting-data";
-import { createPersistedQueryCollection } from "@shared/database/util/persisted-query-collection";
+import { persistence } from "@shared/database/persistence";
 
-export const midweekMeetingDataCollection = createPersistedQueryCollection({
+const baseOptions = queryCollectionOptions({
   id: "midweek_meeting_data",
   queryKey: ["midweek_meeting_data"],
   queryClient,
@@ -37,4 +40,15 @@ export const midweekMeetingDataCollection = createPersistedQueryCollection({
       if (error) throw error;
     }
   },
+});
+
+const persistedOptions = persistedCollectionOptions({
+  ...baseOptions,
+  persistence,
+  schemaVersion: 2,
+});
+
+export const midweekMeetingDataCollection = createCollection({
+  ...persistedOptions,
+  schema: midweekMeetingDataSchema,
 });

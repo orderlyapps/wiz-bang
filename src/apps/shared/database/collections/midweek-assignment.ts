@@ -1,10 +1,13 @@
+import { createCollection } from "@tanstack/react-db";
+import { queryCollectionOptions } from "@tanstack/query-db-collection";
+import { persistedCollectionOptions } from "@tanstack/browser-db-sqlite-persistence";
 import { queryClient } from "@util/vendor/react-query";
 import { supabase } from "@util/vendor/supabase/supabase-client";
 import { midweekAssignmentSchema } from "@shared/database/schemas/midweek-assignment";
-import { createPersistedQueryCollection } from "@shared/database/util/persisted-query-collection";
 import { makeCompositeKey } from "@shared/database/util/composite-key";
+import { persistence } from "@shared/database/persistence";
 
-export const midweekAssignmentCollection = createPersistedQueryCollection({
+const baseOptions = queryCollectionOptions({
   id: "midweek_assignment",
   queryKey: ["midweek_assignment"],
   queryClient,
@@ -40,4 +43,15 @@ export const midweekAssignmentCollection = createPersistedQueryCollection({
       if (error) throw error;
     }
   },
+});
+
+const persistedOptions = persistedCollectionOptions({
+  ...baseOptions,
+  persistence,
+  schemaVersion: 2,
+});
+
+export const midweekAssignmentCollection = createCollection({
+  ...persistedOptions,
+  schema: midweekAssignmentSchema,
 });

@@ -1,9 +1,10 @@
+import { createCollection } from "@tanstack/react-db";
+import { queryCollectionOptions } from "@tanstack/query-db-collection";
 import { queryClient } from "@util/vendor/react-query";
 import { supabase } from "@util/vendor/supabase/supabase-client";
 import { authOtpLogSchema } from "@shared/database/schemas/auth-otp-log";
-import { createPersistedQueryCollection } from "@shared/database/util/persisted-query-collection";
 
-export const authOtpLogCollection = createPersistedQueryCollection({
+const baseOptions = queryCollectionOptions({
   id: "auth_otp_log",
   queryKey: ["auth_otp_log"],
   queryClient,
@@ -34,4 +35,9 @@ export const authOtpLogCollection = createPersistedQueryCollection({
       if (error) throw error;
     }
   },
+});
+
+export const authOtpLogCollection = createCollection({
+  ...baseOptions,
+  schema: authOtpLogSchema,
 });

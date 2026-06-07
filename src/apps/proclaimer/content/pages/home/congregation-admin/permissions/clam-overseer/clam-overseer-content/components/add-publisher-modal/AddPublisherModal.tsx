@@ -1,21 +1,7 @@
-import {
-  IonButton,
-  IonButtons,
-  IonContent,
-  IonHeader,
-  IonItem,
-  IonLabel,
-  IonList,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/react";
 import { useLiveQuery } from "@tanstack/react-db";
-import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 import { clamOverseerPermissionCollection } from "@shared/database/collections/clam-overseer-permission";
-import { publisherCollection } from "@shared/database/collections/publisher";
-import { getStoredCongregation } from "@util/app/congregation/utils";
-import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
-import type { Publisher } from "@shared/database/schemas/publisher";
+import { useAddPermission } from "@proclaimer-content/pages/home/congregation-admin/permissions/shared/hooks/useAddPermission";
+import { GenericPermissionModal } from "@proclaimer-content/pages/home/congregation-admin/permissions/shared/components/permission-modal/GenericPermissionModal";
 
 interface AddPublisherModalProps {
   is_open: boolean;
@@ -23,65 +9,29 @@ interface AddPublisherModalProps {
 }
 
 export function AddPublisherModal({ is_open, on_dismiss }: AddPublisherModalProps) {
-  const congregation_id = getStoredCongregation()?.id;
-
   const { data: permissions } = useLiveQuery((q) =>
     q.from({ cp: clamOverseerPermissionCollection }),
   );
 
-  const { data: publishers } = useLiveQuery((q) =>
-    q.from({ p: publisherCollection }).orderBy(({ p }) => p.last_name),
-  );
-
-  const permitted_auth_ids = new Set(
-    (permissions ?? [])
-      .filter((cp) => !congregation_id || cp.congregation_id === congregation_id)
-      .map((cp) => cp.auth_user_id),
-  );
-
-  const available_publishers = (publishers ?? []).filter(
-    (p) =>
-      p.congregation_id === congregation_id &&
-      p.auth_id &&
-      p.gender === "male" &&
-      !permitted_auth_ids.has(p.auth_id),
-  );
-
-  const handleAdd = (publisher: Publisher) => {
-    if (!publisher.auth_id || !congregation_id) return;
-    clamOverseerPermissionCollection.insert({
-      id: crypto.randomUUID(),
-      auth_user_id: publisher.auth_id,
-      congregation_id,
-    });
-    on_dismiss();
-  };
+  const { handleAdd } = useAddPermission({
+    permissions,
+    on_insert: (auth_user_id, congregation_id) =>
+      clamOverseerPermissionCollection.insert({ auth_user_id, congregation_id, can_edit: true }),
+    on_update: (key) =>
+      clamOverseerPermissionCollection.update(key, (draft) => {
+        draft.can_edit = true;
+      }),
+    on_dismiss,
+  });
 
   return (
-    <ResponsiveModal isOpen={is_open} onDidDismiss={on_dismiss}>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Add Publisher</IonTitle>
-          <IonButtons slot="end">
-            <IonButton onClick={on_dismiss}>Close</IonButton>
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent>
-        <IonList inset>
-          {available_publishers.length === 0 ? (
-            <IonItem>
-              <IonLabel>All publishers already have CLAM overseer permission.</IonLabel>
-            </IonItem>
-          ) : (
-            available_publishers.map((p) => (
-              <IonItem key={p.id} button onClick={() => handleAdd(p)}>
-                <IonLabel>{getPublisherDisplayName(p)}</IonLabel>
-              </IonItem>
-            ))
-          )}
-        </IonList>
-      </IonContent>
-    </ResponsiveModal>
+    <GenericPermissionModal
+      is_open={is_open}
+      on_dismiss={on_dismiss}
+      permissions={permissions}
+      on_add_permission={handleAdd}
+      modal_title="Add CLAM Overseer"
+      gender_filter="male"
+    />
   );
 }

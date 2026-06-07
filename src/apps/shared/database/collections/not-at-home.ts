@@ -1,9 +1,10 @@
+import { createCollection } from "@tanstack/react-db";
+import { queryCollectionOptions } from "@tanstack/query-db-collection";
 import { queryClient } from "@util/vendor/react-query";
 import { supabase } from "@util/vendor/supabase/supabase-client";
 import { notAtHomeSchema } from "@shared/database/schemas/not-at-home";
-import { createPersistedQueryCollection } from "@shared/database/util/persisted-query-collection";
 
-export const notAtHomeCollection = createPersistedQueryCollection({
+const baseOptions = queryCollectionOptions({
   id: "not_at_home",
   queryKey: ["not_at_home"],
   queryClient,
@@ -34,4 +35,9 @@ export const notAtHomeCollection = createPersistedQueryCollection({
       if (error) throw error;
     }
   },
+});
+
+export const notAtHomeCollection = createCollection({
+  ...baseOptions,
+  schema: notAtHomeSchema,
 });

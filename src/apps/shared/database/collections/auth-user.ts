@@ -1,9 +1,10 @@
+import { createCollection } from "@tanstack/react-db";
+import { queryCollectionOptions } from "@tanstack/query-db-collection";
 import { queryClient } from "@util/vendor/react-query";
 import { supabase } from "@util/vendor/supabase/supabase-client";
 import { authUserSchema } from "@shared/database/schemas/auth-user";
-import { createPersistedQueryCollection } from "@shared/database/util/persisted-query-collection";
 
-export const authUserCollection = createPersistedQueryCollection({
+const baseOptions = queryCollectionOptions({
   id: "auth_user",
   queryKey: ["auth_user"],
   queryClient,
@@ -34,4 +35,9 @@ export const authUserCollection = createPersistedQueryCollection({
       if (error) throw error;
     }
   },
+});
+
+export const authUserCollection = createCollection({
+  ...baseOptions,
+  schema: authUserSchema,
 });

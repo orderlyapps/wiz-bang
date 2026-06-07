@@ -1,9 +1,12 @@
+import { createCollection } from "@tanstack/react-db";
+import { queryCollectionOptions } from "@tanstack/query-db-collection";
+import { persistedCollectionOptions } from "@tanstack/browser-db-sqlite-persistence";
 import { queryClient } from "@util/vendor/react-query";
 import { supabase } from "@util/vendor/supabase/supabase-client";
 import { speakerAvailabilitySchema } from "@shared/database/schemas/speaker-availability";
-import { createPersistedQueryCollection } from "@shared/database/util/persisted-query-collection";
+import { persistence } from "@shared/database/persistence";
 
-export const speakerAvailabilityCollection = createPersistedQueryCollection({
+const baseOptions = queryCollectionOptions({
   id: "speaker_availability",
   queryKey: ["speaker_availability"],
   queryClient,
@@ -37,4 +40,15 @@ export const speakerAvailabilityCollection = createPersistedQueryCollection({
       if (error) throw error;
     }
   },
+});
+
+const persistedOptions = persistedCollectionOptions({
+  ...baseOptions,
+  persistence,
+  schemaVersion: 2,
+});
+
+export const speakerAvailabilityCollection = createCollection({
+  ...persistedOptions,
+  schema: speakerAvailabilitySchema,
 });

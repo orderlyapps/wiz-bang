@@ -1,10 +1,13 @@
+import { createCollection } from "@tanstack/react-db";
+import { queryCollectionOptions } from "@tanstack/query-db-collection";
+import { persistedCollectionOptions } from "@tanstack/browser-db-sqlite-persistence";
 import { queryClient } from "@util/vendor/react-query";
 import { supabase } from "@util/vendor/supabase/supabase-client";
 import { reportSchema } from "@shared/database/schemas/report";
-import { createPersistedQueryCollection } from "@shared/database/util/persisted-query-collection";
 import { makeCompositeKey } from "@shared/database/util/composite-key";
+import { persistence } from "@shared/database/persistence";
 
-export const reportCollection = createPersistedQueryCollection({
+const baseOptions = queryCollectionOptions({
   id: "report",
   queryKey: ["report"],
   queryClient,
@@ -40,4 +43,15 @@ export const reportCollection = createPersistedQueryCollection({
       if (error) throw error;
     }
   },
+});
+
+const persistedOptions = persistedCollectionOptions({
+  ...baseOptions,
+  persistence,
+  schemaVersion: 2,
+});
+
+export const reportCollection = createCollection({
+  ...persistedOptions,
+  schema: reportSchema,
 });

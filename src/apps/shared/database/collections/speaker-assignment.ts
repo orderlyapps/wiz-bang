@@ -1,10 +1,13 @@
+import { createCollection } from "@tanstack/react-db";
+import { queryCollectionOptions } from "@tanstack/query-db-collection";
+import { persistedCollectionOptions } from "@tanstack/browser-db-sqlite-persistence";
 import { queryClient } from "@util/vendor/react-query";
 import { supabase } from "@util/vendor/supabase/supabase-client";
 import { speakerAssignmentSchema } from "@shared/database/schemas/speaker-assignment";
-import { createPersistedQueryCollection } from "@shared/database/util/persisted-query-collection";
 import { makeCompositeKey } from "@shared/database/util/composite-key";
+import { persistence } from "@shared/database/persistence";
 
-export const speakerAssignmentCollection = createPersistedQueryCollection({
+const baseOptions = queryCollectionOptions({
   id: "speaker_assignment",
   queryKey: ["speaker_assignment"],
   queryClient,
@@ -40,4 +43,15 @@ export const speakerAssignmentCollection = createPersistedQueryCollection({
       if (error) throw error;
     }
   },
+});
+
+const persistedOptions = persistedCollectionOptions({
+  ...baseOptions,
+  persistence,
+  schemaVersion: 2,
+});
+
+export const speakerAssignmentCollection = createCollection({
+  ...persistedOptions,
+  schema: speakerAssignmentSchema,
 });

@@ -1,14 +1,15 @@
+import { createCollection } from "@tanstack/react-db";
+import { queryCollectionOptions } from "@tanstack/query-db-collection";
 import { queryClient } from "@util/vendor/react-query";
 import { supabase } from "@util/vendor/supabase/supabase-client";
 import { serviceOverseerPermissionSchema } from "@shared/database/schemas/service-overseer-permission";
-import { createPersistedQueryCollection } from "@shared/database/util/persisted-query-collection";
 
-export const serviceOverseerPermissionCollection = createPersistedQueryCollection({
+const baseOptions = queryCollectionOptions({
   id: "service_overseer_permission",
   queryKey: ["service_overseer_permission"],
   queryClient,
   schema: serviceOverseerPermissionSchema,
-  getKey: (row) => row.id ?? "",
+  getKey: (row) => `${row.auth_user_id}:${row.congregation_id}`,
   queryFn: async () => {
     const { data, error } = await supabase.from("service_overseer_permission").select("*");
     if (error) throw error;
@@ -21,20 +22,29 @@ export const serviceOverseerPermissionCollection = createPersistedQueryCollectio
   },
   onUpdate: async ({ transaction }) => {
     for (const mutation of transaction.mutations) {
+      const [auth_user_id, congregation_id] = (mutation.key as string).split(":");
       const { error } = await supabase
         .from("service_overseer_permission")
         .update(mutation.modified)
-        .eq("id", mutation.key);
+        .eq("auth_user_id", auth_user_id)
+        .eq("congregation_id", congregation_id);
       if (error) throw error;
     }
   },
   onDelete: async ({ transaction }) => {
     for (const mutation of transaction.mutations) {
+      const [auth_user_id, congregation_id] = (mutation.key as string).split(":");
       const { error } = await supabase
         .from("service_overseer_permission")
         .delete()
-        .eq("id", mutation.key);
+        .eq("auth_user_id", auth_user_id)
+        .eq("congregation_id", congregation_id);
       if (error) throw error;
     }
   },
+});
+
+export const serviceOverseerPermissionCollection = createCollection({
+  ...baseOptions,
+  schema: serviceOverseerPermissionSchema,
 });

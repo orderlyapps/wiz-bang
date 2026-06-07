@@ -1,9 +1,12 @@
+import { createCollection } from "@tanstack/react-db";
+import { queryCollectionOptions } from "@tanstack/query-db-collection";
+import { persistedCollectionOptions } from "@tanstack/browser-db-sqlite-persistence";
 import { queryClient } from "@util/vendor/react-query";
 import { supabase } from "@util/vendor/supabase/supabase-client";
 import { groupSchema } from "@shared/database/schemas/group";
-import { createPersistedQueryCollection } from "@shared/database/util/persisted-query-collection";
+import { persistence } from "@shared/database/persistence";
 
-export const groupCollection = createPersistedQueryCollection({
+const baseOptions = queryCollectionOptions({
   id: "group",
   queryKey: ["group"],
   queryClient,
@@ -34,4 +37,15 @@ export const groupCollection = createPersistedQueryCollection({
       if (error) throw error;
     }
   },
+});
+
+const persistedOptions = persistedCollectionOptions({
+  ...baseOptions,
+  persistence,
+  schemaVersion: 2,
+});
+
+export const groupCollection = createCollection({
+  ...persistedOptions,
+  schema: groupSchema,
 });

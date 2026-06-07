@@ -1,0 +1,151 @@
+import { useLiveQuery } from "@tanstack/react-db";
+import { cleanPermissionCollection } from "@shared/database/collections/clean-permission";
+import { reportPermissionCollection } from "@shared/database/collections/report-permission";
+import { secretaryPermissionCollection } from "@shared/database/collections/secretary-permission";
+import { elderPermissionCollection } from "@shared/database/collections/elder-permission";
+import { clamOverseerPermissionCollection } from "@shared/database/collections/clam-overseer-permission";
+import { serviceOverseerPermissionCollection } from "@shared/database/collections/service-overseer-permission";
+import { cobePermissionCollection } from "@shared/database/collections/cobe-permission";
+import { territoryServantPermissionCollection } from "@shared/database/collections/territory-servant-permission";
+import { avOverseerPermissionCollection } from "@shared/database/collections/av-overseer-permission";
+import { congregationAdminCollection } from "@shared/database/collections/congregation-admin";
+import { authUserCollection } from "@shared/database/collections/auth-user";
+
+interface UsePermissionsProps {
+  auth_user_id: string | undefined;
+  congregation_id: string | undefined;
+}
+
+interface Permissions {
+  has_cleaning: boolean;
+  has_reports: boolean;
+  has_secretary: boolean;
+  has_elder: boolean;
+  has_clam_overseer: boolean;
+  has_service_overseer: boolean;
+  has_cobe: boolean;
+  has_territory_servant: boolean;
+  has_av_overseer: boolean;
+  has_congregation_admin: boolean;
+  is_super_admin: boolean;
+  is_loaded: boolean;
+}
+
+export function usePermissions({
+  auth_user_id,
+  congregation_id,
+}: UsePermissionsProps): Permissions {
+  const { data: clean_permissions } = useLiveQuery((q) =>
+    q.from({ cp: cleanPermissionCollection }),
+  );
+  const { data: report_permissions } = useLiveQuery((q) =>
+    q.from({ rp: reportPermissionCollection }),
+  );
+  const { data: secretary_permissions } = useLiveQuery((q) =>
+    q.from({ sp: secretaryPermissionCollection }),
+  );
+  const { data: elder_permissions } = useLiveQuery((q) =>
+    q.from({ ep: elderPermissionCollection }),
+  );
+  const { data: clam_permissions } = useLiveQuery((q) =>
+    q.from({ cp: clamOverseerPermissionCollection }),
+  );
+  const { data: service_permissions } = useLiveQuery((q) =>
+    q.from({ sop: serviceOverseerPermissionCollection }),
+  );
+  const { data: cobe_permissions } = useLiveQuery((q) => q.from({ cop: cobePermissionCollection }));
+  const { data: territory_permissions } = useLiveQuery((q) =>
+    q.from({ tp: territoryServantPermissionCollection }),
+  );
+  const { data: av_permissions } = useLiveQuery((q) =>
+    q.from({ ap: avOverseerPermissionCollection }),
+  );
+  const { data: congregation_admins } = useLiveQuery((q) =>
+    q.from({ ca: congregationAdminCollection }),
+  );
+  const { data: auth_users } = useLiveQuery((q) => q.from({ au: authUserCollection }));
+
+  if (!auth_user_id || !congregation_id) {
+    return {
+      has_cleaning: false,
+      has_reports: false,
+      has_secretary: false,
+      has_elder: false,
+      has_clam_overseer: false,
+      has_service_overseer: false,
+      has_cobe: false,
+      has_territory_servant: false,
+      has_av_overseer: false,
+      has_congregation_admin: false,
+      is_super_admin: false,
+      is_loaded: true,
+    };
+  }
+
+  const is_super_admin = auth_users.some(
+    (au) => au.auth_user_id === auth_user_id && au.is_super_admin,
+  );
+
+  const has_congregation_admin = congregation_admins.some(
+    (ca) => ca.auth_user_id === auth_user_id && ca.congregation_id === congregation_id,
+  );
+
+  const has_cleaning = clean_permissions.some(
+    (cp) =>
+      cp.auth_user_id === auth_user_id && cp.congregation_id === congregation_id && cp.can_edit,
+  );
+
+  const has_reports = report_permissions.some(
+    (rp) => rp.auth_user_id === auth_user_id && (rp.can_read || rp.can_edit),
+  );
+
+  const has_secretary = secretary_permissions.some(
+    (sp) =>
+      sp.auth_user_id === auth_user_id && sp.congregation_id === congregation_id && sp.can_edit,
+  );
+
+  const has_elder = elder_permissions.some(
+    (ep) =>
+      ep.auth_user_id === auth_user_id && ep.congregation_id === congregation_id && ep.can_edit,
+  );
+
+  const has_clam_overseer = clam_permissions.some(
+    (cp) =>
+      cp.auth_user_id === auth_user_id && cp.congregation_id === congregation_id && cp.can_edit,
+  );
+
+  const has_service_overseer = service_permissions.some(
+    (sop) =>
+      sop.auth_user_id === auth_user_id && sop.congregation_id === congregation_id && sop.can_edit,
+  );
+
+  const has_cobe = cobe_permissions.some(
+    (cop) =>
+      cop.auth_user_id === auth_user_id && cop.congregation_id === congregation_id && cop.can_edit,
+  );
+
+  const has_territory_servant = territory_permissions.some(
+    (tp) =>
+      tp.auth_user_id === auth_user_id && tp.congregation_id === congregation_id && tp.can_edit,
+  );
+
+  const has_av_overseer = av_permissions.some(
+    (ap) =>
+      ap.auth_user_id === auth_user_id && ap.congregation_id === congregation_id && ap.can_edit,
+  );
+
+  return {
+    has_cleaning,
+    has_reports,
+    has_secretary,
+    has_elder,
+    has_clam_overseer,
+    has_service_overseer,
+    has_cobe,
+    has_territory_servant,
+    has_av_overseer,
+    has_congregation_admin,
+    is_super_admin,
+    is_loaded: true,
+  };
+}

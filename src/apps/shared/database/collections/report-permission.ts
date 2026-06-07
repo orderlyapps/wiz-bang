@@ -1,9 +1,10 @@
+import { createCollection } from "@tanstack/react-db";
+import { queryCollectionOptions } from "@tanstack/query-db-collection";
 import { queryClient } from "@util/vendor/react-query";
 import { supabase } from "@util/vendor/supabase/supabase-client";
 import { reportPermissionSchema } from "@shared/database/schemas/report-permission";
-import { createPersistedQueryCollection } from "@shared/database/util/persisted-query-collection";
 
-export const reportPermissionCollection = createPersistedQueryCollection({
+const baseOptions = queryCollectionOptions({
   id: "report_permission",
   queryKey: ["report_permission"],
   queryClient,
@@ -34,4 +35,9 @@ export const reportPermissionCollection = createPersistedQueryCollection({
       if (error) throw error;
     }
   },
+});
+
+export const reportPermissionCollection = createCollection({
+  ...baseOptions,
+  schema: reportPermissionSchema,
 });

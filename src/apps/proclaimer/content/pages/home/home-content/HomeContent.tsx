@@ -6,10 +6,16 @@ import { Space } from "@ui/components/layout/space/Space";
 import { IonList } from "@ionic/react";
 import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
 import { useAuthSession } from "@util/app/auth/useAuthSession";
+import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
 
 export function HomeContent() {
   const publisher = useStoredPublisher();
   const session = useAuthSession();
+  const permissions = usePermissions({
+    auth_user_id: session?.user?.id,
+    congregation_id: publisher?.congregation_id,
+  });
+  const canSeeAll = permissions.has_congregation_admin || permissions.is_super_admin;
 
   return (
     <>
@@ -33,27 +39,41 @@ export function HomeContent() {
       <Space size="lg" />
       {session && publisher && (
         <IonList>
-          <NavItem label="Cleaning" to="/home/cleaning" />
+          {(canSeeAll || permissions.has_cleaning) && (
+            <NavItem label="Cleaning" to="/home/cleaning" />
+          )}
 
-          <NavItem label="Reports" to="/home/reports" />
+          {(canSeeAll || permissions.has_reports) && <NavItem label="Reports" to="/home/reports" />}
 
-          <NavItem label="Secretary" to="/home/secretary" />
+          {(canSeeAll || permissions.has_secretary) && (
+            <NavItem label="Secretary" to="/home/secretary" />
+          )}
 
-          <NavItem label="Elder" to="/home/elder" />
+          {(canSeeAll || permissions.has_elder) && <NavItem label="Elder" to="/home/elder" />}
 
-          <NavItem label="CLAM Overseer" to="/home/clam-overseer" />
+          {(canSeeAll || permissions.has_clam_overseer) && (
+            <NavItem label="CLAM Overseer" to="/home/clam-overseer" />
+          )}
 
-          <NavItem label="Service Overseer" to="/home/service-overseer" />
+          {(canSeeAll || permissions.has_service_overseer) && (
+            <NavItem label="Service Overseer" to="/home/service-overseer" />
+          )}
 
-          <NavItem label="COBE" to="/home/cobe" />
+          {(canSeeAll || permissions.has_cobe) && <NavItem label="COBE" to="/home/cobe" />}
 
-          <NavItem label="Territory Servant" to="/home/territory-servant" />
+          {(canSeeAll || permissions.has_territory_servant) && (
+            <NavItem label="Territory Servant" to="/home/territory-servant" />
+          )}
 
-          <NavItem label="AV Overseer" to="/home/av-overseer" />
+          {(canSeeAll || permissions.has_av_overseer) && (
+            <NavItem label="AV Overseer" to="/home/av-overseer" />
+          )}
 
-          <NavItem label="Congregation Admin" to="/home/congregation-admin" />
+          {(canSeeAll || permissions.has_congregation_admin) && (
+            <NavItem label="Congregation Admin" to="/home/congregation-admin" />
+          )}
 
-          <NavItem label="Super Admin" to="/home/super-admin" />
+          {permissions.is_super_admin && <NavItem label="Super Admin" to="/home/super-admin" />}
         </IonList>
       )}
     </>
