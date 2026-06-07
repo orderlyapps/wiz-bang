@@ -28,6 +28,7 @@ interface Permissions {
   has_av_overseer: boolean;
   has_congregation_admin: boolean;
   is_super_admin: boolean;
+  is_authenticated: boolean;
   is_loaded: boolean;
 }
 
@@ -78,7 +79,8 @@ export function usePermissions({
       has_av_overseer: false,
       has_congregation_admin: false,
       is_super_admin: false,
-      is_loaded: true,
+      is_authenticated: !!auth_user_id,
+      is_loaded: !!auth_user_id,
     };
   }
 
@@ -146,6 +148,7 @@ export function usePermissions({
     has_av_overseer,
     has_congregation_admin,
     is_super_admin,
+    is_authenticated: true,
     is_loaded: true,
   };
 }
