@@ -2,10 +2,13 @@
 @import "./responsive.css";
 @import "./safe-area.css";
 @import "./desktop.css";
+@import "./theme.css";
+@import "./variables.css";
 
 @import "./overrides/content.css";
 @import "./overrides/input.css";
 @import "./overrides/item.css";
+@import "./overrides/item-divider.css";
 @import "./overrides/modal.css";
 @import "./overrides/tabbar.css";
 
