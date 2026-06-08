@@ -52,6 +52,7 @@ import CounselorParticipationPage from "@proclaimer-routes/pages/home/clam-overs
 import LivingParticipationPage from "@proclaimer-routes/pages/home/clam-overseer/participation/living/Living";
 import CbsConductorParticipationPage from "@proclaimer-routes/pages/home/clam-overseer/participation/cbs-conductor/CbsConductor";
 import CbsReaderParticipationPage from "@proclaimer-routes/pages/home/clam-overseer/participation/cbs-reader/CbsReader";
+import ClamOverseerSchedulePage from "@proclaimer-routes/pages/home/clam-overseer/schedule/Schedule";
 
 function App() {
   return (
@@ -187,6 +188,7 @@ function App() {
           component={CbsReaderParticipationPage}
           exact
         />
+        <Route path="/home/clam-overseer/schedule" component={ClamOverseerSchedulePage} exact />
         <Route path="/home/service-overseer" component={ServiceOverseerPage} exact />
         <Route path="/home/cobe" component={CobePage} exact />
         <Route path="/home/territory-servant" component={TerritoryServantPage} exact />
