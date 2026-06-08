@@ -5,6 +5,7 @@
 
 @import "./overrides/content.css";
 @import "./overrides/input.css";
+@import "./overrides/item.css";
 @import "./overrides/modal.css";
 @import "./overrides/tabbar.css";
 
