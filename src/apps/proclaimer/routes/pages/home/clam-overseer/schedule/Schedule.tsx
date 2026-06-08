@@ -14,7 +14,7 @@ function SchedulePage() {
       <IonHeader>
         <ScheduleHeader />
       </IonHeader>
-      <IonContent class="remove-top-padding">
+      <IonContent className="content-wide remove-top-padding">
         <ScheduleContent week_id={week_id} />
       </IonContent>
     </IonPage>

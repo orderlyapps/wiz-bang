@@ -13,6 +13,7 @@ export const midweekAssignmentIds = [
   "school_1_assistant_3",
   "school_1_apply_4",
   "school_1_assistant_4",
+  "chairman_1",
   "chairman_2",
   "school_2_bible_reading",
   "school_2_apply_1",

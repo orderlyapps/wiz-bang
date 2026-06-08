@@ -1,0 +1,22 @@
+import type { MidweekAssignmentId } from "@shared/database/schemas/midweek-assignment";
+import type { IonicColor } from "@util/vendor/ionic/types/IonicColor";
+
+export type ScheduleContentProps = {
+  week_id: string;
+};
+
+export type AssignmentItem = {
+  title: string;
+  time: number | null;
+  assignmentId: MidweekAssignmentId;
+  color: IonicColor;
+  assistantId?: MidweekAssignmentId;
+};
+
+export type AssignmentRow = {
+  id: string;
+  title: string;
+  color: IonicColor;
+  publisher?: string;
+  assistant?: string;
+};
