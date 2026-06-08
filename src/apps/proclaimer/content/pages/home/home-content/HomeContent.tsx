@@ -39,14 +39,20 @@ export function HomeContent() {
       <Space size="lg" />
       {session && publisher && (
         <IonList>
-          {(canSeeAll || permissions.has_cleaning) && (
-            <NavItem label="Cleaning" to="/home/cleaning" />
+          {permissions.is_super_admin && <NavItem label="Super Admin" to="/home/super-admin" />}
+
+          {(canSeeAll || permissions.has_congregation_admin) && (
+            <NavItem label="Congregation Admin" to="/home/congregation-admin" />
           )}
 
-          {(canSeeAll || permissions.has_reports) && <NavItem label="Reports" to="/home/reports" />}
+          {(canSeeAll || permissions.has_cobe) && <NavItem label="COBE" to="/home/cobe" />}
 
           {(canSeeAll || permissions.has_secretary) && (
             <NavItem label="Secretary" to="/home/secretary" />
+          )}
+
+          {(canSeeAll || permissions.has_service_overseer) && (
+            <NavItem label="Service Overseer" to="/home/service-overseer" />
           )}
 
           {(canSeeAll || permissions.has_elder) && <NavItem label="Elder" to="/home/elder" />}
@@ -55,11 +61,7 @@ export function HomeContent() {
             <NavItem label="CLAM Overseer" to="/home/clam-overseer" />
           )}
 
-          {(canSeeAll || permissions.has_service_overseer) && (
-            <NavItem label="Service Overseer" to="/home/service-overseer" />
-          )}
-
-          {(canSeeAll || permissions.has_cobe) && <NavItem label="COBE" to="/home/cobe" />}
+          {(canSeeAll || permissions.has_reports) && <NavItem label="Reports" to="/home/reports" />}
 
           {(canSeeAll || permissions.has_territory_servant) && (
             <NavItem label="Territory Servant" to="/home/territory-servant" />
@@ -69,11 +71,9 @@ export function HomeContent() {
             <NavItem label="AV Overseer" to="/home/av-overseer" />
           )}
 
-          {(canSeeAll || permissions.has_congregation_admin) && (
-            <NavItem label="Congregation Admin" to="/home/congregation-admin" />
+          {(canSeeAll || permissions.has_cleaning) && (
+            <NavItem label="Cleaning" to="/home/cleaning" />
           )}
-
-          {permissions.is_super_admin && <NavItem label="Super Admin" to="/home/super-admin" />}
         </IonList>
       )}
     </>
