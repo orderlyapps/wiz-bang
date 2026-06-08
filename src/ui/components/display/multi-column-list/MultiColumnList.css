@@ -10,3 +10,8 @@
 .multi-column-list__item {
   min-width: 0;
 }
+
+/* Pinned items start a new row at the first column (only on multi-column layouts) */
+.multi-column-list__item--pinned {
+  grid-column: 1;
+}

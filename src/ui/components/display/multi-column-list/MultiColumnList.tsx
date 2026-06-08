@@ -14,6 +14,10 @@ interface MultiColumnListProps<T> {
   gap?: Size | "none";
   /** Optional offset to add or subtract from the calculated column count. Positive values add columns, negative values reduce columns. */
   column_offset?: number;
+  /** Optional function to determine if an item should start a new row at the first column.
+   * Pinned items maintain their order but always appear in the first column of a new row.
+   * Only applies when displaying multiple columns (tablet/desktop). */
+  pin_to_first_column?: (item: T) => boolean;
 }
 
 const gapMap: Record<Size | "none", string> = {
@@ -67,6 +71,7 @@ export function MultiColumnList<T>({
   render_item,
   gap = "sm",
   column_offset = 0,
+  pin_to_first_column,
 }: MultiColumnListProps<T>) {
   const { breakpoint } = useBreakpoint();
   const { font_size } = useFontSize();
@@ -82,11 +87,17 @@ export function MultiColumnList<T>({
         } as CSSProperties
       }
     >
-      {items.map((item) => (
-        <li key={get_id(item)} className="multi-column-list__item">
-          {render_item(item)}
-        </li>
-      ))}
+      {items.map((item) => {
+        const is_pinned = pin_to_first_column?.(item) ?? false;
+        return (
+          <li
+            key={get_id(item)}
+            className={`multi-column-list__item${is_pinned && cols > 1 ? " multi-column-list__item--pinned" : ""}`}
+          >
+            {render_item(item)}
+          </li>
+        );
+      })}
     </ul>
   );
 }
