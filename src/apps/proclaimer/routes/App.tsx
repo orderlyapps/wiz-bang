@@ -188,7 +188,11 @@ function App() {
           component={CbsReaderParticipationPage}
           exact
         />
-        <Route path="/home/clam-overseer/schedule" component={ClamOverseerSchedulePage} exact />
+        <Route
+          path="/home/clam-overseer/schedule/:week_id?"
+          component={ClamOverseerSchedulePage}
+          exact
+        />
         <Route path="/home/service-overseer" component={ServiceOverseerPage} exact />
         <Route path="/home/cobe" component={CobePage} exact />
         <Route path="/home/territory-servant" component={TerritoryServantPage} exact />

@@ -1,3 +1,14 @@
-export function ScheduleContent() {
-  return <h1>Schedule</h1>;
+import { WeekNavigation } from "@proclaimer-shared/components/navigation/week-navigation/WeekNavigation";
+
+type ScheduleContentProps = {
+  week_id: string;
+};
+
+export function ScheduleContent({ week_id }: ScheduleContentProps) {
+  return (
+    <>
+      <WeekNavigation week_id={week_id} />
+      <h1>Schedule</h1>
+    </>
+  );
 }

@@ -14,10 +14,9 @@ import {
 import { addWeeks } from "date-fns/addWeeks";
 import { parseISO } from "date-fns/parseISO";
 import { format } from "date-fns/format";
-import backIcon from "@icons/chevronBackJW.svg";
-import forwardIcon from "@icons/chevronForwardJW.svg";
 import { getTheocraticWeekLabel } from "@proclaimer-shared/util/date/getTheocraticWeekLabel";
 import { Body } from "@ui/components/display/text/body/Body";
+import { chevronBackOutline, chevronForwardOutline } from "ionicons/icons";
 
 type WeekNavigationProps = {
   week_id: string;
@@ -63,7 +62,7 @@ export const WeekNavigation = ({ week_id, weeksToDisplay = 14 }: WeekNavigationP
                 router.push(getUpdatedPath(previousWeekId), "back", "replace");
               }}
             >
-              <IonIcon src={backIcon} slot="icon-only" size="large" />
+              <IonIcon icon={chevronBackOutline} slot="icon-only" size="large" />
             </IonButton>
           </IonCol>
           <IonCol
@@ -112,7 +111,7 @@ export const WeekNavigation = ({ week_id, weeksToDisplay = 14 }: WeekNavigationP
                 router.push(getUpdatedPath(nextWeekId), "forward", "replace");
               }}
             >
-              <IonIcon src={forwardIcon} slot="icon-only" size="large" />
+              <IonIcon src={chevronForwardOutline} slot="icon-only" size="large" />
             </IonButton>
           </IonCol>
         </IonRow>
