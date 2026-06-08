@@ -40,12 +40,12 @@ export function LabelValueItem({
           </Label>
         </div>
         {value && (
-          <div className="ion-padding-start">
+          <div style={{ paddingLeft: "1rem" }}>
             <Body color={value_color}>{value}</Body>
           </div>
         )}
         {value_2 && (
-          <div className="ion-padding-start">
+          <div style={{ paddingLeft: "1rem" }}>
             <Body color={value_2_color}>{value_2}</Body>
           </div>
         )}
