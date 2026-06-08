@@ -20,6 +20,7 @@ export function useAssignmentRows(
   meetingParts: AssignmentItem[],
   assignments: MidweekAssignment[] | undefined,
   publishers: Publisher[] | undefined,
+  week_id: string,
 ): AssignmentRow[] {
   return meetingParts.map((part) => {
     const assignedName = getAssignedPublisherName(assignments, publishers, part.assignmentId);
@@ -29,6 +30,7 @@ export function useAssignmentRows(
 
     return {
       id: part.assignmentId,
+      week_id,
       title: part.title,
       color: part.color,
       publisher: assignedName,

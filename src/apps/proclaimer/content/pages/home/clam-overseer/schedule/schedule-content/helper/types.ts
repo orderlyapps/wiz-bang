@@ -15,6 +15,7 @@ export type AssignmentItem = {
 
 export type AssignmentRow = {
   id: string;
+  week_id: string;
   title: string;
   color: IonicColor;
   publisher?: string;

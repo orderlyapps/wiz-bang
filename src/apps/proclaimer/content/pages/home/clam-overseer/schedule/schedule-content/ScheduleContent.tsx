@@ -32,7 +32,12 @@ export function ScheduleContent({ week_id }: ScheduleContentProps) {
 
   const meetingParts = weekData ? getMeetingParts(weekData, assignments) : [];
 
-  const rows = useAssignmentRows(meetingParts, assignments, publishers as Publisher[] | undefined);
+  const rows = useAssignmentRows(
+    meetingParts,
+    assignments,
+    publishers as Publisher[] | undefined,
+    week_id,
+  );
 
   return (
     <>
