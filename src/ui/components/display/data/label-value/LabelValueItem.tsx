@@ -34,9 +34,11 @@ export function LabelValueItem({
       className="Label-value-item"
     >
       <IonLabel>
-        <Label color={label_color} size="sm">
-          {label}
-        </Label>
+        <div style={{ paddingLeft: "1.3rem", textIndent: "-1.3rem" }}>
+          <Label color={label_color} size="sm">
+            {label}
+          </Label>
+        </div>
         {value && (
           <div className="ion-padding-start">
             <Body color={value_color}>{value}</Body>
