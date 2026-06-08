@@ -39,7 +39,24 @@ export function useParticipantPublishers(
       };
     })
     .filter((pp) => pp !== null)
-    .sort((a, b) => a.display_name.localeCompare(b.display_name));
+    .sort((a, b) => {
+      // Sort by last_name first
+      const lastNameCompare = a.publisher.last_name.localeCompare(b.publisher.last_name);
+      if (lastNameCompare !== 0) return lastNameCompare;
+
+      // If last_names are equal, sort by display_name if they have one
+      if (a.publisher.display_name && b.publisher.display_name) {
+        const displayNameCompare = a.publisher.display_name.localeCompare(b.publisher.display_name);
+        if (displayNameCompare !== 0) return displayNameCompare;
+      } else if (a.publisher.display_name) {
+        return -1; // a has display_name, b doesn't, so a comes first
+      } else if (b.publisher.display_name) {
+        return 1; // b has display_name, a doesn't, so b comes first
+      }
+
+      // Finally, sort by first_name
+      return a.publisher.first_name.localeCompare(b.publisher.first_name);
+    });
 
   return { participantPublishers, isLoading };
 }
