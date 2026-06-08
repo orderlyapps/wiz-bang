@@ -7,4 +7,7 @@ export type IonicColor =
   | "danger"
   | "light"
   | "medium"
-  | "dark";
+  | "dark"
+  | "jw_slate"
+  | "jw_brown"
+  | "jw_red";
