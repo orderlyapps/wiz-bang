@@ -8,7 +8,7 @@ function HomePage() {
       <IonHeader>
         <HomeHeader />
       </IonHeader>
-      <IonContent className="ion-padding">
+      <IonContent>
         <HomeContent />
       </IonContent>
     </IonPage>

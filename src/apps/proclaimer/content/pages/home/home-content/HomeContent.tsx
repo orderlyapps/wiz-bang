@@ -21,10 +21,10 @@ export function HomeContent() {
     <>
       <Space />
       <div className="ion-text-center ion-padding">
-        <LogoIcon size="5xl" color="primary" />
+        <LogoIcon size="4xl" color="primary" />
         <div className="ion-text-center ion-margin">
           {publisher && (
-            <Heading size="xl" bold color="primary">
+            <Heading size="xl" color="primary">
               <div> Welcome </div>
               <div>{getPublisherDisplayName(publisher)}</div>
             </Heading>
