@@ -8,7 +8,7 @@ function ClamDataPage() {
       <IonHeader>
         <ClamDataHeader />
       </IonHeader>
-      <IonContent className="ion-padding">
+      <IonContent>
         <ClamDataContent />
       </IonContent>
     </IonPage>
