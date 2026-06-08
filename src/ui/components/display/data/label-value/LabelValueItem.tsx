@@ -4,9 +4,12 @@ import { Label } from "@ui/components/display/text/label/Label";
 import type { LabelValue } from "@util/types/LabelValue";
 import type { IonicColor } from "@util/vendor/ionic/types/IonicColor";
 
-interface LabelValueItemProps extends LabelValue {
+interface LabelValueItemProps extends Partial<LabelValue> {
+  label: string;
   label_color?: IonicColor;
   value_color?: IonicColor;
+  value_2?: string;
+  value_2_color?: IonicColor;
   detail?: boolean;
   router_link?: string;
   on_click?: () => void;
@@ -17,6 +20,8 @@ export function LabelValueItem({
   value,
   label_color = "medium",
   value_color,
+  value_2,
+  value_2_color,
   detail = false,
   router_link,
   on_click,
@@ -32,9 +37,16 @@ export function LabelValueItem({
         <Label color={label_color} size="sm">
           {label}
         </Label>
-        <div className="ion-padding-start">
-          <Body color={value_color}>{value}</Body>
-        </div>
+        {value && (
+          <div className="ion-padding-start">
+            <Body color={value_color}>{value}</Body>
+          </div>
+        )}
+        {value_2 && (
+          <div className="ion-padding-start">
+            <Body color={value_2_color}>{value_2}</Body>
+          </div>
+        )}
       </IonLabel>
     </IonItem>
   );
