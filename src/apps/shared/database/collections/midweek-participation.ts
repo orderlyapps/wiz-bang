@@ -48,7 +48,7 @@ const baseOptions = queryCollectionOptions({
 const persistedOptions = persistedCollectionOptions({
   ...baseOptions,
   persistence,
-  schemaVersion: 2,
+  schemaVersion: 3,
 });
 
 export const midweekParticipationCollection = createCollection({

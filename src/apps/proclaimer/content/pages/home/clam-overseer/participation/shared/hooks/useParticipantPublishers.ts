@@ -4,6 +4,7 @@ import { midweekParticipationCollection } from "@shared/database/collections/mid
 import type { MidweekParticipation } from "@shared/database/schemas/midweek-participation";
 import type { Publisher } from "@shared/database/schemas/publisher";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
+import { makeCompositeKey } from "@shared/database/util/composite-key";
 
 export interface ParticipantPublisher {
   participant_id: string;
@@ -25,7 +26,7 @@ export function useParticipantPublishers(
   const isLoading = isLoadingParticipations || isLoadingPublishers;
 
   const participations = (allParticipations ?? []).filter(
-    (p) => p.participation_id === participation_id,
+    (p) => p.participation_id === participation_id && p.is_participant,
   );
 
   const participantPublishers: ParticipantPublisher[] = participations
@@ -58,5 +59,14 @@ export function useParticipantPublishers(
       return a.publisher.first_name.localeCompare(b.publisher.first_name);
     });
 
-  return { participantPublishers, isLoading };
+  function removeParticipant(participant_id: string) {
+    midweekParticipationCollection.update(
+      makeCompositeKey(participant_id, participation_id),
+      (draft) => {
+        draft.is_participant = false;
+      },
+    );
+  }
+
+  return { participantPublishers, isLoading, removeParticipant };
 }

@@ -3,13 +3,15 @@ import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiC
 import { Body } from "@ui/components/display/text/body/Body";
 import { useParticipantPublishers } from "@proclaimer-content/pages/home/clam-overseer/participation/shared/hooks/useParticipantPublishers";
 import type { MidweekParticipation } from "@shared/database/schemas/midweek-participation";
+import { DeleteIconButton } from "@ui/components/inputs/button/icon/delete/DeleteIconButton";
 
 interface ParticipantPublishersListProps {
   participation_id: MidweekParticipation["participation_id"];
 }
 
 export function ParticipantPublishersList({ participation_id }: ParticipantPublishersListProps) {
-  const { participantPublishers, isLoading } = useParticipantPublishers(participation_id);
+  const { participantPublishers, isLoading, removeParticipant } =
+    useParticipantPublishers(participation_id);
 
   if (isLoading) {
     return (
@@ -46,6 +48,12 @@ export function ParticipantPublishersList({ participation_id }: ParticipantPubli
         render_item={(pp) => (
           <IonItem>
             <IonLabel className="ion-margin-start ion-padding-start">{pp.display_name}</IonLabel>
+            <DeleteIconButton
+              alert_header="Remove Participant"
+              alert_message={`Remove ${pp.display_name} from this assignment?`}
+              confirm_text="Remove"
+              on_click={() => removeParticipant(pp.participant_id)}
+            />
           </IonItem>
         )}
       />

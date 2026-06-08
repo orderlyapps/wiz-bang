@@ -16,6 +16,7 @@ export const midweekParticipationSchema = z.object({
     "cbs_conductor",
     "cbs_reader",
   ]),
+  is_participant: z.boolean().default(true),
 });
 
 export type MidweekParticipation = z.infer<typeof midweekParticipationSchema>;
