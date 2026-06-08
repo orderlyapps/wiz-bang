@@ -1,12 +1,12 @@
 import { IonToolbar, IonTitle, IonButtons, IonBackButton } from "@ionic/react";
 
-export function ClamOverseerHeader() {
+export function ParticipationHeader() {
   return (
     <IonToolbar>
       <IonButtons slot="start">
-        <IonBackButton />
+        <IonBackButton defaultHref="/home/clam-overseer" />
       </IonButtons>
-      <IonTitle>CLAM Overseer</IonTitle>
+      <IonTitle>Participation</IonTitle>
     </IonToolbar>
   );
 }

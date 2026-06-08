@@ -38,6 +38,7 @@ import ServiceOverseerPage from "@proclaimer-routes/pages/home/service-overseer/
 import CobePage from "@proclaimer-routes/pages/home/cobe/Cobe";
 import TerritoryServantPage from "@proclaimer-routes/pages/home/territory-servant/TerritoryServant";
 import AvOverseerPage from "@proclaimer-routes/pages/home/av-overseer/AvOverseer";
+import ParticipationPage from "@proclaimer-routes/pages/home/clam-overseer/participation/Participation";
 
 function App() {
   return (
@@ -112,6 +113,7 @@ function App() {
         />
         <Route path="/home/elder" component={ElderPage} exact />
         <Route path="/home/clam-overseer" component={ClamOverseerPage} exact />
+        <Route path="/home/clam-overseer/participation" component={ParticipationPage} exact />
         <Route path="/home/service-overseer" component={ServiceOverseerPage} exact />
         <Route path="/home/cobe" component={CobePage} exact />
         <Route path="/home/territory-servant" component={TerritoryServantPage} exact />

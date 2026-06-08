@@ -1,11 +1,10 @@
-import { Heading } from "@ui/components/display/text/heading/Heading";
+import { IonList } from "@ionic/react";
+import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
 
 export function ClamOverseerContent() {
   return (
-    <div className="ion-padding">
-      <Heading size="lg" bold>
-        CLAM Overseer
-      </Heading>
-    </div>
+    <IonList>
+      <NavItem label="Participation" to="/home/clam-overseer/participation" />
+    </IonList>
   );
 }
