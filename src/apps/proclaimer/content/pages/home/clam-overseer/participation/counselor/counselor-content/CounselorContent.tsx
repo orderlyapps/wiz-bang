@@ -1,5 +1,5 @@
 import { Heading } from "@ui/components/display/text/heading/Heading";
-import { ParticipantPublishersList } from "@proclaimer-shared/participation/components/participant-publishers-list/ParticipantPublishersList";
+import { ParticipantPublishersList } from "@proclaimer-content/pages/home/clam-overseer/participation/shared/components/participant-publishers-list/ParticipantPublishersList";
 
 export function CounselorContent() {
   return (

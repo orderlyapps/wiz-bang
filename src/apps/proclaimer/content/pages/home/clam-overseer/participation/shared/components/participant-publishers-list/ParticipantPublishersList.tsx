@@ -1,7 +1,7 @@
 import { IonItem, IonLabel, IonList, IonSkeletonText } from "@ionic/react";
 import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiColumnList";
 import { Body } from "@ui/components/display/text/body/Body";
-import { useParticipantPublishers } from "@proclaimer-shared/participation/hooks/useParticipantPublishers";
+import { useParticipantPublishers } from "@proclaimer-content/pages/home/clam-overseer/participation/shared/hooks/useParticipantPublishers";
 import type { MidweekParticipation } from "@shared/database/schemas/midweek-participation";
 
 interface ParticipantPublishersListProps {
