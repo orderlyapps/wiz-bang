@@ -38,6 +38,7 @@ import ServiceOverseerPage from "@proclaimer-routes/pages/home/service-overseer/
 import CobePage from "@proclaimer-routes/pages/home/cobe/Cobe";
 import TerritoryServantPage from "@proclaimer-routes/pages/home/territory-servant/TerritoryServant";
 import AvOverseerPage from "@proclaimer-routes/pages/home/av-overseer/AvOverseer";
+import ClamDataPage from "@proclaimer-routes/pages/home/super-admin/clam-data/ClamData";
 import ParticipationPage from "@proclaimer-routes/pages/home/clam-overseer/participation/Participation";
 import ChairmanParticipationPage from "@proclaimer-routes/pages/home/clam-overseer/participation/chairman/Chairman";
 import PrayerParticipationPage from "@proclaimer-routes/pages/home/clam-overseer/participation/prayer/Prayer";
@@ -191,6 +192,7 @@ function App() {
         <Route path="/home/territory-servant" component={TerritoryServantPage} exact />
         <Route path="/home/av-overseer" component={AvOverseerPage} exact />
         <Route path="/home/super-admin" component={SuperAdminPage} exact />
+        <Route path="/home/super-admin/clam-data" component={ClamDataPage} exact />
       </IonRouterOutlet>
 
       <IonTabBar slot="bottom">
