@@ -8,7 +8,7 @@ function CbsConductorPage() {
       <IonHeader>
         <CbsConductorHeader />
       </IonHeader>
-      <IonContent>
+      <IonContent className="content-wide">
         <CbsConductorContent />
       </IonContent>
     </IonPage>

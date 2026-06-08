@@ -8,7 +8,7 @@ function TalkPage() {
       <IonHeader>
         <TalkHeader />
       </IonHeader>
-      <IonContent>
+      <IonContent className="content-wide">
         <TalkContent />
       </IonContent>
     </IonPage>

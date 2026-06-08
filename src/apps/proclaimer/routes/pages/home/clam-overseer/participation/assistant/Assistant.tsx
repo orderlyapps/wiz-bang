@@ -8,7 +8,7 @@ function AssistantPage() {
       <IonHeader>
         <AssistantHeader />
       </IonHeader>
-      <IonContent>
+      <IonContent className="content-wide">
         <AssistantContent />
       </IonContent>
     </IonPage>

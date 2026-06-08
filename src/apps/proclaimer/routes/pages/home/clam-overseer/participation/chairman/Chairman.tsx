@@ -8,7 +8,7 @@ function ChairmanPage() {
       <IonHeader>
         <ChairmanHeader />
       </IonHeader>
-      <IonContent>
+      <IonContent className="content-wide">
         <ChairmanContent />
       </IonContent>
     </IonPage>

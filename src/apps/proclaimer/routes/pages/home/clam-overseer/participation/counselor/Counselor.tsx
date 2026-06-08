@@ -8,7 +8,7 @@ function CounselorPage() {
       <IonHeader>
         <CounselorHeader />
       </IonHeader>
-      <IonContent>
+      <IonContent className="content-wide">
         <CounselorContent />
       </IonContent>
     </IonPage>

@@ -8,7 +8,7 @@ function CbsReaderPage() {
       <IonHeader>
         <CbsReaderHeader />
       </IonHeader>
-      <IonContent>
+      <IonContent className="content-wide">
         <CbsReaderContent />
       </IonContent>
     </IonPage>

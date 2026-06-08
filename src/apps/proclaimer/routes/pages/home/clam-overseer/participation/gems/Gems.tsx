@@ -8,7 +8,7 @@ function GemsPage() {
       <IonHeader>
         <GemsHeader />
       </IonHeader>
-      <IonContent>
+      <IonContent className="content-wide">
         <GemsContent />
       </IonContent>
     </IonPage>

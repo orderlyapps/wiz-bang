@@ -8,7 +8,7 @@ function LivingPage() {
       <IonHeader>
         <LivingHeader />
       </IonHeader>
-      <IonContent>
+      <IonContent className="content-wide">
         <LivingContent />
       </IonContent>
     </IonPage>

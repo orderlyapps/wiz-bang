@@ -8,7 +8,7 @@ function BibleReadingPage() {
       <IonHeader>
         <BibleReadingHeader />
       </IonHeader>
-      <IonContent>
+      <IonContent className="content-wide">
         <BibleReadingContent />
       </IonContent>
     </IonPage>

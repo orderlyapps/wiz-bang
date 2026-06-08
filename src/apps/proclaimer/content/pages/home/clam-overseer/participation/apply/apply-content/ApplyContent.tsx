@@ -1,4 +1,5 @@
 import { Heading } from "@ui/components/display/text/heading/Heading";
+import { ParticipantPublishersList } from "@proclaimer-shared/participation/components/participant-publishers-list/ParticipantPublishersList";
 
 export function ApplyContent() {
   return (
@@ -6,6 +7,7 @@ export function ApplyContent() {
       <Heading size="lg" bold>
         Apply
       </Heading>
+      <ParticipantPublishersList participation_id="apply" />
     </div>
   );
 }

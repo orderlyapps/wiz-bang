@@ -8,7 +8,7 @@ function ApplyPage() {
       <IonHeader>
         <ApplyHeader />
       </IonHeader>
-      <IonContent>
+      <IonContent className="content-wide">
         <ApplyContent />
       </IonContent>
     </IonPage>

@@ -8,7 +8,7 @@ function PrayerPage() {
       <IonHeader>
         <PrayerHeader />
       </IonHeader>
-      <IonContent>
+      <IonContent className="content-wide">
         <PrayerContent />
       </IonContent>
     </IonPage>

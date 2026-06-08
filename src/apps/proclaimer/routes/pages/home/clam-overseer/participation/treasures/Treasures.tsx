@@ -8,7 +8,7 @@ function TreasuresPage() {
       <IonHeader>
         <TreasuresHeader />
       </IonHeader>
-      <IonContent>
+      <IonContent className="content-wide">
         <TreasuresContent />
       </IonContent>
     </IonPage>
