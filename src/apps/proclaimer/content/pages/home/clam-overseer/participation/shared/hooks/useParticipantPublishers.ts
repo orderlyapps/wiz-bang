@@ -59,6 +59,31 @@ export function useParticipantPublishers(
       return a.publisher.first_name.localeCompare(b.publisher.first_name);
     });
 
+  const participantIds = new Set(participations.map((p) => p.participant_id));
+
+  const nonParticipantPublishers: ParticipantPublisher[] = (publishers ?? [])
+    .filter((p) => !participantIds.has(p.id ?? ""))
+    .map((p) => ({
+      participant_id: p.id ?? "",
+      publisher: p,
+      display_name: getPublisherDisplayName(p),
+    }))
+    .sort((a, b) => {
+      const lastNameCompare = a.publisher.last_name.localeCompare(b.publisher.last_name);
+      if (lastNameCompare !== 0) return lastNameCompare;
+
+      if (a.publisher.display_name && b.publisher.display_name) {
+        const displayNameCompare = a.publisher.display_name.localeCompare(b.publisher.display_name);
+        if (displayNameCompare !== 0) return displayNameCompare;
+      } else if (a.publisher.display_name) {
+        return -1;
+      } else if (b.publisher.display_name) {
+        return 1;
+      }
+
+      return a.publisher.first_name.localeCompare(b.publisher.first_name);
+    });
+
   function removeParticipant(participant_id: string) {
     midweekParticipationCollection.update(
       makeCompositeKey(participant_id, participation_id),
@@ -68,5 +93,31 @@ export function useParticipantPublishers(
     );
   }
 
-  return { participantPublishers, isLoading, removeParticipant };
+  function addParticipant(participant_id: string) {
+    const existingRow = (allParticipations ?? []).find(
+      (p) => p.participant_id === participant_id && p.participation_id === participation_id,
+    );
+    if (existingRow) {
+      midweekParticipationCollection.update(
+        makeCompositeKey(participant_id, participation_id),
+        (draft) => {
+          draft.is_participant = true;
+        },
+      );
+    } else {
+      midweekParticipationCollection.insert({
+        participant_id,
+        participation_id,
+        is_participant: true,
+      });
+    }
+  }
+
+  return {
+    participantPublishers,
+    nonParticipantPublishers,
+    isLoading,
+    removeParticipant,
+    addParticipant,
+  };
 }
