@@ -8,7 +8,7 @@ function PermissionsPage() {
       <IonHeader>
         <PermissionsHeader />
       </IonHeader>
-      <IonContent className="ion-padding">
+      <IonContent>
         <PermissionsContent />
       </IonContent>
     </IonPage>

@@ -8,7 +8,7 @@ function CongregationAdminPage() {
       <IonHeader>
         <CongregationAdminHeader />
       </IonHeader>
-      <IonContent className="ion-padding">
+      <IonContent>
         <CongregationAdminContent />
       </IonContent>
     </IonPage>
