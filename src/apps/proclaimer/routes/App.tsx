@@ -39,6 +39,18 @@ import CobePage from "@proclaimer-routes/pages/home/cobe/Cobe";
 import TerritoryServantPage from "@proclaimer-routes/pages/home/territory-servant/TerritoryServant";
 import AvOverseerPage from "@proclaimer-routes/pages/home/av-overseer/AvOverseer";
 import ParticipationPage from "@proclaimer-routes/pages/home/clam-overseer/participation/Participation";
+import ChairmanParticipationPage from "@proclaimer-routes/pages/home/clam-overseer/participation/chairman/Chairman";
+import PrayerParticipationPage from "@proclaimer-routes/pages/home/clam-overseer/participation/prayer/Prayer";
+import TreasuresParticipationPage from "@proclaimer-routes/pages/home/clam-overseer/participation/treasures/Treasures";
+import GemsParticipationPage from "@proclaimer-routes/pages/home/clam-overseer/participation/gems/Gems";
+import BibleReadingParticipationPage from "@proclaimer-routes/pages/home/clam-overseer/participation/bible-reading/BibleReading";
+import ApplyParticipationPage from "@proclaimer-routes/pages/home/clam-overseer/participation/apply/Apply";
+import TalkParticipationPage from "@proclaimer-routes/pages/home/clam-overseer/participation/talk/Talk";
+import AssistantParticipationPage from "@proclaimer-routes/pages/home/clam-overseer/participation/assistant/Assistant";
+import CounselorParticipationPage from "@proclaimer-routes/pages/home/clam-overseer/participation/counselor/Counselor";
+import LivingParticipationPage from "@proclaimer-routes/pages/home/clam-overseer/participation/living/Living";
+import CbsConductorParticipationPage from "@proclaimer-routes/pages/home/clam-overseer/participation/cbs-conductor/CbsConductor";
+import CbsReaderParticipationPage from "@proclaimer-routes/pages/home/clam-overseer/participation/cbs-reader/CbsReader";
 
 function App() {
   return (
@@ -114,6 +126,66 @@ function App() {
         <Route path="/home/elder" component={ElderPage} exact />
         <Route path="/home/clam-overseer" component={ClamOverseerPage} exact />
         <Route path="/home/clam-overseer/participation" component={ParticipationPage} exact />
+        <Route
+          path="/home/clam-overseer/participation/chairman"
+          component={ChairmanParticipationPage}
+          exact
+        />
+        <Route
+          path="/home/clam-overseer/participation/prayer"
+          component={PrayerParticipationPage}
+          exact
+        />
+        <Route
+          path="/home/clam-overseer/participation/treasures"
+          component={TreasuresParticipationPage}
+          exact
+        />
+        <Route
+          path="/home/clam-overseer/participation/gems"
+          component={GemsParticipationPage}
+          exact
+        />
+        <Route
+          path="/home/clam-overseer/participation/bible-reading"
+          component={BibleReadingParticipationPage}
+          exact
+        />
+        <Route
+          path="/home/clam-overseer/participation/apply"
+          component={ApplyParticipationPage}
+          exact
+        />
+        <Route
+          path="/home/clam-overseer/participation/talk"
+          component={TalkParticipationPage}
+          exact
+        />
+        <Route
+          path="/home/clam-overseer/participation/assistant"
+          component={AssistantParticipationPage}
+          exact
+        />
+        <Route
+          path="/home/clam-overseer/participation/counselor"
+          component={CounselorParticipationPage}
+          exact
+        />
+        <Route
+          path="/home/clam-overseer/participation/living"
+          component={LivingParticipationPage}
+          exact
+        />
+        <Route
+          path="/home/clam-overseer/participation/cbs-conductor"
+          component={CbsConductorParticipationPage}
+          exact
+        />
+        <Route
+          path="/home/clam-overseer/participation/cbs-reader"
+          component={CbsReaderParticipationPage}
+          exact
+        />
         <Route path="/home/service-overseer" component={ServiceOverseerPage} exact />
         <Route path="/home/cobe" component={CobePage} exact />
         <Route path="/home/territory-servant" component={TerritoryServantPage} exact />
