@@ -36,6 +36,7 @@
     "@tanstack/react-query": "^5.64.0",
     "@tanstack/react-query-devtools": "^5.64.0",
     "@tanstack/rxdb-db-collection": "^0.1.73",
+    "date-fns": "^4.4.0",
     "ionicons": "^8.0.13",
     "libphonenumber-js": "^1.11.21",
     "mapbox-gl": "^3.23.1",
