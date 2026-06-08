@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { useLiveQuery } from "@tanstack/react-db";
 import { WeekNavigation } from "@proclaimer-shared/components/navigation/week-navigation/WeekNavigation";
 import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiColumnList";
 import { IonList } from "@ionic/react";
+import { TextButton } from "@ui/components/inputs/button/text/TextButton";
 import { midweekMeetingDataCollection } from "@shared/database/collections/midweek-meeting-data";
 import { midweekAssignmentCollection } from "@shared/database/collections/midweek-assignment";
 import { publisherCollection } from "@shared/database/collections/publisher";
@@ -12,8 +14,11 @@ import { AssignmentCard } from "./components/assignment-card/AssignmentCard";
 import { getMeetingParts } from "./helper/get-meeting-parts";
 import { useAssignmentRows } from "./helper/use-assignment-rows";
 import type { ScheduleContentProps, AssignmentRow } from "./helper/types";
+import { Space } from "@ui/components/layout/space/Space";
 
 export function ScheduleContent({ week_id }: ScheduleContentProps) {
+  const [school_2_enabled, setSchool2Enabled] = useState(false);
+
   const { data: allMeetingData } = useLiveQuery((q) =>
     q.from({ mmd: midweekMeetingDataCollection }),
   );
@@ -30,7 +35,10 @@ export function ScheduleContent({ week_id }: ScheduleContentProps) {
     (a) => a.week_id === week_id,
   );
 
-  const meetingParts = weekData ? getMeetingParts(weekData, assignments) : [];
+  const has_chairman_2 = assignments?.some((a) => a.assignment_id === "chairman_2");
+  const show_school_2 = has_chairman_2 || school_2_enabled;
+
+  const meetingParts = weekData ? getMeetingParts(weekData, assignments, show_school_2) : [];
 
   const rows = useAssignmentRows(
     meetingParts,
@@ -48,6 +56,12 @@ export function ScheduleContent({ week_id }: ScheduleContentProps) {
           get_id={(row) => row.id}
           render_item={(row) => <AssignmentCard {...row} />}
         />
+        {!show_school_2 && (
+          <>
+            <Space />
+            <TextButton label="Add Second School" on_click={() => setSchool2Enabled(true)} />
+          </>
+        )}
       </IonList>
     </>
   );

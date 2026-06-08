@@ -7,6 +7,7 @@ import { hasAssignment } from "./has-assignment";
 export function getMeetingParts(
   data: MidweekMeetingData,
   assignments: MidweekAssignment[] | undefined,
+  show_school_2: boolean,
 ): AssignmentItem[] {
   const parts: AssignmentItem[] = [];
 
@@ -91,9 +92,9 @@ export function getMeetingParts(
   }
 
   // School 2
-  if (hasAssignment(assignments, "chairman_2")) {
+  if (show_school_2) {
     parts.push({
-      title: "Chairman",
+      title: "Second School Counselor",
       time: null,
       assignmentId: "chairman_2",
       color: "medium",
