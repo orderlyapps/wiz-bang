@@ -34,7 +34,7 @@ export function LabelValueItem({
       className="Label-value-item"
     >
       <IonLabel>
-        <div style={{ paddingLeft: "1.3rem", textIndent: "-1.3rem" }}>
+        <div style={{ paddingLeft: "1rem", textIndent: "-1rem" }}>
           <Label color={label_color} size="sm">
             {label}
           </Label>
