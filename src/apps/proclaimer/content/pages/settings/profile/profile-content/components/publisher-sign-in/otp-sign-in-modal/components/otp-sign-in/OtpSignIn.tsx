@@ -58,8 +58,7 @@ export function OtpSignIn({ email, onSignIn }: OtpSignInProps) {
   };
 
   return (
-    <>
-      <Space />
+    <div className="flex-center">
       <IonList inset lines="none">
         <IonItem>
           <Body color="medium" className="ion-text-center ion-margin" balance>
@@ -97,6 +96,6 @@ export function OtpSignIn({ email, onSignIn }: OtpSignInProps) {
 
         <Space size="sm" />
       </IonList>
-    </>
+    </div>
   );
 }
