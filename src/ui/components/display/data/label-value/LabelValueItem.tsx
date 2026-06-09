@@ -10,8 +10,10 @@ interface LabelValueItemProps extends Partial<LabelValue> {
   label_color?: IonicColor;
   label_size?: Size;
   value_color?: IonicColor;
+  value_size?: Size;
   value_2?: string;
   value_2_color?: IonicColor;
+  value_2_size?: Size;
   detail?: boolean;
   router_link?: string;
   on_click?: () => void;
@@ -23,8 +25,10 @@ export function LabelValueItem({
   label_color = "medium",
   label_size = "sm",
   value_color,
+  value_size,
   value_2,
   value_2_color,
+  value_2_size = "sm",
   detail = false,
   router_link,
   on_click,
@@ -44,12 +48,16 @@ export function LabelValueItem({
         </div>
         {value && (
           <div style={{ paddingLeft: "1rem" }}>
-            <Body color={value_color}>{value}</Body>
+            <Body color={value_color} size={value_size}>
+              {value}
+            </Body>
           </div>
         )}
         {value_2 && (
           <div style={{ paddingLeft: "1rem" }}>
-            <Body color={value_2_color}>{value_2}</Body>
+            <Body color={value_2_color} size={value_2_size}>
+              {value_2}
+            </Body>
           </div>
         )}
       </IonLabel>
