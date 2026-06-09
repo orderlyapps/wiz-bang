@@ -1,13 +1,19 @@
 import { useLiveQuery } from "@tanstack/react-db";
-import { IonList } from "@ionic/react";
+import { IonItem, IonList, IonListHeader, IonLabel } from "@ionic/react";
 import { Spinner } from "@ui/components/display/spinner/Spinner";
 import { midweekAssignmentCollection } from "@shared/database/collections/midweek-assignment";
 import { publisherCollection } from "@shared/database/collections/publisher";
 import type { MidweekAssignment } from "@shared/database/schemas/midweek-assignment";
 import type { Publisher } from "@shared/database/schemas/publisher";
 import { LabelValueItem } from "@ui/components/display/data/label-value/LabelValueItem";
+import { Label } from "@ui/components/display/text/label/Label";
+import { Body } from "@ui/components/display/text/body/Body";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
 import { format, parseISO } from "date-fns";
+import { makeCompositeKey } from "@shared/database/util/composite-key";
+import { getStoredCongregation } from "@util/app/congregation/utils";
+import { PublisherList } from "./components/publisher-list/PublisherList";
+import { DeleteIconButton } from "@ui/components/inputs/button/icon/delete/DeleteIconButton";
 
 interface AssignmentDetailContentProps {
   week_id: string;
@@ -15,31 +21,29 @@ interface AssignmentDetailContentProps {
 }
 
 export function AssignmentDetailContent({ week_id, assignment_id }: AssignmentDetailContentProps) {
+  const congregation_id = getStoredCongregation()?.id;
+
   const { data: allAssignments, isLoading: isLoadingAssignments } = useLiveQuery((q) =>
     q.from({ ma: midweekAssignmentCollection }),
   );
 
   const { data: allPublishers, isLoading: isLoadingPublishers } = useLiveQuery((q) =>
-    q.from({ p: publisherCollection }),
+    q.from({ p: publisherCollection }).orderBy(({ p }) => p.last_name),
   );
 
   const assignment = (allAssignments as MidweekAssignment[] | undefined)?.find(
     (a) => a.week_id === week_id && a.assignment_id === assignment_id,
   );
 
-  const publisher = (allPublishers as Publisher[] | undefined)?.find(
-    (p) => p.id === assignment?.participant_id,
+  const publishers = ((allPublishers as Publisher[] | undefined) ?? []).filter(
+    (p) => p.congregation_id === congregation_id,
   );
+
+  const assignee = publishers.find((p) => p.id === assignment?.participant_id);
 
   if (isLoadingAssignments || isLoadingPublishers) {
     return <Spinner centered />;
   }
-
-  if (!assignment) {
-    return <p>Assignment not found.</p>;
-  }
-
-  const publisherName = publisher ? getPublisherDisplayName(publisher) : undefined;
 
   const formattedWeek = (() => {
     try {
@@ -49,11 +53,63 @@ export function AssignmentDetailContent({ week_id, assignment_id }: AssignmentDe
     }
   })();
 
+  const handleDelete = () => {
+    if (!congregation_id || !assignment) return;
+    const key = makeCompositeKey(assignment_id, congregation_id, week_id);
+    midweekAssignmentCollection.delete(key);
+  };
+
+  const handleSelect = (publisher_id: string) => {
+    if (!congregation_id) return;
+    if (assignment) {
+      const key = makeCompositeKey(assignment_id, congregation_id, week_id);
+      midweekAssignmentCollection.update(key, (draft) => {
+        draft.participant_id = publisher_id;
+      });
+    } else {
+      midweekAssignmentCollection.insert({
+        assignment_id: assignment_id as MidweekAssignment["assignment_id"],
+        congregation_id,
+        week_id,
+        participant_id: publisher_id,
+      });
+    }
+  };
+
   return (
-    <IonList className="ion-margin" inset>
-      <LabelValueItem label="Week" value={formattedWeek} />
-      <LabelValueItem label="Assignment" value={assignment_id.replace(/_/g, " ")} />
-      <LabelValueItem label="Publisher" value={publisherName ?? "Unassigned"} />
-    </IonList>
+    <>
+      <IonList className="ion-margin" inset>
+        <LabelValueItem label="Week" value={formattedWeek} />
+        <LabelValueItem label="Assignment" value={assignment_id.replace(/_/g, " ")} />
+        <IonItem className="Label-value-item">
+          <IonLabel>
+            <div style={{ paddingLeft: "1rem", textIndent: "-1rem" }}>
+              <Label color="medium" size="sm">
+                Publisher
+              </Label>
+            </div>
+            <div style={{ paddingLeft: "1rem" }}>
+              <Body>{assignee ? getPublisherDisplayName(assignee) : "Unassigned"}</Body>
+            </div>
+          </IonLabel>
+          {assignment && (
+            <DeleteIconButton
+              alert_header="Remove Assignment"
+              alert_message="Remove this publisher from the assignment?"
+              confirm_text="Remove"
+              on_click={handleDelete}
+            />
+          )}
+        </IonItem>
+      </IonList>
+      <IonListHeader className="ion-margin-start">
+        <IonLabel>Assign Publisher</IonLabel>
+      </IonListHeader>
+      <PublisherList
+        publishers={publishers}
+        selected_id={assignment?.participant_id}
+        on_select={handleSelect}
+      />
+    </>
   );
 }
