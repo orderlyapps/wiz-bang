@@ -15,9 +15,19 @@ import { getMeetingParts } from "./helper/get-meeting-parts";
 import { useAssignmentRows } from "./helper/use-assignment-rows";
 import type { ScheduleContentProps, AssignmentRow } from "./helper/types";
 import { Space } from "@ui/components/layout/space/Space";
+import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
+import { useAuthSession } from "@util/app/auth/useAuthSession";
+import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
 
 export function ScheduleContent({ week_id }: ScheduleContentProps) {
   const history = useHistory();
+  const session = useAuthSession();
+  const stored_publisher = useStoredPublisher();
+  const permissions = usePermissions({
+    auth_user_id: session?.user?.id,
+    congregation_id: stored_publisher?.congregation_id,
+  });
+  const can_edit = permissions.has_clam_overseer;
 
   const { data: allMeetingData } = useLiveQuery((q) =>
     q.from({ mmd: midweekMeetingDataCollection }),
@@ -56,7 +66,7 @@ export function ScheduleContent({ week_id }: ScheduleContentProps) {
           render_item={(row) => <AssignmentCard {...row} />}
           pin_to_first_column={(row) => row.pin_to_first_column ?? false}
         />
-        {!show_school_2 && (
+        {!show_school_2 && can_edit && (
           <>
             <Space />
             <TextButton
