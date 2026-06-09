@@ -3,10 +3,12 @@ import { Body } from "@ui/components/display/text/body/Body";
 import { Label } from "@ui/components/display/text/label/Label";
 import type { LabelValue } from "@util/types/LabelValue";
 import type { IonicColor } from "@util/vendor/ionic/types/IonicColor";
+import type { Size } from "@util/types/Size";
 
 interface LabelValueItemProps extends Partial<LabelValue> {
   label: string;
   label_color?: IonicColor;
+  label_size?: Size;
   value_color?: IonicColor;
   value_2?: string;
   value_2_color?: IonicColor;
@@ -19,6 +21,7 @@ export function LabelValueItem({
   label,
   value,
   label_color = "medium",
+  label_size = "sm",
   value_color,
   value_2,
   value_2_color,
@@ -35,7 +38,7 @@ export function LabelValueItem({
     >
       <IonLabel>
         <div style={{ paddingLeft: "1rem", textIndent: "-1rem" }}>
-          <Label color={label_color} size="sm">
+          <Label color={label_color} size={label_size}>
             {label}
           </Label>
         </div>
