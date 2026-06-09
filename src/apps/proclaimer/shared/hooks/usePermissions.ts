@@ -10,11 +10,8 @@ import { territoryServantPermissionCollection } from "@shared/database/collectio
 import { avOverseerPermissionCollection } from "@shared/database/collections/av-overseer-permission";
 import { congregationAdminCollection } from "@shared/database/collections/congregation-admin";
 import { authUserCollection } from "@shared/database/collections/auth-user";
-
-interface UsePermissionsProps {
-  auth_user_id: string | undefined;
-  congregation_id: string | undefined;
-}
+import { useAuthSession } from "@util/app/auth/useAuthSession";
+import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
 
 interface Permissions {
   has_cleaning: boolean;
@@ -32,10 +29,11 @@ interface Permissions {
   is_loaded: boolean;
 }
 
-export function usePermissions({
-  auth_user_id,
-  congregation_id,
-}: UsePermissionsProps): Permissions {
+export function usePermissions(): Permissions {
+  const session = useAuthSession();
+  const stored_publisher = useStoredPublisher();
+  const auth_user_id = session?.user?.id;
+  const congregation_id = stored_publisher?.congregation_id;
   const { data: clean_permissions } = useLiveQuery((q) =>
     q.from({ cp: cleanPermissionCollection }),
   );

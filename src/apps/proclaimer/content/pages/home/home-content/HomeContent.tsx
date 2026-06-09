@@ -5,16 +5,11 @@ import { Heading } from "@ui/components/display/text/heading/Heading";
 import { Space } from "@ui/components/layout/space/Space";
 import { IonList } from "@ionic/react";
 import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
-import { useAuthSession } from "@util/app/auth/useAuthSession";
 import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
 
 export function HomeContent() {
   const publisher = useStoredPublisher();
-  const session = useAuthSession();
-  const permissions = usePermissions({
-    auth_user_id: session?.user?.id,
-    congregation_id: publisher?.congregation_id,
-  });
+  const permissions = usePermissions();
   const canSeeAll = permissions.has_congregation_admin || permissions.is_super_admin;
 
   return (
@@ -37,7 +32,7 @@ export function HomeContent() {
         </div>
       </div>
       <Space size="lg" />
-      {session && publisher && (
+      {permissions.is_authenticated && publisher && (
         <IonList>
           {permissions.is_super_admin && <NavItem label="Super Admin" to="/home/super-admin" />}
 
