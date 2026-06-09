@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { useLiveQuery } from "@tanstack/react-db";
 import { WeekNavigation } from "@proclaimer-shared/components/navigation/week-navigation/WeekNavigation";
 import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiColumnList";
@@ -17,7 +17,7 @@ import type { ScheduleContentProps, AssignmentRow } from "./helper/types";
 import { Space } from "@ui/components/layout/space/Space";
 
 export function ScheduleContent({ week_id }: ScheduleContentProps) {
-  const [school_2_enabled, setSchool2Enabled] = useState(false);
+  const history = useHistory();
 
   const { data: allMeetingData } = useLiveQuery((q) =>
     q.from({ mmd: midweekMeetingDataCollection }),
@@ -35,8 +35,7 @@ export function ScheduleContent({ week_id }: ScheduleContentProps) {
     (a) => a.week_id === week_id,
   );
 
-  const has_chairman_2 = assignments?.some((a) => a.assignment_id === "chairman_2");
-  const show_school_2 = has_chairman_2 || school_2_enabled;
+  const show_school_2 = assignments?.some((a) => a.assignment_id === "chairman_2") ?? false;
 
   const meetingParts = weekData ? getMeetingParts(weekData, assignments, show_school_2) : [];
 
@@ -59,7 +58,12 @@ export function ScheduleContent({ week_id }: ScheduleContentProps) {
         {!show_school_2 && (
           <>
             <Space />
-            <TextButton label="Add Second School" on_click={() => setSchool2Enabled(true)} />
+            <TextButton
+              label="Add Second School"
+              on_click={() =>
+                history.push(`/home/clam-overseer/schedule/${week_id}/assignment/chairman_2`)
+              }
+            />
           </>
         )}
       </IonList>

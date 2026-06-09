@@ -99,9 +99,51 @@ export function getMeetingParts(
       assignmentId: "chairman_2",
       color: "medium",
     });
+    if (data.mwb_tgw_bread_title) {
+      parts.push({
+        title: data.mwb_tgw_bread_title,
+        time: null,
+        assignmentId: "school_2_bible_reading",
+        color: "jw_slate",
+      });
+    }
+    if (data.mwb_ayf_part1_title) {
+      parts.push({
+        title: formatLabel(data.mwb_ayf_part1_title, data.mwb_ayf_part1_time),
+        time: null,
+        assignmentId: "school_2_apply_1",
+        color: "jw_brown",
+        assistantId: "school_2_assistant_1",
+      });
+    }
+    if (data.mwb_ayf_part2_title) {
+      parts.push({
+        title: formatLabel(data.mwb_ayf_part2_title, data.mwb_ayf_part2_time),
+        time: null,
+        assignmentId: "school_2_apply_2",
+        color: "jw_brown",
+        assistantId: "school_2_assistant_2",
+      });
+    }
+    if (data.mwb_ayf_part3_title) {
+      parts.push({
+        title: formatLabel(data.mwb_ayf_part3_title, data.mwb_ayf_part3_time),
+        time: null,
+        assignmentId: "school_2_apply_3",
+        color: "jw_brown",
+        assistantId: "school_2_assistant_3",
+      });
+    }
+    if (data.mwb_ayf_part4_title) {
+      parts.push({
+        title: formatLabel(data.mwb_ayf_part4_title, data.mwb_ayf_part4_time),
+        time: null,
+        assignmentId: "school_2_apply_4",
+        color: "jw_brown",
+        assistantId: "school_2_assistant_4",
+      });
+    }
   }
-
-  // School 2 content would go here when data is available
 
   // School 3
   if (hasAssignment(assignments, "chairman_3")) {
