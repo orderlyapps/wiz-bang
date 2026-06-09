@@ -34,6 +34,7 @@ export function getMeetingParts(
       time: null,
       assignmentId: "treasures",
       color: "jw_slate",
+      pin_to_first_column: true,
     });
   }
   if (data.mwb_tgw_gems_title) {
@@ -46,12 +47,22 @@ export function getMeetingParts(
   }
 
   // School 1
+  if (show_school_2) {
+    parts.push({
+      title: "Main Hall",
+      time: null,
+      assignmentId: "main_hall_label",
+      color: "medium",
+      pin_to_first_column: true,
+    });
+  }
   if (data.mwb_tgw_bread_title) {
     parts.push({
       title: data.mwb_tgw_bread_title,
       time: null,
       assignmentId: "school_1_bible_reading",
       color: "jw_slate",
+      pin_to_first_column: show_school_2,
     });
   }
   if (data.mwb_ayf_part1_title) {
@@ -61,6 +72,7 @@ export function getMeetingParts(
       assignmentId: "school_1_apply_1",
       color: "jw_brown",
       assistantId: "school_1_assistant_1",
+      pin_to_first_column: !show_school_2,
     });
   }
   if (data.mwb_ayf_part2_title) {
@@ -94,6 +106,13 @@ export function getMeetingParts(
   // School 2
   if (show_school_2) {
     parts.push({
+      title: "Second School",
+      time: null,
+      assignmentId: "second_school_label",
+      color: "medium",
+      pin_to_first_column: true,
+    });
+    parts.push({
       title: "Second School Counselor",
       time: null,
       assignmentId: "chairman_2",
@@ -105,6 +124,7 @@ export function getMeetingParts(
         time: null,
         assignmentId: "school_2_bible_reading",
         color: "jw_slate",
+        pin_to_first_column: true,
       });
     }
     if (data.mwb_ayf_part1_title) {
@@ -164,6 +184,7 @@ export function getMeetingParts(
       time: null,
       assignmentId: "living_1",
       color: "jw_red",
+      pin_to_first_column: true,
     });
   }
   if (data.mwb_lc_part2_title) {
@@ -190,6 +211,7 @@ export function getMeetingParts(
     time: null,
     assignmentId: "prayer_2",
     color: "medium",
+    pin_to_first_column: true,
   });
 
   return parts;

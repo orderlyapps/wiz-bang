@@ -35,6 +35,7 @@ export function useAssignmentRows(
       color: part.color,
       publisher: assignedName,
       assistant: assistantName,
+      pin_to_first_column: part.pin_to_first_column,
     };
   });
 }

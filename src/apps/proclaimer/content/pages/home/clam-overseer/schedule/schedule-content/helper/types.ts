@@ -8,9 +8,10 @@ export type ScheduleContentProps = {
 export type AssignmentItem = {
   title: string;
   time: number | null;
-  assignmentId: MidweekAssignmentId;
+  assignmentId: MidweekAssignmentId | string;
   color: IonicColor;
   assistantId?: MidweekAssignmentId;
+  pin_to_first_column?: boolean;
 };
 
 export type AssignmentRow = {
@@ -20,4 +21,5 @@ export type AssignmentRow = {
   color: IonicColor;
   publisher?: string;
   assistant?: string;
+  pin_to_first_column?: boolean;
 };

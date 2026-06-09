@@ -54,6 +54,7 @@ export function ScheduleContent({ week_id }: ScheduleContentProps) {
           items={rows}
           get_id={(row) => row.id}
           render_item={(row) => <AssignmentCard {...row} />}
+          pin_to_first_column={(row) => row.pin_to_first_column ?? false}
         />
         {!show_school_2 && (
           <>
