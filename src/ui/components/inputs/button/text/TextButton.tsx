@@ -29,6 +29,7 @@ export function TextButton({
       disabled={disabled}
       onClick={on_click}
       className="ion-margin-horizontal"
+      style={{ maxWidth: 360, marginInline: "auto" }}
     >
       {label}
     </IonButton>
