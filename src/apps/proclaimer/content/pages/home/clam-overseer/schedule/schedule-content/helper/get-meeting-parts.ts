@@ -113,10 +113,11 @@ export function getMeetingParts(
       pin_to_first_column: true,
     });
     parts.push({
-      title: "Second School Counselor",
+      title: "Counselor",
       time: null,
       assignmentId: "chairman_2",
       color: "medium",
+      pin_to_first_column: true,
     });
     if (data.mwb_tgw_bread_title) {
       parts.push({
