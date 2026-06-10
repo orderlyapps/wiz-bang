@@ -69,7 +69,7 @@ export function MultiColumnList<T>({
   items,
   get_id,
   render_item,
-  gap = "sm",
+  gap = "none",
   column_offset = 0,
   pin_to_first_column,
 }: MultiColumnListProps<T>) {
