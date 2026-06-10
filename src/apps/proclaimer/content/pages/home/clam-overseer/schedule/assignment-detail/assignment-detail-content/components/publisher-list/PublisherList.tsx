@@ -2,6 +2,7 @@ import { IonItem, IonLabel, IonList, IonIcon } from "@ionic/react";
 import { checkmark } from "ionicons/icons";
 import type { Publisher } from "@shared/database/schemas/publisher";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
+import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiColumnList";
 
 interface PublisherListProps {
   publishers: Publisher[];
@@ -21,13 +22,15 @@ export function PublisherList({ publishers, selected_id, on_select }: PublisherL
   }
 
   return (
-    <IonList className="ion-margin" inset>
-      {publishers.map((publisher) => (
-        <IonItem key={publisher.id} button onClick={() => on_select(publisher.id ?? "")}>
+    <MultiColumnList<Publisher>
+      items={publishers}
+      get_id={(p) => p.id ?? ""}
+      render_item={(publisher) => (
+        <IonItem button onClick={() => on_select(publisher.id ?? "")}>
           <IonLabel>{getPublisherDisplayName(publisher)}</IonLabel>
           {selected_id === publisher.id && <IonIcon icon={checkmark} slot="end" color="primary" />}
         </IonItem>
-      ))}
-    </IonList>
+      )}
+    />
   );
 }
