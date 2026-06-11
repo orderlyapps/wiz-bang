@@ -76,11 +76,14 @@ export function PublisherList({ publishers, selected_id, on_select }: PublisherL
           );
         }
         return (
-          <IonItem button onClick={() => on_select(item.id ?? "")}>
+          <IonItem
+            color={selected_id === item.id ? "primary" : undefined}
+            onClick={() => on_select(item.id ?? "")}
+          >
             <IonLabel>
               <Body>{getPublisherDisplayName(item)}</Body>
             </IonLabel>
-            {selected_id === item.id && <IonIcon icon={checkmark} slot="end" color="primary" />}
+            {selected_id === item.id && <IonIcon icon={checkmark} slot="end" />}
           </IonItem>
         );
       }}
