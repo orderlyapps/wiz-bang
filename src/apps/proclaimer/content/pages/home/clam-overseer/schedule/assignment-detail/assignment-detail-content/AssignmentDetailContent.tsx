@@ -8,6 +8,7 @@ import type { MidweekAssignment } from "@shared/database/schemas/midweek-assignm
 import type { MidweekMeetingData } from "@shared/database/schemas/midweek-meeting-data";
 import type { Publisher } from "@shared/database/schemas/publisher";
 import { getMeetingParts } from "@proclaimer-content/pages/home/clam-overseer/schedule/schedule-content/helper/get-meeting-parts";
+import type { IonicColor } from "@util/vendor/ionic/types/IonicColor";
 import { LabelValueItem } from "@ui/components/display/data/label-value/LabelValueItem";
 import { Label } from "@ui/components/display/text/label/Label";
 import { Body } from "@ui/components/display/text/body/Body";
@@ -70,13 +71,16 @@ export function AssignmentDetailContent({ week_id, assignment_id }: AssignmentDe
       (a) => a.week_id === week_id && a.assignment_id === "chairman_2",
     ) ?? false;
 
-  const assignmentTitle = weekData
-    ? (getMeetingParts(
+  const matchedPart = weekData
+    ? getMeetingParts(
         weekData,
         allAssignments as MidweekAssignment[] | undefined,
         show_school_2,
-      ).find((p) => p.assignmentId === assignment_id)?.title ?? assignment_id.replace(/_/g, " "))
-    : assignment_id.replace(/_/g, " ");
+      ).find((p) => p.assignmentId === assignment_id)
+    : undefined;
+
+  const assignmentTitle = matchedPart?.title ?? assignment_id.replace(/_/g, " ");
+  const assignmentColor: IonicColor = matchedPart?.color ?? "medium";
 
   const assignmentContext = weekData ? getAssignmentContext(assignment_id, weekData) : undefined;
 
@@ -117,13 +121,16 @@ export function AssignmentDetailContent({ week_id, assignment_id }: AssignmentDe
     <>
       <IonList className="ion-margin" inset>
         <LabelValueItem label="Week" value={getTheocraticWeekLabel(week_id)} />
-        <LabelValueItem label="Assignment" value={assignmentTitle} />
-        {assignmentContext && <LabelValueItem label="Material" value={assignmentContext} />}
+        <LabelValueItem
+          label={assignmentTitle}
+          label_color={assignmentColor}
+          value_2={assignmentContext}
+        />
         <IonItem className="Label-value-item">
           <IonLabel>
             <div style={{ paddingLeft: "1rem", textIndent: "-1rem" }}>
               <Label color="medium" size="sm">
-                Publisher
+                Student
               </Label>
             </div>
             <div style={{ paddingLeft: "1rem" }}>
