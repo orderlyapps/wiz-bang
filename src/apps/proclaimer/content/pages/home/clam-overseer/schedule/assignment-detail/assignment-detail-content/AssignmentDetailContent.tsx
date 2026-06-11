@@ -160,33 +160,31 @@ export function AssignmentDetailContent({ week_id, assignment_id }: AssignmentDe
           label_color={assignmentColor}
           value_2={assignmentContext}
         />
-        <LabelValueItem
-          label={assigneeLabel}
-          value={assignee ? getPublisherDisplayName(assignee) : "Unassigned"}
-          end_detail={
-            assignment && (
+        {assignee && (
+          <LabelValueItem
+            label={assigneeLabel}
+            value={getPublisherDisplayName(assignee)}
+            end_detail={
               <DeleteIconButton
                 alert_header="Remove Assignment"
                 alert_message="Remove this publisher from the assignment?"
                 confirm_text="Remove"
                 on_click={handleDelete}
               />
-            )
-          }
-        />
-        {assistantId && (
+            }
+          />
+        )}
+        {assistantId && assistantAssignee && (
           <LabelValueItem
             label={assistantId === "cbs_reader" ? "Reader" : "Assistant"}
-            value={assistantAssignee ? getPublisherDisplayName(assistantAssignee) : "Unassigned"}
+            value={getPublisherDisplayName(assistantAssignee)}
             end_detail={
-              assistantAssignment && (
-                <DeleteIconButton
-                  alert_header="Remove Assignment"
-                  alert_message="Remove this publisher from the assignment?"
-                  confirm_text="Remove"
-                  on_click={handleDeleteAssistant}
-                />
-              )
+              <DeleteIconButton
+                alert_header="Remove Assignment"
+                alert_message="Remove this publisher from the assignment?"
+                confirm_text="Remove"
+                on_click={handleDeleteAssistant}
+              />
             }
           />
         )}
