@@ -1,4 +1,4 @@
-import { IonPage, IonHeader, IonContent } from "@ionic/react";
+import { IonPage, IonHeader } from "@ionic/react";
 import { useParams } from "react-router-dom";
 import { getTheocraticWeekLabel } from "@proclaimer-shared/util/date/getTheocraticWeekLabel";
 import { AssignmentDetailHeader } from "@proclaimer-content/pages/home/clam-overseer/schedule/assignment-detail/assignment-detail-header/AssignmentDetailHeader";
@@ -15,9 +15,7 @@ function AssignmentDetailPage() {
           back_href={`/home/clam-overseer/schedule/${week_id}`}
         />
       </IonHeader>
-      <IonContent className="content-wide remove-top-padding" scrollY={false}>
-        <AssignmentDetailContent week_id={week_id} assignment_id={assignment_id} />
-      </IonContent>
+      <AssignmentDetailContent week_id={week_id} assignment_id={assignment_id} />
     </IonPage>
   );
 }
