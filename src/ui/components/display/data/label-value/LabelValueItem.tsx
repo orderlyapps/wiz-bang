@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { IonItem, IonLabel } from "@ionic/react";
 import { Body } from "@ui/components/display/text/body/Body";
 import { Label } from "@ui/components/display/text/label/Label";
@@ -17,6 +18,7 @@ interface LabelValueItemProps extends Partial<LabelValue> {
   detail?: boolean;
   router_link?: string;
   on_click?: () => void;
+  end_detail?: ReactNode;
 }
 
 export function LabelValueItem({
@@ -32,6 +34,7 @@ export function LabelValueItem({
   detail = false,
   router_link,
   on_click,
+  end_detail,
 }: LabelValueItemProps) {
   return (
     <IonItem routerLink={router_link} detail={detail} onClick={on_click}>
@@ -56,6 +59,7 @@ export function LabelValueItem({
           </div>
         )}
       </IonLabel>
+      {end_detail}
     </IonItem>
   );
 }

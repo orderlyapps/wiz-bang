@@ -1,5 +1,5 @@
 import { useLiveQuery } from "@tanstack/react-db";
-import { IonItem, IonList, IonListHeader, IonLabel } from "@ionic/react";
+import { IonList, IonListHeader, IonLabel } from "@ionic/react";
 import { Spinner } from "@ui/components/display/spinner/Spinner";
 import { midweekAssignmentCollection } from "@shared/database/collections/midweek-assignment";
 import { midweekMeetingDataCollection } from "@shared/database/collections/midweek-meeting-data";
@@ -10,8 +10,6 @@ import type { Publisher } from "@shared/database/schemas/publisher";
 import { getMeetingParts } from "@proclaimer-content/pages/home/clam-overseer/schedule/schedule-content/helper/get-meeting-parts";
 import type { IonicColor } from "@util/vendor/ionic/types/IonicColor";
 import { LabelValueItem } from "@ui/components/display/data/label-value/LabelValueItem";
-import { Label } from "@ui/components/display/text/label/Label";
-import { Body } from "@ui/components/display/text/body/Body";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
 import { makeCompositeKey } from "@shared/database/util/composite-key";
 import { getStoredCongregation } from "@util/app/congregation/utils";
@@ -155,49 +153,35 @@ export function AssignmentDetailContent({ week_id, assignment_id }: AssignmentDe
           label_color={assignmentColor}
           value_2={assignmentContext}
         />
-        <IonItem>
-          <IonLabel>
-            <div style={{ paddingLeft: "1rem", textIndent: "-1rem" }}>
-              <Label color="medium" size="sm">
-                Student
-              </Label>
-            </div>
-            <div style={{ paddingLeft: "1rem" }}>
-              <Body>{assignee ? getPublisherDisplayName(assignee) : "Unassigned"}</Body>
-            </div>
-          </IonLabel>
-          {assignment && (
-            <DeleteIconButton
-              alert_header="Remove Assignment"
-              alert_message="Remove this publisher from the assignment?"
-              confirm_text="Remove"
-              on_click={handleDelete}
-            />
-          )}
-        </IonItem>
-        {assistantId && (
-          <IonItem>
-            <IonLabel>
-              <div style={{ paddingLeft: "1rem", textIndent: "-1rem" }}>
-                <Label color="medium" size="sm">
-                  {assistantId === "cbs_reader" ? "Reader" : "Assistant"}
-                </Label>
-              </div>
-              <div style={{ paddingLeft: "1rem" }}>
-                <Body>
-                  {assistantAssignee ? getPublisherDisplayName(assistantAssignee) : "Unassigned"}
-                </Body>
-              </div>
-            </IonLabel>
-            {assistantAssignment && (
+        <LabelValueItem
+          label="Student"
+          value={assignee ? getPublisherDisplayName(assignee) : "Unassigned"}
+          end_detail={
+            assignment && (
               <DeleteIconButton
                 alert_header="Remove Assignment"
                 alert_message="Remove this publisher from the assignment?"
                 confirm_text="Remove"
-                on_click={handleDeleteAssistant}
+                on_click={handleDelete}
               />
-            )}
-          </IonItem>
+            )
+          }
+        />
+        {assistantId && (
+          <LabelValueItem
+            label={assistantId === "cbs_reader" ? "Reader" : "Assistant"}
+            value={assistantAssignee ? getPublisherDisplayName(assistantAssignee) : "Unassigned"}
+            end_detail={
+              assistantAssignment && (
+                <DeleteIconButton
+                  alert_header="Remove Assignment"
+                  alert_message="Remove this publisher from the assignment?"
+                  confirm_text="Remove"
+                  on_click={handleDeleteAssistant}
+                />
+              )
+            }
+          />
         )}
       </IonList>
       <IonListHeader className="ion-margin-start">
