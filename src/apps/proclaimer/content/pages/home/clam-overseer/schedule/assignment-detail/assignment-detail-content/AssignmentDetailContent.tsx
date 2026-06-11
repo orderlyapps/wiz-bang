@@ -2,18 +2,21 @@ import { useLiveQuery } from "@tanstack/react-db";
 import { IonItem, IonList, IonListHeader, IonLabel } from "@ionic/react";
 import { Spinner } from "@ui/components/display/spinner/Spinner";
 import { midweekAssignmentCollection } from "@shared/database/collections/midweek-assignment";
+import { midweekMeetingDataCollection } from "@shared/database/collections/midweek-meeting-data";
 import { publisherCollection } from "@shared/database/collections/publisher";
 import type { MidweekAssignment } from "@shared/database/schemas/midweek-assignment";
+import type { MidweekMeetingData } from "@shared/database/schemas/midweek-meeting-data";
 import type { Publisher } from "@shared/database/schemas/publisher";
+import { getMeetingParts } from "@proclaimer-content/pages/home/clam-overseer/schedule/schedule-content/helper/get-meeting-parts";
 import { LabelValueItem } from "@ui/components/display/data/label-value/LabelValueItem";
 import { Label } from "@ui/components/display/text/label/Label";
 import { Body } from "@ui/components/display/text/body/Body";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
-import { format, parseISO } from "date-fns";
 import { makeCompositeKey } from "@shared/database/util/composite-key";
 import { getStoredCongregation } from "@util/app/congregation/utils";
 import { PublisherList } from "./components/publisher-list/PublisherList";
 import { DeleteIconButton } from "@ui/components/inputs/button/icon/delete/DeleteIconButton";
+import { getTheocraticWeekLabel } from "@proclaimer-shared/util/date/getTheocraticWeekLabel";
 
 interface AssignmentDetailContentProps {
   week_id: string;
@@ -27,6 +30,10 @@ export function AssignmentDetailContent({ week_id, assignment_id }: AssignmentDe
     q.from({ ma: midweekAssignmentCollection }),
   );
 
+  const { data: allMeetingData, isLoading: isLoadingMeetingData } = useLiveQuery((q) =>
+    q.from({ mmd: midweekMeetingDataCollection }),
+  );
+
   const { data: allPublishers, isLoading: isLoadingPublishers } = useLiveQuery((q) =>
     q.from({ p: publisherCollection }).orderBy(({ p }) => p.last_name),
   );
@@ -35,23 +42,32 @@ export function AssignmentDetailContent({ week_id, assignment_id }: AssignmentDe
     (a) => a.week_id === week_id && a.assignment_id === assignment_id,
   );
 
+  const weekData = (allMeetingData as MidweekMeetingData[] | undefined)?.find(
+    (m) => m.week_id === week_id,
+  );
+
+  const show_school_2 =
+    (allAssignments as MidweekAssignment[] | undefined)?.some(
+      (a) => a.week_id === week_id && a.assignment_id === "chairman_2",
+    ) ?? false;
+
+  const assignmentTitle = weekData
+    ? (getMeetingParts(
+        weekData,
+        allAssignments as MidweekAssignment[] | undefined,
+        show_school_2,
+      ).find((p) => p.assignmentId === assignment_id)?.title ?? assignment_id.replace(/_/g, " "))
+    : assignment_id.replace(/_/g, " ");
+
   const publishers = ((allPublishers as Publisher[] | undefined) ?? []).filter(
     (p) => p.congregation_id === congregation_id,
   );
 
   const assignee = publishers.find((p) => p.id === assignment?.participant_id);
 
-  if (isLoadingAssignments || isLoadingPublishers) {
+  if (isLoadingAssignments || isLoadingPublishers || isLoadingMeetingData) {
     return <Spinner centered />;
   }
-
-  const formattedWeek = (() => {
-    try {
-      return format(parseISO(week_id), "d MMMM yyyy");
-    } catch {
-      return week_id;
-    }
-  })();
 
   const handleDelete = () => {
     if (!congregation_id || !assignment) return;
@@ -79,8 +95,8 @@ export function AssignmentDetailContent({ week_id, assignment_id }: AssignmentDe
   return (
     <>
       <IonList className="ion-margin" inset>
-        <LabelValueItem label="Week" value={formattedWeek} />
-        <LabelValueItem label="Assignment" value={assignment_id.replace(/_/g, " ")} />
+        <LabelValueItem label="Week" value={getTheocraticWeekLabel(week_id)} />
+        <LabelValueItem label="Assignment" value={assignmentTitle} />
         <IonItem className="Label-value-item">
           <IonLabel>
             <div style={{ paddingLeft: "1rem", textIndent: "-1rem" }}>
