@@ -18,6 +18,25 @@ import { PublisherList } from "./components/publisher-list/PublisherList";
 import { DeleteIconButton } from "@ui/components/inputs/button/icon/delete/DeleteIconButton";
 import { getTheocraticWeekLabel } from "@proclaimer-shared/util/date/getTheocraticWeekLabel";
 
+function getAssignmentContext(id: string, data: MidweekMeetingData): string | undefined {
+  if (
+    id === "school_1_bible_reading" ||
+    id === "school_2_bible_reading" ||
+    id === "school_3_bible_reading"
+  ) {
+    return data.mwb_tgw_bread ?? undefined;
+  }
+  const applyMatch = id.match(/^school_\d_apply_(\d)$/) ?? id.match(/^school_\d_assistant_(\d)$/);
+  if (applyMatch) {
+    const n = applyMatch[1] as "1" | "2" | "3" | "4";
+    return (data[`mwb_ayf_part${n}`] as string | undefined | null) ?? undefined;
+  }
+  if (id === "living_1") return data.mwb_lc_part1_content ?? undefined;
+  if (id === "living_2") return data.mwb_lc_part2_content ?? undefined;
+  if (id === "cbs_conductor" || id === "cbs_reader") return data.mwb_lc_cbs ?? undefined;
+  return undefined;
+}
+
 interface AssignmentDetailContentProps {
   week_id: string;
   assignment_id: string;
@@ -59,6 +78,8 @@ export function AssignmentDetailContent({ week_id, assignment_id }: AssignmentDe
       ).find((p) => p.assignmentId === assignment_id)?.title ?? assignment_id.replace(/_/g, " "))
     : assignment_id.replace(/_/g, " ");
 
+  const assignmentContext = weekData ? getAssignmentContext(assignment_id, weekData) : undefined;
+
   const publishers = ((allPublishers as Publisher[] | undefined) ?? []).filter(
     (p) => p.congregation_id === congregation_id,
   );
@@ -97,6 +118,7 @@ export function AssignmentDetailContent({ week_id, assignment_id }: AssignmentDe
       <IonList className="ion-margin" inset>
         <LabelValueItem label="Week" value={getTheocraticWeekLabel(week_id)} />
         <LabelValueItem label="Assignment" value={assignmentTitle} />
+        {assignmentContext && <LabelValueItem label="Material" value={assignmentContext} />}
         <IonItem className="Label-value-item">
           <IonLabel>
             <div style={{ paddingLeft: "1rem", textIndent: "-1rem" }}>
