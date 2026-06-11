@@ -89,6 +89,14 @@ export function AssignmentDetailContent({ week_id, assignment_id }: AssignmentDe
 
   const assignee = publishers.find((p) => p.id === assignment?.participant_id);
 
+  const assistantId = matchedPart?.assistantId;
+  const assistantAssignment = assistantId
+    ? (allAssignments as MidweekAssignment[] | undefined)?.find(
+        (a) => a.week_id === week_id && a.assignment_id === assistantId,
+      )
+    : undefined;
+  const assistantAssignee = publishers.find((p) => p.id === assistantAssignment?.participant_id);
+
   if (isLoadingAssignments || isLoadingPublishers || isLoadingMeetingData) {
     return <Spinner centered />;
   }
@@ -116,9 +124,32 @@ export function AssignmentDetailContent({ week_id, assignment_id }: AssignmentDe
     }
   };
 
+  const handleDeleteAssistant = () => {
+    if (!congregation_id || !assistantId || !assistantAssignment) return;
+    const key = makeCompositeKey(assistantId, congregation_id, week_id);
+    midweekAssignmentCollection.delete(key);
+  };
+
+  const handleSelectAssistant = (publisher_id: string) => {
+    if (!congregation_id || !assistantId) return;
+    if (assistantAssignment) {
+      const key = makeCompositeKey(assistantId, congregation_id, week_id);
+      midweekAssignmentCollection.update(key, (draft) => {
+        draft.participant_id = publisher_id;
+      });
+    } else {
+      midweekAssignmentCollection.insert({
+        assignment_id: assistantId as MidweekAssignment["assignment_id"],
+        congregation_id,
+        week_id,
+        participant_id: publisher_id,
+      });
+    }
+  };
+
   return (
     <>
-      <IonList className="ion-margin" inset>
+      <IonList inset>
         <LabelValueItem
           label={assignmentTitle}
           label_color={assignmentColor}
@@ -144,15 +175,53 @@ export function AssignmentDetailContent({ week_id, assignment_id }: AssignmentDe
             />
           )}
         </IonItem>
+        {assistantId && (
+          <IonItem className="Label-value-item">
+            <IonLabel>
+              <div style={{ paddingLeft: "1rem", textIndent: "-1rem" }}>
+                <Label color="medium" size="sm">
+                  {assistantId === "cbs_reader" ? "Reader" : "Assistant"}
+                </Label>
+              </div>
+              <div style={{ paddingLeft: "1rem" }}>
+                <Body>
+                  {assistantAssignee ? getPublisherDisplayName(assistantAssignee) : "Unassigned"}
+                </Body>
+              </div>
+            </IonLabel>
+            {assistantAssignment && (
+              <DeleteIconButton
+                alert_header="Remove Assignment"
+                alert_message="Remove this publisher from the assignment?"
+                confirm_text="Remove"
+                on_click={handleDeleteAssistant}
+              />
+            )}
+          </IonItem>
+        )}
       </IonList>
       <IonListHeader className="ion-margin-start">
-        <IonLabel>Assign Publisher</IonLabel>
+        <IonLabel>Assign Student</IonLabel>
       </IonListHeader>
       <PublisherList
         publishers={publishers}
         selected_id={assignment?.participant_id}
         on_select={handleSelect}
       />
+      {assistantId && (
+        <>
+          <IonListHeader className="ion-margin-start">
+            <IonLabel>
+              {assistantId === "cbs_reader" ? "Assign Reader" : "Assign Assistant"}
+            </IonLabel>
+          </IonListHeader>
+          <PublisherList
+            publishers={publishers}
+            selected_id={assistantAssignment?.participant_id}
+            on_select={handleSelectAssistant}
+          />
+        </>
+      )}
     </>
   );
 }
