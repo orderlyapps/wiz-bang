@@ -155,7 +155,7 @@ export function AssignmentDetailContent({ week_id, assignment_id }: AssignmentDe
           label_color={assignmentColor}
           value_2={assignmentContext}
         />
-        <IonItem className="Label-value-item">
+        <IonItem>
           <IonLabel>
             <div style={{ paddingLeft: "1rem", textIndent: "-1rem" }}>
               <Label color="medium" size="sm">
@@ -176,7 +176,7 @@ export function AssignmentDetailContent({ week_id, assignment_id }: AssignmentDe
           )}
         </IonItem>
         {assistantId && (
-          <IonItem className="Label-value-item">
+          <IonItem>
             <IonLabel>
               <div style={{ paddingLeft: "1rem", textIndent: "-1rem" }}>
                 <Label color="medium" size="sm">
