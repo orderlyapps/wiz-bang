@@ -37,7 +37,12 @@ export function LabelValueItem({
   end_detail,
 }: LabelValueItemProps) {
   return (
-    <IonItem routerLink={router_link} detail={detail} onClick={on_click}>
+    <IonItem
+      style={{ maxWidth: 480, marginInline: "auto" }}
+      routerLink={router_link}
+      detail={detail}
+      onClick={on_click}
+    >
       <IonLabel>
         <div style={{ paddingLeft: "1rem", textIndent: "-1rem" }}>
           <Label color={label_color} size={label_size}>
