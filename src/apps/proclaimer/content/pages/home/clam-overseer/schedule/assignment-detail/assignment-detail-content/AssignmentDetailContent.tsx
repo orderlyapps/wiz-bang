@@ -92,7 +92,7 @@ export function AssignmentDetailContent({ week_id, assignment_id }: AssignmentDe
     if (/^school_\d_(bible_reading|apply_\d)$/.test(assignment_id)) return "Student";
     if (assignment_id === "cbs_reader") return "Reader";
     if (assignment_id === "cbs_conductor") return "Conductor";
-    return "Publisher";
+    return "Participant";
   })();
 
   const assistantId = matchedPart?.assistantId;
