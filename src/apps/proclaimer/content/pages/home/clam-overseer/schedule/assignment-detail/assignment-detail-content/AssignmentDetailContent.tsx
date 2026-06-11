@@ -17,7 +17,6 @@ import { makeCompositeKey } from "@shared/database/util/composite-key";
 import { getStoredCongregation } from "@util/app/congregation/utils";
 import { PublisherList } from "./components/publisher-list/PublisherList";
 import { DeleteIconButton } from "@ui/components/inputs/button/icon/delete/DeleteIconButton";
-import { getTheocraticWeekLabel } from "@proclaimer-shared/util/date/getTheocraticWeekLabel";
 
 function getAssignmentContext(id: string, data: MidweekMeetingData): string | undefined {
   if (
@@ -120,7 +119,6 @@ export function AssignmentDetailContent({ week_id, assignment_id }: AssignmentDe
   return (
     <>
       <IonList className="ion-margin" inset>
-        <LabelValueItem label="Week" value={getTheocraticWeekLabel(week_id)} />
         <LabelValueItem
           label={assignmentTitle}
           label_color={assignmentColor}
