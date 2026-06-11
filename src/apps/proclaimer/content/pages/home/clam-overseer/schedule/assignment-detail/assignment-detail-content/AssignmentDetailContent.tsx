@@ -87,6 +87,13 @@ export function AssignmentDetailContent({ week_id, assignment_id }: AssignmentDe
 
   const assignee = publishers.find((p) => p.id === assignment?.participant_id);
 
+  const assigneeLabel = (() => {
+    if (/^school_\d_(bible_reading|apply_\d)$/.test(assignment_id)) return "Student";
+    if (assignment_id === "cbs_reader") return "Reader";
+    if (assignment_id === "cbs_conductor") return "Conductor";
+    return "Publisher";
+  })();
+
   const assistantId = matchedPart?.assistantId;
   const assistantAssignment = assistantId
     ? (allAssignments as MidweekAssignment[] | undefined)?.find(
@@ -154,7 +161,7 @@ export function AssignmentDetailContent({ week_id, assignment_id }: AssignmentDe
           value_2={assignmentContext}
         />
         <LabelValueItem
-          label="Student"
+          label={assigneeLabel}
           value={assignee ? getPublisherDisplayName(assignee) : "Unassigned"}
           end_detail={
             assignment && (
