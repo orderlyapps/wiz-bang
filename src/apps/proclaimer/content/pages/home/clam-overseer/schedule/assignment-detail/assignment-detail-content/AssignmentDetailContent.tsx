@@ -160,6 +160,7 @@ export function AssignmentDetailContent({ week_id, assignment_id }: AssignmentDe
           label_color={assignmentColor}
           value_2={assignmentContext}
         />
+
         {assignee && (
           <LabelValueItem
             label={assigneeLabel}
@@ -174,6 +175,7 @@ export function AssignmentDetailContent({ week_id, assignment_id }: AssignmentDe
             }
           />
         )}
+
         {assistantId && assistantAssignee && (
           <LabelValueItem
             label={assistantId === "cbs_reader" ? "Reader" : "Assistant"}
@@ -189,14 +191,13 @@ export function AssignmentDetailContent({ week_id, assignment_id }: AssignmentDe
           />
         )}
       </IonList>
-      <IonListHeader className="ion-margin-start">
-        <IonLabel>Assign Student</IonLabel>
-      </IonListHeader>
+
       <PublisherList
         publishers={publishers}
         selected_id={assignment?.participant_id}
         on_select={handleSelect}
       />
+
       {assistantId && (
         <>
           <IonListHeader className="ion-margin-start">
@@ -204,6 +205,7 @@ export function AssignmentDetailContent({ week_id, assignment_id }: AssignmentDe
               {assistantId === "cbs_reader" ? "Assign Reader" : "Assign Assistant"}
             </IonLabel>
           </IonListHeader>
+
           <PublisherList
             publishers={publishers}
             selected_id={assistantAssignment?.participant_id}
