@@ -10,6 +10,7 @@ import type { Publisher } from "@shared/database/schemas/publisher";
 import { getMeetingParts } from "@proclaimer-content/pages/home/clam-overseer/schedule/schedule-content/helper/get-meeting-parts";
 import type { IonicColor } from "@util/vendor/ionic/types/IonicColor";
 import { LabelValueItem } from "@ui/components/display/data/label-value/LabelValueItem";
+import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiColumnList";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
 import { makeCompositeKey } from "@shared/database/util/composite-key";
 import { getStoredCongregation } from "@util/app/congregation/utils";
@@ -160,37 +161,47 @@ export function AssignmentDetailContent({ week_id, assignment_id }: AssignmentDe
           label_color={assignmentColor}
           value_2={assignmentContext}
         />
-
-        {assignee && (
-          <LabelValueItem
-            label={assigneeLabel}
-            value={getPublisherDisplayName(assignee)}
-            end_detail={
-              <DeleteIconButton
-                alert_header="Remove Assignment"
-                alert_message="Remove this publisher from the assignment?"
-                confirm_text="Remove"
-                on_click={handleDelete}
-              />
-            }
-          />
-        )}
-
-        {assistantId && assistantAssignee && (
-          <LabelValueItem
-            label={assistantId === "cbs_reader" ? "Reader" : "Assistant"}
-            value={getPublisherDisplayName(assistantAssignee)}
-            end_detail={
-              <DeleteIconButton
-                alert_header="Remove Assignment"
-                alert_message="Remove this publisher from the assignment?"
-                confirm_text="Remove"
-                on_click={handleDeleteAssistant}
-              />
-            }
-          />
-        )}
       </IonList>
+
+      <MultiColumnList
+        items={[
+          ...(assignee
+            ? [
+                {
+                  id: "assignee",
+                  label: assigneeLabel,
+                  value: getPublisherDisplayName(assignee),
+                  on_delete: handleDelete,
+                },
+              ]
+            : []),
+          ...(assistantId && assistantAssignee
+            ? [
+                {
+                  id: "assistant",
+                  label: assistantId === "cbs_reader" ? "Reader" : "Assistant",
+                  value: getPublisherDisplayName(assistantAssignee),
+                  on_delete: handleDeleteAssistant,
+                },
+              ]
+            : []),
+        ]}
+        get_id={(item) => item.id}
+        render_item={(item) => (
+          <LabelValueItem
+            label={item.label}
+            value={item.value}
+            end_detail={
+              <DeleteIconButton
+                alert_header="Remove Assignment"
+                alert_message="Remove this publisher from the assignment?"
+                confirm_text="Remove"
+                on_click={item.on_delete}
+              />
+            }
+          />
+        )}
+      />
 
       <PublisherList
         publishers={publishers}
