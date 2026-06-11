@@ -5,6 +5,7 @@ import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherU
 import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiColumnList";
 import { Body } from "@ui/components/display/text/body/Body";
 import { Heading } from "@ui/components/display/text/heading/Heading";
+import { Space } from "@ui/components/layout/space/Space";
 
 interface PublisherListProps {
   publishers: Publisher[];
@@ -57,36 +58,40 @@ export function PublisherList({ publishers, selected_id, on_select }: PublisherL
   const { items, pinned_ids } = buildItems(publishers);
 
   return (
-    <MultiColumnList<ListItem>
-      items={items}
-      get_id={(item) => (isDivider(item) ? item.id : (item.id ?? ""))}
-      pin_to_first_column={
-        pinned_ids.size > 0
-          ? (item) => pinned_ids.has(isDivider(item) ? item.id : (item.id ?? ""))
-          : undefined
-      }
-      render_item={(item) => {
-        if (isDivider(item)) {
+    <>
+      <MultiColumnList<ListItem>
+        items={items}
+        get_id={(item) => (isDivider(item) ? item.id : (item.id ?? ""))}
+        pin_to_first_column={
+          pinned_ids.size > 0
+            ? (item) => pinned_ids.has(isDivider(item) ? item.id : (item.id ?? ""))
+            : undefined
+        }
+        render_item={(item) => {
+          if (isDivider(item)) {
+            return (
+              <IonItem lines="none" className="ion-margin">
+                <IonLabel>
+                  <Heading>{item.letter}</Heading>
+                </IonLabel>
+              </IonItem>
+            );
+          }
           return (
-            <IonItem lines="none" className="ion-margin">
+            <IonItem
+              color={selected_id === item.id ? "primary" : undefined}
+              onClick={() => on_select(item.id ?? "")}
+            >
               <IonLabel>
-                <Heading>{item.letter}</Heading>
+                <Body>{getPublisherDisplayName(item)}</Body>
               </IonLabel>
+              {selected_id === item.id && <IonIcon icon={checkmark} slot="end" />}
             </IonItem>
           );
-        }
-        return (
-          <IonItem
-            color={selected_id === item.id ? "primary" : undefined}
-            onClick={() => on_select(item.id ?? "")}
-          >
-            <IonLabel>
-              <Body>{getPublisherDisplayName(item)}</Body>
-            </IonLabel>
-            {selected_id === item.id && <IonIcon icon={checkmark} slot="end" />}
-          </IonItem>
-        );
-      }}
-    />
+        }}
+      />
+
+      <Space size="2xl" />
+    </>
   );
 }

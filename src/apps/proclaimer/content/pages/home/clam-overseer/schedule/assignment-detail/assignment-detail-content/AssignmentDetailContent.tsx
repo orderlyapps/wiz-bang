@@ -1,5 +1,12 @@
 import { useLiveQuery } from "@tanstack/react-db";
-import { IonList, IonListHeader, IonLabel } from "@ionic/react";
+import {
+  IonList,
+  IonSegment,
+  IonSegmentButton,
+  IonSegmentView,
+  IonSegmentContent,
+  IonLabel,
+} from "@ionic/react";
 import { Spinner } from "@ui/components/display/spinner/Spinner";
 import { midweekAssignmentCollection } from "@shared/database/collections/midweek-assignment";
 import { midweekMeetingDataCollection } from "@shared/database/collections/midweek-meeting-data";
@@ -16,6 +23,7 @@ import { makeCompositeKey } from "@shared/database/util/composite-key";
 import { getStoredCongregation } from "@util/app/congregation/utils";
 import { PublisherList } from "./components/publisher-list/PublisherList";
 import { DeleteIconButton } from "@ui/components/inputs/button/icon/delete/DeleteIconButton";
+import { Space } from "@ui/components/layout/space/Space";
 
 function getAssignmentContext(id: string, data: MidweekMeetingData): string | undefined {
   if (
@@ -202,27 +210,41 @@ export function AssignmentDetailContent({ week_id, assignment_id }: AssignmentDe
           />
         )}
       />
+      <Space />
 
-      <PublisherList
-        publishers={publishers}
-        selected_id={assignment?.participant_id}
-        on_select={handleSelect}
-      />
-
-      {assistantId && (
+      {assistantId ? (
         <>
-          <IonListHeader className="ion-margin-start">
-            <IonLabel>
-              {assistantId === "cbs_reader" ? "Assign Reader" : "Assign Assistant"}
-            </IonLabel>
-          </IonListHeader>
-
-          <PublisherList
-            publishers={publishers}
-            selected_id={assistantAssignment?.participant_id}
-            on_select={handleSelectAssistant}
-          />
+          <IonSegment value="assignee">
+            <IonSegmentButton value="assignee" contentId="assignee">
+              <IonLabel>Assignee</IonLabel>
+            </IonSegmentButton>
+            <IonSegmentButton value="assistant" contentId="assistant">
+              <IonLabel>{assistantId === "cbs_reader" ? "Reader" : "Assistant"}</IonLabel>
+            </IonSegmentButton>
+          </IonSegment>
+          <IonSegmentView>
+            <IonSegmentContent id="assignee">
+              <PublisherList
+                publishers={publishers}
+                selected_id={assignment?.participant_id}
+                on_select={handleSelect}
+              />
+            </IonSegmentContent>
+            <IonSegmentContent id="assistant">
+              <PublisherList
+                publishers={publishers}
+                selected_id={assistantAssignment?.participant_id}
+                on_select={handleSelectAssistant}
+              />
+            </IonSegmentContent>
+          </IonSegmentView>
         </>
+      ) : (
+        <PublisherList
+          publishers={publishers}
+          selected_id={assignment?.participant_id}
+          on_select={handleSelect}
+        />
       )}
     </>
   );

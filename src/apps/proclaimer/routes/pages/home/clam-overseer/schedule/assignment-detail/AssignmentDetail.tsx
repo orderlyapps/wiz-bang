@@ -15,7 +15,7 @@ function AssignmentDetailPage() {
           back_href={`/home/clam-overseer/schedule/${week_id}`}
         />
       </IonHeader>
-      <IonContent className="content-wide">
+      <IonContent className="content-wide remove-top-padding" scrollY={false}>
         <AssignmentDetailContent week_id={week_id} assignment_id={assignment_id} />
       </IonContent>
     </IonPage>
