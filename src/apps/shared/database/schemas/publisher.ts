@@ -9,7 +9,7 @@ export const publisherSchema = z.object({
   congregation_id: z.uuid(),
   standing: z.string(),
   type: z.string(),
-  gender: z.string(),
+  gender: z.enum(["male", "female"]),
   family_id: z.uuid().nullable().optional(),
   group_id: z.uuid().nullable().optional(),
   auth_id: z.uuid().nullable().optional(),
