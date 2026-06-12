@@ -25,8 +25,8 @@ export function sortPublishers(
 
     if (va === -1 && vb === -1)
       return getPublisherDisplayName(a).localeCompare(getPublisherDisplayName(b));
-    if (va === -1) return 1;
-    if (vb === -1) return -1;
+    if (va === -1) return -1;
+    if (vb === -1) return 1;
     return vb - va;
   });
 }
