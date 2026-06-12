@@ -8,7 +8,7 @@ interface InputWrapperProps {
 
 export function InputWrapper({ label, children }: InputWrapperProps) {
   return (
-    <IonItem>
+    <IonItem style={{ maxWidth: 480, marginInline: "auto" }}>
       <IonLabel>
         <Label>{label}</Label>
         <br />
