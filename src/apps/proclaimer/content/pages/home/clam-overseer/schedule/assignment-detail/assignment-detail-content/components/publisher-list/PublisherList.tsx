@@ -1,4 +1,4 @@
-import { IonItem, IonLabel, IonList } from "@ionic/react";
+import { IonItem, IonLabel, IonList, IonNote } from "@ionic/react";
 import type { Publisher } from "@shared/database/schemas/publisher";
 import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiColumnList";
 import { Space } from "@ui/components/layout/space/Space";
@@ -81,6 +81,12 @@ export function PublisherList({
 
   return (
     <>
+      <IonList className="ion-margin" inset>
+        <IonItem>
+          <IonLabel>{filtered_publishers.length} publishers</IonLabel>
+          <IonNote slot="end">{publishers.length} total</IonNote>
+        </IonItem>
+      </IonList>
       <MultiColumnList<ListItem>
         items={items}
         get_id={(item) => (isDivider(item) ? item.id : (item.id ?? ""))}
