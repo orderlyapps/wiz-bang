@@ -21,7 +21,10 @@ export function PublisherListItem({
       <IonLabel>
         <Body>{getPublisherDisplayName(publisher)}</Body>
       </IonLabel>
-      {stat_label && <IonChip color="medium">{stat_label}</IonChip>}
+      {stat_label && !selected && (
+        <IonChip color={selected ? "primary" : "medium"}>{stat_label}</IonChip>
+      )}
+      {stat_label && selected && <Body className="ion-padding-end">{stat_label}</Body>}
     </IonItem>
   );
 }
