@@ -8,6 +8,7 @@ import {
   IonItemDivider,
 } from "@ionic/react";
 import { PublisherList } from "../publisher-list/PublisherList";
+import { PublisherControls } from "./components/publisher-controls/PublisherControls";
 import { PublisherSelectModal } from "../publisher-select-modal/PublisherSelectModal";
 import type { Publisher } from "@shared/database/schemas/publisher";
 import type { MidweekAssignment } from "@shared/database/schemas/midweek-assignment";
@@ -59,6 +60,7 @@ export function PublisherSelector({
   if (!assistantId) {
     return (
       <>
+        <PublisherControls />
         <PublisherList
           publishers={publishers}
           selected_id={assignment?.participant_id}
@@ -90,6 +92,7 @@ export function PublisherSelector({
       </IonItemDivider>
       <IonSegmentView>
         <IonSegmentContent id="assignee">
+          <PublisherControls />
           <PublisherList
             publishers={publishers}
             selected_id={assignment?.participant_id}
@@ -97,6 +100,7 @@ export function PublisherSelector({
           />
         </IonSegmentContent>
         <IonSegmentContent id="assistant">
+          <PublisherControls />
           <PublisherList
             publishers={publishers}
             selected_id={assistantAssignment?.participant_id}
