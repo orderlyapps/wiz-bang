@@ -4,6 +4,7 @@ import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiC
 import { Space } from "@ui/components/layout/space/Space";
 import type { PublisherSortOrder } from "../publisher-selector/hooks/use-publisher-sort/usePublisherSort";
 import type { PublisherStats } from "../publisher-selector/hooks/use-publisher-stats/usePublisherStats";
+import type { GenderFilter } from "../publisher-selector/hooks/use-publisher-filter/usePublisherFilter";
 import { buildAlphabeticalItems, isDivider } from "./utils/buildAlphabeticalItems";
 import type { ListItem } from "./utils/buildAlphabeticalItems";
 import { sortPublishers } from "./utils/sortPublishers";
@@ -17,6 +18,7 @@ interface PublisherListProps {
   on_select: (publisher_id: string) => void;
   sort_order: PublisherSortOrder;
   stats: Map<string, PublisherStats>;
+  gender_filter: GenderFilter;
 }
 
 export function PublisherList({
@@ -25,8 +27,12 @@ export function PublisherList({
   on_select,
   sort_order,
   stats,
+  gender_filter,
 }: PublisherListProps) {
-  if (publishers.length === 0) {
+  const filtered_publishers =
+    gender_filter === "all" ? publishers : publishers.filter((p) => p.gender === gender_filter);
+
+  if (filtered_publishers.length === 0) {
     return (
       <IonList className="ion-margin" inset>
         <IonItem>
@@ -36,7 +42,7 @@ export function PublisherList({
     );
   }
 
-  const sorted = sortPublishers(publishers, sort_order, stats);
+  const sorted = sortPublishers(filtered_publishers, sort_order, stats);
 
   const { items, pinned_ids } =
     sort_order === "alphabetical"

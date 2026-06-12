@@ -11,6 +11,7 @@ import { participationTypeMap } from "./utils/participationTypeMap";
 import { usePublisherSort } from "./hooks/use-publisher-sort/usePublisherSort";
 import { usePublisherStats } from "./hooks/use-publisher-stats/usePublisherStats";
 import { usePublisherSelection } from "./hooks/use-publisher-selection/usePublisherSelection";
+import { usePublisherFilter } from "./hooks/use-publisher-filter/usePublisherFilter";
 import { getStoredCongregation } from "@util/app/congregation/utils";
 
 interface PublisherSelectorProps {
@@ -47,6 +48,12 @@ export function PublisherSelector({
     assistant_participation_type,
   );
 
+  const { filter: assignee_filter, setFilter: setAssigneeFilter } =
+    usePublisherFilter(participation_type);
+  const { filter: assistant_filter, setFilter: setAssistantFilter } = usePublisherFilter(
+    assistant_participation_type,
+  );
+
   const assignee_stats = usePublisherStats(participation_type, week_id, congregation_id);
   const assistant_stats = usePublisherStats(assistant_participation_type, week_id, congregation_id);
 
@@ -56,13 +63,19 @@ export function PublisherSelector({
   if (!assistantId) {
     return (
       <>
-        <PublisherControls sort_order={assignee_sort} on_sort_change={setAssigneeSortOrder} />
+        <PublisherControls
+          sort_order={assignee_sort}
+          on_sort_change={setAssigneeSortOrder}
+          filter={assignee_filter}
+          on_filter_change={setAssigneeFilter}
+        />
         <PublisherList
           publishers={publishers}
           selected_id={assignment?.participant_id}
           on_select={(id) => handleSelectPublisher(id, "assignee")}
           sort_order={assignee_sort}
           stats={assignee_stats}
+          gender_filter={assignee_filter}
         />
         <PublisherSelectModal
           is_open={is_modal_open}
@@ -85,8 +98,12 @@ export function PublisherSelector({
         assistant_sort={assistant_sort}
         assignee_stats={assignee_stats}
         assistant_stats={assistant_stats}
+        assignee_filter={assignee_filter}
+        assistant_filter={assistant_filter}
         setAssigneeSortOrder={setAssigneeSortOrder}
         setAssistantSortOrder={setAssistantSortOrder}
+        setAssigneeFilter={setAssigneeFilter}
+        setAssistantFilter={setAssistantFilter}
         onSelectAssignee={(id) => handleSelectPublisher(id, "assignee")}
         onSelectAssistant={(id) => handleSelectPublisher(id, "assistant")}
       />
