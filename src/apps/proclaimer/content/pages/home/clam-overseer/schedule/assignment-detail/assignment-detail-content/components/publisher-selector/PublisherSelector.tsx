@@ -1,17 +1,17 @@
-import { useState } from "react";
-import {
-  IonSegment,
-  IonSegmentButton,
-  IonSegmentView,
-  IonSegmentContent,
-  IonLabel,
-  IonItemDivider,
-} from "@ionic/react";
 import { PublisherList } from "../publisher-list/PublisherList";
 import { PublisherControls } from "./components/publisher-controls/PublisherControls";
 import { PublisherSelectModal } from "../publisher-select-modal/PublisherSelectModal";
+import { PublisherSegment } from "./components/publisher-segment/PublisherSegment";
 import type { Publisher } from "@shared/database/schemas/publisher";
-import type { MidweekAssignment } from "@shared/database/schemas/midweek-assignment";
+import type {
+  MidweekAssignment,
+  MidweekAssignmentId,
+} from "@shared/database/schemas/midweek-assignment";
+import { participationTypeMap } from "./utils/participationTypeMap";
+import { usePublisherSort } from "./hooks/use-publisher-sort/usePublisherSort";
+import { usePublisherStats } from "./hooks/use-publisher-stats/usePublisherStats";
+import { usePublisherSelection } from "./hooks/use-publisher-selection/usePublisherSelection";
+import { getStoredCongregation } from "@util/app/congregation/utils";
 
 interface PublisherSelectorProps {
   publishers: Publisher[];
@@ -20,9 +20,9 @@ interface PublisherSelectorProps {
   assistantAssignment: MidweekAssignment | undefined;
   onSelectAssignee: (publisher_id: string) => void;
   onSelectAssistant: (publisher_id: string) => void;
+  assignment_id: string;
+  week_id: string;
 }
-
-type SelectionMode = "assignee" | "assistant";
 
 export function PublisherSelector({
   publishers,
@@ -31,40 +31,38 @@ export function PublisherSelector({
   assistantAssignment,
   onSelectAssignee,
   onSelectAssistant,
+  assignment_id,
+  week_id,
 }: PublisherSelectorProps) {
-  const [is_modal_open, set_is_modal_open] = useState(false);
-  const [selected_publisher, set_selected_publisher] = useState<Publisher | undefined>();
-  const [selection_mode, set_selection_mode] = useState<SelectionMode>("assignee");
+  const congregation_id = getStoredCongregation()?.id;
 
-  function handleSelectPublisher(publisher_id: string, mode: SelectionMode) {
-    const publisher = publishers.find((p) => p.id === publisher_id);
-    set_selected_publisher(publisher);
-    set_selection_mode(mode);
-    set_is_modal_open(true);
-  }
+  const participation_type = participationTypeMap[assignment_id as MidweekAssignmentId] ?? "prayer";
+  const assistant_participation_type = assistantId
+    ? (participationTypeMap[assistantId as MidweekAssignmentId] ?? "assistant")
+    : null;
 
-  function handleConfirm() {
-    if (!selected_publisher?.id) return;
+  const { sort_order: assignee_sort, setSortOrder: setAssigneeSortOrder } =
+    usePublisherSort(participation_type);
+  const { sort_order: assistant_sort, setSortOrder: setAssistantSortOrder } = usePublisherSort(
+    assistant_participation_type,
+  );
 
-    if (selection_mode === "assignee") {
-      onSelectAssignee(selected_publisher.id);
-    } else {
-      onSelectAssistant(selected_publisher.id);
-    }
-  }
+  const assignee_stats = usePublisherStats(participation_type, week_id, congregation_id);
+  const assistant_stats = usePublisherStats(assistant_participation_type, week_id, congregation_id);
 
-  function handleDismiss() {
-    set_is_modal_open(false);
-  }
+  const { is_modal_open, selected_publisher, handleSelectPublisher, handleConfirm, handleDismiss } =
+    usePublisherSelection({ publishers, onSelectAssignee, onSelectAssistant });
 
   if (!assistantId) {
     return (
       <>
-        <PublisherControls />
+        <PublisherControls sort_order={assignee_sort} on_sort_change={setAssigneeSortOrder} />
         <PublisherList
           publishers={publishers}
           selected_id={assignment?.participant_id}
           on_select={(id) => handleSelectPublisher(id, "assignee")}
+          sort_order={assignee_sort}
+          stats={assignee_stats}
         />
         <PublisherSelectModal
           is_open={is_modal_open}
@@ -76,38 +74,22 @@ export function PublisherSelector({
     );
   }
 
-  const assistantLabel = assistantId === "cbs_reader" ? "Reader" : "Assistant";
-
   return (
     <>
-      <IonItemDivider sticky style={{ paddingBlock: "1rem" }}>
-        <IonSegment value="assignee">
-          <IonSegmentButton value="assignee" contentId="assignee">
-            <IonLabel>Assignee</IonLabel>
-          </IonSegmentButton>
-          <IonSegmentButton value="assistant" contentId="assistant">
-            <IonLabel>{assistantLabel}</IonLabel>
-          </IonSegmentButton>
-        </IonSegment>
-      </IonItemDivider>
-      <IonSegmentView>
-        <IonSegmentContent id="assignee">
-          <PublisherControls />
-          <PublisherList
-            publishers={publishers}
-            selected_id={assignment?.participant_id}
-            on_select={(id) => handleSelectPublisher(id, "assignee")}
-          />
-        </IonSegmentContent>
-        <IonSegmentContent id="assistant">
-          <PublisherControls />
-          <PublisherList
-            publishers={publishers}
-            selected_id={assistantAssignment?.participant_id}
-            on_select={(id) => handleSelectPublisher(id, "assistant")}
-          />
-        </IonSegmentContent>
-      </IonSegmentView>
+      <PublisherSegment
+        publishers={publishers}
+        assignment={assignment}
+        assistantAssignment={assistantAssignment}
+        assistant_label={assistantId === "cbs_reader" ? "Reader" : "Assistant"}
+        assignee_sort={assignee_sort}
+        assistant_sort={assistant_sort}
+        assignee_stats={assignee_stats}
+        assistant_stats={assistant_stats}
+        setAssigneeSortOrder={setAssigneeSortOrder}
+        setAssistantSortOrder={setAssistantSortOrder}
+        onSelectAssignee={(id) => handleSelectPublisher(id, "assignee")}
+        onSelectAssistant={(id) => handleSelectPublisher(id, "assistant")}
+      />
       <PublisherSelectModal
         is_open={is_modal_open}
         publisher={selected_publisher}

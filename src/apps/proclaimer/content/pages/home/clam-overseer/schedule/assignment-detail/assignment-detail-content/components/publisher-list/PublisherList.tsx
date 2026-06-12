@@ -1,50 +1,31 @@
-import { IonItem, IonLabel, IonList, IonIcon } from "@ionic/react";
-import { checkmark } from "ionicons/icons";
+import { IonItem, IonLabel, IonList } from "@ionic/react";
 import type { Publisher } from "@shared/database/schemas/publisher";
-import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
 import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiColumnList";
-import { Body } from "@ui/components/display/text/body/Body";
-import { Heading } from "@ui/components/display/text/heading/Heading";
 import { Space } from "@ui/components/layout/space/Space";
+import type { PublisherSortOrder } from "../publisher-selector/hooks/use-publisher-sort/usePublisherSort";
+import type { PublisherStats } from "../publisher-selector/hooks/use-publisher-stats/usePublisherStats";
+import { buildAlphabeticalItems, isDivider } from "./utils/buildAlphabeticalItems";
+import type { ListItem } from "./utils/buildAlphabeticalItems";
+import { sortPublishers } from "./utils/sortPublishers";
+import { getStatLabel } from "./utils/getStatLabel";
+import { PublisherLetterDivider } from "./components/publisher-letter-divider/PublisherLetterDivider";
+import { PublisherListItem } from "./components/publisher-list-item/PublisherListItem";
 
 interface PublisherListProps {
   publishers: Publisher[];
   selected_id: string | undefined;
   on_select: (publisher_id: string) => void;
+  sort_order: PublisherSortOrder;
+  stats: Map<string, PublisherStats>;
 }
 
-type LetterDivider = { type: "divider"; letter: string; id: string };
-type ListItem = Publisher | LetterDivider;
-
-function isDivider(item: ListItem): item is LetterDivider {
-  return "type" in item && item.type === "divider";
-}
-
-function buildItems(publishers: Publisher[]): { items: ListItem[]; pinned_ids: Set<string> } {
-  if (publishers.length <= 20) {
-    return { items: publishers, pinned_ids: new Set() };
-  }
-
-  const result: ListItem[] = [];
-  const pinned_ids = new Set<string>();
-  let current_letter = "";
-
-  for (const publisher of publishers) {
-    const letter = publisher.last_name.charAt(0).toUpperCase();
-    if (letter !== current_letter) {
-      current_letter = letter;
-      const divider_id = `__divider__${letter}`;
-      result.push({ type: "divider", letter, id: divider_id });
-      pinned_ids.add(divider_id);
-      if (publisher.id) pinned_ids.add(publisher.id);
-    }
-    result.push(publisher);
-  }
-
-  return { items: result, pinned_ids };
-}
-
-export function PublisherList({ publishers, selected_id, on_select }: PublisherListProps) {
+export function PublisherList({
+  publishers,
+  selected_id,
+  on_select,
+  sort_order,
+  stats,
+}: PublisherListProps) {
   if (publishers.length === 0) {
     return (
       <IonList className="ion-margin" inset>
@@ -55,7 +36,12 @@ export function PublisherList({ publishers, selected_id, on_select }: PublisherL
     );
   }
 
-  const { items, pinned_ids } = buildItems(publishers);
+  const sorted = sortPublishers(publishers, sort_order, stats);
+
+  const { items, pinned_ids } =
+    sort_order === "alphabetical"
+      ? buildAlphabeticalItems(sorted)
+      : { items: sorted as ListItem[], pinned_ids: new Set<string>() };
 
   return (
     <>
@@ -69,28 +55,18 @@ export function PublisherList({ publishers, selected_id, on_select }: PublisherL
         }
         render_item={(item) => {
           if (isDivider(item)) {
-            return (
-              <IonItem lines="none" className="ion-margin">
-                <IonLabel>
-                  <Heading>{item.letter}</Heading>
-                </IonLabel>
-              </IonItem>
-            );
+            return <PublisherLetterDivider letter={item.letter} />;
           }
           return (
-            <IonItem
-              color={selected_id === item.id ? "primary" : undefined}
-              onClick={() => on_select(item.id ?? "")}
-            >
-              <IonLabel>
-                <Body>{getPublisherDisplayName(item)}</Body>
-              </IonLabel>
-              {selected_id === item.id && <IonIcon icon={checkmark} slot="end" />}
-            </IonItem>
+            <PublisherListItem
+              publisher={item}
+              selected={selected_id === item.id}
+              stat_label={getStatLabel(item.id, sort_order, stats)}
+              on_select={() => on_select(item.id ?? "")}
+            />
           );
         }}
       />
-
       <Space size="2xl" />
     </>
   );

@@ -1,21 +1,26 @@
-import { type ReactNode } from "react";
 import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiColumnList";
 import { FilterSelect } from "../filter-select/FilterSelect";
 import { SortSelect } from "../sort-select/SortSelect";
+import type { PublisherSortOrder } from "../../hooks/use-publisher-sort/usePublisherSort";
 
-type ControlItem = { id: string; component: ReactNode };
+type ControlItem = { id: string };
 
-const controls: ControlItem[] = [
-  { id: "filter", component: <FilterSelect /> },
-  { id: "sort", component: <SortSelect /> },
-];
+const control_items: ControlItem[] = [{ id: "filter" }, { id: "sort" }];
 
-export function PublisherControls() {
+interface PublisherControlsProps {
+  sort_order: PublisherSortOrder;
+  on_sort_change: (order: PublisherSortOrder) => void;
+}
+
+export function PublisherControls({ sort_order, on_sort_change }: PublisherControlsProps) {
   return (
     <MultiColumnList<ControlItem>
-      items={controls}
+      items={control_items}
       get_id={(item) => item.id}
-      render_item={(item) => item.component}
+      render_item={(item) => {
+        if (item.id === "filter") return <FilterSelect />;
+        return <SortSelect sort_order={sort_order} on_change={on_sort_change} />;
+      }}
     />
   );
 }

@@ -5,6 +5,7 @@ export const localStorageKeys = {
   mapViewLocation: "map_view",
   selectedCongregation: "selected_congregation",
   selectedPublisher: "selected_publisher",
+  publisherSortOrder: "midweek_assignment_sort_order",
 } as const;
 
 export const localStorageKeyWithVariant = (
