@@ -75,7 +75,7 @@ export function PublisherSelector({
           on_select={(id) => handleSelectPublisher(id, "assignee")}
           sort_order={assignee_sort}
           stats={assignee_stats}
-          gender_filter={assignee_filter}
+          filter={assignee_filter}
         />
         <PublisherSelectModal
           is_open={is_modal_open}

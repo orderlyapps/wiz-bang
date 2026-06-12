@@ -9,13 +9,14 @@ import {
 } from "@ionic/react";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 import { Select } from "@ui/components/inputs/select/Select";
-import type { GenderFilter } from "../../../../hooks/use-publisher-filter/usePublisherFilter";
+import { IncrementInput } from "@ui/components/inputs/increment-input/IncrementInput";
+import type { PublisherFilter } from "../../../../hooks/use-publisher-filter/usePublisherFilter";
 import { filterLabels } from "../../../../hooks/use-publisher-filter/usePublisherFilter";
 
 interface FilterSelectModalProps {
   is_open: boolean;
-  filter: GenderFilter;
-  on_change: (filter: GenderFilter) => void;
+  filter: PublisherFilter;
+  on_change: (filter: PublisherFilter) => void;
   on_dismiss: () => void;
 }
 
@@ -45,9 +46,23 @@ export function FilterSelectModal({
         <IonList className="ion-padding">
           <Select
             label="Gender"
-            value={filter}
+            value={filter.gender}
             options={genderOptions}
-            on_change={(value) => on_change(value as GenderFilter)}
+            on_change={(value) =>
+              on_change({ ...filter, gender: value as PublisherFilter["gender"] })
+            }
+          />
+          <IncrementInput
+            label="Min weeks since last"
+            value={filter.min_weeks_since_last}
+            min={0}
+            on_change={(value) => on_change({ ...filter, min_weeks_since_last: value })}
+          />
+          <IncrementInput
+            label="Min avg weeks between"
+            value={filter.min_avg_weeks_between}
+            min={0}
+            on_change={(value) => on_change({ ...filter, min_avg_weeks_between: value })}
           />
         </IonList>
       </IonContent>

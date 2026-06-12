@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { ModalSelect } from "@ui/components/inputs/modal-select/ModalSelect";
 import { FilterSelectModal } from "./components/filter-select-modal/FilterSelectModal";
-import type { GenderFilter } from "../../hooks/use-publisher-filter/usePublisherFilter";
+import type { PublisherFilter } from "../../hooks/use-publisher-filter/usePublisherFilter";
 import { filterLabels } from "../../hooks/use-publisher-filter/usePublisherFilter";
 
 interface FilterSelectProps {
-  filter: GenderFilter;
-  on_change: (filter: GenderFilter) => void;
+  filter: PublisherFilter;
+  on_change: (filter: PublisherFilter) => void;
 }
 
 export function FilterSelect({ filter, on_change }: FilterSelectProps) {
@@ -16,7 +16,7 @@ export function FilterSelect({ filter, on_change }: FilterSelectProps) {
     <>
       <ModalSelect
         label="Filter"
-        display_value={filterLabels[filter]}
+        display_value={filterLabels[filter.gender]}
         placeholder="Filter..."
         on_open={() => set_is_open(true)}
       />

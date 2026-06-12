@@ -12,7 +12,7 @@ import { PublisherList } from "../../../publisher-list/PublisherList";
 import { PublisherControls } from "../publisher-controls/PublisherControls";
 import type { PublisherSortOrder } from "../../hooks/use-publisher-sort/usePublisherSort";
 import type { PublisherStats } from "../../hooks/use-publisher-stats/usePublisherStats";
-import type { GenderFilter } from "../../hooks/use-publisher-filter/usePublisherFilter";
+import type { PublisherFilter } from "../../hooks/use-publisher-filter/usePublisherFilter";
 
 interface PublisherSegmentProps {
   publishers: Publisher[];
@@ -23,12 +23,12 @@ interface PublisherSegmentProps {
   assistant_sort: PublisherSortOrder;
   assignee_stats: Map<string, PublisherStats>;
   assistant_stats: Map<string, PublisherStats>;
-  assignee_filter: GenderFilter;
-  assistant_filter: GenderFilter;
+  assignee_filter: PublisherFilter;
+  assistant_filter: PublisherFilter;
   setAssigneeSortOrder: (order: PublisherSortOrder) => void;
   setAssistantSortOrder: (order: PublisherSortOrder) => void;
-  setAssigneeFilter: (filter: GenderFilter) => void;
-  setAssistantFilter: (filter: GenderFilter) => void;
+  setAssigneeFilter: (filter: PublisherFilter) => void;
+  setAssistantFilter: (filter: PublisherFilter) => void;
   onSelectAssignee: (id: string) => void;
   onSelectAssistant: (id: string) => void;
 }
@@ -77,7 +77,7 @@ export function PublisherSegment({
             on_select={onSelectAssignee}
             sort_order={assignee_sort}
             stats={assignee_stats}
-            gender_filter={assignee_filter}
+            filter={assignee_filter}
           />
         </IonSegmentContent>
         <IonSegmentContent id="assistant">
@@ -93,7 +93,7 @@ export function PublisherSegment({
             on_select={onSelectAssistant}
             sort_order={assistant_sort}
             stats={assistant_stats}
-            gender_filter={assistant_filter}
+            filter={assistant_filter}
           />
         </IonSegmentContent>
       </IonSegmentView>

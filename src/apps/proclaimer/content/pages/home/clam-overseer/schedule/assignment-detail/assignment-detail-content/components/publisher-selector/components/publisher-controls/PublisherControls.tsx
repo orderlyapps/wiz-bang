@@ -2,7 +2,7 @@ import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiC
 import { FilterSelect } from "../filter-select/FilterSelect";
 import { SortSelect } from "../sort-select/SortSelect";
 import type { PublisherSortOrder } from "../../hooks/use-publisher-sort/usePublisherSort";
-import type { GenderFilter } from "../../hooks/use-publisher-filter/usePublisherFilter";
+import type { PublisherFilter } from "../../hooks/use-publisher-filter/usePublisherFilter";
 
 type ControlItem = { id: string };
 
@@ -11,8 +11,8 @@ const control_items: ControlItem[] = [{ id: "filter" }, { id: "sort" }];
 interface PublisherControlsProps {
   sort_order: PublisherSortOrder;
   on_sort_change: (order: PublisherSortOrder) => void;
-  filter: GenderFilter;
-  on_filter_change: (filter: GenderFilter) => void;
+  filter: PublisherFilter;
+  on_filter_change: (filter: PublisherFilter) => void;
 }
 
 export function PublisherControls({

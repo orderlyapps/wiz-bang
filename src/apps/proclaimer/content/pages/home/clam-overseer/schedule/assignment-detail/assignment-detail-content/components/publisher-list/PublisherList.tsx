@@ -4,7 +4,7 @@ import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiC
 import { Space } from "@ui/components/layout/space/Space";
 import type { PublisherSortOrder } from "../publisher-selector/hooks/use-publisher-sort/usePublisherSort";
 import type { PublisherStats } from "../publisher-selector/hooks/use-publisher-stats/usePublisherStats";
-import type { GenderFilter } from "../publisher-selector/hooks/use-publisher-filter/usePublisherFilter";
+import type { PublisherFilter } from "../publisher-selector/hooks/use-publisher-filter/usePublisherFilter";
 import { buildAlphabeticalItems, isDivider } from "./utils/buildAlphabeticalItems";
 import type { ListItem } from "./utils/buildAlphabeticalItems";
 import { sortPublishers } from "./utils/sortPublishers";
@@ -18,7 +18,7 @@ interface PublisherListProps {
   on_select: (publisher_id: string) => void;
   sort_order: PublisherSortOrder;
   stats: Map<string, PublisherStats>;
-  gender_filter: GenderFilter;
+  filter: PublisherFilter;
 }
 
 export function PublisherList({
@@ -27,10 +27,29 @@ export function PublisherList({
   on_select,
   sort_order,
   stats,
-  gender_filter,
+  filter,
 }: PublisherListProps) {
-  const filtered_publishers =
-    gender_filter === "all" ? publishers : publishers.filter((p) => p.gender === gender_filter);
+  const filtered_publishers = publishers.filter((p) => {
+    if (filter.gender !== "all" && p.gender !== filter.gender) return false;
+
+    const publisher_stats = p.id ? stats.get(p.id) : undefined;
+
+    if (filter.min_weeks_since_last > 0) {
+      const weeks_since_last = publisher_stats?.weeks_since_last;
+      if (weeks_since_last !== null && weeks_since_last !== undefined) {
+        if (weeks_since_last < filter.min_weeks_since_last) return false;
+      }
+    }
+
+    if (filter.min_avg_weeks_between > 0) {
+      const avg_weeks_between = publisher_stats?.avg_weeks_between;
+      if (avg_weeks_between !== null && avg_weeks_between !== undefined) {
+        if (avg_weeks_between < filter.min_avg_weeks_between) return false;
+      }
+    }
+
+    return true;
+  });
 
   if (filtered_publishers.length === 0) {
     return (
