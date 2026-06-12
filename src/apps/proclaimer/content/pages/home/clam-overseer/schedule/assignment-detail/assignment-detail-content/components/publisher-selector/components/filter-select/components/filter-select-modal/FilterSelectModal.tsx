@@ -10,8 +10,10 @@ import {
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 import { Select } from "@ui/components/inputs/select/Select";
 import { IncrementInput } from "@ui/components/inputs/increment-input/IncrementInput";
+import { ToggleInput } from "@ui/components/inputs/toggle/ToggleInput";
 import type { PublisherFilter } from "../../../../hooks/use-publisher-filter/usePublisherFilter";
 import { filterLabels } from "../../../../hooks/use-publisher-filter/usePublisherFilter";
+import type { ParticipationType } from "../../../../utils/participationTypeMap";
 
 interface FilterSelectModalProps {
   is_open: boolean;
@@ -24,6 +26,34 @@ const genderOptions = [
   { label: filterLabels.all, value: "all" },
   { label: filterLabels.male, value: "male" },
   { label: filterLabels.female, value: "female" },
+];
+
+const participationTypeLabels: Record<ParticipationType, string> = {
+  prayer: "Prayer",
+  treasures: "Treasures",
+  gems: "Gems",
+  bible_reading: "Bible Reading",
+  apply: "Apply",
+  assistant: "Assistant",
+  chairman: "Chairman",
+  counselor: "Counselor",
+  living: "Living",
+  cbs_conductor: "CBS Conductor",
+  cbs_reader: "CBS Reader",
+};
+
+const participationTypes: ParticipationType[] = [
+  "prayer",
+  "treasures",
+  "gems",
+  "bible_reading",
+  "apply",
+  "assistant",
+  "chairman",
+  "counselor",
+  "living",
+  "cbs_conductor",
+  "cbs_reader",
 ];
 
 export function FilterSelectModal({
@@ -64,6 +94,18 @@ export function FilterSelectModal({
             min={0}
             on_change={(value) => on_change({ ...filter, min_avg_weeks_between: value })}
           />
+          {participationTypes.map((type) => (
+            <ToggleInput
+              key={type}
+              label={participationTypeLabels[type]}
+              checked={filter.participation_types.includes(type)}
+              on_change={(checked) => {
+                const current = filter.participation_types;
+                const updated = checked ? [...current, type] : current.filter((t) => t !== type);
+                on_change({ ...filter, participation_types: updated });
+              }}
+            />
+          ))}
         </IonList>
       </IonContent>
     </ResponsiveModal>

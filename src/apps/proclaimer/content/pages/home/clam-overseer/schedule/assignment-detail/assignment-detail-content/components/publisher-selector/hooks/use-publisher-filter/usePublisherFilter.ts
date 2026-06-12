@@ -8,6 +8,7 @@ export interface PublisherFilter {
   gender: GenderFilter;
   min_weeks_since_last: number;
   min_avg_weeks_between: number;
+  participation_types: ParticipationType[];
 }
 
 export const filterLabels: Record<GenderFilter, string> = {
@@ -20,6 +21,7 @@ const default_filter: PublisherFilter = {
   gender: "all",
   min_weeks_since_last: 0,
   min_avg_weeks_between: 0,
+  participation_types: [],
 };
 
 function readStoredFilter(participation_type: ParticipationType | null): PublisherFilter {
@@ -33,6 +35,7 @@ function readStoredFilter(participation_type: ParticipationType | null): Publish
       gender: parsed.gender ?? "all",
       min_weeks_since_last: parsed.min_weeks_since_last ?? 0,
       min_avg_weeks_between: parsed.min_avg_weeks_between ?? 0,
+      participation_types: parsed.participation_types ?? [],
     };
   } catch {
     return default_filter;

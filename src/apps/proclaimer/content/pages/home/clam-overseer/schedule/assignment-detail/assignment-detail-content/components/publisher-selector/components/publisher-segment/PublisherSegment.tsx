@@ -13,6 +13,7 @@ import { PublisherControls } from "../publisher-controls/PublisherControls";
 import type { PublisherSortOrder } from "../../hooks/use-publisher-sort/usePublisherSort";
 import type { PublisherStats } from "../../hooks/use-publisher-stats/usePublisherStats";
 import type { PublisherFilter } from "../../hooks/use-publisher-filter/usePublisherFilter";
+import type { ParticipationType } from "../../utils/participationTypeMap";
 
 interface PublisherSegmentProps {
   publishers: Publisher[];
@@ -25,6 +26,7 @@ interface PublisherSegmentProps {
   assistant_stats: Map<string, PublisherStats>;
   assignee_filter: PublisherFilter;
   assistant_filter: PublisherFilter;
+  participation_types: Map<string, Set<ParticipationType>>;
   setAssigneeSortOrder: (order: PublisherSortOrder) => void;
   setAssistantSortOrder: (order: PublisherSortOrder) => void;
   setAssigneeFilter: (filter: PublisherFilter) => void;
@@ -44,6 +46,7 @@ export function PublisherSegment({
   assistant_stats,
   assignee_filter,
   assistant_filter,
+  participation_types,
   setAssigneeSortOrder,
   setAssistantSortOrder,
   setAssigneeFilter,
@@ -78,6 +81,7 @@ export function PublisherSegment({
             sort_order={assignee_sort}
             stats={assignee_stats}
             filter={assignee_filter}
+            participation_types={participation_types}
           />
         </IonSegmentContent>
         <IonSegmentContent id="assistant">
@@ -94,6 +98,7 @@ export function PublisherSegment({
             sort_order={assistant_sort}
             stats={assistant_stats}
             filter={assistant_filter}
+            participation_types={participation_types}
           />
         </IonSegmentContent>
       </IonSegmentView>

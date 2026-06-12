@@ -5,6 +5,7 @@ import { Space } from "@ui/components/layout/space/Space";
 import type { PublisherSortOrder } from "../publisher-selector/hooks/use-publisher-sort/usePublisherSort";
 import type { PublisherStats } from "../publisher-selector/hooks/use-publisher-stats/usePublisherStats";
 import type { PublisherFilter } from "../publisher-selector/hooks/use-publisher-filter/usePublisherFilter";
+import type { ParticipationType } from "../publisher-selector/utils/participationTypeMap";
 import { buildAlphabeticalItems, isDivider } from "./utils/buildAlphabeticalItems";
 import type { ListItem } from "./utils/buildAlphabeticalItems";
 import { sortPublishers } from "./utils/sortPublishers";
@@ -19,6 +20,7 @@ interface PublisherListProps {
   sort_order: PublisherSortOrder;
   stats: Map<string, PublisherStats>;
   filter: PublisherFilter;
+  participation_types: Map<string, Set<ParticipationType>>;
 }
 
 export function PublisherList({
@@ -28,11 +30,20 @@ export function PublisherList({
   sort_order,
   stats,
   filter,
+  participation_types,
 }: PublisherListProps) {
   const filtered_publishers = publishers.filter((p) => {
     if (filter.gender !== "all" && p.gender !== filter.gender) return false;
 
     const publisher_stats = p.id ? stats.get(p.id) : undefined;
+    const publisher_participation_types = p.id ? participation_types.get(p.id) : undefined;
+
+    if (filter.participation_types.length > 0) {
+      const has_any_type = filter.participation_types.some((type) =>
+        publisher_participation_types?.has(type),
+      );
+      if (!has_any_type) return false;
+    }
 
     if (filter.min_weeks_since_last > 0) {
       const weeks_since_last = publisher_stats?.weeks_since_last;

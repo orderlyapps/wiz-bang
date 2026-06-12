@@ -10,6 +10,7 @@ import type {
 import { participationTypeMap } from "./utils/participationTypeMap";
 import { usePublisherSort } from "./hooks/use-publisher-sort/usePublisherSort";
 import { usePublisherStats } from "./hooks/use-publisher-stats/usePublisherStats";
+import { usePublisherParticipationTypes } from "./hooks/use-publisher-participation-types/usePublisherParticipationTypes";
 import { usePublisherSelection } from "./hooks/use-publisher-selection/usePublisherSelection";
 import { usePublisherFilter } from "./hooks/use-publisher-filter/usePublisherFilter";
 import { getStoredCongregation } from "@util/app/congregation/utils";
@@ -56,6 +57,7 @@ export function PublisherSelector({
 
   const assignee_stats = usePublisherStats(participation_type, week_id, congregation_id);
   const assistant_stats = usePublisherStats(assistant_participation_type, week_id, congregation_id);
+  const participation_types = usePublisherParticipationTypes(congregation_id);
 
   const { is_modal_open, selected_publisher, handleSelectPublisher, handleConfirm, handleDismiss } =
     usePublisherSelection({ publishers, onSelectAssignee, onSelectAssistant });
@@ -76,6 +78,7 @@ export function PublisherSelector({
           sort_order={assignee_sort}
           stats={assignee_stats}
           filter={assignee_filter}
+          participation_types={participation_types}
         />
         <PublisherSelectModal
           is_open={is_modal_open}
@@ -100,6 +103,7 @@ export function PublisherSelector({
         assistant_stats={assistant_stats}
         assignee_filter={assignee_filter}
         assistant_filter={assistant_filter}
+        participation_types={participation_types}
         setAssigneeSortOrder={setAssigneeSortOrder}
         setAssistantSortOrder={setAssistantSortOrder}
         setAssigneeFilter={setAssigneeFilter}
