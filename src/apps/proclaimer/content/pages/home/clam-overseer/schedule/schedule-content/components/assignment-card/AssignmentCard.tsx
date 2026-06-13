@@ -4,7 +4,15 @@ import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
 
 const sectionLabels = ["main_hall_label", "second_school_label"];
 
-export function AssignmentCard({ id, week_id, title, color, publisher, assistant }: AssignmentRow) {
+export function AssignmentCard({
+  id,
+  week_id,
+  title,
+  color,
+  publisher,
+  assistant,
+  base_path,
+}: AssignmentRow) {
   const permissions = usePermissions();
 
   const can_edit = permissions.has_clam_overseer;
@@ -17,9 +25,7 @@ export function AssignmentCard({ id, week_id, title, color, publisher, assistant
       label_size={sectionLabels.includes(id) ? "lg" : "sm"}
       value_2={assistant}
       value_2_color="medium"
-      router_link={
-        can_edit ? `/home/clam-overseer/schedule/${week_id}/assignment/${id}` : undefined
-      }
+      router_link={can_edit ? `${base_path}/${week_id}/assignment/${id}` : undefined}
     />
   );
 }

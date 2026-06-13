@@ -15,7 +15,7 @@ function SchedulePage() {
         <ScheduleHeader />
       </IonHeader>
       <IonContent className="content-wide remove-top-padding">
-        <ScheduleContent week_id={week_id} />
+        <ScheduleContent week_id={week_id} base_path="/home/clam-overseer/schedule" />
       </IonContent>
     </IonPage>
   );

@@ -16,7 +16,7 @@ import type { ScheduleContentProps, AssignmentRow } from "./helper/types";
 import { Space } from "@ui/components/layout/space/Space";
 import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
 
-export function ScheduleContent({ week_id }: ScheduleContentProps) {
+export function ScheduleContent({ week_id, base_path }: ScheduleContentProps) {
   const permissions = usePermissions();
   const can_edit = permissions.has_clam_overseer;
 
@@ -45,6 +45,7 @@ export function ScheduleContent({ week_id }: ScheduleContentProps) {
     assignments,
     publishers as Publisher[] | undefined,
     week_id,
+    base_path,
   );
 
   return (
@@ -62,7 +63,7 @@ export function ScheduleContent({ week_id }: ScheduleContentProps) {
             <Space />
             <TextButton
               label="Add Second School"
-              routerLink={`/home/clam-overseer/schedule/${week_id}/assignment/chairman_2`}
+              routerLink={`${base_path}/${week_id}/assignment/chairman_2`}
             />
           </>
         )}

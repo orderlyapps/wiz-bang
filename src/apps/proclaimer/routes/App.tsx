@@ -69,6 +69,11 @@ function App() {
         <Route path="/ministry/schedule" component={SchedulePage} exact />
         <Route path="/schedules" component={SchedulesPage} exact />
         <Route path="/schedules/midweek-meeting/:week_id?" component={MidweekMeetingPage} exact />
+        <Route
+          path="/schedules/midweek-meeting/:week_id/assignment/:assignment_id?"
+          component={AssignmentDetailPage}
+          exact
+        />
         <Route path="/schedules/weekend-meeting" component={WeekendMeetingPage} exact />
         <Route path="/schedules/events" component={EventsPage} exact />
         <Route path="/schedules/cleaning" component={CleaningPage} exact />

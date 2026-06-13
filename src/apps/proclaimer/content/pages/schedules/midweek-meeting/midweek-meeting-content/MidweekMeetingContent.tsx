@@ -5,5 +5,5 @@ interface MidweekMeetingContentProps {
 }
 
 export function MidweekMeetingContent({ week_id }: MidweekMeetingContentProps) {
-  return <ScheduleContent week_id={week_id} />;
+  return <ScheduleContent week_id={week_id} base_path="/schedules/midweek-meeting" />;
 }

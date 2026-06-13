@@ -3,6 +3,7 @@ import type { IonicColor } from "@util/vendor/ionic/types/IonicColor";
 
 export type ScheduleContentProps = {
   week_id: string;
+  base_path: string;
 };
 
 export type AssignmentItem = {
@@ -22,4 +23,5 @@ export type AssignmentRow = {
   publisher?: string;
   assistant?: string;
   pin_to_first_column?: boolean;
+  base_path: string;
 };

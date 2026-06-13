@@ -21,6 +21,7 @@ export function useAssignmentRows(
   assignments: MidweekAssignment[] | undefined,
   publishers: Publisher[] | undefined,
   week_id: string,
+  base_path: string,
 ): AssignmentRow[] {
   return meetingParts.map((part) => {
     const assignedName = getAssignedPublisherName(assignments, publishers, part.assignmentId);
@@ -36,6 +37,7 @@ export function useAssignmentRows(
       publisher: assignedName,
       assistant: assistantName,
       pin_to_first_column: part.pin_to_first_column,
+      base_path,
     };
   });
 }
