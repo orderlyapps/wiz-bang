@@ -45,10 +45,10 @@ export function PublisherList({
       if (!has_any_type) return false;
     }
 
-    if (filter.min_weeks_since_last > 0) {
-      const weeks_since_last = publisher_stats?.weeks_since_last;
-      if (weeks_since_last !== null && weeks_since_last !== undefined) {
-        if (weeks_since_last < filter.min_weeks_since_last) return false;
+    if (filter.min_weeks_away_closest > 0) {
+      const weeks_away_closest = publisher_stats?.weeks_away_closest;
+      if (weeks_away_closest !== null && weeks_away_closest !== undefined) {
+        if (weeks_away_closest < filter.min_weeks_away_closest) return false;
       }
     }
 

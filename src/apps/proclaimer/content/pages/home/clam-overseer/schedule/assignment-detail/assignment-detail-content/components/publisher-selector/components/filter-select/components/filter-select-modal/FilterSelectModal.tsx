@@ -83,10 +83,10 @@ export function FilterSelectModal({
             }
           />
           <IncrementInput
-            label="Min weeks since last"
-            value={filter.min_weeks_since_last}
+            label="Min weeks away from closest"
+            value={filter.min_weeks_away_closest}
             min={0}
-            on_change={(value) => on_change({ ...filter, min_weeks_since_last: value })}
+            on_change={(value) => on_change({ ...filter, min_weeks_away_closest: value })}
           />
           <IncrementInput
             label="Min avg weeks between"

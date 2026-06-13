@@ -15,12 +15,12 @@ export function sortPublishers(
     const sb = b.id ? stats.get(b.id) : undefined;
 
     const va =
-      sort_order === "weeks_since_last"
-        ? (sa?.weeks_since_last ?? -1)
+      sort_order === "weeks_away_closest"
+        ? (sa?.weeks_away_closest ?? -1)
         : (sa?.avg_weeks_between ?? -1);
     const vb =
-      sort_order === "weeks_since_last"
-        ? (sb?.weeks_since_last ?? -1)
+      sort_order === "weeks_away_closest"
+        ? (sb?.weeks_away_closest ?? -1)
         : (sb?.avg_weeks_between ?? -1);
 
     if (va === -1 && vb === -1)

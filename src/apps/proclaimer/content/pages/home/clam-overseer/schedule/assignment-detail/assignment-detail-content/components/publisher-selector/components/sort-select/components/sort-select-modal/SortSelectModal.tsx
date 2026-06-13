@@ -17,7 +17,7 @@ import { sortOrderLabels } from "../../../../hooks/use-publisher-sort/usePublish
 
 const sort_options: PublisherSortOrder[] = [
   "alphabetical",
-  "weeks_since_last",
+  "weeks_away_closest",
   "avg_weeks_between",
 ];
 

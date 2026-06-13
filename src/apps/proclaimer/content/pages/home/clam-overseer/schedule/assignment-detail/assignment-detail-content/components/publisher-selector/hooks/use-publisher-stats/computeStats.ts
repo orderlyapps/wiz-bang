@@ -5,7 +5,7 @@ import { participationAssignmentIds } from "./participationAssignmentIds";
 
 export interface PublisherStats {
   publisher_id: string;
-  weeks_since_last: number | null;
+  weeks_away_closest: number | null;
   avg_weeks_between: number | null;
 }
 
@@ -31,8 +31,23 @@ export function computeStats(
       .sort()
       .reverse();
 
-    const weeks_since_last =
-      past_weeks.length > 0 ? differenceInWeeks(current_date, parseISO(past_weeks[0])) : null;
+    const future_weeks = week_ids.filter((w) => w > current_week_id).sort();
+
+    let weeks_away_closest: number | null = null;
+
+    // Check closest past assignment
+    if (past_weeks.length > 0) {
+      const weeks_away = differenceInWeeks(current_date, parseISO(past_weeks[0]));
+      weeks_away_closest = weeks_away;
+    }
+
+    // Check closest future assignment
+    if (future_weeks.length > 0) {
+      const weeks_away = differenceInWeeks(parseISO(future_weeks[0]), current_date);
+      if (weeks_away_closest === null || weeks_away < weeks_away_closest) {
+        weeks_away_closest = weeks_away;
+      }
+    }
 
     let avg_weeks_between: number | null = null;
     if (past_weeks.length >= 2) {
@@ -44,7 +59,7 @@ export function computeStats(
       avg_weeks_between = total_gap / (sorted.length - 1);
     }
 
-    stats.set(publisher_id, { publisher_id, weeks_since_last, avg_weeks_between });
+    stats.set(publisher_id, { publisher_id, weeks_away_closest, avg_weeks_between });
   }
 
   return stats;

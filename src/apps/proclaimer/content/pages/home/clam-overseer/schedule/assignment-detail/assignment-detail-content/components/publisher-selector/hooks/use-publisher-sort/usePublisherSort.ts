@@ -12,7 +12,7 @@ function readStoredSortOrder(participation_type: ParticipationType | null): Publ
   const stored = localStorage.getItem(key);
   if (
     stored === "alphabetical" ||
-    stored === "weeks_since_last" ||
+    stored === "weeks_away_closest" ||
     stored === "avg_weeks_between"
   ) {
     return stored;
