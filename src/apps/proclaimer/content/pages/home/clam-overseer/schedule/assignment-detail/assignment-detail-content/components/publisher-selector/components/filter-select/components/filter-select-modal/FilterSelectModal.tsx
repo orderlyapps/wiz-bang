@@ -3,7 +3,9 @@ import {
   IonButtons,
   IonContent,
   IonHeader,
+  IonLabel,
   IonList,
+  IonListHeader,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
@@ -94,15 +96,33 @@ export function FilterSelectModal({
             min={0}
             on_change={(value) => on_change({ ...filter, min_avg_weeks_between: value })}
           />
+          <IonListHeader>
+            <IonLabel>Show Assignment Types</IonLabel>
+          </IonListHeader>
           {participationTypes.map((type) => (
             <ToggleInput
-              key={type}
+              key={`show-${type}`}
               label={participationTypeLabels[type]}
               checked={filter.participation_types.includes(type)}
               on_change={(checked) => {
                 const current = filter.participation_types;
                 const updated = checked ? [...current, type] : current.filter((t) => t !== type);
                 on_change({ ...filter, participation_types: updated });
+              }}
+            />
+          ))}
+          <IonListHeader>
+            <IonLabel>Include in Stats Calculation</IonLabel>
+          </IonListHeader>
+          {participationTypes.map((type) => (
+            <ToggleInput
+              key={`stats-${type}`}
+              label={participationTypeLabels[type]}
+              checked={filter.stat_participation_types.includes(type)}
+              on_change={(checked) => {
+                const current = filter.stat_participation_types;
+                const updated = checked ? [...current, type] : current.filter((t) => t !== type);
+                on_change({ ...filter, stat_participation_types: updated });
               }}
             />
           ))}

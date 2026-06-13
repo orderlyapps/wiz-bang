@@ -9,6 +9,7 @@ export interface PublisherFilter {
   min_weeks_away_closest: number;
   min_avg_weeks_between: number;
   participation_types: ParticipationType[];
+  stat_participation_types: ParticipationType[];
 }
 
 export const filterLabels: Record<GenderFilter, string> = {
@@ -22,6 +23,7 @@ const default_filter: PublisherFilter = {
   min_weeks_away_closest: 0,
   min_avg_weeks_between: 0,
   participation_types: [],
+  stat_participation_types: [],
 };
 
 function readStoredFilter(participation_type: ParticipationType | null): PublisherFilter {
@@ -36,6 +38,7 @@ function readStoredFilter(participation_type: ParticipationType | null): Publish
       min_weeks_away_closest: parsed.min_weeks_away_closest ?? 0,
       min_avg_weeks_between: parsed.min_avg_weeks_between ?? 0,
       participation_types: parsed.participation_types ?? [],
+      stat_participation_types: parsed.stat_participation_types ?? [],
     };
   } catch {
     return default_filter;

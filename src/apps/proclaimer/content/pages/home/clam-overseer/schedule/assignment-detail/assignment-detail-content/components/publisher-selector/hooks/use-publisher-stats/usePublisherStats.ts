@@ -11,6 +11,7 @@ export function usePublisherStats(
   participation_type: ParticipationType | null,
   current_week_id: string,
   congregation_id: string | undefined,
+  stat_participation_types: ParticipationType[] = [],
 ): Map<string, PublisherStats> {
   const { data: allAssignments } = useLiveQuery((q) => q.from({ ma: midweekAssignmentCollection }));
 
@@ -19,5 +20,5 @@ export function usePublisherStats(
   );
 
   if (!participation_type) return new Map();
-  return computeStats(filtered, participation_type, current_week_id);
+  return computeStats(filtered, participation_type, current_week_id, stat_participation_types);
 }

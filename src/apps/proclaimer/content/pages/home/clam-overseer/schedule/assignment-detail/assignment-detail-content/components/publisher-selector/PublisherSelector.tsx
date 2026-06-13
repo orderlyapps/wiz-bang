@@ -57,8 +57,18 @@ export function PublisherSelector({
     assistant_participation_type,
   );
 
-  const assignee_stats = usePublisherStats(participation_type, week_id, congregation_id);
-  const assistant_stats = usePublisherStats(assistant_participation_type, week_id, congregation_id);
+  const assignee_stats = usePublisherStats(
+    participation_type,
+    week_id,
+    congregation_id,
+    assignee_filter.stat_participation_types,
+  );
+  const assistant_stats = usePublisherStats(
+    assistant_participation_type,
+    week_id,
+    congregation_id,
+    assistant_filter.stat_participation_types,
+  );
   const participation_types = usePublisherParticipationTypes(congregation_id);
 
   const { is_modal_open, selected_publisher, handleSelectPublisher, handleConfirm, handleDismiss } =

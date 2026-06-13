@@ -13,8 +13,15 @@ export function computeStats(
   assignments: MidweekAssignment[],
   participation_type: ParticipationType,
   current_week_id: string,
+  extra_stat_types: ParticipationType[] = [],
 ): Map<string, PublisherStats> {
-  const relevant_ids = new Set(participationAssignmentIds[participation_type]);
+  const types_for_stats = extra_stat_types.length > 0 ? extra_stat_types : [participation_type];
+  const relevant_ids = new Set<string>();
+  for (const type of types_for_stats) {
+    for (const id of participationAssignmentIds[type]) {
+      relevant_ids.add(id);
+    }
+  }
   const current_date = parseISO(current_week_id);
 
   const by_publisher = new Map<string, string[]>();
