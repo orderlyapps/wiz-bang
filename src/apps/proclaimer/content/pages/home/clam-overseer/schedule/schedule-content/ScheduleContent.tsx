@@ -1,4 +1,3 @@
-import { useHistory } from "react-router-dom";
 import { useLiveQuery } from "@tanstack/react-db";
 import { WeekNavigation } from "@proclaimer-shared/components/navigation/week-navigation/WeekNavigation";
 import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiColumnList";
@@ -18,7 +17,6 @@ import { Space } from "@ui/components/layout/space/Space";
 import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
 
 export function ScheduleContent({ week_id }: ScheduleContentProps) {
-  const history = useHistory();
   const permissions = usePermissions();
   const can_edit = permissions.has_clam_overseer;
 
@@ -64,9 +62,7 @@ export function ScheduleContent({ week_id }: ScheduleContentProps) {
             <Space />
             <TextButton
               label="Add Second School"
-              on_click={() =>
-                history.push(`/home/clam-overseer/schedule/${week_id}/assignment/chairman_2`)
-              }
+              routerLink={`/home/clam-overseer/schedule/${week_id}/assignment/chairman_2`}
             />
           </>
         )}

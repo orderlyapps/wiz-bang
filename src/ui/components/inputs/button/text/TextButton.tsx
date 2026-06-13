@@ -1,15 +1,12 @@
 import { IonButton } from "@ionic/react";
+import type { ComponentProps } from "react";
 import type { IonicColor } from "@util/vendor/ionic/types/IonicColor";
 
-interface TextButtonProps {
+type TextButtonProps = Omit<ComponentProps<typeof IonButton>, "onClick" | "color"> & {
   label: string;
   color?: IonicColor;
-  fill?: "clear" | "outline" | "solid" | "default";
-  size?: "small" | "default" | "large";
-  expand?: "block" | "full";
-  disabled?: boolean;
-  on_click: () => void;
-}
+  on_click?: () => void;
+};
 
 export function TextButton({
   label,
@@ -19,9 +16,11 @@ export function TextButton({
   expand = "block",
   disabled = false,
   on_click,
+  ...rest
 }: TextButtonProps) {
   return (
     <IonButton
+      {...rest}
       color={color}
       fill={fill}
       size={size}
