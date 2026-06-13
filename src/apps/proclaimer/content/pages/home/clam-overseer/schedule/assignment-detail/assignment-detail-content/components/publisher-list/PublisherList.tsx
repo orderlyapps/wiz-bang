@@ -21,6 +21,7 @@ interface PublisherListProps {
   stats: Map<string, PublisherStats>;
   filter: PublisherFilter;
   participation_types: Map<string, Set<ParticipationType>>;
+  publisher_ids_with_week_assignment?: Set<string>;
 }
 
 export function PublisherList({
@@ -31,6 +32,7 @@ export function PublisherList({
   stats,
   filter,
   participation_types,
+  publisher_ids_with_week_assignment,
 }: PublisherListProps) {
   const filtered_publishers = publishers.filter((p) => {
     if (filter.gender !== "all" && p.gender !== filter.gender) return false;
@@ -105,6 +107,7 @@ export function PublisherList({
               selected={selected_id === item.id}
               stat_label={getStatLabel(item.id, sort_order, stats)}
               on_select={() => on_select(item.id ?? "")}
+              has_week_assignment={publisher_ids_with_week_assignment?.has(item.id ?? "") ?? false}
             />
           );
         }}

@@ -1,3 +1,4 @@
+import { useLiveQuery } from "@tanstack/react-db";
 import { PublisherList } from "../publisher-list/PublisherList";
 import { PublisherControls } from "./components/publisher-controls/PublisherControls";
 import { PublisherSelectModal } from "../publisher-select-modal/PublisherSelectModal";
@@ -7,6 +8,7 @@ import type {
   MidweekAssignment,
   MidweekAssignmentId,
 } from "@shared/database/schemas/midweek-assignment";
+import { midweekAssignmentCollection } from "@shared/database/collections/midweek-assignment";
 import { participationTypeMap } from "./utils/participationTypeMap";
 import { usePublisherSort } from "./hooks/use-publisher-sort/usePublisherSort";
 import { usePublisherStats } from "./hooks/use-publisher-stats/usePublisherStats";
@@ -62,6 +64,13 @@ export function PublisherSelector({
   const { is_modal_open, selected_publisher, handleSelectPublisher, handleConfirm, handleDismiss } =
     usePublisherSelection({ publishers, onSelectAssignee, onSelectAssistant });
 
+  const { data: allAssignments } = useLiveQuery((q) => q.from({ ma: midweekAssignmentCollection }));
+  const publisher_ids_with_week_assignment = new Set(
+    ((allAssignments as MidweekAssignment[] | undefined) ?? [])
+      .filter((a) => a.week_id === week_id)
+      .map((a) => a.participant_id),
+  );
+
   if (!assistantId) {
     return (
       <>
@@ -79,6 +88,7 @@ export function PublisherSelector({
           stats={assignee_stats}
           filter={assignee_filter}
           participation_types={participation_types}
+          publisher_ids_with_week_assignment={publisher_ids_with_week_assignment}
         />
         <PublisherSelectModal
           is_open={is_modal_open}
@@ -110,6 +120,7 @@ export function PublisherSelector({
         setAssistantFilter={setAssistantFilter}
         onSelectAssignee={(id) => handleSelectPublisher(id, "assignee")}
         onSelectAssistant={(id) => handleSelectPublisher(id, "assistant")}
+        publisher_ids_with_week_assignment={publisher_ids_with_week_assignment}
       />
       <PublisherSelectModal
         is_open={is_modal_open}

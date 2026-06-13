@@ -8,6 +8,7 @@ interface PublisherListItemProps {
   selected: boolean;
   stat_label: string | undefined;
   on_select: () => void;
+  has_week_assignment: boolean;
 }
 
 export function PublisherListItem({
@@ -15,11 +16,14 @@ export function PublisherListItem({
   selected,
   stat_label,
   on_select,
+  has_week_assignment,
 }: PublisherListItemProps) {
   return (
     <IonItem color={selected ? "primary" : undefined} onClick={on_select}>
       <IonLabel>
-        <Body>{getPublisherDisplayName(publisher)}</Body>
+        <Body color={has_week_assignment && !selected ? "medium" : undefined}>
+          {getPublisherDisplayName(publisher)}
+        </Body>
       </IonLabel>
       {stat_label && !selected && (
         <IonChip color={selected ? "primary" : "medium"}>{stat_label}</IonChip>

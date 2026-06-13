@@ -33,6 +33,7 @@ interface PublisherSegmentProps {
   setAssistantFilter: (filter: PublisherFilter) => void;
   onSelectAssignee: (id: string) => void;
   onSelectAssistant: (id: string) => void;
+  publisher_ids_with_week_assignment?: Set<string>;
 }
 
 export function PublisherSegment({
@@ -53,6 +54,7 @@ export function PublisherSegment({
   setAssistantFilter,
   onSelectAssignee,
   onSelectAssistant,
+  publisher_ids_with_week_assignment,
 }: PublisherSegmentProps) {
   return (
     <>
@@ -82,6 +84,7 @@ export function PublisherSegment({
             stats={assignee_stats}
             filter={assignee_filter}
             participation_types={participation_types}
+            publisher_ids_with_week_assignment={publisher_ids_with_week_assignment}
           />
         </IonSegmentContent>
         <IonSegmentContent id="assistant">
@@ -99,6 +102,7 @@ export function PublisherSegment({
             stats={assistant_stats}
             filter={assistant_filter}
             participation_types={participation_types}
+            publisher_ids_with_week_assignment={publisher_ids_with_week_assignment}
           />
         </IonSegmentContent>
       </IonSegmentView>
