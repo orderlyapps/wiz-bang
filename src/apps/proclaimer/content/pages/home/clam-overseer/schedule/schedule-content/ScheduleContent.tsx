@@ -15,6 +15,7 @@ import { useAssignmentRows } from "./helper/use-assignment-rows";
 import type { ScheduleContentProps, AssignmentRow } from "./helper/types";
 import { Space } from "@ui/components/layout/space/Space";
 import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
+import { Spinner } from "@ui/components/display/spinner/Spinner";
 
 export function ScheduleContent({ week_id, base_path }: ScheduleContentProps) {
   const permissions = usePermissions();
@@ -47,6 +48,11 @@ export function ScheduleContent({ week_id, base_path }: ScheduleContentProps) {
     week_id,
     base_path,
   );
+
+  const is_loading =
+    allMeetingData === undefined || allAssignments === undefined || publishers === undefined;
+
+  if (is_loading) return <Spinner className="flex-center" />;
 
   return (
     <>
