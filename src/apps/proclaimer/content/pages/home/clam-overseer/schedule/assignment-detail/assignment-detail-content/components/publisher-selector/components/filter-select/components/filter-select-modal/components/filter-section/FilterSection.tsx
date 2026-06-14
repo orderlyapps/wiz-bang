@@ -55,7 +55,7 @@ export function getFilterInputItems(
       id: "min_weeks_away",
       node: (
         <IncrementInput
-          label="Min weeks away from closest"
+          label="Minimum Weeks From Closest Assignment"
           value={filter.min_weeks_away_closest}
           min={0}
           on_change={(value) => on_change({ ...filter, min_weeks_away_closest: value })}
@@ -67,7 +67,7 @@ export function getFilterInputItems(
       id: "min_avg_weeks",
       node: (
         <IncrementInput
-          label="Min avg weeks between"
+          label="Minimum Average Weeks Between Assignments"
           value={filter.min_avg_weeks_between}
           min={0}
           on_change={(value) => on_change({ ...filter, min_avg_weeks_between: value })}
@@ -79,7 +79,7 @@ export function getFilterInputItems(
       id: "participation_types",
       node: (
         <AlertMultiSelect
-          label="Show Assignment Types"
+          label="Assignment Types"
           options={participationTypeOptions}
           selected={filter.participation_types}
           disabled={disabled}
@@ -108,7 +108,7 @@ export function getFilterInputItems(
       id: "stat_participation_types",
       node: (
         <AlertMultiSelect
-          label="Include in Stats Calculation"
+          label="Assignment Type Statistics"
           options={participationTypeOptions}
           selected={filter.stat_participation_types}
           disabled={disabled}
