@@ -82,7 +82,6 @@ Do not add page-specific percent-padding or media queries to constrain content w
 
 ### Layout primitives
 
-- `PageGrid` (`src/ui/components/layout/page-grid/PageGrid.tsx`) — 1 col on mobile, N cols (2/3/4) on tablet+. Use it for any form or dashboard with multiple fields/cards. Prefer this over ad-hoc flex/grid CSS.
 - `Space` (`src/ui/components/layout/space/Space.tsx`) — vertical/horizontal whitespace using the shared `Size` scale.
 
 ### Data display
@@ -105,7 +104,6 @@ Do not add page-specific percent-padding or media queries to constrain content w
 
 ### When to use what
 
-- New form / settings panel with 2+ fields → wrap in `PageGrid`.
 - New list of records → `ResponsiveList<T>` with `columns` + `get_id`.
 - New list of uniform cards/items (no column structure) → `MultiColumnList<T>` with `get_id` + `render_item`.
 - New modal/dialog → `ResponsiveModal`, not `IonModal` directly.
