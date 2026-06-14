@@ -23,7 +23,7 @@ type WeekNavigationProps = {
   weeksToDisplay?: number;
 };
 
-export const WeekNavigation = ({ week_id, weeksToDisplay = 14 }: WeekNavigationProps) => {
+export const WeekNavigation = ({ week_id, weeksToDisplay = 20 }: WeekNavigationProps) => {
   const router = useIonRouter();
   const weekLabel = getTheocraticWeekLabel(week_id);
   const [popoverOpen, setPopoverOpen] = useState(false);
