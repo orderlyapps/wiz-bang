@@ -103,6 +103,7 @@ export function AssignmentHistory({
             key={`${row.week_id}-${row.assignment_id}-${i}`}
             label={weeks_label}
             label_size={row.is_current ? "xl" : undefined}
+            label_color={row.is_current ? "primary" : undefined}
             value={
               getAssignmentTypeLabel(row.assignment_id).replace(/\b\w/g, (c) => c.toUpperCase()) +
               `${row.assistant_name ? ` with ${row.assistant_name}` : ""}`
