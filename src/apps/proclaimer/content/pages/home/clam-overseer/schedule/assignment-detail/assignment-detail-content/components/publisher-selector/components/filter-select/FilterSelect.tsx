@@ -1,28 +1,55 @@
 import { useState } from "react";
 import { ModalSelect } from "@ui/components/inputs/modal-select/ModalSelect";
 import { FilterSelectModal } from "./components/filter-select-modal/FilterSelectModal";
-import type { PublisherFilter } from "../../hooks/use-publisher-filter/usePublisherFilter";
-import { filterLabels } from "../../hooks/use-publisher-filter/usePublisherFilter";
+import type {
+  FilterSortPreset,
+  PublisherFilter,
+  PublisherSortOrder,
+} from "../../hooks/use-presets/usePresets";
 
 interface FilterSelectProps {
-  filter: PublisherFilter;
-  on_change: (filter: PublisherFilter) => void;
+  presets: FilterSortPreset[];
+  active_preset: FilterSortPreset;
+  is_default_active: boolean;
+  on_select_preset: (id: string) => void;
+  on_create_preset: (name: string) => void;
+  on_rename_preset: (id: string, name: string) => void;
+  on_duplicate_preset: (id: string) => void;
+  on_delete_preset: (id: string) => void;
+  on_change: (filter: PublisherFilter, sort_order: PublisherSortOrder) => void;
 }
 
-export function FilterSelect({ filter, on_change }: FilterSelectProps) {
+export function FilterSelect({
+  presets,
+  active_preset,
+  is_default_active,
+  on_select_preset,
+  on_create_preset,
+  on_rename_preset,
+  on_duplicate_preset,
+  on_delete_preset,
+  on_change,
+}: FilterSelectProps) {
   const [is_open, set_is_open] = useState(false);
 
   return (
     <>
       <ModalSelect
-        label="Filter"
-        display_value={filterLabels[filter.gender]}
-        placeholder="Filter..."
+        label="Filter &amp; Sort"
+        display_value={active_preset.name}
+        placeholder="Filter &amp; Sort..."
         on_open={() => set_is_open(true)}
       />
       <FilterSelectModal
         is_open={is_open}
-        filter={filter}
+        presets={presets}
+        active_preset={active_preset}
+        is_default_active={is_default_active}
+        on_select_preset={on_select_preset}
+        on_create_preset={on_create_preset}
+        on_rename_preset={on_rename_preset}
+        on_duplicate_preset={on_duplicate_preset}
+        on_delete_preset={on_delete_preset}
         on_change={on_change}
         on_dismiss={() => set_is_open(false)}
       />

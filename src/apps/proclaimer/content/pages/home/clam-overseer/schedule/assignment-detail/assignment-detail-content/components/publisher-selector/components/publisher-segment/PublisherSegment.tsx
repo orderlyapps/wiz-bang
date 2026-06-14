@@ -10,9 +10,12 @@ import type { Publisher } from "@shared/database/schemas/publisher";
 import type { MidweekAssignment } from "@shared/database/schemas/midweek-assignment";
 import { PublisherList } from "../../../publisher-list/PublisherList";
 import { PublisherControls } from "../publisher-controls/PublisherControls";
-import type { PublisherSortOrder } from "../../hooks/use-publisher-sort/usePublisherSort";
 import type { PublisherStats } from "../../hooks/use-publisher-stats/usePublisherStats";
-import type { PublisherFilter } from "../../hooks/use-publisher-filter/usePublisherFilter";
+import type {
+  FilterSortPreset,
+  PublisherFilter,
+  PublisherSortOrder,
+} from "../../hooks/use-presets/usePresets";
 import type { ParticipationType } from "../../utils/participationTypeMap";
 
 interface PublisherSegmentProps {
@@ -20,17 +23,27 @@ interface PublisherSegmentProps {
   assignment: MidweekAssignment | undefined;
   assistantAssignment: MidweekAssignment | undefined;
   assistant_label: string;
-  assignee_sort: PublisherSortOrder;
-  assistant_sort: PublisherSortOrder;
+  assignee_preset: FilterSortPreset;
+  assistant_preset: FilterSortPreset;
+  assignee_presets: FilterSortPreset[];
+  assistant_presets: FilterSortPreset[];
+  assignee_is_default_active: boolean;
+  assistant_is_default_active: boolean;
   assignee_stats: Map<string, PublisherStats>;
   assistant_stats: Map<string, PublisherStats>;
-  assignee_filter: PublisherFilter;
-  assistant_filter: PublisherFilter;
   participation_types: Map<string, Set<ParticipationType>>;
-  setAssigneeSortOrder: (order: PublisherSortOrder) => void;
-  setAssistantSortOrder: (order: PublisherSortOrder) => void;
-  setAssigneeFilter: (filter: PublisherFilter) => void;
-  setAssistantFilter: (filter: PublisherFilter) => void;
+  onSelectAssigneePreset: (id: string) => void;
+  onCreateAssigneePreset: (name: string) => void;
+  onRenameAssigneePreset: (id: string, name: string) => void;
+  onDuplicateAssigneePreset: (id: string) => void;
+  onDeleteAssigneePreset: (id: string) => void;
+  onChangeAssignee: (filter: PublisherFilter, sort_order: PublisherSortOrder) => void;
+  onSelectAssistantPreset: (id: string) => void;
+  onCreateAssistantPreset: (name: string) => void;
+  onRenameAssistantPreset: (id: string, name: string) => void;
+  onDuplicateAssistantPreset: (id: string) => void;
+  onDeleteAssistantPreset: (id: string) => void;
+  onChangeAssistant: (filter: PublisherFilter, sort_order: PublisherSortOrder) => void;
   onSelectAssignee: (id: string) => void;
   onSelectAssistant: (id: string) => void;
   publisher_ids_with_week_assignment?: Set<string>;
@@ -41,17 +54,27 @@ export function PublisherSegment({
   assignment,
   assistantAssignment,
   assistant_label,
-  assignee_sort,
-  assistant_sort,
+  assignee_preset,
+  assistant_preset,
+  assignee_presets,
+  assistant_presets,
+  assignee_is_default_active,
+  assistant_is_default_active,
   assignee_stats,
   assistant_stats,
-  assignee_filter,
-  assistant_filter,
   participation_types,
-  setAssigneeSortOrder,
-  setAssistantSortOrder,
-  setAssigneeFilter,
-  setAssistantFilter,
+  onSelectAssigneePreset,
+  onCreateAssigneePreset,
+  onRenameAssigneePreset,
+  onDuplicateAssigneePreset,
+  onDeleteAssigneePreset,
+  onChangeAssignee,
+  onSelectAssistantPreset,
+  onCreateAssistantPreset,
+  onRenameAssistantPreset,
+  onDuplicateAssistantPreset,
+  onDeleteAssistantPreset,
+  onChangeAssistant,
   onSelectAssignee,
   onSelectAssistant,
   publisher_ids_with_week_assignment,
@@ -71,36 +94,46 @@ export function PublisherSegment({
       <IonSegmentView>
         <IonSegmentContent id="assignee">
           <PublisherControls
-            sort_order={assignee_sort}
-            on_sort_change={setAssigneeSortOrder}
-            filter={assignee_filter}
-            on_filter_change={setAssigneeFilter}
+            presets={assignee_presets}
+            active_preset={assignee_preset}
+            is_default_active={assignee_is_default_active}
+            on_select_preset={onSelectAssigneePreset}
+            on_create_preset={onCreateAssigneePreset}
+            on_rename_preset={onRenameAssigneePreset}
+            on_duplicate_preset={onDuplicateAssigneePreset}
+            on_delete_preset={onDeleteAssigneePreset}
+            on_change={onChangeAssignee}
           />
           <PublisherList
             publishers={publishers}
             selected_id={assignment?.participant_id}
             on_select={onSelectAssignee}
-            sort_order={assignee_sort}
+            sort_order={assignee_preset.sort_order}
             stats={assignee_stats}
-            filter={assignee_filter}
+            filter={assignee_preset.filter}
             participation_types={participation_types}
             publisher_ids_with_week_assignment={publisher_ids_with_week_assignment}
           />
         </IonSegmentContent>
         <IonSegmentContent id="assistant">
           <PublisherControls
-            sort_order={assistant_sort}
-            on_sort_change={setAssistantSortOrder}
-            filter={assistant_filter}
-            on_filter_change={setAssistantFilter}
+            presets={assistant_presets}
+            active_preset={assistant_preset}
+            is_default_active={assistant_is_default_active}
+            on_select_preset={onSelectAssistantPreset}
+            on_create_preset={onCreateAssistantPreset}
+            on_rename_preset={onRenameAssistantPreset}
+            on_duplicate_preset={onDuplicateAssistantPreset}
+            on_delete_preset={onDeleteAssistantPreset}
+            on_change={onChangeAssistant}
           />
           <PublisherList
             publishers={publishers}
             selected_id={assistantAssignment?.participant_id}
             on_select={onSelectAssistant}
-            sort_order={assistant_sort}
+            sort_order={assistant_preset.sort_order}
             stats={assistant_stats}
-            filter={assistant_filter}
+            filter={assistant_preset.filter}
             participation_types={participation_types}
             publisher_ids_with_week_assignment={publisher_ids_with_week_assignment}
           />

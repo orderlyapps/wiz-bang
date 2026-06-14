@@ -10,11 +10,11 @@ import type {
 } from "@shared/database/schemas/midweek-assignment";
 import { midweekAssignmentCollection } from "@shared/database/collections/midweek-assignment";
 import { participationTypeMap } from "./utils/participationTypeMap";
-import { usePublisherSort } from "./hooks/use-publisher-sort/usePublisherSort";
+import { usePresets } from "./hooks/use-presets/usePresets";
+import type { PublisherFilter, PublisherSortOrder } from "./hooks/use-presets/usePresets";
 import { usePublisherStats } from "./hooks/use-publisher-stats/usePublisherStats";
 import { usePublisherParticipationTypes } from "./hooks/use-publisher-participation-types/usePublisherParticipationTypes";
 import { usePublisherSelection } from "./hooks/use-publisher-selection/usePublisherSelection";
-import { usePublisherFilter } from "./hooks/use-publisher-filter/usePublisherFilter";
 import { getStoredCongregation } from "@util/app/congregation/utils";
 
 interface PublisherSelectorProps {
@@ -45,29 +45,20 @@ export function PublisherSelector({
     ? (participationTypeMap[assistantId as MidweekAssignmentId] ?? "assistant")
     : null;
 
-  const { sort_order: assignee_sort, setSortOrder: setAssigneeSortOrder } =
-    usePublisherSort(participation_type);
-  const { sort_order: assistant_sort, setSortOrder: setAssistantSortOrder } = usePublisherSort(
-    assistant_participation_type,
-  );
-
-  const { filter: assignee_filter, setFilter: setAssigneeFilter } =
-    usePublisherFilter(participation_type);
-  const { filter: assistant_filter, setFilter: setAssistantFilter } = usePublisherFilter(
-    assistant_participation_type,
-  );
+  const assignee_presets_api = usePresets(participation_type);
+  const assistant_presets_api = usePresets(assistant_participation_type);
 
   const assignee_stats = usePublisherStats(
     participation_type,
     week_id,
     congregation_id,
-    assignee_filter.stat_participation_types,
+    assignee_presets_api.active_preset.filter.stat_participation_types,
   );
   const assistant_stats = usePublisherStats(
     assistant_participation_type,
     week_id,
     congregation_id,
-    assistant_filter.stat_participation_types,
+    assistant_presets_api.active_preset.filter.stat_participation_types,
   );
   const participation_types = usePublisherParticipationTypes(congregation_id);
 
@@ -81,22 +72,35 @@ export function PublisherSelector({
       .map((a) => a.participant_id),
   );
 
+  function handleAssigneeChange(filter: PublisherFilter, sort_order: PublisherSortOrder) {
+    assignee_presets_api.updatePreset(filter, sort_order);
+  }
+
+  function handleAssistantChange(filter: PublisherFilter, sort_order: PublisherSortOrder) {
+    assistant_presets_api.updatePreset(filter, sort_order);
+  }
+
   if (!assistantId) {
     return (
       <>
         <PublisherControls
-          sort_order={assignee_sort}
-          on_sort_change={setAssigneeSortOrder}
-          filter={assignee_filter}
-          on_filter_change={setAssigneeFilter}
+          presets={assignee_presets_api.presets}
+          active_preset={assignee_presets_api.active_preset}
+          is_default_active={assignee_presets_api.is_default_active}
+          on_select_preset={assignee_presets_api.selectPreset}
+          on_create_preset={assignee_presets_api.createPreset}
+          on_rename_preset={assignee_presets_api.renamePreset}
+          on_duplicate_preset={assignee_presets_api.duplicatePreset}
+          on_delete_preset={assignee_presets_api.deletePreset}
+          on_change={handleAssigneeChange}
         />
         <PublisherList
           publishers={publishers}
           selected_id={assignment?.participant_id}
           on_select={(id) => handleSelectPublisher(id, "assignee")}
-          sort_order={assignee_sort}
+          sort_order={assignee_presets_api.active_preset.sort_order}
           stats={assignee_stats}
-          filter={assignee_filter}
+          filter={assignee_presets_api.active_preset.filter}
           participation_types={participation_types}
           publisher_ids_with_week_assignment={publisher_ids_with_week_assignment}
         />
@@ -117,17 +121,27 @@ export function PublisherSelector({
         assignment={assignment}
         assistantAssignment={assistantAssignment}
         assistant_label={assistantId === "cbs_reader" ? "Reader" : "Assistant"}
-        assignee_sort={assignee_sort}
-        assistant_sort={assistant_sort}
+        assignee_preset={assignee_presets_api.active_preset}
+        assistant_preset={assistant_presets_api.active_preset}
+        assignee_presets={assignee_presets_api.presets}
+        assistant_presets={assistant_presets_api.presets}
+        assignee_is_default_active={assignee_presets_api.is_default_active}
+        assistant_is_default_active={assistant_presets_api.is_default_active}
         assignee_stats={assignee_stats}
         assistant_stats={assistant_stats}
-        assignee_filter={assignee_filter}
-        assistant_filter={assistant_filter}
         participation_types={participation_types}
-        setAssigneeSortOrder={setAssigneeSortOrder}
-        setAssistantSortOrder={setAssistantSortOrder}
-        setAssigneeFilter={setAssigneeFilter}
-        setAssistantFilter={setAssistantFilter}
+        onSelectAssigneePreset={assignee_presets_api.selectPreset}
+        onCreateAssigneePreset={assignee_presets_api.createPreset}
+        onRenameAssigneePreset={assignee_presets_api.renamePreset}
+        onDuplicateAssigneePreset={assignee_presets_api.duplicatePreset}
+        onDeleteAssigneePreset={assignee_presets_api.deletePreset}
+        onChangeAssignee={handleAssigneeChange}
+        onSelectAssistantPreset={assistant_presets_api.selectPreset}
+        onCreateAssistantPreset={assistant_presets_api.createPreset}
+        onRenameAssistantPreset={assistant_presets_api.renamePreset}
+        onDuplicateAssistantPreset={assistant_presets_api.duplicatePreset}
+        onDeleteAssistantPreset={assistant_presets_api.deletePreset}
+        onChangeAssistant={handleAssistantChange}
         onSelectAssignee={(id) => handleSelectPublisher(id, "assignee")}
         onSelectAssistant={(id) => handleSelectPublisher(id, "assistant")}
         publisher_ids_with_week_assignment={publisher_ids_with_week_assignment}

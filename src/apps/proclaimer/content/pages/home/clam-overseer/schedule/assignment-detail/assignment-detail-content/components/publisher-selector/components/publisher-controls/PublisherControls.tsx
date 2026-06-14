@@ -1,35 +1,44 @@
-import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiColumnList";
 import { FilterSelect } from "../filter-select/FilterSelect";
-import { SortSelect } from "../sort-select/SortSelect";
-import type { PublisherSortOrder } from "../../hooks/use-publisher-sort/usePublisherSort";
-import type { PublisherFilter } from "../../hooks/use-publisher-filter/usePublisherFilter";
-
-type ControlItem = { id: string };
-
-const control_items: ControlItem[] = [{ id: "filter" }, { id: "sort" }];
+import type {
+  FilterSortPreset,
+  PublisherFilter,
+  PublisherSortOrder,
+} from "../../hooks/use-presets/usePresets";
 
 interface PublisherControlsProps {
-  sort_order: PublisherSortOrder;
-  on_sort_change: (order: PublisherSortOrder) => void;
-  filter: PublisherFilter;
-  on_filter_change: (filter: PublisherFilter) => void;
+  presets: FilterSortPreset[];
+  active_preset: FilterSortPreset;
+  is_default_active: boolean;
+  on_select_preset: (id: string) => void;
+  on_create_preset: (name: string) => void;
+  on_rename_preset: (id: string, name: string) => void;
+  on_duplicate_preset: (id: string) => void;
+  on_delete_preset: (id: string) => void;
+  on_change: (filter: PublisherFilter, sort_order: PublisherSortOrder) => void;
 }
 
 export function PublisherControls({
-  sort_order,
-  on_sort_change,
-  filter,
-  on_filter_change,
+  presets,
+  active_preset,
+  is_default_active,
+  on_select_preset,
+  on_create_preset,
+  on_rename_preset,
+  on_duplicate_preset,
+  on_delete_preset,
+  on_change,
 }: PublisherControlsProps) {
   return (
-    <MultiColumnList<ControlItem>
-      items={control_items}
-      get_id={(item) => item.id}
-      render_item={(item) => {
-        if (item.id === "filter")
-          return <FilterSelect filter={filter} on_change={on_filter_change} />;
-        return <SortSelect sort_order={sort_order} on_change={on_sort_change} />;
-      }}
+    <FilterSelect
+      presets={presets}
+      active_preset={active_preset}
+      is_default_active={is_default_active}
+      on_select_preset={on_select_preset}
+      on_create_preset={on_create_preset}
+      on_rename_preset={on_rename_preset}
+      on_duplicate_preset={on_duplicate_preset}
+      on_delete_preset={on_delete_preset}
+      on_change={on_change}
     />
   );
 }
