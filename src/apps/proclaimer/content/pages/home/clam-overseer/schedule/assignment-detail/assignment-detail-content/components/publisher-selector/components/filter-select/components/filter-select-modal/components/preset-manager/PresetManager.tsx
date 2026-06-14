@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { IonAlert, IonItem, IonList } from "@ionic/react";
+import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiColumnList";
 import { Select } from "@ui/components/inputs/select/Select";
 import { CopyIconButton } from "@ui/components/inputs/button/icon/copy/CopyIconButton";
 import { EditIconButton } from "@ui/components/inputs/button/icon/edit/EditIconButton";
@@ -32,26 +33,49 @@ export function PresetManager({
   const preset_options = presets.map((p) => ({ label: p.name, value: p.id }));
   const active_preset_name = presets.find((p) => p.id === active_preset_id)?.name ?? "";
 
+  const row_items = [
+    {
+      id: "select",
+      node: (
+        <Select
+          key={`${active_preset_id}:${active_preset_name}`}
+          label="Preset"
+          value={active_preset_id}
+          options={preset_options}
+          interface_type="popover"
+          on_change={(id) => on_select(id as string)}
+        />
+      ),
+    },
+    {
+      id: "actions",
+      node: (
+        <IonItem className="flex-left" lines="none">
+          <CopyIconButton on_click={() => set_show_save_alert(true)} />
+          <EditIconButton
+            disabled={is_default_active}
+            on_click={() => set_show_rename_alert(true)}
+          />
+          <DeleteIconButton
+            disabled={is_default_active}
+            alert_header="Delete preset"
+            alert_message="Are you sure you want to delete this preset?"
+            on_click={() => on_delete(active_preset_id)}
+          />
+        </IonItem>
+      ),
+    },
+  ];
+
   return (
     <IonList>
-      <Select
-        key={`${active_preset_id}:${active_preset_name}`}
-        label="Preset"
-        value={active_preset_id}
-        options={preset_options}
-        interface_type="popover"
-        on_change={(id) => on_select(id as string)}
+      <MultiColumnList
+        items={row_items}
+        get_id={(item) => item.id}
+        render_item={(item) => item.node}
+        gap="sm"
+        column_offset={-1}
       />
-      <IonItem>
-        <CopyIconButton on_click={() => set_show_save_alert(true)} />
-        <EditIconButton disabled={is_default_active} on_click={() => set_show_rename_alert(true)} />
-        <DeleteIconButton
-          disabled={is_default_active}
-          alert_header="Delete preset"
-          alert_message="Are you sure you want to delete this preset?"
-          on_click={() => on_delete(active_preset_id)}
-        />
-      </IonItem>
 
       <IonAlert
         isOpen={show_save_alert}
