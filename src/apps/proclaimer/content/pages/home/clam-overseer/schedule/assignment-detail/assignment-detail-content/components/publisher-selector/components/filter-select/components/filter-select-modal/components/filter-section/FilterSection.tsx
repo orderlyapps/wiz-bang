@@ -1,4 +1,4 @@
-import { IonChip, IonLabel, IonList, IonListHeader } from "@ionic/react";
+import { IonChip } from "@ionic/react";
 import { Select } from "@ui/components/inputs/select/Select";
 import { IncrementInput } from "@ui/components/inputs/increment-input/IncrementInput";
 import { AlertMultiSelect } from "@ui/components/inputs/alert-multi-select/AlertMultiSelect";
@@ -6,13 +6,13 @@ import type { PublisherFilter } from "../../../../../../hooks/use-presets/usePre
 import { filterLabels } from "../../../../../../hooks/use-publisher-filter/usePublisherFilter";
 import type { ParticipationType } from "../../../../../../utils/participationTypeMap";
 
-const genderOptions = [
+export const genderOptions = [
   { label: filterLabels.all, value: "all" },
   { label: filterLabels.male, value: "male" },
   { label: filterLabels.female, value: "female" },
 ];
 
-const participationTypeOptions: { label: string; value: ParticipationType }[] = [
+export const participationTypeOptions: { label: string; value: ParticipationType }[] = [
   { label: "Prayer", value: "prayer" },
   { label: "Treasures", value: "treasures" },
   { label: "Gems", value: "gems" },
@@ -26,19 +26,20 @@ const participationTypeOptions: { label: string; value: ParticipationType }[] = 
   { label: "CBS Reader", value: "cbs_reader" },
 ];
 
-interface FilterSectionProps {
-  filter: PublisherFilter;
-  disabled: boolean;
-  on_change: (filter: PublisherFilter) => void;
+export interface FilterInputItem {
+  id: string;
+  node: React.ReactNode;
 }
 
-export function FilterSection({ filter, disabled, on_change }: FilterSectionProps) {
-  return (
-    <>
-      <IonList>
-        <IonListHeader>
-          <IonLabel>Filter</IonLabel>
-        </IonListHeader>
+export function getFilterInputItems(
+  filter: PublisherFilter,
+  disabled: boolean,
+  on_change: (filter: PublisherFilter) => void,
+): FilterInputItem[] {
+  return [
+    {
+      id: "gender",
+      node: (
         <Select
           label="Gender"
           value={filter.gender}
@@ -48,6 +49,11 @@ export function FilterSection({ filter, disabled, on_change }: FilterSectionProp
           }
           disabled={disabled}
         />
+      ),
+    },
+    {
+      id: "min_weeks_away",
+      node: (
         <IncrementInput
           label="Min weeks away from closest"
           value={filter.min_weeks_away_closest}
@@ -55,6 +61,11 @@ export function FilterSection({ filter, disabled, on_change }: FilterSectionProp
           on_change={(value) => on_change({ ...filter, min_weeks_away_closest: value })}
           disabled={disabled}
         />
+      ),
+    },
+    {
+      id: "min_avg_weeks",
+      node: (
         <IncrementInput
           label="Min avg weeks between"
           value={filter.min_avg_weeks_between}
@@ -62,8 +73,11 @@ export function FilterSection({ filter, disabled, on_change }: FilterSectionProp
           on_change={(value) => on_change({ ...filter, min_avg_weeks_between: value })}
           disabled={disabled}
         />
-      </IonList>
-      <IonList>
+      ),
+    },
+    {
+      id: "participation_types",
+      node: (
         <AlertMultiSelect
           label="Show Assignment Types"
           options={participationTypeOptions}
@@ -80,6 +94,11 @@ export function FilterSection({ filter, disabled, on_change }: FilterSectionProp
             </div>
           )}
         />
+      ),
+    },
+    {
+      id: "stat_participation_types",
+      node: (
         <AlertMultiSelect
           label="Include in Stats Calculation"
           options={participationTypeOptions}
@@ -96,7 +115,7 @@ export function FilterSection({ filter, disabled, on_change }: FilterSectionProp
             </div>
           )}
         />
-      </IonList>
-    </>
-  );
+      ),
+    },
+  ];
 }

@@ -48,21 +48,21 @@ export function IncrementInput({
         <IonButton
           color={color}
           fill="clear"
-          size="large"
           disabled={disabled || is_at_min}
           onClick={handle_decrement}
-          style={{ "font-size": "2rem" }}
+          style={{ "font-size": "1.05rem" }}
         >
           <IonIcon slot="icon-only" icon={remove} />
         </IonButton>
-        <Body size="xl">{value}</Body>
+        <Body size="xl" className="ion-margin-horizontal">
+          {value}
+        </Body>
         <IonButton
           color={color}
           fill="clear"
-          size="large"
           disabled={disabled || is_at_max}
           onClick={handle_increment}
-          style={{ "font-size": "2rem" }}
+          style={{ "font-size": "1.05rem" }}
         >
           <IonIcon slot="icon-only" icon={add} />
         </IonButton>

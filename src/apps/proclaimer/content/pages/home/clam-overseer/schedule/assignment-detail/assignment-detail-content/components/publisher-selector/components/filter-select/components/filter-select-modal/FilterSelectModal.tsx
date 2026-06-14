@@ -1,13 +1,15 @@
 import { IonButton, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar } from "@ionic/react";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiColumnList";
 import type {
   FilterSortPreset,
   PublisherFilter,
   PublisherSortOrder,
 } from "../../../../hooks/use-presets/usePresets";
 import { PresetManager } from "./components/preset-manager/PresetManager";
-import { SortSection } from "./components/sort-section/SortSection";
-import { FilterSection } from "./components/filter-section/FilterSection";
+import { getSortInputItem } from "./components/sort-section/SortSection";
+import { getFilterInputItems } from "./components/filter-section/FilterSection";
+import { Space } from "@ui/components/layout/space/Space";
 
 interface FilterSelectModalProps {
   is_open: boolean;
@@ -54,15 +56,19 @@ export function FilterSelectModal({
           on_rename={on_rename_preset}
           on_delete={on_delete_preset}
         />
-        <SortSection
-          sort_order={active_preset.sort_order}
-          disabled={is_default_active}
-          on_change={(sort_order) => on_change(active_preset.filter, sort_order)}
-        />
-        <FilterSection
-          filter={active_preset.filter}
-          disabled={is_default_active}
-          on_change={(filter) => on_change(filter, active_preset.sort_order)}
+        <Space size="xl" />
+        <MultiColumnList
+          items={[
+            getSortInputItem(active_preset.sort_order, is_default_active, (sort_order) =>
+              on_change(active_preset.filter, sort_order),
+            ),
+            ...getFilterInputItems(active_preset.filter, is_default_active, (filter) =>
+              on_change(filter, active_preset.sort_order),
+            ),
+          ]}
+          get_id={(item) => item.id}
+          render_item={(item) => item.node}
+          gap="sm"
         />
       </IonContent>
     </ResponsiveModal>
