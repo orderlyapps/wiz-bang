@@ -85,7 +85,15 @@ export function getFilterInputItems(
           disabled={disabled}
           on_change={(values) => on_change({ ...filter, participation_types: values })}
           render_selected={(sel, opts) => (
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                flexWrap: "wrap",
+                justifyContent: "flex-end",
+                gap: "4px",
+              }}
+            >
               {opts
                 .filter((o) => sel.includes(o.value))
                 .map((o) => (
@@ -106,7 +114,15 @@ export function getFilterInputItems(
           disabled={disabled}
           on_change={(values) => on_change({ ...filter, stat_participation_types: values })}
           render_selected={(sel, opts) => (
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                flexWrap: "wrap",
+                justifyContent: "flex-end",
+                gap: "4px",
+              }}
+            >
               {opts
                 .filter((o) => sel.includes(o.value))
                 .map((o) => (
