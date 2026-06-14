@@ -1,7 +1,7 @@
 import { useLiveQuery } from "@tanstack/react-db";
 import { PublisherList } from "../publisher-list/PublisherList";
 import { PublisherControls } from "./components/publisher-controls/PublisherControls";
-import { PublisherSelectModal } from "../publisher-select-modal/PublisherSelectModal";
+import { PublisherSelectModal } from "../publisher-list/components/publisher-select-modal/PublisherSelectModal";
 import { PublisherSegment } from "./components/publisher-segment/PublisherSegment";
 import type { Publisher } from "@shared/database/schemas/publisher";
 import type {
