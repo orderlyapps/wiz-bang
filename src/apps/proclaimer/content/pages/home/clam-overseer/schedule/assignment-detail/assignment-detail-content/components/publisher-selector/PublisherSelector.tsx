@@ -109,6 +109,9 @@ export function PublisherSelector({
           publisher={selected_publisher}
           on_dismiss={handleDismiss}
           on_confirm={handleConfirm}
+          week_id={week_id}
+          all_assignments={(allAssignments as MidweekAssignment[] | undefined) ?? []}
+          publishers={publishers}
         />
       </>
     );
@@ -151,6 +154,9 @@ export function PublisherSelector({
         publisher={selected_publisher}
         on_dismiss={handleDismiss}
         on_confirm={handleConfirm}
+        week_id={week_id}
+        all_assignments={(allAssignments as MidweekAssignment[] | undefined) ?? []}
+        publishers={publishers}
       />
     </>
   );
