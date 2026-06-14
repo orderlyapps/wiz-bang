@@ -68,8 +68,9 @@ export function FilterSelectModal({
           ]}
           get_id={(item) => item.id}
           render_item={(item) => item.node}
-          gap="sm"
-          max_columns={3}
+          gap="md"
+          max_columns={2}
+          row_gap="lg"
         />
       </IonContent>
     </ResponsiveModal>

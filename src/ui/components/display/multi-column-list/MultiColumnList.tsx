@@ -12,6 +12,10 @@ interface MultiColumnListProps<T> {
   render_item: (item: T) => ReactNode;
   /** Horizontal gap between columns. Uses the shared Size scale, or "none" for no gap. Defaults to "sm". */
   gap?: Size | "none";
+  /** Vertical gap between rows. Uses the shared Size scale, or "none" for no gap. Defaults to "none". */
+  row_gap?: Size | "none";
+  /** Whether to apply gaps when there is only one column. Defaults to false. */
+  gap_when_single_column?: boolean;
   /** Optional offset to add or subtract from the calculated column count. Positive values add columns, negative values reduce columns. */
   column_offset?: number;
   /** Optional hard cap on the number of columns, applied after all other adjustments. */
@@ -74,6 +78,8 @@ export function MultiColumnList<T>({
   get_id,
   render_item,
   gap = "none",
+  row_gap = "none",
+  gap_when_single_column = false,
   column_offset = 0,
   max_columns,
   pin_to_first_column,
@@ -88,7 +94,9 @@ export function MultiColumnList<T>({
       style={
         {
           "--multi-column-list-cols": cols,
-          "--multi-column-list-gap": gapMap[gap],
+          "--multi-column-list-gap": cols === 1 && !gap_when_single_column ? "0" : gapMap[gap],
+          "--multi-column-list-row-gap":
+            cols === 1 && !gap_when_single_column ? "0" : gapMap[row_gap],
         } as CSSProperties
       }
     >
