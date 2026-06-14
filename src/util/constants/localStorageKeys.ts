@@ -7,6 +7,8 @@ export const localStorageKeys = {
   selectedPublisher: "selected_publisher",
   filterSortPresets: "filter_sort_presets",
   filterSortActivePreset: "filter_sort_active_preset",
+  publisherGenderFilter: "publisher_gender_filter",
+  publisherSortOrder: "publisher_sort_order",
 } as const;
 
 export const localStorageKeyWithVariant = (
