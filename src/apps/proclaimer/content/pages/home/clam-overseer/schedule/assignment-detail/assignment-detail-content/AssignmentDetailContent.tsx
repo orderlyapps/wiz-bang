@@ -6,6 +6,7 @@ import { useAssignmentData } from "./hooks/use-assignment-data";
 import { useAssignmentHandlers } from "./hooks/use-assignment-handlers";
 import { useAssistantHandlers } from "./hooks/use-assistant-handlers";
 import { IonContent, IonHeader } from "@ionic/react";
+import { Space } from "@ui/components/layout/space/Space";
 
 interface AssignmentDetailContentProps {
   week_id: string;
@@ -65,6 +66,7 @@ export function AssignmentDetailContent({ week_id, assignment_id }: AssignmentDe
         />
       </IonHeader>
       <IonContent className="content-wide remove-top-padding remove-bottom-padding">
+        <Space />
         <PublisherSelector
           publishers={publishers}
           assignment={assignment}
