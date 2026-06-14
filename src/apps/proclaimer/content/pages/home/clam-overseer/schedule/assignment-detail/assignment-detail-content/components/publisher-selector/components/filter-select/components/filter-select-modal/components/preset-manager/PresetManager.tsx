@@ -1,6 +1,9 @@
 import { useState } from "react";
-import { IonButton, IonAlert, IonItem, IonList } from "@ionic/react";
+import { IonAlert, IonItem, IonList } from "@ionic/react";
 import { Select } from "@ui/components/inputs/select/Select";
+import { CopyIconButton } from "@ui/components/inputs/button/icon/copy/CopyIconButton";
+import { EditIconButton } from "@ui/components/inputs/button/icon/edit/EditIconButton";
+import { DeleteIconButton } from "@ui/components/inputs/button/icon/delete/DeleteIconButton";
 import type { FilterSortPreset } from "../../../../../../hooks/use-presets/usePresets";
 import { DEFAULT_PRESET_ID } from "../../../../../../hooks/use-presets/defaultPresets";
 
@@ -25,7 +28,6 @@ export function PresetManager({
 }: PresetManagerProps) {
   const [show_save_alert, set_show_save_alert] = useState(false);
   const [show_rename_alert, set_show_rename_alert] = useState(false);
-  const [show_delete_confirm, set_show_delete_confirm] = useState(false);
 
   const preset_options = presets.map((p) => ({ label: p.name, value: p.id }));
   const active_preset_name = presets.find((p) => p.id === active_preset_id)?.name ?? "";
@@ -41,26 +43,14 @@ export function PresetManager({
         on_change={(id) => on_select(id as string)}
       />
       <IonItem>
-        <IonButton fill="clear" size="small" onClick={() => set_show_save_alert(true)}>
-          Save as new
-        </IonButton>
-        <IonButton
-          fill="clear"
-          size="small"
+        <CopyIconButton on_click={() => set_show_save_alert(true)} />
+        <EditIconButton disabled={is_default_active} on_click={() => set_show_rename_alert(true)} />
+        <DeleteIconButton
           disabled={is_default_active}
-          onClick={() => set_show_rename_alert(true)}
-        >
-          Rename
-        </IonButton>
-        <IonButton
-          fill="clear"
-          size="small"
-          color="danger"
-          disabled={is_default_active}
-          onClick={() => set_show_delete_confirm(true)}
-        >
-          Delete
-        </IonButton>
+          alert_header="Delete preset"
+          alert_message="Are you sure you want to delete this preset?"
+          on_click={() => on_delete(active_preset_id)}
+        />
       </IonItem>
 
       <IonAlert
@@ -104,24 +94,6 @@ export function PresetManager({
           },
         ]}
         onDidDismiss={() => set_show_rename_alert(false)}
-      />
-
-      <IonAlert
-        isOpen={show_delete_confirm}
-        header="Delete preset"
-        message="Are you sure you want to delete this preset?"
-        buttons={[
-          { text: "Cancel", role: "cancel", handler: () => set_show_delete_confirm(false) },
-          {
-            text: "Delete",
-            role: "destructive",
-            handler: () => {
-              on_delete(active_preset_id);
-              set_show_delete_confirm(false);
-            },
-          },
-        ]}
-        onDidDismiss={() => set_show_delete_confirm(false)}
       />
     </IonList>
   );
