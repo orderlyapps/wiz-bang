@@ -20,6 +20,7 @@ import ProfilePage from "@proclaimer-routes/pages/settings/profile/Profile";
 import HomeCleaningPage from "@proclaimer-routes/pages/home/cleaning/Cleaning";
 import ReportsPage from "@proclaimer-routes/pages/home/reports/Reports";
 import SecretaryPage from "@proclaimer-routes/pages/home/secretary/Secretary";
+import SecretaryPublishersPage from "@proclaimer-routes/pages/home/secretary/publishers/Publishers";
 import CongregationAdminPage from "@proclaimer-routes/pages/home/congregation-admin/CongregationAdmin";
 import SuperAdminPage from "@proclaimer-routes/pages/home/super-admin/SuperAdmin";
 import PermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/Permissions";
@@ -84,6 +85,7 @@ function App() {
         <Route path="/home/cleaning" component={HomeCleaningPage} exact />
         <Route path="/home/reports" component={ReportsPage} exact />
         <Route path="/home/secretary" component={SecretaryPage} exact />
+        <Route path="/home/secretary/publishers" component={SecretaryPublishersPage} exact />
         <Route path="/home/congregation-admin" component={CongregationAdminPage} exact />
         <Route path="/home/congregation-admin/permissions" component={PermissionsPage} exact />
         <Route

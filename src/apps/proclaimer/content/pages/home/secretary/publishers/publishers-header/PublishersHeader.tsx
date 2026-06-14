@@ -1,12 +1,12 @@
 import { IonToolbar, IonTitle, IonButtons, IonBackButton } from "@ionic/react";
 
-export function SecretaryHeader() {
+export function PublishersHeader() {
   return (
     <IonToolbar>
       <IonButtons slot="start">
-        <IonBackButton />
+        <IonBackButton defaultHref="/home/secretary" />
       </IonButtons>
-      <IonTitle>Secretary</IonTitle>
+      <IonTitle>Publishers</IonTitle>
     </IonToolbar>
   );
 }
