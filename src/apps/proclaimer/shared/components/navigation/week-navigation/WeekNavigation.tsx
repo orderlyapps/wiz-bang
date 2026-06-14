@@ -30,7 +30,7 @@ export const WeekNavigation = ({ week_id, weeksToDisplay = 20 }: WeekNavigationP
 
   const currentDate = parseISO(week_id);
   const weekOptions = Array.from({ length: weeksToDisplay }, (_, i) => {
-    const offset = i - Math.floor(weeksToDisplay / 2);
+    const offset = i - 4;
     const weekDate = addWeeks(currentDate, offset);
     return {
       weekId: format(weekDate, "yyyy-MM-dd"),
