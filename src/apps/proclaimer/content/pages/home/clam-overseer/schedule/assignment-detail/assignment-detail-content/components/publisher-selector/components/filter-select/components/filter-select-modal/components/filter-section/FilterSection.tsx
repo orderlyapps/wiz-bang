@@ -1,7 +1,7 @@
-import { IonLabel, IonList, IonListHeader } from "@ionic/react";
+import { IonChip, IonLabel, IonList, IonListHeader } from "@ionic/react";
 import { Select } from "@ui/components/inputs/select/Select";
 import { IncrementInput } from "@ui/components/inputs/increment-input/IncrementInput";
-import { ToggleInput } from "@ui/components/inputs/toggle/ToggleInput";
+import { AlertMultiSelect } from "@ui/components/inputs/alert-multi-select/AlertMultiSelect";
 import type { PublisherFilter } from "../../../../../../hooks/use-presets/usePresets";
 import { filterLabels } from "../../../../../../hooks/use-publisher-filter/usePublisherFilter";
 import type { ParticipationType } from "../../../../../../utils/participationTypeMap";
@@ -12,32 +12,18 @@ const genderOptions = [
   { label: filterLabels.female, value: "female" },
 ];
 
-const participationTypeLabels: Record<ParticipationType, string> = {
-  prayer: "Prayer",
-  treasures: "Treasures",
-  gems: "Gems",
-  bible_reading: "Bible Reading",
-  apply: "Apply",
-  assistant: "Assistant",
-  chairman: "Chairman",
-  counselor: "Counselor",
-  living: "Living",
-  cbs_conductor: "CBS Conductor",
-  cbs_reader: "CBS Reader",
-};
-
-const participationTypes: ParticipationType[] = [
-  "prayer",
-  "treasures",
-  "gems",
-  "bible_reading",
-  "apply",
-  "assistant",
-  "chairman",
-  "counselor",
-  "living",
-  "cbs_conductor",
-  "cbs_reader",
+const participationTypeOptions: { label: string; value: ParticipationType }[] = [
+  { label: "Prayer", value: "prayer" },
+  { label: "Treasures", value: "treasures" },
+  { label: "Gems", value: "gems" },
+  { label: "Bible Reading", value: "bible_reading" },
+  { label: "Apply", value: "apply" },
+  { label: "Assistant", value: "assistant" },
+  { label: "Chairman", value: "chairman" },
+  { label: "Counselor", value: "counselor" },
+  { label: "Living", value: "living" },
+  { label: "CBS Conductor", value: "cbs_conductor" },
+  { label: "CBS Reader", value: "cbs_reader" },
 ];
 
 interface FilterSectionProps {
@@ -78,40 +64,38 @@ export function FilterSection({ filter, disabled, on_change }: FilterSectionProp
         />
       </IonList>
       <IonList>
-        <IonListHeader>
-          <IonLabel>Show Assignment Types</IonLabel>
-        </IonListHeader>
-        {participationTypes.map((type) => (
-          <ToggleInput
-            key={`show-${type}`}
-            label={participationTypeLabels[type]}
-            checked={filter.participation_types.includes(type)}
-            disabled={disabled}
-            on_change={(checked) => {
-              const current = filter.participation_types;
-              const updated = checked ? [...current, type] : current.filter((t) => t !== type);
-              on_change({ ...filter, participation_types: updated });
-            }}
-          />
-        ))}
-      </IonList>
-      <IonList>
-        <IonListHeader>
-          <IonLabel>Include in Stats Calculation</IonLabel>
-        </IonListHeader>
-        {participationTypes.map((type) => (
-          <ToggleInput
-            key={`stats-${type}`}
-            label={participationTypeLabels[type]}
-            checked={filter.stat_participation_types.includes(type)}
-            disabled={disabled}
-            on_change={(checked) => {
-              const current = filter.stat_participation_types;
-              const updated = checked ? [...current, type] : current.filter((t) => t !== type);
-              on_change({ ...filter, stat_participation_types: updated });
-            }}
-          />
-        ))}
+        <AlertMultiSelect
+          label="Show Assignment Types"
+          options={participationTypeOptions}
+          selected={filter.participation_types}
+          disabled={disabled}
+          on_change={(values) => on_change({ ...filter, participation_types: values })}
+          render_selected={(sel, opts) => (
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
+              {opts
+                .filter((o) => sel.includes(o.value))
+                .map((o) => (
+                  <IonChip key={o.value}>{o.label}</IonChip>
+                ))}
+            </div>
+          )}
+        />
+        <AlertMultiSelect
+          label="Include in Stats Calculation"
+          options={participationTypeOptions}
+          selected={filter.stat_participation_types}
+          disabled={disabled}
+          on_change={(values) => on_change({ ...filter, stat_participation_types: values })}
+          render_selected={(sel, opts) => (
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
+              {opts
+                .filter((o) => sel.includes(o.value))
+                .map((o) => (
+                  <IonChip key={o.value}>{o.label}</IonChip>
+                ))}
+            </div>
+          )}
+        />
       </IonList>
     </>
   );
