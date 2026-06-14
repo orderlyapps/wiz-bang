@@ -14,6 +14,8 @@ interface MultiColumnListProps<T> {
   gap?: Size | "none";
   /** Optional offset to add or subtract from the calculated column count. Positive values add columns, negative values reduce columns. */
   column_offset?: number;
+  /** Optional hard cap on the number of columns, applied after all other adjustments. */
+  max_columns?: number;
   /** Optional function to determine if an item should start a new row at the first column.
    * Pinned items maintain their order but always appear in the first column of a new row.
    * Only applies when displaying multiple columns (tablet/desktop). */
@@ -53,6 +55,7 @@ function get_cols(
   breakpoint: Breakpoint | "xs",
   font_size: FontSize,
   column_offset: number,
+  max_columns?: number,
 ): number {
   // Always single column on mobile (xs/sm), ignoring adjustments
   if (breakpoint === "xs" || breakpoint === "sm") {
@@ -60,7 +63,8 @@ function get_cols(
   }
   const base_max = breakpointCols[breakpoint];
   const adjustment = fontSizeAdjustment[font_size];
-  const max = Math.max(1, base_max + adjustment + column_offset);
+  let max = Math.max(1, base_max + adjustment + column_offset);
+  if (max_columns !== undefined) max = Math.min(max, Math.max(1, max_columns));
   if (count < max) return Math.max(1, count);
   return max;
 }
@@ -71,11 +75,12 @@ export function MultiColumnList<T>({
   render_item,
   gap = "none",
   column_offset = 0,
+  max_columns,
   pin_to_first_column,
 }: MultiColumnListProps<T>) {
   const { breakpoint } = useBreakpoint();
   const { font_size } = useFontSize();
-  const cols = get_cols(items.length, breakpoint, font_size, column_offset);
+  const cols = get_cols(items.length, breakpoint, font_size, column_offset, max_columns);
 
   return (
     <ul
