@@ -1,13 +1,5 @@
 import { useState } from "react";
-import {
-  IonButton,
-  IonAlert,
-  IonItem,
-  IonLabel,
-  IonList,
-  IonListHeader,
-  IonNote,
-} from "@ionic/react";
+import { IonButton, IonAlert, IonItem, IonList } from "@ionic/react";
 import { Select } from "@ui/components/inputs/select/Select";
 import type { FilterSortPreset } from "../../../../../../hooks/use-presets/usePresets";
 import { DEFAULT_PRESET_ID } from "../../../../../../hooks/use-presets/defaultPresets";
@@ -19,7 +11,6 @@ interface PresetManagerProps {
   on_select: (id: string) => void;
   on_create: (name: string) => void;
   on_rename: (id: string, name: string) => void;
-  on_duplicate: (id: string) => void;
   on_delete: (id: string) => void;
 }
 
@@ -30,7 +21,6 @@ export function PresetManager({
   on_select,
   on_create,
   on_rename,
-  on_duplicate,
   on_delete,
 }: PresetManagerProps) {
   const [show_save_alert, set_show_save_alert] = useState(false);
@@ -42,28 +32,17 @@ export function PresetManager({
 
   return (
     <IonList>
-      <IonListHeader>
-        <IonLabel>Preset</IonLabel>
-      </IonListHeader>
       <Select
         key={`${active_preset_id}:${active_preset_name}`}
-        label="Active preset"
+        label="Preset"
         value={active_preset_id}
         options={preset_options}
         interface_type="popover"
         on_change={(id) => on_select(id as string)}
       />
-      {is_default_active && (
-        <IonItem lines="none">
-          <IonNote color="medium">Duplicate to customise</IonNote>
-        </IonItem>
-      )}
-      <IonItem lines="none">
+      <IonItem>
         <IonButton fill="clear" size="small" onClick={() => set_show_save_alert(true)}>
           Save as new
-        </IonButton>
-        <IonButton fill="clear" size="small" onClick={() => on_duplicate(active_preset_id)}>
-          Duplicate
         </IonButton>
         <IonButton
           fill="clear"

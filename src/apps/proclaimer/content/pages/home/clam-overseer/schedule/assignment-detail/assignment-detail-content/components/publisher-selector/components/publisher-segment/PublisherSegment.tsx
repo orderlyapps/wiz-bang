@@ -35,13 +35,11 @@ interface PublisherSegmentProps {
   onSelectAssigneePreset: (id: string) => void;
   onCreateAssigneePreset: (name: string) => void;
   onRenameAssigneePreset: (id: string, name: string) => void;
-  onDuplicateAssigneePreset: (id: string) => void;
   onDeleteAssigneePreset: (id: string) => void;
   onChangeAssignee: (filter: PublisherFilter, sort_order: PublisherSortOrder) => void;
   onSelectAssistantPreset: (id: string) => void;
   onCreateAssistantPreset: (name: string) => void;
   onRenameAssistantPreset: (id: string, name: string) => void;
-  onDuplicateAssistantPreset: (id: string) => void;
   onDeleteAssistantPreset: (id: string) => void;
   onChangeAssistant: (filter: PublisherFilter, sort_order: PublisherSortOrder) => void;
   onSelectAssignee: (id: string) => void;
@@ -66,13 +64,11 @@ export function PublisherSegment({
   onSelectAssigneePreset,
   onCreateAssigneePreset,
   onRenameAssigneePreset,
-  onDuplicateAssigneePreset,
   onDeleteAssigneePreset,
   onChangeAssignee,
   onSelectAssistantPreset,
   onCreateAssistantPreset,
   onRenameAssistantPreset,
-  onDuplicateAssistantPreset,
   onDeleteAssistantPreset,
   onChangeAssistant,
   onSelectAssignee,
@@ -100,7 +96,6 @@ export function PublisherSegment({
             on_select_preset={onSelectAssigneePreset}
             on_create_preset={onCreateAssigneePreset}
             on_rename_preset={onRenameAssigneePreset}
-            on_duplicate_preset={onDuplicateAssigneePreset}
             on_delete_preset={onDeleteAssigneePreset}
             on_change={onChangeAssignee}
           />
@@ -123,7 +118,6 @@ export function PublisherSegment({
             on_select_preset={onSelectAssistantPreset}
             on_create_preset={onCreateAssistantPreset}
             on_rename_preset={onRenameAssistantPreset}
-            on_duplicate_preset={onDuplicateAssistantPreset}
             on_delete_preset={onDeleteAssistantPreset}
             on_change={onChangeAssistant}
           />

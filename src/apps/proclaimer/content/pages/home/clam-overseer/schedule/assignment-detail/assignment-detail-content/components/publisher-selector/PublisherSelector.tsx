@@ -90,7 +90,6 @@ export function PublisherSelector({
           on_select_preset={assignee_presets_api.selectPreset}
           on_create_preset={assignee_presets_api.createPreset}
           on_rename_preset={assignee_presets_api.renamePreset}
-          on_duplicate_preset={assignee_presets_api.duplicatePreset}
           on_delete_preset={assignee_presets_api.deletePreset}
           on_change={handleAssigneeChange}
         />
@@ -136,13 +135,11 @@ export function PublisherSelector({
         onSelectAssigneePreset={assignee_presets_api.selectPreset}
         onCreateAssigneePreset={assignee_presets_api.createPreset}
         onRenameAssigneePreset={assignee_presets_api.renamePreset}
-        onDuplicateAssigneePreset={assignee_presets_api.duplicatePreset}
         onDeleteAssigneePreset={assignee_presets_api.deletePreset}
         onChangeAssignee={handleAssigneeChange}
         onSelectAssistantPreset={assistant_presets_api.selectPreset}
         onCreateAssistantPreset={assistant_presets_api.createPreset}
         onRenameAssistantPreset={assistant_presets_api.renamePreset}
-        onDuplicateAssistantPreset={assistant_presets_api.duplicatePreset}
         onDeleteAssistantPreset={assistant_presets_api.deletePreset}
         onChangeAssistant={handleAssistantChange}
         onSelectAssignee={(id) => handleSelectPublisher(id, "assignee")}

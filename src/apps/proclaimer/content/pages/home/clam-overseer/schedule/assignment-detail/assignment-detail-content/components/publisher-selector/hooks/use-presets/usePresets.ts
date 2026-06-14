@@ -84,22 +84,6 @@ export function usePresets(participation_type: ParticipationType | null) {
     set_user_presets(updated);
   }
 
-  function duplicatePreset(id: string) {
-    const source = all_presets.find((p) => p.id === id);
-    if (!source) return;
-    const copy: FilterSortPreset = {
-      id: generateId(),
-      name: `${source.name} (copy)`,
-      filter: { ...source.filter },
-      sort_order: source.sort_order,
-    };
-    const updated = [...user_presets, copy];
-    writeStoredPresets(resolved_type, updated);
-    set_user_presets(updated);
-    writeActivePresetId(resolved_type, copy.id);
-    set_active_preset_id(copy.id);
-  }
-
   function deletePreset(id: string) {
     if (id === DEFAULT_PRESET_ID) return;
     const updated = user_presets.filter((p) => p.id !== id);
@@ -127,7 +111,6 @@ export function usePresets(participation_type: ParticipationType | null) {
     selectPreset,
     createPreset,
     renamePreset,
-    duplicatePreset,
     deletePreset,
     updatePreset,
   };

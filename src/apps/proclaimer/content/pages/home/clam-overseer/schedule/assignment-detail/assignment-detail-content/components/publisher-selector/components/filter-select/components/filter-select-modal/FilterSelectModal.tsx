@@ -17,7 +17,6 @@ interface FilterSelectModalProps {
   on_select_preset: (id: string) => void;
   on_create_preset: (name: string) => void;
   on_rename_preset: (id: string, name: string) => void;
-  on_duplicate_preset: (id: string) => void;
   on_delete_preset: (id: string) => void;
   on_change: (filter: PublisherFilter, sort_order: PublisherSortOrder) => void;
   on_dismiss: () => void;
@@ -31,7 +30,6 @@ export function FilterSelectModal({
   on_select_preset,
   on_create_preset,
   on_rename_preset,
-  on_duplicate_preset,
   on_delete_preset,
   on_change,
   on_dismiss,
@@ -54,7 +52,6 @@ export function FilterSelectModal({
           on_select={on_select_preset}
           on_create={on_create_preset}
           on_rename={on_rename_preset}
-          on_duplicate={on_duplicate_preset}
           on_delete={on_delete_preset}
         />
         <SortSection
