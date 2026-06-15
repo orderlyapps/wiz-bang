@@ -17,6 +17,7 @@ export const publisherSchema = z.object({
   type: z.enum([
     "publisher",
     "regular_pioneer",
+    "special_pioneer",
     "continuous_auxiliary",
     "inactive",
     "speaker",

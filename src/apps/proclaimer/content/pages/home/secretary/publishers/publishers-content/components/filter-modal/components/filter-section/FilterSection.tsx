@@ -22,11 +22,12 @@ export const standingOptions = [
 
 export const typeOptions = [
   { label: "Publisher", value: "publisher" },
-  { label: "Regular Pioneer", value: "regular_pioneer" },
   { label: "Continuous Auxiliary", value: "continuous_auxiliary" },
+  { label: "Regular Pioneer", value: "regular_pioneer" },
+  { label: "Special Pioneer", value: "special_pioneer" },
   { label: "Inactive", value: "inactive" },
-  { label: "Speaker", value: "speaker" },
   { label: "Associate", value: "associate" },
+  { label: "Speaker", value: "speaker" },
 ];
 
 export interface FilterInputItem {

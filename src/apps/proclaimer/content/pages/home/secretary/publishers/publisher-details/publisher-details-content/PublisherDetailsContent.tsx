@@ -65,7 +65,10 @@ export function PublisherDetailsContent({ publisher_id }: { publisher_id: string
             { label: "Publisher", value: "publisher" },
             { label: "Continuous Auxiliary", value: "continuous_auxiliary" },
             { label: "Regular Pioneer", value: "regular_pioneer" },
+            { label: "Special Pioneer", value: "special_pioneer" },
             { label: "Inactive", value: "inactive" },
+            { label: "Associate", value: "associate" },
+            { label: "Speaker", value: "speaker" },
           ]}
           on_change={(value) => {
             if (!value || Array.isArray(value)) return;
@@ -82,6 +85,7 @@ export function PublisherDetailsContent({ publisher_id }: { publisher_id: string
             { label: "Unbaptised Publisher", value: "unbaptised_publisher" },
             { label: "Ministerial Servant", value: "ministerial_servant" },
             { label: "Elder", value: "elder" },
+            { label: "Associate", value: "associate" },
           ]}
           on_change={(value) => {
             if (!value || Array.isArray(value)) return;
