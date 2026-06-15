@@ -4,6 +4,7 @@ import { publisherCollection } from "@shared/database/collections/publisher";
 import { Spinner } from "@ui/components/display/spinner/Spinner";
 import { Body } from "@ui/components/display/text/body/Body";
 import { ArchivePublisherButton } from "./components/archive-publisher-button/ArchivePublisherButton";
+import { EditNameButton } from "./components/edit-name-button/EditNameButton";
 
 export function PublisherDetailsContent({ publisher_id }: { publisher_id: string }) {
   const { data, isLoading } = useLiveQuery((q) =>
@@ -33,6 +34,14 @@ export function PublisherDetailsContent({ publisher_id }: { publisher_id: string
   return (
     <IonContent>
       <IonList>
+        {publisher.display_name && (
+          <IonItem>
+            <IonLabel>
+              <h2>Goes By</h2>
+              <p>{publisher.display_name}</p>
+            </IonLabel>
+          </IonItem>
+        )}
         <IonItem>
           <IonLabel>
             <h2>First Name</h2>
@@ -52,6 +61,15 @@ export function PublisherDetailsContent({ publisher_id }: { publisher_id: string
             <h2>Last Name</h2>
             <p>{publisher.last_name}</p>
           </IonLabel>
+        </IonItem>
+        <IonItem>
+          <EditNameButton
+            publisher_id={publisher_id}
+            first_name={publisher.first_name}
+            middle_name={publisher.middle_name}
+            last_name={publisher.last_name}
+            display_name={publisher.display_name}
+          />
         </IonItem>
         <IonItem>
           <IonLabel>
