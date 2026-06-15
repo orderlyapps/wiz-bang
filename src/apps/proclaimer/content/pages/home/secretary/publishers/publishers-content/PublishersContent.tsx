@@ -7,7 +7,7 @@ import { Body } from "@ui/components/display/text/body/Body";
 import { getStoredCongregation } from "@util/app/congregation/utils";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
 
-export function PublishersContent() {
+export function PublishersContent({ searchTerm }: { searchTerm: string }) {
   const congregation_id = getStoredCongregation()?.id;
 
   const { data, isLoading } = useLiveQuery((q) =>
@@ -18,12 +18,16 @@ export function PublishersContent() {
     return <Spinner />;
   }
 
-  const publishers = (data ?? []).filter((p) => p.congregation_id === congregation_id);
+  const publishers = (data ?? [])
+    .filter((p) => p.congregation_id === congregation_id)
+    .filter((p) => getPublisherDisplayName(p).toLowerCase().includes(searchTerm.toLowerCase()));
 
   if (publishers.length === 0) {
     return (
       <div className="ion-padding ion-text-center">
-        <Body color="medium">No publishers found.</Body>
+        <Body color="medium">
+          {searchTerm ? `No publishers matching "${searchTerm}"` : "No publishers found."}
+        </Body>
       </div>
     );
   }
