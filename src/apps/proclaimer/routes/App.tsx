@@ -1,7 +1,6 @@
 import { Redirect, Route } from "react-router-dom";
-import { IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, IonRouterOutlet } from "@ionic/react";
+import { IonTabs, IonTabBar, IonTabButton, IonLabel, IonRouterOutlet } from "@ionic/react";
 import { CongregationGuard } from "@util/app/congregation/congregation-select/CongregationGuard";
-import { home, book, calendar, people, settings } from "ionicons/icons";
 import HomePage from "@proclaimer-routes/pages/home/Home";
 import MinistryPage from "@proclaimer-routes/pages/ministry/Ministry";
 import DoorToDoorPage from "@proclaimer-routes/pages/ministry/door-to-door/DoorToDoor";
@@ -55,6 +54,7 @@ import CbsConductorParticipationPage from "@proclaimer-routes/pages/home/clam-ov
 import CbsReaderParticipationPage from "@proclaimer-routes/pages/home/clam-overseer/participation/cbs-reader/CbsReader";
 import ClamOverseerSchedulePage from "@proclaimer-routes/pages/home/clam-overseer/schedule/Schedule";
 import AssignmentDetailPage from "@proclaimer-routes/pages/home/clam-overseer/schedule/assignment-detail/AssignmentDetail";
+import { Icon } from "@ui/components/icons/Icon";
 
 function App() {
   return (
@@ -216,23 +216,23 @@ function App() {
 
       <IonTabBar slot="bottom">
         <IonTabButton tab="home" href="/home">
-          <IonIcon icon={home} />
+          <Icon name="home" />
           <IonLabel>Home</IonLabel>
         </IonTabButton>
         <IonTabButton tab="ministry" href="/ministry">
-          <IonIcon icon={book} />
+          <Icon name="ministry" />
           <IonLabel>Ministry</IonLabel>
         </IonTabButton>
         <IonTabButton tab="schedules" href="/schedules">
-          <IonIcon icon={calendar} />
+          <Icon name="schedules" />
           <IonLabel>Schedules</IonLabel>
         </IonTabButton>
         <IonTabButton tab="publishers" href="/publishers">
-          <IonIcon icon={people} />
+          <Icon name="publishers" />
           <IonLabel>Publishers</IonLabel>
         </IonTabButton>
         <IonTabButton tab="settings" href="/settings">
-          <IonIcon icon={settings} />
+          <Icon name="settings" />
           <IonLabel>Settings</IonLabel>
         </IonTabButton>
       </IonTabBar>
