@@ -4,7 +4,7 @@ import { publisherCollection } from "@shared/database/collections/publisher";
 import { Spinner } from "@ui/components/display/spinner/Spinner";
 import { Body } from "@ui/components/display/text/body/Body";
 import { ArchivePublisherButton } from "./components/archive-publisher-button/ArchivePublisherButton";
-import { EditNameButton } from "./components/edit-name-button/EditNameButton";
+import { PublisherNameInput } from "@proclaimer-shared/publisher/components/publisher-name-input/PublisherNameInput";
 import { Select } from "@ui/components/inputs/select/Select";
 
 export function PublisherDetailsContent({ publisher_id }: { publisher_id: string }) {
@@ -35,43 +35,15 @@ export function PublisherDetailsContent({ publisher_id }: { publisher_id: string
   return (
     <IonContent>
       <IonList>
-        {publisher.display_name && (
-          <IonItem>
-            <IonLabel>
-              <h2>Goes By</h2>
-              <p>{publisher.display_name}</p>
-            </IonLabel>
-          </IonItem>
-        )}
-        <IonItem>
-          <IonLabel>
-            <h2>First Name</h2>
-            <p>{publisher.first_name}</p>
-          </IonLabel>
-        </IonItem>
-        {publisher.middle_name && (
-          <IonItem>
-            <IonLabel>
-              <h2>Middle Name</h2>
-              <p>{publisher.middle_name}</p>
-            </IonLabel>
-          </IonItem>
-        )}
-        <IonItem>
-          <IonLabel>
-            <h2>Last Name</h2>
-            <p>{publisher.last_name}</p>
-          </IonLabel>
-        </IonItem>
-        <IonItem>
-          <EditNameButton
-            publisher_id={publisher_id}
-            first_name={publisher.first_name}
-            middle_name={publisher.middle_name}
-            last_name={publisher.last_name}
-            display_name={publisher.display_name}
-          />
-        </IonItem>
+        <PublisherNameInput
+          publisher_id={publisher_id}
+          value={{
+            first_name: publisher.first_name,
+            middle_name: publisher.middle_name ?? null,
+            last_name: publisher.last_name,
+            display_name: publisher.display_name ?? null,
+          }}
+        />
         <Select
           label="Gender"
           value={publisher.gender}

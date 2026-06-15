@@ -43,7 +43,7 @@ export function ModalMultiSelectTrigger({
           ios={chevronExpand}
           md={caretDownSharp}
           color="medium"
-          style={{ fontSize: isPlatform("ios") ? "1em" : "0.8em", flexShrink: 0 }}
+          style={{ fontSize: isPlatform("ios") ? "1.1rem" : "0.8rem", flexShrink: 0 }}
         />
       </div>
     </InputWrapper>
