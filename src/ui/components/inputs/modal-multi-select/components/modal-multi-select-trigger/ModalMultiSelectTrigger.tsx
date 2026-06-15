@@ -20,7 +20,7 @@ export function ModalMultiSelectTrigger({
   on_click,
 }: ModalMultiSelectTriggerProps) {
   return (
-    <InputWrapper label={label}>
+    <InputWrapper label={label} disabled={disabled}>
       <div
         onClick={on_click}
         style={{

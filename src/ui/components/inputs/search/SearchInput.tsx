@@ -13,6 +13,7 @@ export function SearchInput({ value, placeholder = "Search...", on_change }: Sea
       placeholder={placeholder}
       onIonInput={(e) => on_change(e.detail.value ?? "")}
       debounce={0}
+      style={{ maxWidth: 480, marginInline: "auto" }}
     />
   );
 }

@@ -30,7 +30,7 @@ export function BaseInput({
   on_blur,
 }: BaseInputProps) {
   return (
-    <InputWrapper label={label}>
+    <InputWrapper label={label} disabled={disabled}>
       <IonInput
         value={value}
         type={type}
