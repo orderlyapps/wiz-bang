@@ -5,6 +5,7 @@ import { Spinner } from "@ui/components/display/spinner/Spinner";
 import { Body } from "@ui/components/display/text/body/Body";
 import { ArchivePublisherButton } from "./components/archive-publisher-button/ArchivePublisherButton";
 import { EditNameButton } from "./components/edit-name-button/EditNameButton";
+import { Select } from "@ui/components/inputs/select/Select";
 
 export function PublisherDetailsContent({ publisher_id }: { publisher_id: string }) {
   const { data, isLoading } = useLiveQuery((q) =>
@@ -71,24 +72,52 @@ export function PublisherDetailsContent({ publisher_id }: { publisher_id: string
             display_name={publisher.display_name}
           />
         </IonItem>
-        <IonItem>
-          <IonLabel>
-            <h2>Gender</h2>
-            <p style={{ textTransform: "capitalize" }}>{publisher.gender}</p>
-          </IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonLabel>
-            <h2>Type</h2>
-            <p>{publisher.type}</p>
-          </IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonLabel>
-            <h2>Standing</h2>
-            <p>{publisher.standing}</p>
-          </IonLabel>
-        </IonItem>
+        <Select
+          label="Gender"
+          value={publisher.gender}
+          options={[
+            { label: "Male", value: "male" },
+            { label: "Female", value: "female" },
+          ]}
+          on_change={(value) => {
+            if (!value || Array.isArray(value)) return;
+            publisherCollection.update(publisher_id, (draft) => {
+              draft.gender = value as typeof publisher.gender;
+            });
+          }}
+        />
+        <Select
+          label="Type"
+          value={publisher.type}
+          options={[
+            { label: "Publisher", value: "publisher" },
+            { label: "Continuous Auxiliary", value: "continuous_auxiliary" },
+            { label: "Regular Pioneer", value: "regular_pioneer" },
+            { label: "Inactive", value: "inactive" },
+          ]}
+          on_change={(value) => {
+            if (!value || Array.isArray(value)) return;
+            publisherCollection.update(publisher_id, (draft) => {
+              draft.type = value as typeof publisher.type;
+            });
+          }}
+        />
+        <Select
+          label="Standing"
+          value={publisher.standing}
+          options={[
+            { label: "Publisher", value: "publisher" },
+            { label: "Unbaptised Publisher", value: "unbaptised_publisher" },
+            { label: "Ministerial Servant", value: "ministerial_servant" },
+            { label: "Elder", value: "elder" },
+          ]}
+          on_change={(value) => {
+            if (!value || Array.isArray(value)) return;
+            publisherCollection.update(publisher_id, (draft) => {
+              draft.standing = value as typeof publisher.standing;
+            });
+          }}
+        />
         {publisher.archived_at && (
           <IonItem>
             <IonLabel>

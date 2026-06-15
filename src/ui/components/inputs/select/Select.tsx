@@ -31,7 +31,7 @@ export function Select({
   on_change,
 }: SelectProps) {
   return (
-    <InputWrapper label={label}>
+    <InputWrapper label={label} disabled={disabled}>
       <IonSelect
         value={value}
         placeholder={placeholder}
