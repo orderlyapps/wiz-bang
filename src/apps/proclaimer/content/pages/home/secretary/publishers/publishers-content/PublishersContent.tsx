@@ -38,7 +38,11 @@ export function PublishersContent({ searchTerm }: { searchTerm: string }) {
         items={publishers}
         get_id={(p) => p.id ?? ""}
         gap="sm"
-        render_item={(p) => <IonItem>{getPublisherDisplayName(p)}</IonItem>}
+        render_item={(p) => (
+          <IonItem routerLink={`/home/secretary/publishers/${p.id}`}>
+            {getPublisherDisplayName(p)}
+          </IonItem>
+        )}
       />
     </IonList>
   );

@@ -20,6 +20,7 @@ import HomeCleaningPage from "@proclaimer-routes/pages/home/cleaning/Cleaning";
 import ReportsPage from "@proclaimer-routes/pages/home/reports/Reports";
 import SecretaryPage from "@proclaimer-routes/pages/home/secretary/Secretary";
 import SecretaryPublishersPage from "@proclaimer-routes/pages/home/secretary/publishers/Publishers";
+import PublisherDetailsPage from "@proclaimer-routes/pages/home/secretary/publishers/publisher-details/PublisherDetails";
 import CongregationAdminPage from "@proclaimer-routes/pages/home/congregation-admin/CongregationAdmin";
 import SuperAdminPage from "@proclaimer-routes/pages/home/super-admin/SuperAdmin";
 import PermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/Permissions";
@@ -63,29 +64,15 @@ function App() {
       <IonRouterOutlet>
         <Redirect exact path="/" to="/home" />
         <Route path="/home" component={HomePage} exact />
-        <Route path="/ministry" component={MinistryPage} exact />
-        <Route path="/ministry/door-to-door" component={DoorToDoorPage} exact />
-        <Route path="/ministry/letter-writing" component={LetterWritingPage} exact />
-        <Route path="/ministry/maps" component={MapsPage} exact />
-        <Route path="/ministry/schedule" component={SchedulePage} exact />
-        <Route path="/schedules" component={SchedulesPage} exact />
-        <Route path="/schedules/midweek-meeting/:week_id?" component={MidweekMeetingPage} exact />
-        <Route
-          path="/schedules/midweek-meeting/:week_id/assignment/:assignment_id?"
-          component={AssignmentDetailPage}
-          exact
-        />
-        <Route path="/schedules/weekend-meeting" component={WeekendMeetingPage} exact />
-        <Route path="/schedules/events" component={EventsPage} exact />
-        <Route path="/schedules/cleaning" component={CleaningPage} exact />
-        <Route path="/publishers" component={PublishersPage} exact />
-        <Route path="/settings" component={SettingsPage} exact />
-        <Route path="/settings/appearance" component={AppearancePage} exact />
-        <Route path="/settings/profile" component={ProfilePage} exact />
         <Route path="/home/cleaning" component={HomeCleaningPage} exact />
         <Route path="/home/reports" component={ReportsPage} exact />
         <Route path="/home/secretary" component={SecretaryPage} exact />
         <Route path="/home/secretary/publishers" component={SecretaryPublishersPage} exact />
+        <Route
+          path="/home/secretary/publishers/:publisher_id"
+          component={PublisherDetailsPage}
+          exact
+        />
         <Route path="/home/congregation-admin" component={CongregationAdminPage} exact />
         <Route path="/home/congregation-admin/permissions" component={PermissionsPage} exact />
         <Route
@@ -212,6 +199,29 @@ function App() {
         <Route path="/home/av-overseer" component={AvOverseerPage} exact />
         <Route path="/home/super-admin" component={SuperAdminPage} exact />
         <Route path="/home/super-admin/clam-data" component={ClamDataPage} exact />
+        {/* MINISTRY */}
+        <Route path="/ministry" component={MinistryPage} exact />
+        <Route path="/ministry/door-to-door" component={DoorToDoorPage} exact />
+        <Route path="/ministry/letter-writing" component={LetterWritingPage} exact />
+        <Route path="/ministry/maps" component={MapsPage} exact />
+        <Route path="/ministry/schedule" component={SchedulePage} exact />
+        {/* SCHEDULES */}
+        <Route path="/schedules" component={SchedulesPage} exact />
+        <Route path="/schedules/midweek-meeting/:week_id?" component={MidweekMeetingPage} exact />
+        <Route
+          path="/schedules/midweek-meeting/:week_id/assignment/:assignment_id?"
+          component={AssignmentDetailPage}
+          exact
+        />
+        <Route path="/schedules/weekend-meeting" component={WeekendMeetingPage} exact />
+        <Route path="/schedules/events" component={EventsPage} exact />
+        <Route path="/schedules/cleaning" component={CleaningPage} exact />
+        {/* PUBLISHERS */}
+        <Route path="/publishers" component={PublishersPage} exact />
+        {/* SETTINGS */}
+        <Route path="/settings" component={SettingsPage} exact />
+        <Route path="/settings/appearance" component={AppearancePage} exact />
+        <Route path="/settings/profile" component={ProfilePage} exact />
       </IonRouterOutlet>
 
       <IonTabBar slot="bottom">
@@ -219,18 +229,22 @@ function App() {
           <Icon name="home" />
           <IonLabel>Home</IonLabel>
         </IonTabButton>
+
         <IonTabButton tab="ministry" href="/ministry">
           <Icon name="ministry" />
           <IonLabel>Ministry</IonLabel>
         </IonTabButton>
+
         <IonTabButton tab="schedules" href="/schedules">
           <Icon name="schedules" />
           <IonLabel>Schedules</IonLabel>
         </IonTabButton>
+
         <IonTabButton tab="publishers" href="/publishers">
           <Icon name="publishers" />
           <IonLabel>Publishers</IonLabel>
         </IonTabButton>
+
         <IonTabButton tab="settings" href="/settings">
           <Icon name="settings" />
           <IonLabel>Settings</IonLabel>
