@@ -13,6 +13,7 @@ export const publisherSchema = z.object({
   family_id: z.uuid().nullable().optional(),
   group_id: z.uuid().nullable().optional(),
   auth_id: z.uuid().nullable().optional(),
+  archived_at: z.string().nullable().optional(),
 });
 
 export type Publisher = z.infer<typeof publisherSchema>;

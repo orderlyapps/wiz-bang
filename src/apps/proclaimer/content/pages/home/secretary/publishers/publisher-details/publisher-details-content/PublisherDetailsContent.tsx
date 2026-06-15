@@ -3,6 +3,7 @@ import { useLiveQuery, eq } from "@tanstack/react-db";
 import { publisherCollection } from "@shared/database/collections/publisher";
 import { Spinner } from "@ui/components/display/spinner/Spinner";
 import { Body } from "@ui/components/display/text/body/Body";
+import { ArchivePublisherButton } from "./components/archive-publisher-button/ArchivePublisherButton";
 
 export function PublisherDetailsContent({ publisher_id }: { publisher_id: string }) {
   const { data, isLoading } = useLiveQuery((q) =>
@@ -69,6 +70,17 @@ export function PublisherDetailsContent({ publisher_id }: { publisher_id: string
             <h2>Standing</h2>
             <p>{publisher.standing}</p>
           </IonLabel>
+        </IonItem>
+        {publisher.archived_at && (
+          <IonItem>
+            <IonLabel>
+              <h2>Archived</h2>
+              <p>{new Date(publisher.archived_at).toLocaleDateString()}</p>
+            </IonLabel>
+          </IonItem>
+        )}
+        <IonItem>
+          <ArchivePublisherButton publisher_id={publisher_id} archived_at={publisher.archived_at} />
         </IonItem>
       </IonList>
     </IonContent>
