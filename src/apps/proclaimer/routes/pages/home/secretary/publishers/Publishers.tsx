@@ -11,7 +11,7 @@ function PublishersPage() {
       <IonHeader>
         <PublishersHeader searchTerm={searchTerm} onSearch={setSearchTerm} />
       </IonHeader>
-      <IonContent>
+      <IonContent className="content-wide">
         <PublishersContent searchTerm={searchTerm} />
       </IonContent>
     </IonPage>
