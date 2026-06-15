@@ -35,6 +35,7 @@ export function PublisherList({
   publisher_ids_with_week_assignment,
 }: PublisherListProps) {
   const filtered_publishers = publishers.filter((p) => {
+    if (p.archived_at) return false;
     if (filter.gender !== "all" && p.gender !== filter.gender) return false;
 
     const publisher_stats = p.id ? stats.get(p.id) : undefined;
