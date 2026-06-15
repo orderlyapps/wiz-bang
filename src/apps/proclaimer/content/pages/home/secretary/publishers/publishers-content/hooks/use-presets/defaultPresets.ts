@@ -8,8 +8,8 @@ export const defaultPresets: FilterSortPreset[] = [
     name: "All Publishers",
     filter: {
       gender: "all",
-      standing: "all",
-      type: "all",
+      standing: ["publisher", "elder", "ministerial_servant", "unbaptised_publisher"],
+      type: ["continuous_auxiliary", "regular_pioneer", "special_pioneer", "publisher"],
       archived: "exclude",
     },
   },
@@ -19,7 +19,7 @@ export const defaultPresets: FilterSortPreset[] = [
     filter: {
       gender: "male",
       standing: ["publisher", "elder", "ministerial_servant", "unbaptised_publisher"],
-      type: ["continuous_auxiliary", "regular_pioneer", "publisher"],
+      type: ["continuous_auxiliary", "regular_pioneer", "special_pioneer", "publisher"],
       archived: "exclude",
     },
   },
@@ -29,7 +29,7 @@ export const defaultPresets: FilterSortPreset[] = [
     filter: {
       gender: "female",
       standing: ["publisher", "unbaptised_publisher"],
-      type: ["continuous_auxiliary", "regular_pioneer", "publisher"],
+      type: ["continuous_auxiliary", "regular_pioneer", "special_pioneer", "publisher"],
       archived: "exclude",
     },
   },
@@ -39,7 +39,7 @@ export const defaultPresets: FilterSortPreset[] = [
     filter: {
       gender: "male",
       standing: ["elder"],
-      type: ["continuous_auxiliary", "regular_pioneer", "publisher"],
+      type: ["continuous_auxiliary", "regular_pioneer", "special_pioneer", "publisher"],
       archived: "exclude",
     },
   },
@@ -49,7 +49,7 @@ export const defaultPresets: FilterSortPreset[] = [
     filter: {
       gender: "male",
       standing: ["ministerial_servant"],
-      type: ["continuous_auxiliary", "regular_pioneer", "publisher"],
+      type: ["continuous_auxiliary", "regular_pioneer", "special_pioneer", "publisher"],
       archived: "exclude",
     },
   },
@@ -59,7 +59,7 @@ export const defaultPresets: FilterSortPreset[] = [
     filter: {
       gender: "all",
       standing: ["elder", "ministerial_servant", "publisher"],
-      type: ["regular_pioneer"],
+      type: ["regular_pioneer", "special_pioneer"],
       archived: "exclude",
     },
   },
@@ -79,7 +79,7 @@ export const defaultPresets: FilterSortPreset[] = [
     filter: {
       gender: "all",
       standing: ["unbaptised_publisher"],
-      type: ["publisher"],
+      type: ["publisher", "special_pioneer"],
       archived: "exclude",
     },
   },
