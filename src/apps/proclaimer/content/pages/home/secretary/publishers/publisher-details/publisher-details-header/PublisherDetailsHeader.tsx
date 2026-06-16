@@ -13,7 +13,7 @@ export function PublisherDetailsHeader({ publisher_id }: { publisher_id: string 
   return (
     <IonToolbar>
       <IonButtons slot="start">
-        <IonBackButton defaultHref="/home/secretary/publishers" />
+        <IonBackButton />
       </IonButtons>
       <IonTitle>{publisher ? getPublisherDisplayName(publisher) : "Publisher"}</IonTitle>
     </IonToolbar>

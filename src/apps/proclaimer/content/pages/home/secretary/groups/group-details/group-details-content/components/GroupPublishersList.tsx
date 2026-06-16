@@ -32,7 +32,7 @@ export function GroupPublishersList({ publishers }: GroupPublishersListProps) {
             get_id={(p) => p.id ?? ""}
             gap="sm"
             render_item={(p) => (
-              <IonItem>
+              <IonItem routerLink={`/home/secretary/publishers/${p.id}`}>
                 <IonLabel>{getPublisherDisplayName(p)}</IonLabel>
                 <DeleteIconButton
                   on_click={() => {
