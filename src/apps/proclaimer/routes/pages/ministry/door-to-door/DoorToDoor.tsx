@@ -8,7 +8,7 @@ function DoorToDoorPage() {
       <IonHeader>
         <DoorToDoorHeader />
       </IonHeader>
-      <IonContent className="ion-padding">
+      <IonContent className="content-full" scrollY={false}>
         <DoorToDoorContent />
       </IonContent>
     </IonPage>
