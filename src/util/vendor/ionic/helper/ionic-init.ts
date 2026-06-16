@@ -1,4 +1,4 @@
-import { setupIonicReact } from "@ionic/react";
+import { isPlatform, setupIonicReact } from "@ionic/react";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -19,4 +19,5 @@ import "@ionic/react/css/palettes/dark.class.css";
 
 setupIonicReact({
   swipeBackEnabled: false,
+  tabButtonLayout: isPlatform("desktop") || isPlatform("tablet") ? "icon-start" : "icon-top",
 });
