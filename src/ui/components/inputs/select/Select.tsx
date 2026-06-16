@@ -41,6 +41,7 @@ export function Select({
         interface={interface_type}
         onIonChange={(event) => on_change(event.detail.value)}
         slot="end"
+        style={{ minHeight: "auto" }}
       >
         {options.map((option) => (
           <IonSelectOption key={option.value} value={option.value}>
