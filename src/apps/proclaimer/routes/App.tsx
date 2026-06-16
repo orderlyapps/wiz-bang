@@ -38,6 +38,7 @@ import AvOverseerPermissionsPage from "@proclaimer-routes/pages/home/congregatio
 import ElderPage from "@proclaimer-routes/pages/home/elder/Elder";
 import ClamOverseerPage from "@proclaimer-routes/pages/home/clam-overseer/ClamOverseer";
 import ServiceOverseerPage from "@proclaimer-routes/pages/home/service-overseer/ServiceOverseer";
+import ServiceOverseerMapPage from "@proclaimer-routes/pages/home/service-overseer/map/Map";
 import CobePage from "@proclaimer-routes/pages/home/cobe/Cobe";
 import TerritoryServantPage from "@proclaimer-routes/pages/home/territory-servant/TerritoryServant";
 import AvOverseerPage from "@proclaimer-routes/pages/home/av-overseer/AvOverseer";
@@ -198,6 +199,7 @@ function App() {
           exact
         />
         <Route path="/home/service-overseer" component={ServiceOverseerPage} exact />
+        <Route path="/home/service-overseer/map" component={ServiceOverseerMapPage} exact />
         <Route path="/home/cobe" component={CobePage} exact />
         <Route path="/home/territory-servant" component={TerritoryServantPage} exact />
         <Route path="/home/av-overseer" component={AvOverseerPage} exact />
