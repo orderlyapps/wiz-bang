@@ -1,11 +1,5 @@
-import { Heading } from "@ui/components/display/text/heading/Heading";
+import { MapView } from "@util/vendor/mapbox/MapView";
 
 export function ServiceOverseerMapContent() {
-  return (
-    <div className="ion-padding">
-      <Heading size="lg" bold>
-        Map
-      </Heading>
-    </div>
-  );
+  return <MapView style={{ position: "absolute", inset: 0 }} height="100%" />;
 }
