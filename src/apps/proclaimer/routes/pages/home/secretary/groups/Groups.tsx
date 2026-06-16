@@ -1,6 +1,6 @@
-import { IonPage, IonHeader, IonContent } from "@ionic/react";
 import { GroupsHeader } from "@proclaimer-content/pages/home/secretary/groups/groups-header/GroupsHeader";
 import { GroupsContent } from "@proclaimer-content/pages/home/secretary/groups/groups-content/GroupsContent";
+import { IonPage, IonHeader, IonContent } from "@ionic/react";
 
 function GroupsPage() {
   return (
@@ -8,7 +8,7 @@ function GroupsPage() {
       <IonHeader>
         <GroupsHeader />
       </IonHeader>
-      <IonContent className="ion-padding">
+      <IonContent className="content-wide">
         <GroupsContent />
       </IonContent>
     </IonPage>

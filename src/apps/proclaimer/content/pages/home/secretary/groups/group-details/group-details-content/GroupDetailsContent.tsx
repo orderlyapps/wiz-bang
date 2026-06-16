@@ -1,32 +1,28 @@
-import {
-  IonContent,
-  IonList,
-  IonItem,
-  IonLabel,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonButtons,
-  IonButton,
-} from "@ionic/react";
+import { IonContent } from "@ionic/react";
 import { useLiveQuery, eq } from "@tanstack/react-db";
 import { groupCollection } from "@shared/database/collections/group";
 import { publisherCollection } from "@shared/database/collections/publisher";
 import type { Publisher } from "@shared/database/schemas/publisher";
 import { Spinner } from "@ui/components/display/spinner/Spinner";
 import { Body } from "@ui/components/display/text/body/Body";
-import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiColumnList";
-import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
-import { TextInput } from "@ui/components/inputs/text/TextInput";
-import { Select } from "@ui/components/inputs/select/Select";
-import { TextButton } from "@ui/components/inputs/button/text/TextButton";
 import { getStoredCongregation } from "@util/app/congregation/utils";
-import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
-import { useState } from "react";
+import { isListablePublisher } from "./groupPublisherUtils";
+import { GroupForm } from "./components/GroupForm";
+import { GroupPublishersList } from "./components/GroupPublishersList";
+import { AddPublishersModal } from "./components/AddPublishersModal";
 
-export function GroupDetailsContent({ group_id }: { group_id: string }) {
+interface GroupDetailsContentProps {
+  group_id: string;
+  is_add_modal_open: boolean;
+  on_dismiss: () => void;
+}
+
+export function GroupDetailsContent({
+  group_id,
+  is_add_modal_open,
+  on_dismiss,
+}: GroupDetailsContentProps) {
   const congregation_id = getStoredCongregation()?.id;
-  const [is_add_modal_open, set_is_add_modal_open] = useState(false);
 
   const { data: group_data, isLoading: is_group_loading } = useLiveQuery((q) =>
     q.from({ g: groupCollection }).where(({ g }) => eq(g.id, group_id)),
@@ -40,28 +36,24 @@ export function GroupDetailsContent({ group_id }: { group_id: string }) {
     q.from({ p: publisherCollection }).orderBy(({ p }) => p.last_name),
   );
 
-  const publishers = (publishers_data ?? []) as Publisher[];
+  const publishers = (
+    (publishers_data ?? []).filter((p) => isListablePublisher(p as Publisher, true)) as Publisher[]
+  ).sort((a, b) => {
+    const last = a.last_name.localeCompare(b.last_name);
+    if (last !== 0) return last;
+    const a_first = a.display_name ?? a.first_name;
+    const b_first = b.display_name ?? b.first_name;
+    return a_first.localeCompare(b_first);
+  });
+
   const all_publishers = (all_publishers_data ?? []).filter(
-    (p) => p.congregation_id === congregation_id && p.group_id !== group_id,
+    (p) =>
+      p.congregation_id === congregation_id &&
+      p.group_id !== group_id &&
+      isListablePublisher(p as Publisher, true),
   ) as Publisher[];
 
   const group = group_data?.[0];
-
-  const overseer_options = [
-    { label: "None", value: "" },
-    ...publishers.map((p) => ({
-      label: getPublisherDisplayName(p),
-      value: p.id ?? "",
-    })),
-  ];
-
-  const assistant_options = [
-    { label: "None", value: "" },
-    ...publishers.map((p) => ({
-      label: getPublisherDisplayName(p),
-      value: p.id ?? "",
-    })),
-  ];
 
   if (is_group_loading || is_publishers_loading) {
     return (
@@ -82,124 +74,23 @@ export function GroupDetailsContent({ group_id }: { group_id: string }) {
   }
 
   return (
-    <IonContent>
-      <IonList>
-        <TextInput
-          label="Name"
-          value={group.name}
-          on_change={(value) => {
-            groupCollection.update(group_id, (draft) => {
-              draft.name = value;
-            });
-          }}
-        />
-        <Select
-          label="Overseer"
-          value={group.overseer_id ?? ""}
-          options={overseer_options}
-          on_change={(value) => {
-            if (Array.isArray(value)) return;
-            groupCollection.update(group_id, (draft) => {
-              draft.overseer_id = value || null;
-            });
-          }}
-        />
-        <Select
-          label="Assistant"
-          value={group.assistant_id ?? ""}
-          options={assistant_options}
-          on_change={(value) => {
-            if (Array.isArray(value)) return;
-            groupCollection.update(group_id, (draft) => {
-              draft.assistant_id = value || null;
-            });
-          }}
-        />
-      </IonList>
+    <IonContent className="content-wide">
+      <GroupForm
+        group_id={group_id}
+        name={group.name}
+        overseer_id={group.overseer_id}
+        assistant_id={group.assistant_id}
+        publishers={publishers}
+      />
 
-      <IonItem lines="none">
-        <IonLabel>
-          <h2>Publishers</h2>
-        </IonLabel>
-        <div slot="end">
-          <Body color="medium">{publishers.length}</Body>
-        </div>
-        <TextButton
-          slot="end"
-          label="Add"
-          fill="clear"
-          on_click={() => set_is_add_modal_open(true)}
-        />
-      </IonItem>
+      <GroupPublishersList publishers={publishers} />
 
-      {publishers.length === 0 ? (
-        <div className="ion-padding ion-text-center">
-          <Body color="medium">No publishers in this group.</Body>
-        </div>
-      ) : (
-        <IonList>
-          <MultiColumnList
-            items={publishers}
-            get_id={(p) => p.id ?? ""}
-            gap="sm"
-            render_item={(p) => (
-              <IonItem>
-                <IonLabel>{getPublisherDisplayName(p)}</IonLabel>
-                <TextButton
-                  slot="end"
-                  label="Remove"
-                  fill="clear"
-                  color="danger"
-                  on_click={() => {
-                    publisherCollection.update(p.id ?? "", (draft) => {
-                      draft.group_id = null;
-                    });
-                  }}
-                />
-              </IonItem>
-            )}
-          />
-        </IonList>
-      )}
-
-      <ResponsiveModal isOpen={is_add_modal_open} onDidDismiss={() => set_is_add_modal_open(false)}>
-        <IonHeader>
-          <IonToolbar>
-            <IonTitle>Add Publishers</IonTitle>
-            <IonButtons slot="end">
-              <IonButton onClick={() => set_is_add_modal_open(false)}>Close</IonButton>
-            </IonButtons>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent>
-          <IonList>
-            {all_publishers.length === 0 ? (
-              <div className="ion-padding ion-text-center">
-                <Body color="medium">No publishers available to add.</Body>
-              </div>
-            ) : (
-              <MultiColumnList
-                items={all_publishers}
-                get_id={(p) => p.id ?? ""}
-                gap="sm"
-                render_item={(p) => (
-                  <IonItem
-                    button
-                    onClick={() => {
-                      publisherCollection.update(p.id ?? "", (draft) => {
-                        draft.group_id = group_id;
-                      });
-                      set_is_add_modal_open(false);
-                    }}
-                  >
-                    {getPublisherDisplayName(p)}
-                  </IonItem>
-                )}
-              />
-            )}
-          </IonList>
-        </IonContent>
-      </ResponsiveModal>
+      <AddPublishersModal
+        is_open={is_add_modal_open}
+        group_id={group_id}
+        publishers={all_publishers}
+        on_dismiss={on_dismiss}
+      />
     </IonContent>
   );
 }

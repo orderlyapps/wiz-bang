@@ -1,6 +1,7 @@
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 import type { Group } from "@shared/database/schemas/group";
 import type { Publisher } from "@shared/database/schemas/publisher";
+import type { PdfFilterType } from "../pdf-action-sheet/PdfActionSheet";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
 
 const styles = StyleSheet.create({
@@ -52,16 +53,32 @@ interface GroupsPdfProps {
   groups: Group[];
   publishers: Publisher[];
   congregation_name?: string;
+  filter_type?: PdfFilterType;
 }
 
-export function GroupsPdf({ groups, publishers, congregation_name }: GroupsPdfProps) {
+const DEFAULT_TYPES = ["publisher", "regular_pioneer", "special_pioneer", "continuous_auxiliary"];
+const CONFIDENTIAL_TYPES = [...DEFAULT_TYPES, "inactive", "associate"];
+
+function filterPublishers(publishers: Publisher[], filter_type: PdfFilterType): Publisher[] {
+  const allowed_types = filter_type === "confidential" ? CONFIDENTIAL_TYPES : DEFAULT_TYPES;
+  return publishers.filter((p) => allowed_types.includes(p.type) && !p.archived_at);
+}
+
+export function GroupsPdf({
+  groups,
+  publishers,
+  congregation_name,
+  filter_type = "default",
+}: GroupsPdfProps) {
+  const filtered_publishers = filterPublishers(publishers, filter_type);
+
   const getGroupPublishers = (group_id: string) => {
-    return publishers.filter((p) => p.group_id === group_id);
+    return filtered_publishers.filter((p) => p.group_id === group_id);
   };
 
   const getPublisherName = (publisher_id?: string | null) => {
     if (!publisher_id) return null;
-    const publisher = publishers.find((p) => p.id === publisher_id);
+    const publisher = filtered_publishers.find((p) => p.id === publisher_id);
     return publisher ? getPublisherDisplayName(publisher) : null;
   };
 
