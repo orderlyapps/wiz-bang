@@ -40,7 +40,11 @@ export function GroupsContent() {
             items={groups}
             get_id={(g) => g.id ?? ""}
             gap="sm"
-            render_item={(g) => <IonItem>{g.name}</IonItem>}
+            render_item={(g) => (
+              <IonItem routerLink={`/home/secretary/groups/${g.id}`} button>
+                {g.name}
+              </IonItem>
+            )}
           />
         </IonList>
       )}
