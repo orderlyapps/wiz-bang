@@ -1,6 +1,6 @@
-import { IonItem, IonLabel, IonIcon } from "@ionic/react";
+import { IonItem, IonLabel } from "@ionic/react";
 import { Heading } from "@ui/components/display/text/heading/Heading";
-import { chevronForward } from "ionicons/icons";
+import { Icon } from "@ui/components/icons/Icon";
 
 interface NavItemProps {
   label: string;
@@ -13,7 +13,7 @@ export function NavItem({ label, to }: NavItemProps) {
       <IonLabel className="ion-margin ion-text-nowrap">
         <Heading color="primary">{label}</Heading>
       </IonLabel>
-      <IonIcon icon={chevronForward} slot="end" />
+      <Icon name="chevronForwardJW" slot="end" />
     </IonItem>
   );
 }
