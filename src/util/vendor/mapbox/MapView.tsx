@@ -13,6 +13,7 @@ type Props = {
   styleId?: SelectableStyleId;
   height?: string | number;
   style?: React.CSSProperties;
+  children?: React.ReactNode;
 };
 
 export function MapView({
@@ -22,6 +23,7 @@ export function MapView({
   styleId: controlledStyleId,
   height = "100%",
   style,
+  children,
 }: Props) {
   const { resolved_theme } = useTheme();
   const {
@@ -39,6 +41,8 @@ export function MapView({
       mapboxAccessToken={mapboxToken}
       style={{ width: "100%", height, ...style }}
       mapStyle={mapStyle}
-    />
+    >
+      {children}
+    </Map>
   );
 }
