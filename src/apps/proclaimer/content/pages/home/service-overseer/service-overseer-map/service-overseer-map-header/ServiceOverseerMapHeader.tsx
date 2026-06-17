@@ -1,4 +1,4 @@
-import { IonToolbar, IonTitle, IonButtons, IonBackButton } from "@ionic/react";
+import { IonToolbar, IonTitle, IonButtons, IonBackButton, IonMenuButton } from "@ionic/react";
 
 export function ServiceOverseerMapHeader() {
   return (
@@ -7,6 +7,9 @@ export function ServiceOverseerMapHeader() {
         <IonBackButton defaultHref="/home/service-overseer" />
       </IonButtons>
       <IonTitle>Map</IonTitle>
+      <IonButtons slot="end">
+        <IonMenuButton />
+      </IonButtons>
     </IonToolbar>
   );
 }
