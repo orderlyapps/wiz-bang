@@ -265,25 +265,63 @@ export default defineConfig({
             },
           },
           {
+            urlPattern: /^https:\/\/[a-z]\.tiles\.mapbox\.com\/.*/,
+            handler: "CacheFirst",
+            options: {
+              cacheName: "mapbox-tiles",
+              expiration: {
+                maxEntries: 500,
+                maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+              },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
+          {
             urlPattern: /^https:\/\/api\.mapbox\.com\/v4\/.*/,
             handler: "CacheFirst",
             options: {
               cacheName: "mapbox-tiles",
               expiration: {
-                maxEntries: 5000,
+                maxEntries: 500,
                 maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
               },
+              cacheableResponse: { statuses: [0, 200] },
             },
           },
           {
-            urlPattern: /^https:\/\/api\.mapbox\.com\/(styles|fonts|sprites)\/.*/,
+            urlPattern: /^https:\/\/api\.mapbox\.com\/styles\/.*/,
+            handler: "CacheFirst",
+            options: {
+              cacheName: "mapbox-styles",
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 7 * 24 * 60 * 60, // 7 days
+              },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
+          {
+            urlPattern: /^https:\/\/api\.mapbox\.com\/fonts\/.*/,
+            handler: "CacheFirst",
+            options: {
+              cacheName: "mapbox-fonts",
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days — fonts are immutable
+              },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
+          {
+            urlPattern: /^https:\/\/api\.mapbox\.com\/(sprites|v4)\/.*/,
             handler: "StaleWhileRevalidate",
             options: {
               cacheName: "mapbox-assets",
               expiration: {
                 maxEntries: 100,
-                maxAgeSeconds: 7 * 24 * 60 * 60, // 7 days
+                maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
               },
+              cacheableResponse: { statuses: [0, 200] },
             },
           },
         ],
