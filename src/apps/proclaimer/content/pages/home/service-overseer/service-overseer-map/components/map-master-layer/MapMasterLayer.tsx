@@ -14,6 +14,16 @@ export function MapMasterLayer() {
           "line-width": 2,
         }}
       />
+      <Layer
+        id="boundary-vertices"
+        type="circle"
+        paint={{
+          "circle-color": "#3b82f6",
+          "circle-radius": 6,
+          "circle-stroke-color": "#ffffff",
+          "circle-stroke-width": 2,
+        }}
+      />
     </Source>
   );
 }
