@@ -86,7 +86,6 @@ Do not add page-specific percent-padding or media queries to constrain content w
 
 ### Data display
 
-- `ResponsiveList<T>` (`src/ui/components/display/responsive-list/ResponsiveList.tsx`) — renders an accessible HTML `<table>` on desktop (>= lg) and `IonItem` cards on mobile/tablet. Use it for all tabular data; do not render raw tables or raw lists of `IonItem`s when the data is row/column shaped.
 - `MultiColumnList<T>` (`src/ui/components/display/multi-column-list/MultiColumnList.tsx`) — renders items in a responsive CSS grid that automatically picks the column count based on screen width, item count, and font size: 1 col on mobile (`xs`/`sm`) always, 2 on tablet (`md`), 3 on small desktop (`lg`), and 4 on large desktop (`xl`/`2xl`). Column count is capped by item count so 2 items never render 4 columns. Items flow left-to-right then wrap. Column count automatically adjusts based on font size (smaller fonts = more columns, larger fonts = fewer columns). Optional `gap` prop sets the horizontal gap between columns using the shared `Size` scale or `"none"` (defaults to `"sm"`); rows stay flush. Optional `column_offset` prop allows fine-tuning the column count (positive = add columns, negative = reduce columns). Use it for lists of uniform cards/items (e.g. names, tags) where multi-column layout is desirable at wider viewports but there is no tabular column structure. **Important:** When using this component on a page, wrap the page content in `<IonContent className="content-wide">` to ensure the list has enough horizontal space for multiple columns.
 
 ### Modals
@@ -104,7 +103,6 @@ Do not add page-specific percent-padding or media queries to constrain content w
 
 ### When to use what
 
-- New list of records → `ResponsiveList<T>` with `columns` + `get_id`.
 - New list of uniform cards/items (no column structure) → `MultiColumnList<T>` with `get_id` + `render_item`.
 - New modal/dialog → `ResponsiveModal`, not `IonModal` directly.
 - Need to branch behavior on viewport → `useBreakpoint()`, never `window.innerWidth` directly.
