@@ -4,23 +4,23 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "dev:app:proclaimer": "vp run dev:app proclaimer",
+    "deploy:app:proclaimer": "vp run deploy:app proclaimer",
+    "supabase:download:public_schema": "supabase db dump --schema public -f src/apps/shared/database/public_schema.sql",
     "dev": "vp dev --host",
     "dev:app": "bash scripts/dev-app.sh",
     "dev:app:base": "vp run dev:app base",
     "dev:app:admin": "vp run dev:app admin",
-    "dev:app:proclaimer": "vp run dev:app proclaimer",
     "dev:app:subbie": "vp run dev:app subbie",
     "build": "tsc -b && vp build",
     "build:app": "bash scripts/build-app.sh",
     "supabase:update": "brew upgrade supabase",
-    "supabase:download:public_schema": "supabase db dump --schema public -f src/apps/shared/database/public_schema.sql",
     "lint": "vp lint .",
     "preview": "vp preview",
     "deploy": "vp build && wrangler pages deploy dist --project-name=orderly --branch=wiz-bang && echo DEPLOYED TO WIZ BANG",
     "deploy:app": "bash scripts/deploy-app.sh",
     "deploy:app:base": "vp run deploy:app base",
-    "deploy:app:orderly": "vp run deploy:app admin",
-    "deploy:app:proclaimer": "vp run deploy:app proclaimer"
+    "deploy:app:orderly": "vp run deploy:app admin"
   },
   "dependencies": {
     "@ionic/react": "^8.8.6",
