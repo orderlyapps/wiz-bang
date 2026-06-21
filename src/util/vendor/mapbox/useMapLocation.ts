@@ -3,9 +3,7 @@ import type { ViewState, ViewStateChangeEvent } from "react-map-gl/mapbox";
 import { localStorageKeys, localStorageKeyWithVariant } from "@util/constants/localStorageKeys";
 import type { SelectableStyleId } from "@util/vendor/mapbox/mapboxStyles";
 
-type StoredLocation = Pick<ViewState, "longitude" | "latitude" | "zoom" | "pitch" | "bearing"> & {
-  style_id?: SelectableStyleId;
-};
+type StoredLocation = Pick<ViewState, "longitude" | "latitude" | "zoom" | "pitch" | "bearing">;
 
 function storageKey(id?: string): string {
   return id ? localStorageKeyWithVariant("mapViewLocation", id) : localStorageKeys.mapViewLocation;
@@ -44,7 +42,6 @@ export function useMapLocation(
       zoom: stored?.zoom ?? initial.zoom ?? 1.5,
       pitch: stored?.pitch ?? initial.pitch ?? 0,
       bearing: stored?.bearing ?? initial.bearing ?? 0,
-      style_id: stored?.style_id ?? initialStyleId,
     };
   });
 
@@ -56,17 +53,16 @@ export function useMapLocation(
       zoom,
       pitch,
       bearing,
-      style_id: viewState.style_id,
     };
     setViewState(next);
     saveLocation(next, id);
   }
 
-  function setStyleId(styleId: SelectableStyleId) {
-    const next: StoredLocation = { ...viewState, style_id: styleId };
-    setViewState(next);
-    saveLocation(next, id);
+  const [styleId, setStyleIdState] = useState<SelectableStyleId>(initialStyleId);
+
+  function setStyleId(nextStyleId: SelectableStyleId) {
+    setStyleIdState(nextStyleId);
   }
 
-  return { viewState, styleId: viewState.style_id ?? initialStyleId, setStyleId, onMove };
+  return { viewState, styleId, setStyleId, onMove };
 }

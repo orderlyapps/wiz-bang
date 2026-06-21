@@ -25,7 +25,7 @@ type Props = {
 export function MapView({
   id,
   initialViewState = { longitude: 0, latitude: 20, zoom: 1.5 },
-  initialStyleId = "streets-v12",
+  initialStyleId = "custom",
   styleId: controlledStyleId,
   height = "100%",
   style,
