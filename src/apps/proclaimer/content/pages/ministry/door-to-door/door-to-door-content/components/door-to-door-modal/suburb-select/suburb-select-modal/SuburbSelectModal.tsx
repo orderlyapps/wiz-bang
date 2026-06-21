@@ -1,5 +1,4 @@
 import {
-  IonModal,
   IonHeader,
   IonToolbar,
   IonTitle,
@@ -7,9 +6,11 @@ import {
   IonList,
   IonItem,
   IonLabel,
+  IonSkeletonText,
   IonButtons,
   IonButton,
 } from "@ionic/react";
+import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 import { suburbCollection } from "@shared/database/collections/suburb";
 import { useLiveQuery } from "@tanstack/react-db";
 import type { Suburb } from "@shared/database/schemas/suburb";
@@ -21,10 +22,13 @@ type SuburbSelectModalProps = {
 };
 
 export function SuburbSelectModal({ isOpen, onDidDismiss, onSelect }: SuburbSelectModalProps) {
-  const { data: suburbs } = useLiveQuery((q) => q.from({ suburb: suburbCollection }));
+  const { data: suburbs, isLoading } = useLiveQuery((q) => q.from({ suburb: suburbCollection }));
+
+  // Sort suburbs alphabetically by name
+  const sortedSuburbs = suburbs ? [...suburbs].sort((a, b) => a.name.localeCompare(b.name)) : [];
 
   return (
-    <IonModal isOpen={isOpen} onDidDismiss={onDidDismiss}>
+    <ResponsiveModal isOpen={isOpen} onDidDismiss={onDidDismiss}>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Select Suburb</IonTitle>
@@ -34,21 +38,39 @@ export function SuburbSelectModal({ isOpen, onDidDismiss, onSelect }: SuburbSele
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonList>
-          {suburbs.map((suburb) => (
-            <IonItem
-              key={suburb.id}
-              button
-              onClick={() => {
-                onSelect(suburb);
-                onDidDismiss();
-              }}
-            >
-              <IonLabel>{suburb.name}</IonLabel>
+        {isLoading ? (
+          <IonList>
+            {[1, 2, 3].map((i) => (
+              <IonItem key={i}>
+                <IonLabel>
+                  <IonSkeletonText style={{ width: "50%" }} />
+                </IonLabel>
+              </IonItem>
+            ))}
+          </IonList>
+        ) : sortedSuburbs.length === 0 ? (
+          <IonList>
+            <IonItem>
+              <IonLabel>No suburbs found.</IonLabel>
             </IonItem>
-          ))}
-        </IonList>
+          </IonList>
+        ) : (
+          <IonList>
+            {sortedSuburbs.map((suburb) => (
+              <IonItem
+                key={suburb.id}
+                button
+                onClick={() => {
+                  onSelect(suburb);
+                  onDidDismiss();
+                }}
+              >
+                <IonLabel>{suburb.name}</IonLabel>
+              </IonItem>
+            ))}
+          </IonList>
+        )}
       </IonContent>
-    </IonModal>
+    </ResponsiveModal>
   );
 }
