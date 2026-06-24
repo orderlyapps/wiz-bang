@@ -4,10 +4,8 @@ import {
   IonContent,
   IonHeader,
   IonItem,
-  IonItemDivider,
   IonLabel,
   IonList,
-  IonListHeader,
   IonModal,
   IonTitle,
   IonToolbar,
@@ -21,6 +19,8 @@ import { getRecentMapIds } from "../../utils/useRecentMaps";
 import type { MapRow } from "@shared/database/schemas/map";
 import type { MapMaster } from "@shared/database/schemas/map-master";
 import type { SelectedMap } from "../../utils/types";
+import { Heading } from "@ui/components/display/text/heading/Heading";
+import { Space } from "@ui/components/layout/space/Space";
 
 type MapListModalProps = {
   isOpen: boolean;
@@ -78,25 +78,43 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect }: MapListModalPro
         <IonList>
           {recent_maps.length > 0 && (
             <>
-              <IonListHeader>
-                <IonLabel>Recently Edited</IonLabel>
-              </IonListHeader>
+              <IonItem>
+                <IonLabel>
+                  <Heading size="md" bold>
+                    Recent Maps
+                  </Heading>
+                </IonLabel>
+              </IonItem>
+
               {recent_maps.map((map) => (
                 <IonItem button key={`recent-${map.id}`} onClick={() => handleSelectMap(map)}>
                   <IonLabel>{map.name}</IonLabel>
                 </IonItem>
               ))}
-              <IonItemDivider />
             </>
           )}
+
+          <Space></Space>
+
+          <IonItem>
+            <IonLabel>
+              <Heading size="md" bold>
+                All Maps
+              </Heading>
+            </IonLabel>
+          </IonItem>
+
           {master && (
             <IonItem button onClick={() => handleSelectMaster(master)}>
-              <IonLabel>The master map</IonLabel>
+              <IonLabel>Master Map</IonLabel>
             </IonItem>
           )}
+
           {filtered_maps?.map((map) => (
             <IonItem button key={map.id ?? map.name} onClick={() => handleSelectMap(map)}>
-              <IonLabel>{map.name}</IonLabel>
+              <IonLabel>
+                {map.name} {map.details ? `| ${map.details}` : ""}
+              </IonLabel>
             </IonItem>
           ))}
         </IonList>
