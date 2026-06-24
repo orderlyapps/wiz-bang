@@ -3,6 +3,7 @@ import { MapPolygonEditor } from "../components/map-polygon-editor/MapPolygonEdi
 import type { SelectedMap } from "../utils/types";
 import { MapsLayer } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/components/layers/maps-layer/MapsLayer";
 import { MapMasterLayer } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/components/layers/map-master-layer/MapMasterLayer";
+import { MapBlocksLayer } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/components/layers/map-blocks-layer/MapBlocksLayer";
 import {
   MapFitBoundsController,
   type FitBoundsFn,
@@ -20,6 +21,7 @@ export function ServiceOverseerMapContent({ fitBoundsRef, selectedMap, onPending
       <MapFitBoundsController fitBoundsRef={fitBoundsRef} />
       <MapMasterLayer />
       <MapsLayer />
+      {selectedMap && <MapBlocksLayer selectedMap={selectedMap} />}
       {selectedMap && (
         <MapPolygonEditor
           key={selectedMap.type === "map" ? selectedMap.id : selectedMap.congregation_id}

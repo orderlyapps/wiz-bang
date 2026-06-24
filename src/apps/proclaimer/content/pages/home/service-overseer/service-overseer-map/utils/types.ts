@@ -1,5 +1,12 @@
 import type { LngLatBoundsLike } from "mapbox-gl";
+import type { MapRow } from "@shared/database/schemas/map";
 
 export type SelectedMap =
-  | { type: "map"; id: string; boundary: unknown; bounds: LngLatBoundsLike }
+  | {
+      type: "map";
+      id: string;
+      boundary: unknown;
+      bounds: LngLatBoundsLike;
+      blocks: MapRow["blocks"];
+    }
   | { type: "master"; congregation_id: string; boundary: unknown; bounds: LngLatBoundsLike };

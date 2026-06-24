@@ -41,7 +41,7 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect }: MapListModalPro
     if (!map.id) return;
     const bounds = boundaryToBounds(map.boundary);
     if (!bounds) return;
-    onSelect({ type: "map", id: map.id, boundary: map.boundary, bounds });
+    onSelect({ type: "map", id: map.id, boundary: map.boundary, bounds, blocks: map.blocks });
     onDidDismiss();
   }
 

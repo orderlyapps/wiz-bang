@@ -42,3 +42,17 @@ export function boundaryToPolygonCoords(boundary: unknown): number[][][] | null 
   if (!isValidBoundary(boundary) || boundary.length < 4) return null;
   return [ensureClosedRing(boundary)];
 }
+
+export function blockToPolygonCoords(
+  coordinates: unknown[] | null | undefined,
+): number[][][] | null {
+  if (!isValidBoundary(coordinates) || coordinates.length < 3) return null;
+  return [ensureClosedRing(coordinates)];
+}
+
+export function blockToLineStringCoords(
+  coordinates: unknown[] | null | undefined,
+): number[][] | null {
+  if (!isValidBoundary(coordinates) || coordinates.length < 2) return null;
+  return coordinates;
+}
