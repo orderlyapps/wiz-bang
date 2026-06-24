@@ -8,16 +8,9 @@ export function MapsLayer() {
   return (
     <Source id="maps" type="geojson" data={geojson}>
       <Layer
-        id="maps-fill"
-        type="fill"
-        paint={{
-          "fill-color": "#10b981",
-          "fill-opacity": 0.1,
-        }}
-      />
-      <Layer
         id="maps-line"
         type="line"
+        minzoom={MIN_VERTEX_ZOOM - 2}
         paint={{
           "line-color": "#10b981",
           "line-width": 2,
