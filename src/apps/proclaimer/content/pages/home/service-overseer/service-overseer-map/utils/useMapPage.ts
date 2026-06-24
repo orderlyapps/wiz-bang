@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { recordRecentMap } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/utils/useRecentMaps";
 import { mapCollection } from "@shared/database/collections/map";
 import { mapMasterCollection } from "@shared/database/collections/map-master";
 import type {
@@ -74,6 +75,7 @@ export function useMapPage(onFitBounds: (bounds: SelectedMap["bounds"]) => void)
     if (!selected_map) return;
 
     if (selected_map.type === "map") {
+      recordRecentMap(selected_map.id);
       if (pending_boundary !== undefined) {
         mapCollection.update(selected_map.id, (draft) => {
           draft.boundary = pending_boundary as [number, number][] | null;

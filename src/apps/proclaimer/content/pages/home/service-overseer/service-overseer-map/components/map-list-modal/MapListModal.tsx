@@ -4,8 +4,10 @@ import {
   IonContent,
   IonHeader,
   IonItem,
+  IonItemDivider,
   IonLabel,
   IonList,
+  IonListHeader,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
@@ -15,6 +17,7 @@ import { mapMasterCollection } from "@shared/database/collections/map-master";
 import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 import { boundaryToBounds } from "../../utils/boundary";
+import { getRecentMapIds } from "../../utils/useRecentMaps";
 import type { MapRow } from "@shared/database/schemas/map";
 import type { MapMaster } from "@shared/database/schemas/map-master";
 import type { SelectedMap } from "../../utils/types";
@@ -34,6 +37,10 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect }: MapListModalPro
   const congregation_id = publisher?.congregation_id;
 
   const filtered_maps = maps?.filter((map) => map.congregation_id === congregation_id);
+  const recent_ids = getRecentMapIds();
+  const recent_maps = recent_ids
+    .map((id) => filtered_maps?.find((m) => m.id === id))
+    .filter((m): m is NonNullable<typeof m> => m != null);
   const filtered_masters = masters?.filter((master) => master.congregation_id === congregation_id);
   const master = filtered_masters?.[0];
 
@@ -69,6 +76,19 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect }: MapListModalPro
       </IonHeader>
       <IonContent className="content-wide">
         <IonList>
+          {recent_maps.length > 0 && (
+            <>
+              <IonListHeader>
+                <IonLabel>Recently Edited</IonLabel>
+              </IonListHeader>
+              {recent_maps.map((map) => (
+                <IonItem button key={`recent-${map.id}`} onClick={() => handleSelectMap(map)}>
+                  <IonLabel>{map.name}</IonLabel>
+                </IonItem>
+              ))}
+              <IonItemDivider />
+            </>
+          )}
           {master && (
             <IonItem button onClick={() => handleSelectMaster(master)}>
               <IonLabel>The master map</IonLabel>
