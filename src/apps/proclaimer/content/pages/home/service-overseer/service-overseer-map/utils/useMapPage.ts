@@ -73,6 +73,21 @@ export function useMapPage(onFitBounds: (bounds: SelectedMap["bounds"]) => void)
     });
   }
 
+  function handleRenameBlock(blockId: string, name: string) {
+    if (!selected_map || selected_map.type !== "map") return;
+    mapCollection.update(selected_map.id, (draft) => {
+      const block = draft.blocks?.find((b) => b.id === blockId);
+      if (block) block.name = name;
+    });
+    set_selected_map((current) => {
+      if (!current || current.type !== "map") return current;
+      return {
+        ...current,
+        blocks: current.blocks?.map((b) => (b.id === blockId ? { ...b, name } : b)) ?? null,
+      };
+    });
+  }
+
   function handleUpdateMap(name: string, details: string) {
     if (!selected_map || selected_map.type !== "map") return;
     mapCollection.update(selected_map.id, (draft) => {
@@ -171,6 +186,7 @@ export function useMapPage(onFitBounds: (bounds: SelectedMap["bounds"]) => void)
     handleBlockPendingChange,
     handleAddBlock,
     handleEditBoundary,
+    handleRenameBlock,
     handleUpdateMap,
     handleDeleteBlock,
     handleDeleteMap,

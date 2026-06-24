@@ -17,6 +17,7 @@ function ServiceOverseerMapPage() {
     handlePendingChange,
     handleBlockPendingChange,
     handleEditBoundary,
+    handleRenameBlock,
     handleUpdateMap,
     handleEditBlock,
     handleDeleteBlock,
@@ -34,6 +35,7 @@ function ServiceOverseerMapPage() {
         onDeselect={handleDeselect}
         onEditBoundary={handleEditBoundary}
         onUpdateMap={handleUpdateMap}
+        onRenameBlock={handleRenameBlock}
         onDeleteMap={handleDeleteMap}
         onEditBlock={handleEditBlock}
         onDeleteBlock={handleDeleteBlock}

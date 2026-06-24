@@ -26,6 +26,7 @@ import type {
 import { Body } from "@ui/components/display/text/body/Body";
 import { Space } from "@ui/components/layout/space/Space";
 import { AlertTextInput } from "@ui/components/inputs/alert-text/AlertTextInput";
+import { RenameIconButton } from "@ui/components/inputs/button/icon/rename/RenameIconButton";
 
 type Props = {
   hasPendingChanges: boolean;
@@ -35,6 +36,7 @@ type Props = {
   onEditBoundary: () => void;
   onUpdateMap: (name: string, details: string) => void;
   onDeleteMap: () => void;
+  onRenameBlock: (blockId: string, name: string) => void;
   onEditBlock: (block: Block) => void;
   onDeleteBlock: (blockId: string) => void;
   onAddBlock: (type: "block" | "face", name: string) => void;
@@ -48,6 +50,7 @@ function MapMenu({
   onEditBoundary,
   onUpdateMap,
   onDeleteMap,
+  onRenameBlock,
   onEditBlock,
   onDeleteBlock,
   onAddBlock,
@@ -141,6 +144,11 @@ function MapMenu({
                 </IonLabel>
 
                 <IonButtons slot="end">
+                  <RenameIconButton
+                    alert_header="Rename Block"
+                    current_value={block.name}
+                    on_rename={(name) => onRenameBlock(block.id, name)}
+                  />
                   {hasPendingChanges ? (
                     <AlertIconButton
                       alert_header="Unsaved Changes"
