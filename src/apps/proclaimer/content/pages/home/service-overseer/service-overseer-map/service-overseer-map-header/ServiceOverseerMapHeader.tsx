@@ -14,9 +14,10 @@ import type { SelectedMap } from "../utils/types";
 
 type Props = {
   onSelect: (selection: SelectedMap) => void;
+  selected_map: SelectedMap | null;
 };
 
-export function ServiceOverseerMapHeader({ onSelect }: Props) {
+export function ServiceOverseerMapHeader({ onSelect, selected_map }: Props) {
   const [show_maps, set_show_maps] = useState(false);
 
   return (
@@ -27,10 +28,12 @@ export function ServiceOverseerMapHeader({ onSelect }: Props) {
         </IonButtons>
         <IonTitle>Map</IonTitle>
         <IonButtons slot="end">
-          <IonButton onClick={() => set_show_maps(true)}>
-            <IonIcon slot="icon-only" icon={mapIcon} />
-          </IonButton>
-          <IonMenuButton />
+          {!selected_map && (
+            <IonButton onClick={() => set_show_maps(true)}>
+              <IonIcon slot="icon-only" icon={mapIcon} />
+            </IonButton>
+          )}
+          {selected_map && <IonMenuButton />}
         </IonButtons>
       </IonToolbar>
       <MapListModal

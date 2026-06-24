@@ -33,7 +33,7 @@ function ServiceOverseerMapPage() {
       />
       <IonPage id="map-content">
         <IonHeader>
-          <ServiceOverseerMapHeader onSelect={handleSelect} />
+          <ServiceOverseerMapHeader onSelect={handleSelect} selected_map={selected_map} />
         </IonHeader>
         <IonContent className="content-full" scrollY={false}>
           <ServiceOverseerMapContent
