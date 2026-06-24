@@ -53,8 +53,9 @@ export function MapBlockEditor({ block, onPendingChange }: Props) {
   useEffect(() => {
     if (!map) return;
 
-    const feature = toFeature(blockRef.current);
-    if (!feature) return;
+    const is_new = blockRef.current.coordinates.length === 0;
+    const feature = is_new ? null : toFeature(blockRef.current);
+    if (!is_new && !feature) return;
 
     const draw = new MapboxDraw({
       displayControlsDefault: false,
@@ -71,6 +72,22 @@ export function MapBlockEditor({ block, onPendingChange }: Props) {
       const coordinates = toBlockCoordinates(blockRef.current, updated);
       if (!coordinates) return;
       onPendingChangeRef.current({ ...blockRef.current, coordinates });
+    }
+
+    function handleCreate(e: { features: GeoJSON.Feature[] }) {
+      const created = e.features[0];
+      if (!created) return;
+      feature_id = String(created.id ?? null);
+      const coordinates = toBlockCoordinates(blockRef.current, created);
+      if (!coordinates) return;
+      onPendingChangeRef.current({ ...blockRef.current, coordinates });
+      if (feature_id) {
+        try {
+          draw.changeMode("direct_select", { featureId: feature_id });
+        } catch {
+          // ignore
+        }
+      }
     }
 
     function handleDelete(e: { features: GeoJSON.Feature[] }) {
@@ -93,18 +110,26 @@ export function MapBlockEditor({ block, onPendingChange }: Props) {
       map.addControl(draw as unknown as IControl);
       added = true;
 
-      const addedIds = draw.add(feature);
-      feature_id = addedIds[0] ?? null;
-      if (feature_id) {
-        draw.changeMode("direct_select", { featureId: feature_id });
+      if (feature) {
+        const addedIds = draw.add(feature);
+        feature_id = addedIds[0] ?? null;
+        if (feature_id) {
+          draw.changeMode("direct_select", { featureId: feature_id });
+        }
+      } else if (blockRef.current.type === "block") {
+        draw.changeMode("draw_polygon");
+      } else {
+        draw.changeMode("draw_line_string");
       }
 
       map.on("draw.update", handleUpdate);
+      map.on("draw.create", handleCreate);
       map.on("draw.delete", handleDelete);
       listeners_attached = true;
     } catch {
       if (listeners_attached) {
         map.off("draw.update", handleUpdate);
+        map.off("draw.create", handleCreate);
         map.off("draw.delete", handleDelete);
       }
       if (added) {
@@ -115,6 +140,7 @@ export function MapBlockEditor({ block, onPendingChange }: Props) {
 
     return () => {
       map.off("draw.update", handleUpdate);
+      map.off("draw.create", handleCreate);
       map.off("draw.delete", handleDelete);
       map.removeControl(draw as unknown as IControl);
     };

@@ -35,6 +35,13 @@ export function useMapPage(onFitBounds: (bounds: SelectedMap["bounds"]) => void)
     set_pending_block(block);
   }
 
+  function handleAddBlock(type: "block" | "face", name: string) {
+    if (!selected_map || selected_map.type !== "map") return;
+    const new_block: Block = { id: crypto.randomUUID(), name, type, coordinates: [] };
+    set_selected_block(new_block);
+    set_pending_block(new_block);
+  }
+
   function handleDeleteBlock(blockId: string) {
     if (!selected_map || selected_map.type !== "map") return;
     const exists = selected_map.blocks?.some((block) => block.id === blockId) ?? false;
@@ -76,6 +83,8 @@ export function useMapPage(onFitBounds: (bounds: SelectedMap["bounds"]) => void)
               const index = draft.blocks?.findIndex((block) => block.id === pending_block.id);
               if (index !== undefined && index !== -1) {
                 draft.blocks![index] = pending_block;
+              } else {
+                draft.blocks = [...(draft.blocks ?? []), pending_block];
               }
             }
           });
@@ -89,12 +98,19 @@ export function useMapPage(onFitBounds: (bounds: SelectedMap["bounds"]) => void)
               blocks: current.blocks?.filter((block) => block.id !== block_id) ?? null,
             };
           }
+          const exists = current.blocks?.some((b) => b.id === pending_block.id) ?? false;
+          if (exists) {
+            return {
+              ...current,
+              blocks:
+                current.blocks?.map((block) =>
+                  block.id === pending_block.id ? pending_block : block,
+                ) ?? null,
+            };
+          }
           return {
             ...current,
-            blocks:
-              current.blocks?.map((block) =>
-                block.id === pending_block.id ? pending_block : block,
-              ) ?? null,
+            blocks: [...(current.blocks ?? []), pending_block],
           };
         });
       }
@@ -116,6 +132,7 @@ export function useMapPage(onFitBounds: (bounds: SelectedMap["bounds"]) => void)
     handlePendingChange,
     handleEditBlock,
     handleBlockPendingChange,
+    handleAddBlock,
     handleDeleteBlock,
     handleSave,
   };
