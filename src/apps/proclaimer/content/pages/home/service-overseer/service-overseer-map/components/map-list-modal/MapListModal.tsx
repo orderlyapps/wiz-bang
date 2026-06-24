@@ -8,6 +8,7 @@ import {
   IonLabel,
   IonList,
   IonListHeader,
+  IonModal,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
@@ -15,7 +16,6 @@ import { useLiveQuery } from "@tanstack/react-db";
 import { mapCollection } from "@shared/database/collections/map";
 import { mapMasterCollection } from "@shared/database/collections/map-master";
 import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
-import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 import { boundaryToBounds } from "../../utils/boundary";
 import { getRecentMapIds } from "../../utils/useRecentMaps";
 import type { MapRow } from "@shared/database/schemas/map";
@@ -65,7 +65,7 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect }: MapListModalPro
   }
 
   return (
-    <ResponsiveModal isOpen={isOpen} onDidDismiss={onDidDismiss}>
+    <IonModal isOpen={isOpen} onDidDismiss={onDidDismiss}>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Maps</IonTitle>
@@ -101,6 +101,6 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect }: MapListModalPro
           ))}
         </IonList>
       </IonContent>
-    </ResponsiveModal>
+    </IonModal>
   );
 }
