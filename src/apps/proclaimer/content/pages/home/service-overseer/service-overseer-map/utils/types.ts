@@ -1,6 +1,8 @@
 import type { LngLatBoundsLike } from "mapbox-gl";
 import type { MapRow } from "@shared/database/schemas/map";
 
+export type Block = NonNullable<MapRow["blocks"]>[number];
+
 export type SelectedMap =
   | {
       type: "map";

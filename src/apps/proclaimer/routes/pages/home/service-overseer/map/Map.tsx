@@ -8,12 +8,25 @@ import { useMapPage } from "@proclaimer-content/pages/home/service-overseer/serv
 
 function ServiceOverseerMapPage() {
   const fitBoundsRef = useRef<FitBoundsFn | null>(null);
-  const { selected_map, has_pending_changes, handleSelect, handlePendingChange, handleSave } =
-    useMapPage((bounds) => fitBoundsRef.current?.(bounds));
+  const {
+    selected_map,
+    selected_block,
+    has_pending_changes,
+    handleSelect,
+    handlePendingChange,
+    handleBlockPendingChange,
+    handleEditBlock,
+    handleSave,
+  } = useMapPage((bounds) => fitBoundsRef.current?.(bounds));
 
   return (
     <>
-      <MapMenu hasPendingChanges={has_pending_changes} onSave={handleSave} />
+      <MapMenu
+        hasPendingChanges={has_pending_changes}
+        onSave={handleSave}
+        selectedMap={selected_map}
+        onEditBlock={handleEditBlock}
+      />
       <IonPage id="map-content">
         <IonHeader>
           <ServiceOverseerMapHeader onSelect={handleSelect} />
@@ -22,7 +35,9 @@ function ServiceOverseerMapPage() {
           <ServiceOverseerMapContent
             fitBoundsRef={fitBoundsRef}
             selectedMap={selected_map}
+            selectedBlock={selected_block}
             onPendingChange={handlePendingChange}
+            onBlockPendingChange={handleBlockPendingChange}
           />
         </IonContent>
       </IonPage>
