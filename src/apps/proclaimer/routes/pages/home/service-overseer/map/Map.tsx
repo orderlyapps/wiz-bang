@@ -4,7 +4,7 @@ import { ServiceOverseerMapHeader } from "@proclaimer-content/pages/home/service
 import { ServiceOverseerMapContent } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/service-overseer-map-content/ServiceOverseerMapContent";
 import MapMenu from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/components/map-menu/MapMenu";
 import type { FitBoundsFn } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/components/map-fit-bounds-controller/MapFitBoundsController";
-import { useMapPage } from "./useMapPage";
+import { useMapPage } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/utils/useMapPage";
 
 function ServiceOverseerMapPage() {
   const fitBoundsRef = useRef<FitBoundsFn | null>(null);
