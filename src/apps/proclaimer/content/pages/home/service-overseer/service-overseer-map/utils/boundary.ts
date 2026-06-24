@@ -43,6 +43,21 @@ export function boundaryToPolygonCoords(boundary: unknown): number[][][] | null 
   return [ensureClosedRing(boundary)];
 }
 
+export function blockCoordinatesToBounds(boundary: unknown): LngLatBoundsLike | null {
+  if (!isValidBoundary(boundary) || boundary.length === 0) return null;
+  let minLng = boundary[0][0];
+  let maxLng = boundary[0][0];
+  let minLat = boundary[0][1];
+  let maxLat = boundary[0][1];
+  for (const [lng, lat] of boundary) {
+    if (lng < minLng) minLng = lng;
+    if (lng > maxLng) maxLng = lng;
+    if (lat < minLat) minLat = lat;
+    if (lat > maxLat) maxLat = lat;
+  }
+  return [minLng, minLat, maxLng, maxLat];
+}
+
 export function blockToPolygonCoords(
   coordinates: unknown[] | null | undefined,
 ): number[][][] | null {

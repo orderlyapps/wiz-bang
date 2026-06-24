@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { boundaryToBounds } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/utils/boundary";
+import { blockCoordinatesToBounds } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/utils/boundary";
 import { recordRecentMap } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/utils/useRecentMaps";
 import { mapCollection } from "@shared/database/collections/map";
 import { mapMasterCollection } from "@shared/database/collections/map-master";
@@ -37,7 +37,7 @@ export function useMapPage(onFitBounds: (bounds: SelectedMap["bounds"]) => void)
   function handleEditBlock(block: Block) {
     set_selected_block(block);
     set_pending_block(undefined);
-    const bounds = boundaryToBounds(block.coordinates);
+    const bounds = blockCoordinatesToBounds(block.coordinates);
     if (bounds) onFitBounds(bounds);
   }
 
