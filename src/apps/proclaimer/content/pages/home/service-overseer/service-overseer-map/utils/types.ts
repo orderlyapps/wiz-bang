@@ -7,6 +7,8 @@ export type SelectedMap =
   | {
       type: "map";
       id: string;
+      name: string;
+      details: MapRow["details"];
       boundary: unknown;
       bounds: LngLatBoundsLike;
       blocks: MapRow["blocks"];

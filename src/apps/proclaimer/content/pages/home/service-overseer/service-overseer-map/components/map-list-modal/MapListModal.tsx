@@ -48,7 +48,15 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect }: MapListModalPro
     if (!map.id) return;
     const bounds = boundaryToBounds(map.boundary);
     if (!bounds) return;
-    onSelect({ type: "map", id: map.id, boundary: map.boundary, bounds, blocks: map.blocks });
+    onSelect({
+      type: "map",
+      id: map.id,
+      name: map.name,
+      details: map.details,
+      boundary: map.boundary,
+      bounds,
+      blocks: map.blocks,
+    });
     onDidDismiss();
   }
 
@@ -88,7 +96,9 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect }: MapListModalPro
 
               {recent_maps.map((map) => (
                 <IonItem button key={`recent-${map.id}`} onClick={() => handleSelectMap(map)}>
-                  <IonLabel>{map.name}</IonLabel>
+                  <IonLabel>
+                    {map.name} {map.details ? `| ${map.details}` : ""}
+                  </IonLabel>
                 </IonItem>
               ))}
             </>

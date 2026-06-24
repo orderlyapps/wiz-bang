@@ -25,6 +25,7 @@ import type {
 } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/utils/types";
 import { Body } from "@ui/components/display/text/body/Body";
 import { Space } from "@ui/components/layout/space/Space";
+import { AlertTextInput } from "@ui/components/inputs/alert-text/AlertTextInput";
 
 type Props = {
   hasPendingChanges: boolean;
@@ -32,6 +33,7 @@ type Props = {
   selectedMap: SelectedMap | null;
   onDeselect: () => void;
   onEditBoundary: () => void;
+  onUpdateMap: (name: string, details: string) => void;
   onDeleteMap: () => void;
   onEditBlock: (block: Block) => void;
   onDeleteBlock: (blockId: string) => void;
@@ -44,6 +46,7 @@ function MapMenu({
   selectedMap,
   onDeselect,
   onEditBoundary,
+  onUpdateMap,
   onDeleteMap,
   onEditBlock,
   onDeleteBlock,
@@ -76,6 +79,22 @@ function MapMenu({
         }}
       />
       <IonContent className="content-wide">
+        {is_map && selectedMap?.type === "map" && (
+          <>
+            <AlertTextInput
+              label="Name"
+              value={selectedMap.name}
+              on_change={(name) => onUpdateMap(name, selectedMap.details ?? "")}
+            />
+            <AlertTextInput
+              label="Details"
+              value={selectedMap.details ?? ""}
+              placeholder="Add details..."
+              on_change={(details) => onUpdateMap(selectedMap.name, details)}
+            />
+            <Space />
+          </>
+        )}
         <IonList>
           <TextButton label="Save Changes" disabled={!hasPendingChanges} on_click={onSave} />
 
