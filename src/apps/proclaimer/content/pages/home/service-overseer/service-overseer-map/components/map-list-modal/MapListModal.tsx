@@ -17,7 +17,7 @@ import { ResponsiveModal } from "@ui/components/display/responsive-modal/Respons
 import { boundaryToBounds } from "../../utils/boundary";
 import type { MapRow } from "@shared/database/schemas/map";
 import type { MapMaster } from "@shared/database/schemas/map-master";
-import type { SelectedMap } from "../../types";
+import type { SelectedMap } from "../../utils/types";
 
 type MapListModalProps = {
   isOpen: boolean;

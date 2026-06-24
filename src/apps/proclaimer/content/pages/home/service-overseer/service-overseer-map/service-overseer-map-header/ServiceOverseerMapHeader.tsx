@@ -10,7 +10,7 @@ import {
 } from "@ionic/react";
 import { mapOutline as mapIcon } from "ionicons/icons";
 import { MapListModal } from "../components/map-list-modal/MapListModal";
-import type { SelectedMap } from "../types";
+import type { SelectedMap } from "../utils/types";
 
 type Props = {
   onSelect: (selection: SelectedMap) => void;

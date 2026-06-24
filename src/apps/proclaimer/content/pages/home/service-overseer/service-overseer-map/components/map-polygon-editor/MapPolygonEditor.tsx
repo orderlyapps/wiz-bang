@@ -4,7 +4,7 @@ import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
 import type { IControl } from "mapbox-gl";
 import { boundaryToPolygonCoords } from "../../utils/boundary";
-import type { SelectedMap } from "../../types";
+import type { SelectedMap } from "../../utils/types";
 
 type PendingBoundary = GeoJSON.Position[] | null;
 

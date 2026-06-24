@@ -1,10 +1,9 @@
 import { Source, Layer } from "react-map-gl/mapbox";
-import { useMapMasterBoundary } from "./hooks/useMapMasterBoundary";
-import { MIN_VERTEX_ZOOM } from "../mapLayerConstants";
+import { useMapMasterBoundary } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/components/layers/map-master-layer/hooks/useMapMasterBoundary";
+import { MIN_VERTEX_ZOOM } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/components/layers/mapLayerConstants";
 
 export function MapMasterLayer() {
   const geojson = useMapMasterBoundary();
-  console.log("[MapMasterLayer] geojson:", geojson);
   return (
     <Source id="map-master" type="geojson" data={geojson}>
       <Layer

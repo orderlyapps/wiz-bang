@@ -1,8 +1,8 @@
 import { useLiveQuery } from "@tanstack/react-db";
 import { mapCollection } from "@shared/database/collections/map";
 import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
-import { isValidBoundary } from "../../../utils/boundary";
 import type { MapRow } from "@shared/database/schemas/map";
+import { isValidBoundary } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/utils/boundary";
 
 type PolygonFeature = {
   type: "Feature";

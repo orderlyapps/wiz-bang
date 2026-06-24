@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { mapCollection } from "@shared/database/collections/map";
 import { mapMasterCollection } from "@shared/database/collections/map-master";
-import type { SelectedMap } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/types";
+import type { SelectedMap } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/utils/types";
 
 export function useMapPage(onFitBounds: (bounds: SelectedMap["bounds"]) => void) {
   const [selected_map, set_selected_map] = useState<SelectedMap | null>(null);

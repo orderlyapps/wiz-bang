@@ -1,7 +1,7 @@
 import { useLiveQuery } from "@tanstack/react-db";
 import { mapMasterCollection } from "@shared/database/collections/map-master";
 import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
-import { isValidBoundary } from "../../../utils/boundary";
+import { isValidBoundary } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/utils/boundary";
 import type { MapMaster } from "@shared/database/schemas/map-master";
 
 type PolygonFeature = {

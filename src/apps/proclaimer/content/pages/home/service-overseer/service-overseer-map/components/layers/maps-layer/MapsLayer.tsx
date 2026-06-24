@@ -1,6 +1,6 @@
 import { Source, Layer } from "react-map-gl/mapbox";
-import { useMapsBoundary } from "./hooks/useMapsBoundary";
-import { MIN_VERTEX_ZOOM } from "../mapLayerConstants";
+import { MIN_VERTEX_ZOOM } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/components/layers/mapLayerConstants";
+import { useMapsBoundary } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/components/layers/maps-layer/hooks/useMapsBoundary";
 
 export function MapsLayer() {
   const geojson = useMapsBoundary();

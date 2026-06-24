@@ -1,12 +1,12 @@
 import { MapView } from "@util/vendor/mapbox/MapView";
-import { MapMasterLayer } from "../components/map-master-layer/MapMasterLayer";
-import { MapsLayer } from "../components/maps-layer/MapsLayer";
+import { MapPolygonEditor } from "../components/map-polygon-editor/MapPolygonEditor";
+import type { SelectedMap } from "../utils/types";
+import { MapsLayer } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/components/layers/maps-layer/MapsLayer";
+import { MapMasterLayer } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/components/layers/map-master-layer/MapMasterLayer";
 import {
   MapFitBoundsController,
   type FitBoundsFn,
-} from "../components/map-fit-bounds-controller/MapFitBoundsController";
-import { MapPolygonEditor } from "../components/map-polygon-editor/MapPolygonEditor";
-import type { SelectedMap } from "../types";
+} from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/components/map-fit-bounds-controller/MapFitBoundsController";
 
 type Props = {
   fitBoundsRef: React.MutableRefObject<FitBoundsFn | null>;
