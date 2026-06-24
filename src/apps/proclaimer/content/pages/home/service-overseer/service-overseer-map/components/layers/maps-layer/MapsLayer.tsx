@@ -27,6 +27,23 @@ export function MapsLayer() {
           "circle-stroke-width": 2,
         }}
       />
+      <Layer
+        id="maps-labels"
+        type="symbol"
+        minzoom={MIN_VERTEX_ZOOM - 2}
+        layout={{
+          "text-field": ["get", "name"],
+          "text-size": 13,
+          "text-font": ["Open Sans Bold", "Arial Unicode MS Bold"],
+          "text-anchor": "center",
+          "symbol-placement": "point",
+        }}
+        paint={{
+          "text-color": "#10b981",
+          "text-halo-color": "#ffffff",
+          "text-halo-width": 2,
+        }}
+      />
     </Source>
   );
 }
