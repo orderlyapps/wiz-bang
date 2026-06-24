@@ -1,7 +1,8 @@
 import { useRef, useState } from "react";
-import { IonPage, IonHeader, IonContent, IonMenu, IonToolbar, IonTitle } from "@ionic/react";
+import { IonPage, IonHeader, IonContent } from "@ionic/react";
 import { ServiceOverseerMapHeader } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/service-overseer-map-header/ServiceOverseerMapHeader";
 import { ServiceOverseerMapContent } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/service-overseer-map-content/ServiceOverseerMapContent";
+import MapMenu from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/components/map-menu/MapMenu";
 import type { FitBoundsFn } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/components/map-fit-bounds-controller/MapFitBoundsController";
 import type { SelectedMap } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/types";
 
@@ -16,14 +17,7 @@ function ServiceOverseerMapPage() {
 
   return (
     <>
-      <IonMenu side="end" contentId="map-content">
-        <IonHeader>
-          <IonToolbar>
-            <IonTitle>Edit</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent className="content-wide">{/* Menu content goes here */}</IonContent>
-      </IonMenu>
+      <MapMenu />
       <IonPage id="map-content">
         <IonHeader>
           <ServiceOverseerMapHeader onSelect={handleSelect} />
