@@ -62,7 +62,7 @@ export const MAP_DRAW_STYLES: object[] = [
     ],
     minzoom: MINZOOM,
     paint: {
-      "circle-radius": ["case", ["==", ["get", "active"], "true"], 40, 16],
+      "circle-radius": ["case", ["==", ["get", "active"], "true"], 100, 16],
       "circle-color": [
         "case",
         ["==", ["get", "active"], "true"],
