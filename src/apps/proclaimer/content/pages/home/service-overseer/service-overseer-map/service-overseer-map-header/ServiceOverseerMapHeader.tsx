@@ -8,15 +8,15 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import type { LngLatBoundsLike } from "mapbox-gl";
 import { mapOutline as mapIcon } from "ionicons/icons";
 import { MapListModal } from "../components/map-list-modal/MapListModal";
+import type { SelectedMap } from "../types";
 
 type Props = {
-  onSelectBounds: (bounds: LngLatBoundsLike) => void;
+  onSelect: (selection: SelectedMap) => void;
 };
 
-export function ServiceOverseerMapHeader({ onSelectBounds }: Props) {
+export function ServiceOverseerMapHeader({ onSelect }: Props) {
   const [show_maps, set_show_maps] = useState(false);
 
   return (
@@ -36,7 +36,7 @@ export function ServiceOverseerMapHeader({ onSelectBounds }: Props) {
       <MapListModal
         isOpen={show_maps}
         onDidDismiss={() => set_show_maps(false)}
-        onSelectBounds={onSelectBounds}
+        onSelect={onSelect}
       />
     </>
   );

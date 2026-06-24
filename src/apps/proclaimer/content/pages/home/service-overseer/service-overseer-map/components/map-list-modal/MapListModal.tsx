@@ -10,47 +10,52 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { useLiveQuery } from "@tanstack/react-db";
-import type { LngLatBoundsLike } from "mapbox-gl";
 import { mapCollection } from "@shared/database/collections/map";
 import { mapMasterCollection } from "@shared/database/collections/map-master";
+import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { boundaryToBounds } from "../../utils/boundary";
+import type { MapRow } from "@shared/database/schemas/map";
+import type { MapMaster } from "@shared/database/schemas/map-master";
+import type { SelectedMap } from "../../types";
 
 type MapListModalProps = {
   isOpen: boolean;
   onDidDismiss: () => void;
-  onSelectBounds: (bounds: LngLatBoundsLike) => void;
+  onSelect: (selection: SelectedMap) => void;
 };
 
-function boundsFromCoords(coords: number[][]): LngLatBoundsLike | null {
-  if (coords.length < 4 || typeof coords[0][0] !== "number") return null;
-  let minLng = coords[0][0];
-  let maxLng = coords[0][0];
-  let minLat = coords[0][1];
-  let maxLat = coords[0][1];
-  for (const [lng, lat] of coords) {
-    if (lng < minLng) minLng = lng;
-    if (lng > maxLng) maxLng = lng;
-    if (lat < minLat) minLat = lat;
-    if (lat > maxLat) maxLat = lat;
-  }
-  return [minLng, minLat, maxLng, maxLat];
-}
-
-export function MapListModal({ isOpen, onDidDismiss, onSelectBounds }: MapListModalProps) {
+export function MapListModal({ isOpen, onDidDismiss, onSelect }: MapListModalProps) {
   const { data: maps } = useLiveQuery((q) =>
     q.from({ m: mapCollection }).orderBy(({ m }) => m.name),
   );
   const { data: masters } = useLiveQuery((q) => q.from({ mm: mapMasterCollection }));
+  const publisher = useStoredPublisher();
+  const congregation_id = publisher?.congregation_id;
 
-  function handleSelect(boundary: unknown) {
-    if (!Array.isArray(boundary) || boundary.length === 0) return;
-    const bounds = boundsFromCoords(boundary as number[][]);
+  const filtered_maps = maps?.filter((map) => map.congregation_id === congregation_id);
+  const filtered_masters = masters?.filter((master) => master.congregation_id === congregation_id);
+  const master = filtered_masters?.[0];
+
+  function handleSelectMap(map: MapRow) {
+    if (!map.id) return;
+    const bounds = boundaryToBounds(map.boundary);
     if (!bounds) return;
-    onSelectBounds(bounds);
+    onSelect({ type: "map", id: map.id, boundary: map.boundary, bounds });
     onDidDismiss();
   }
 
-  const master = masters?.[0];
+  function handleSelectMaster(master: MapMaster) {
+    const bounds = boundaryToBounds(master.boundary);
+    if (!bounds) return;
+    onSelect({
+      type: "master",
+      congregation_id: master.congregation_id,
+      boundary: master.boundary,
+      bounds,
+    });
+    onDidDismiss();
+  }
 
   return (
     <ResponsiveModal isOpen={isOpen} onDidDismiss={onDidDismiss}>
@@ -65,12 +70,12 @@ export function MapListModal({ isOpen, onDidDismiss, onSelectBounds }: MapListMo
       <IonContent className="content-wide">
         <IonList>
           {master && (
-            <IonItem button onClick={() => handleSelect(master.boundary)}>
+            <IonItem button onClick={() => handleSelectMaster(master)}>
               <IonLabel>The master map</IonLabel>
             </IonItem>
           )}
-          {maps?.map((map) => (
-            <IonItem button key={map.id ?? map.name} onClick={() => handleSelect(map.boundary)}>
+          {filtered_maps?.map((map) => (
+            <IonItem button key={map.id ?? map.name} onClick={() => handleSelectMap(map)}>
               <IonLabel>{map.name}</IonLabel>
             </IonItem>
           ))}

@@ -1,11 +1,18 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { IonPage, IonHeader, IonContent, IonMenu, IonToolbar, IonTitle } from "@ionic/react";
 import { ServiceOverseerMapHeader } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/service-overseer-map-header/ServiceOverseerMapHeader";
 import { ServiceOverseerMapContent } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/service-overseer-map-content/ServiceOverseerMapContent";
 import type { FitBoundsFn } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/components/map-fit-bounds-controller/MapFitBoundsController";
+import type { SelectedMap } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/types";
 
 function ServiceOverseerMapPage() {
   const fitBoundsRef = useRef<FitBoundsFn | null>(null);
+  const [selected_map, set_selected_map] = useState<SelectedMap | null>(null);
+
+  function handleSelect(selection: SelectedMap) {
+    set_selected_map(selection);
+    fitBoundsRef.current?.(selection.bounds);
+  }
 
   return (
     <>
@@ -19,10 +26,10 @@ function ServiceOverseerMapPage() {
       </IonMenu>
       <IonPage id="map-content">
         <IonHeader>
-          <ServiceOverseerMapHeader onSelectBounds={(bounds) => fitBoundsRef.current?.(bounds)} />
+          <ServiceOverseerMapHeader onSelect={handleSelect} />
         </IonHeader>
         <IonContent className="content-full" scrollY={false}>
-          <ServiceOverseerMapContent fitBoundsRef={fitBoundsRef} />
+          <ServiceOverseerMapContent fitBoundsRef={fitBoundsRef} selectedMap={selected_map} />
         </IonContent>
       </IonPage>
     </>

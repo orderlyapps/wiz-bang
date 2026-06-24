@@ -1,5 +1,7 @@
 import { useLiveQuery } from "@tanstack/react-db";
 import { mapCollection } from "@shared/database/collections/map";
+import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
+import { isValidBoundary } from "../../../utils/boundary";
 import type { MapRow } from "@shared/database/schemas/map";
 
 type PolygonFeature = {
@@ -13,22 +15,20 @@ export type MapsGeoJSON = {
   features: PolygonFeature[];
 };
 
-function isValidPolygon(
-  boundary: unknown,
-): boundary is { type: "Polygon"; coordinates: number[][][] } {
-  return Array.isArray(boundary) && boundary.length > 0 && Array.isArray(boundary[0]);
-}
-
-function toGeoJSONPolygon(boundary: unknown): { type: "Polygon"; coordinates: number[][][] } {
-  const coords = boundary as number[][];
-  return { type: "Polygon", coordinates: [coords] };
+function toGeoJSONPolygon(boundary: number[][]): { type: "Polygon"; coordinates: number[][][] } {
+  return { type: "Polygon", coordinates: [boundary] };
 }
 
 export function useMapsBoundary(): MapsGeoJSON {
   const { data } = useLiveQuery((q) => q.from({ m: mapCollection }));
+  const publisher = useStoredPublisher();
+  const congregation_id = publisher?.congregation_id;
 
   const features = ((data ?? []) as MapRow[])
-    .filter((row) => isValidPolygon(row.boundary))
+    .filter(
+      (row): row is MapRow & { boundary: number[][] } =>
+        row.congregation_id === congregation_id && isValidBoundary(row.boundary),
+    )
     .map((row) => ({
       type: "Feature" as const,
       geometry: toGeoJSONPolygon(row.boundary),
