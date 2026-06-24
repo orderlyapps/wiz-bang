@@ -4,6 +4,7 @@ import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
 import type { IControl } from "mapbox-gl";
 import { ensureClosedRing } from "../../utils/boundary";
+import { MAP_DRAW_STYLES } from "../../utils/drawStyles";
 import type { Block } from "../../utils/types";
 
 type Props = {
@@ -60,6 +61,7 @@ export function MapBlockEditor({ block, onPendingChange }: Props) {
     const draw = new MapboxDraw({
       displayControlsDefault: false,
       controls: {},
+      styles: MAP_DRAW_STYLES,
     });
 
     let added = false;

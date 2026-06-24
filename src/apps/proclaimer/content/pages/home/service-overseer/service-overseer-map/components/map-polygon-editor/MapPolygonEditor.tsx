@@ -4,6 +4,7 @@ import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
 import type { IControl } from "mapbox-gl";
 import { boundaryToPolygonCoords } from "../../utils/boundary";
+import { MAP_DRAW_STYLES } from "../../utils/drawStyles";
 import type { SelectedMap } from "../../utils/types";
 
 type PendingBoundary = GeoJSON.Position[] | null;
@@ -27,6 +28,7 @@ export function MapPolygonEditor({ selection, onPendingChange }: Props) {
     const draw = new MapboxDraw({
       displayControlsDefault: false,
       controls: { trash: true },
+      styles: MAP_DRAW_STYLES,
     });
 
     let added = false;
