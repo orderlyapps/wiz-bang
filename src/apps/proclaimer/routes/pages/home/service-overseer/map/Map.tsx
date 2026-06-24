@@ -16,6 +16,7 @@ function ServiceOverseerMapPage() {
     handlePendingChange,
     handleBlockPendingChange,
     handleEditBlock,
+    handleDeleteBlock,
     handleSave,
   } = useMapPage((bounds) => fitBoundsRef.current?.(bounds));
 
@@ -26,6 +27,7 @@ function ServiceOverseerMapPage() {
         onSave={handleSave}
         selectedMap={selected_map}
         onEditBlock={handleEditBlock}
+        onDeleteBlock={handleDeleteBlock}
       />
       <IonPage id="map-content">
         <IonHeader>

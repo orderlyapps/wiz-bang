@@ -35,6 +35,27 @@ export function useMapPage(onFitBounds: (bounds: SelectedMap["bounds"]) => void)
     set_pending_block(block);
   }
 
+  function handleDeleteBlock(blockId: string) {
+    if (!selected_map || selected_map.type !== "map") return;
+    const exists = selected_map.blocks?.some((block) => block.id === blockId) ?? false;
+    if (!exists) return;
+    if (selected_block?.id === blockId) {
+      set_selected_block(null);
+    }
+
+    mapCollection.update(selected_map.id, (draft) => {
+      draft.blocks = draft.blocks?.filter((block) => block.id !== blockId) ?? null;
+    });
+
+    set_selected_map((current) => {
+      if (!current || current.type !== "map" || current.id !== selected_map.id) return current;
+      return {
+        ...current,
+        blocks: current.blocks?.filter((block) => block.id !== blockId) ?? null,
+      };
+    });
+  }
+
   function handleSave() {
     if (!selected_map) return;
 
@@ -95,6 +116,7 @@ export function useMapPage(onFitBounds: (bounds: SelectedMap["bounds"]) => void)
     handlePendingChange,
     handleEditBlock,
     handleBlockPendingChange,
+    handleDeleteBlock,
     handleSave,
   };
 }

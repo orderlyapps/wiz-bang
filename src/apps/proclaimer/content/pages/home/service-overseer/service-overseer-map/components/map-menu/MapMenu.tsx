@@ -10,6 +10,7 @@ import {
   IonLabel,
 } from "@ionic/react";
 import { EditIconButton } from "@ui/components/inputs/button/icon/edit/EditIconButton";
+import { DeleteIconButton } from "@ui/components/inputs/button/icon/delete/DeleteIconButton";
 import type {
   Block,
   SelectedMap,
@@ -20,9 +21,10 @@ type Props = {
   onSave: () => void;
   selectedMap: SelectedMap | null;
   onEditBlock: (block: Block) => void;
+  onDeleteBlock: (blockId: string) => void;
 };
 
-function MapMenu({ hasPendingChanges, onSave, selectedMap, onEditBlock }: Props) {
+function MapMenu({ hasPendingChanges, onSave, selectedMap, onEditBlock, onDeleteBlock }: Props) {
   const blocks = selectedMap?.type === "map" ? selectedMap.blocks : null;
 
   return (
@@ -46,6 +48,7 @@ function MapMenu({ hasPendingChanges, onSave, selectedMap, onEditBlock }: Props)
                 <p>{block.type}</p>
               </IonLabel>
               <EditIconButton slot="end" on_click={() => onEditBlock(block)} />
+              <DeleteIconButton slot="end" on_click={() => onDeleteBlock(block.id)} />
             </IonItem>
           ))}
         </IonList>

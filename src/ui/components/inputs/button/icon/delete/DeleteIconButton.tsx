@@ -9,6 +9,7 @@ interface DeleteIconButtonProps {
   fill?: "clear" | "outline" | "solid" | "default";
   size?: "small" | "default" | "large";
   disabled?: boolean;
+  slot?: string;
   alert_header?: string;
   alert_message?: string;
   confirm_text?: string;
@@ -21,6 +22,7 @@ export function DeleteIconButton({
   fill = "clear",
   size = "default",
   disabled = false,
+  slot,
   alert_header = "Confirm Delete",
   alert_message = "Are you sure you want to delete this item?",
   confirm_text = "Delete",
@@ -36,6 +38,7 @@ export function DeleteIconButton({
         fill={fill}
         size={size}
         disabled={disabled}
+        slot={slot}
         onClick={() => set_show_alert(true)}
       >
         <IonIcon slot="icon-only" icon={trash} />
