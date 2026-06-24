@@ -13,6 +13,7 @@ function ServiceOverseerMapPage() {
     selected_block,
     has_pending_changes,
     handleSelect,
+    handleDeselect,
     handlePendingChange,
     handleBlockPendingChange,
     handleEditBlock,
@@ -27,6 +28,7 @@ function ServiceOverseerMapPage() {
         hasPendingChanges={has_pending_changes}
         onSave={handleSave}
         selectedMap={selected_map}
+        onDeselect={handleDeselect}
         onEditBlock={handleEditBlock}
         onDeleteBlock={handleDeleteBlock}
         onAddBlock={handleAddBlock}

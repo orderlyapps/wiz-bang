@@ -63,6 +63,13 @@ export function useMapPage(onFitBounds: (bounds: SelectedMap["bounds"]) => void)
     });
   }
 
+  function handleDeselect() {
+    set_selected_map(null);
+    set_selected_block(null);
+    set_pending_boundary(undefined);
+    set_pending_block(undefined);
+  }
+
   function handleSave() {
     if (!selected_map) return;
 
@@ -129,6 +136,7 @@ export function useMapPage(onFitBounds: (bounds: SelectedMap["bounds"]) => void)
     selected_block,
     has_pending_changes: pending_boundary !== undefined || pending_block !== undefined,
     handleSelect,
+    handleDeselect,
     handlePendingChange,
     handleEditBlock,
     handleBlockPendingChange,

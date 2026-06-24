@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   IonMenu,
   IonHeader,
@@ -24,6 +24,7 @@ type Props = {
   hasPendingChanges: boolean;
   onSave: () => void;
   selectedMap: SelectedMap | null;
+  onDeselect: () => void;
   onEditBlock: (block: Block) => void;
   onDeleteBlock: (blockId: string) => void;
   onAddBlock: (type: "block" | "face", name: string) => void;
@@ -33,16 +34,18 @@ function MapMenu({
   hasPendingChanges,
   onSave,
   selectedMap,
+  onDeselect,
   onEditBlock,
   onDeleteBlock,
   onAddBlock,
 }: Props) {
+  const menu_ref = useRef<HTMLIonMenuElement>(null);
   const [show_add_flow, set_show_add_flow] = useState(false);
   const blocks = selectedMap?.type === "map" ? selectedMap.blocks : null;
   const can_add = selectedMap?.type === "map";
 
   return (
-    <IonMenu side="end" contentId="map-content">
+    <IonMenu ref={menu_ref} side="end" contentId="map-content">
       <IonHeader>
         <IonToolbar>
           <IonTitle>Edit</IonTitle>
@@ -79,6 +82,18 @@ function MapMenu({
             </IonItem>
           ))}
         </IonList>
+        <IonItem>
+          <IonButton
+            expand="block"
+            color="medium"
+            onClick={() => {
+              void menu_ref.current?.close();
+              onDeselect();
+            }}
+          >
+            Change Map
+          </IonButton>
+        </IonItem>
       </IonContent>
     </IonMenu>
   );
