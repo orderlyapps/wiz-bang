@@ -16,8 +16,10 @@ function ServiceOverseerMapPage() {
     handleDeselect,
     handlePendingChange,
     handleBlockPendingChange,
+    handleEditBoundary,
     handleEditBlock,
     handleDeleteBlock,
+    handleDeleteMap,
     handleAddBlock,
     handleSave,
   } = useMapPage((bounds) => fitBoundsRef.current?.(bounds));
@@ -29,6 +31,8 @@ function ServiceOverseerMapPage() {
         onSave={handleSave}
         selectedMap={selected_map}
         onDeselect={handleDeselect}
+        onEditBoundary={handleEditBoundary}
+        onDeleteMap={handleDeleteMap}
         onEditBlock={handleEditBlock}
         onDeleteBlock={handleDeleteBlock}
         onAddBlock={handleAddBlock}

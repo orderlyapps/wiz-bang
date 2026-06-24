@@ -24,12 +24,15 @@ import type {
   SelectedMap,
 } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/utils/types";
 import { Body } from "@ui/components/display/text/body/Body";
+import { Space } from "@ui/components/layout/space/Space";
 
 type Props = {
   hasPendingChanges: boolean;
   onSave: () => void;
   selectedMap: SelectedMap | null;
   onDeselect: () => void;
+  onEditBoundary: () => void;
+  onDeleteMap: () => void;
   onEditBlock: (block: Block) => void;
   onDeleteBlock: (blockId: string) => void;
   onAddBlock: (type: "block" | "face", name: string) => void;
@@ -40,6 +43,8 @@ function MapMenu({
   onSave,
   selectedMap,
   onDeselect,
+  onEditBoundary,
+  onDeleteMap,
   onEditBlock,
   onDeleteBlock,
   onAddBlock,
@@ -48,6 +53,7 @@ function MapMenu({
   const [show_add_flow, set_show_add_flow] = useState(false);
   const blocks = selectedMap?.type === "map" ? selectedMap.blocks : null;
   const can_add = selectedMap?.type === "map";
+  const is_map = selectedMap?.type === "map";
 
   return (
     <IonMenu ref={menu_ref} side="end" contentId="map-content">
@@ -72,6 +78,36 @@ function MapMenu({
       <IonContent className="content-wide">
         <IonList>
           <TextButton label="Save Changes" disabled={!hasPendingChanges} on_click={onSave} />
+
+          <Space />
+
+          {is_map && (
+            <IonItem>
+              <IonLabel>
+                <Body>Boundary</Body>
+              </IonLabel>
+              <IonButtons slot="end">
+                {hasPendingChanges ? (
+                  <AlertIconButton
+                    alert_header="Unsaved Changes"
+                    alert_message="You have unsaved changes. Are you sure you want to edit the boundary?"
+                    confirm_text="Edit Boundary"
+                    on_click={onEditBoundary}
+                  >
+                    <IonIcon icon={create} />
+                  </AlertIconButton>
+                ) : (
+                  <EditIconButton on_click={onEditBoundary} />
+                )}
+                <DeleteIconButton
+                  alert_header="Delete Map"
+                  alert_message="Are you sure you want to permanently delete this map?"
+                  confirm_text="Delete Map"
+                  on_click={onDeleteMap}
+                />
+              </IonButtons>
+            </IonItem>
+          )}
 
           {blocks
             ?.sort((a, b) => a.name.localeCompare(b.name))
@@ -104,13 +140,15 @@ function MapMenu({
             ))}
         </IonList>
 
+        <Space />
+
         {hasPendingChanges ? (
           <SaveTextButton
-            label="Change Map"
+            label="Finished"
             color="medium"
             alert_header="Unsaved Changes"
             alert_message="You have unsaved changes. Are you sure you want to change map?"
-            confirm_text="Change Map"
+            confirm_text="Finish"
             on_click={() => {
               void menu_ref.current?.close();
               onDeselect();
@@ -118,7 +156,7 @@ function MapMenu({
           />
         ) : (
           <TextButton
-            label="Change Map"
+            label="Finished"
             color="medium"
             on_click={() => {
               void menu_ref.current?.close();
