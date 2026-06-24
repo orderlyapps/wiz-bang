@@ -5,8 +5,17 @@ export const mapSchema = z.object({
   congregation_id: z.uuid(),
   name: z.string(),
   details: z.string().nullable().optional(),
-  boundary: z.unknown().nullable().optional(),
-  blocks: z.unknown().nullable().optional(),
+  boundary: z.array(z.tuple([z.number(), z.number()])).nullable(),
+  blocks: z
+    .array(
+      z.object({
+        id: z.string(),
+        name: z.string(),
+        type: z.enum(["face", "block"]),
+        coordinates: z.array(z.tuple([z.number(), z.number()])),
+      }),
+    )
+    .nullable(),
 });
 
 export type MapRow = z.infer<typeof mapSchema>;
