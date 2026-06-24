@@ -11,9 +11,10 @@ import type { SelectedMap } from "../types";
 type Props = {
   fitBoundsRef: React.MutableRefObject<FitBoundsFn | null>;
   selectedMap: SelectedMap | null;
+  onPendingChange: (boundary: GeoJSON.Position[] | null) => void;
 };
 
-export function ServiceOverseerMapContent({ fitBoundsRef, selectedMap }: Props) {
+export function ServiceOverseerMapContent({ fitBoundsRef, selectedMap, onPendingChange }: Props) {
   return (
     <MapView style={{ position: "absolute", inset: 0 }} height="100%">
       <MapFitBoundsController fitBoundsRef={fitBoundsRef} />
@@ -23,6 +24,7 @@ export function ServiceOverseerMapContent({ fitBoundsRef, selectedMap }: Props) 
         <MapPolygonEditor
           key={selectedMap.type === "map" ? selectedMap.id : selectedMap.congregation_id}
           selection={selectedMap}
+          onPendingChange={onPendingChange}
         />
       )}
     </MapView>

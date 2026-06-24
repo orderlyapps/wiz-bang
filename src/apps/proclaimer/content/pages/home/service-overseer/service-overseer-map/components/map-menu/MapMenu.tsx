@@ -1,6 +1,20 @@
-import { IonMenu, IonHeader, IonToolbar, IonTitle, IonContent } from "@ionic/react";
+import {
+  IonMenu,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonButton,
+  IonList,
+  IonItem,
+} from "@ionic/react";
 
-function MapMenu() {
+type Props = {
+  hasPendingChanges: boolean;
+  onSave: () => void;
+};
+
+function MapMenu({ hasPendingChanges, onSave }: Props) {
   return (
     <IonMenu side="end" contentId="map-content">
       <IonHeader>
@@ -8,7 +22,15 @@ function MapMenu() {
           <IonTitle>Edit</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="content-wide">{/* Menu content goes here */}</IonContent>
+      <IonContent className="content-wide">
+        <IonList>
+          <IonItem>
+            <IonButton expand="block" disabled={!hasPendingChanges} onClick={onSave}>
+              Save Changes
+            </IonButton>
+          </IonItem>
+        </IonList>
+      </IonContent>
     </IonMenu>
   );
 }

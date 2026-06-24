@@ -1,19 +1,22 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useMap } from "react-map-gl/mapbox";
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
 import type { IControl } from "mapbox-gl";
-import { mapCollection } from "@shared/database/collections/map";
-import { mapMasterCollection } from "@shared/database/collections/map-master";
 import { boundaryToPolygonCoords } from "../../utils/boundary";
 import type { SelectedMap } from "../../types";
 
+type PendingBoundary = GeoJSON.Position[] | null;
+
 type Props = {
   selection: SelectedMap;
+  onPendingChange: (boundary: PendingBoundary) => void;
 };
 
-export function MapPolygonEditor({ selection }: Props) {
+export function MapPolygonEditor({ selection, onPendingChange }: Props) {
   const { current: map } = useMap();
+  const onPendingChangeRef = useRef(onPendingChange);
+  onPendingChangeRef.current = onPendingChange;
 
   useEffect(() => {
     if (!map) return;
@@ -37,15 +40,7 @@ export function MapPolygonEditor({ selection }: Props) {
       const updatedCoords = updated.geometry.coordinates[0];
       if (!updatedCoords) return;
       current_ring = updatedCoords;
-      if (selection.type === "map") {
-        mapCollection.update(selection.id, (draft) => {
-          draft.boundary = updatedCoords;
-        });
-      } else {
-        mapMasterCollection.update(selection.congregation_id, (draft) => {
-          draft.boundary = updatedCoords;
-        });
-      }
+      onPendingChangeRef.current(updatedCoords);
     }
 
     function handleDelete(e: { features: GeoJSON.Feature[] }) {
@@ -53,9 +48,7 @@ export function MapPolygonEditor({ selection }: Props) {
       if (!deleted || deleted.id !== feature_id) return;
 
       if (selection.type === "map") {
-        mapCollection.update(selection.id, (draft) => {
-          draft.boundary = null;
-        });
+        onPendingChangeRef.current(null);
         return;
       }
 
