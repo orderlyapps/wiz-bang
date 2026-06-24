@@ -1,5 +1,6 @@
 import { Source, Layer } from "react-map-gl/mapbox";
 import { useMapsBoundary } from "./hooks/useMapsBoundary";
+import { MIN_VERTEX_ZOOM } from "../mapLayerConstants";
 
 export function MapsLayer() {
   const geojson = useMapsBoundary();
@@ -25,6 +26,7 @@ export function MapsLayer() {
       <Layer
         id="maps-vertices"
         type="circle"
+        minzoom={MIN_VERTEX_ZOOM}
         paint={{
           "circle-color": "#10b981",
           "circle-radius": 5,
