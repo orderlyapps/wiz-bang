@@ -51,6 +51,7 @@ export function useMapPage(onFitBounds: (bounds: SelectedMap["bounds"]) => void)
     const new_block: Block = { id: crypto.randomUUID(), name, type, coordinates: [] };
     set_selected_block(new_block);
     set_pending_block(new_block);
+    if (selected_map.bounds) onFitBounds(selected_map.bounds);
   }
 
   function handleDeleteBlock(blockId: string) {

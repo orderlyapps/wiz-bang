@@ -13,9 +13,11 @@ type Props = {
 export function AddBlockFlow({ is_open, on_dismiss, on_add }: Props) {
   const [step, set_step] = useState<Step>("type");
   const [selected_type, set_selected_type] = useState<"block" | "face" | null>(null);
+  const [name_alert_key, set_name_alert_key] = useState(0);
 
   function handleTypeSelect(type: "block" | "face") {
     set_selected_type(type);
+    set_name_alert_key((k) => k + 1);
     set_step("name");
   }
 
@@ -58,6 +60,7 @@ export function AddBlockFlow({ is_open, on_dismiss, on_add }: Props) {
         }}
       />
       <IonAlert
+        key={name_alert_key}
         isOpen={step === "name"}
         header={`Name this ${selected_type ?? "feature"}`}
         inputs={[
