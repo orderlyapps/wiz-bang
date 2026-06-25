@@ -1,5 +1,12 @@
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton } from "@ionic/react";
-import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import {
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonButtons,
+  IonButton,
+  IonModal,
+} from "@ionic/react";
 import { TextInput } from "@ui/components/inputs/text/TextInput";
 import { SaveTextButton } from "@ui/components/inputs/button/text/save/SaveTextButton";
 import { Space } from "@ui/components/layout/space/Space";
@@ -42,7 +49,7 @@ export function DoorToDoorModal({ isOpen, onDidDismiss, onSave }: DoorToDoorModa
   }
 
   return (
-    <ResponsiveModal isOpen={isOpen} onDidDismiss={onDidDismiss}>
+    <IonModal isOpen={isOpen} onDidDismiss={onDidDismiss}>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Door to Door</IonTitle>
@@ -88,6 +95,6 @@ export function DoorToDoorModal({ isOpen, onDidDismiss, onSave }: DoorToDoorModa
         {houseNumber && <Space />}
         {houseNumber && <SaveTextButton on_click={handleSave} />}
       </IonContent>
-    </ResponsiveModal>
+    </IonModal>
   );
 }
