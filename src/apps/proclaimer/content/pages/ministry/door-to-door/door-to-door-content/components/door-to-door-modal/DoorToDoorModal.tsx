@@ -1,11 +1,9 @@
-import { useState } from "react";
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton } from "@ionic/react";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 import { TextInput } from "@ui/components/inputs/text/TextInput";
 import { SuburbSelect } from "./suburb-select/SuburbSelect";
 import { StreetSelect } from "./street-select/StreetSelect";
-import type { Suburb } from "@shared/database/schemas/suburb";
-import type { Street } from "@shared/database/schemas/street";
+import { useDoorToDoorForm } from "./use-door-to-door-form";
 
 type DoorToDoorModalProps = {
   isOpen: boolean;
@@ -13,28 +11,16 @@ type DoorToDoorModalProps = {
 };
 
 export function DoorToDoorModal({ isOpen, onDidDismiss }: DoorToDoorModalProps) {
-  const [selectedSuburb, setSelectedSuburb] = useState<Suburb | undefined>();
-  const [selectedStreet, setSelectedStreet] = useState<Street | undefined>();
-  const [houseNumber, setHouseNumber] = useState("");
-  const [unitNumber, setUnitNumber] = useState("");
-
-  const handleSuburbSelect = (suburb: Suburb) => {
-    setSelectedSuburb(suburb);
-    setSelectedStreet(undefined); // Reset downstream values when suburb changes
-    setHouseNumber("");
-    setUnitNumber("");
-  };
-
-  const handleStreetSelect = (street: Street) => {
-    setSelectedStreet(street);
-    setHouseNumber(""); // Reset downstream values when street changes
-    setUnitNumber("");
-  };
-
-  const handleHouseNumberChange = (value: string) => {
-    setHouseNumber(value);
-    setUnitNumber(""); // Reset unit number when house number changes
-  };
+  const {
+    selectedSuburb,
+    selectedStreet,
+    houseNumber,
+    unitNumber,
+    handleSuburbSelect,
+    handleStreetSelect,
+    handleHouseNumberChange,
+    handleUnitNumberChange,
+  } = useDoorToDoorForm();
 
   return (
     <ResponsiveModal isOpen={isOpen} onDidDismiss={onDidDismiss}>
@@ -73,7 +59,7 @@ export function DoorToDoorModal({ isOpen, onDidDismiss }: DoorToDoorModalProps) 
           value={unitNumber}
           placeholder="Enter unit number..."
           disabled={!houseNumber}
-          on_change={setUnitNumber}
+          on_change={handleUnitNumberChange}
         />
       </IonContent>
     </ResponsiveModal>

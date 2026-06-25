@@ -12,6 +12,7 @@ export const localStorageKeys = {
   screenshotSettings: "screenshot_settings",
   mapStyle: "map_style",
   customLocalStyleSettings: "custom_local_style_settings",
+  doorToDoorForm: "door_to_door_form",
 } as const;
 
 export const localStorageKeyWithVariant = (
