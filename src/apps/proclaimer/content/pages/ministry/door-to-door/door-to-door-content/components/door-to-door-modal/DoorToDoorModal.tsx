@@ -97,7 +97,7 @@ export function DoorToDoorModal({ isOpen, onDidDismiss, onSave }: DoorToDoorModa
           on_change={handleVisitTypeChange}
         />
         {houseNumber && <Space />}
-        {houseNumber && <SaveTextButton on_click={handleSave} />}
+        {houseNumber && <SaveTextButton skip_confirmation on_click={handleSave} />}
       </IonContent>
     </IonModal>
   );

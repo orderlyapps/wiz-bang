@@ -15,6 +15,7 @@ interface SaveTextButtonProps {
   alert_message?: string;
   confirm_text?: string;
   cancel_text?: string;
+  skip_confirmation?: boolean;
   on_click: () => void;
 }
 
@@ -30,6 +31,7 @@ export function SaveTextButton({
   alert_message,
   confirm_text,
   cancel_text = "Cancel",
+  skip_confirmation = false,
   on_click,
 }: SaveTextButtonProps) {
   const [show_alert, set_show_alert] = useState(false);
@@ -52,7 +54,7 @@ export function SaveTextButton({
         size={size}
         expand={expand}
         disabled={disabled}
-        on_click={() => set_show_alert(true)}
+        on_click={() => (skip_confirmation ? on_click() : set_show_alert(true))}
       />
       <ConfirmationAlert
         is_open={show_alert}
