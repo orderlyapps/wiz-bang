@@ -48,13 +48,13 @@ export function DoorToDoorModal({ isOpen, onDidDismiss }: DoorToDoorModalProps) 
       </IonHeader>
       <IonContent>
         <SuburbSelect
-          label="Select Suburb"
+          label="Suburb"
           value={selectedSuburb}
           placeholder="Choose a suburb..."
           onSelect={handleSuburbSelect}
         />
         <StreetSelect
-          label="Select Street"
+          label="Street"
           value={selectedStreet}
           placeholder="Choose a street..."
           disabled={!selectedSuburb}
@@ -72,7 +72,7 @@ export function DoorToDoorModal({ isOpen, onDidDismiss }: DoorToDoorModalProps) 
           label="Unit Number"
           value={unitNumber}
           placeholder="Enter unit number..."
-          disabled={!selectedStreet}
+          disabled={!houseNumber}
           on_change={setUnitNumber}
         />
       </IonContent>
