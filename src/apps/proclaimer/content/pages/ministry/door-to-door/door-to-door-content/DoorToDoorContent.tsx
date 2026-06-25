@@ -10,15 +10,22 @@ import {
   MapZoomToController,
   type ZoomToFn,
 } from "./components/map-zoom-to-controller/MapZoomToController";
+import { MapShareActionSheet } from "./components/map-share-action-sheet/MapShareActionSheet";
 
 type SelectedNotAtHome = {
   id: string;
+};
+
+type ShareLocation = {
+  lat: number;
+  lng: number;
 };
 
 export function DoorToDoorContent() {
   const geojson = useNotAtHomeMarkers();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedNotAtHome, setSelectedNotAtHome] = useState<SelectedNotAtHome | null>(null);
+  const [shareLocation, setShareLocation] = useState<ShareLocation | null>(null);
   const zoomToRef = useRef<ZoomToFn | null>(null);
 
   function handleSelect(id: string) {
@@ -31,7 +38,11 @@ export function DoorToDoorContent() {
 
   return (
     <>
-      <MapView style={{ position: "absolute", inset: 0 }} height="100%">
+      <MapView
+        style={{ position: "absolute", inset: 0 }}
+        height="100%"
+        on_long_press={(lngLat) => setShareLocation({ lat: lngLat.lat, lng: lngLat.lng })}
+      >
         <NotAtHomeLayer geojson={geojson} onSelect={handleSelect} />
         <MapZoomToController zoomToRef={zoomToRef} />
       </MapView>
@@ -54,6 +65,13 @@ export function DoorToDoorContent() {
       {selectedNotAtHome && (
         <NotAtHomeActionSheet id={selectedNotAtHome.id} is_open={true} on_dismiss={handleDismiss} />
       )}
+
+      <MapShareActionSheet
+        lat={shareLocation?.lat ?? 0}
+        lng={shareLocation?.lng ?? 0}
+        is_open={shareLocation !== null}
+        on_dismiss={() => setShareLocation(null)}
+      />
     </>
   );
 }

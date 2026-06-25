@@ -44,6 +44,10 @@ export function MapViewInner({
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const long_press_timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const long_press_point = useRef<{ x: number; y: number } | null>(null);
+  const on_long_press_ref = useRef(on_long_press);
+  on_long_press_ref.current = on_long_press;
+  const on_press_ref = useRef(on_press);
+  on_press_ref.current = on_press;
 
   function getMapPointAndFeatures(clientX: number, clientY: number) {
     const map = mapRef.current!;
@@ -53,15 +57,17 @@ export function MapViewInner({
     return { lngLat: map.unproject(point), features: map.queryRenderedFeatures(point) };
   }
 
+  const LONG_PRESS_MOVE_THRESHOLD = 8;
+
   function handlePointerDown(e: React.PointerEvent<HTMLDivElement>) {
     if (!mapRef.current) return;
     long_press_point.current = { x: e.clientX, y: e.clientY };
-    if (on_long_press) {
+    if (on_long_press_ref.current) {
       long_press_timer.current = setTimeout(() => {
         if (!mapRef.current || !long_press_point.current) return;
         long_press_point.current = null;
         const { lngLat, features } = getMapPointAndFeatures(e.clientX, e.clientY);
-        on_long_press(lngLat, features);
+        on_long_press_ref.current!(lngLat, features);
       }, 500);
     }
   }
@@ -71,11 +77,24 @@ export function MapViewInner({
       clearTimeout(long_press_timer.current);
       long_press_timer.current = null;
     }
-    if (on_press && mapRef.current && long_press_point.current) {
+    if (on_press_ref.current && mapRef.current && long_press_point.current) {
       const { lngLat, features } = getMapPointAndFeatures(e.clientX, e.clientY);
-      on_press(lngLat, features);
+      on_press_ref.current(lngLat, features);
     }
     long_press_point.current = null;
+  }
+
+  function handlePointerMove(e: React.PointerEvent<HTMLDivElement>) {
+    if (!long_press_point.current) return;
+    const dx = e.clientX - long_press_point.current.x;
+    const dy = e.clientY - long_press_point.current.y;
+    if (Math.sqrt(dx * dx + dy * dy) > LONG_PRESS_MOVE_THRESHOLD) {
+      if (long_press_timer.current) {
+        clearTimeout(long_press_timer.current);
+        long_press_timer.current = null;
+      }
+      long_press_point.current = null;
+    }
   }
 
   function cancelLongPress() {
@@ -138,7 +157,7 @@ export function MapViewInner({
       }}
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
-      onPointerMove={cancelLongPress}
+      onPointerMove={handlePointerMove}
       onPointerCancel={cancelLongPress}
     >
       <Map
