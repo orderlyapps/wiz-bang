@@ -113,6 +113,7 @@ function MapMenu({
         on_add={(type, name) => {
           onAddBlock(type, name);
           set_show_add_flow(false);
+          void menu_ref.current?.close();
         }}
       />
       <IonContent className="content-wide">
