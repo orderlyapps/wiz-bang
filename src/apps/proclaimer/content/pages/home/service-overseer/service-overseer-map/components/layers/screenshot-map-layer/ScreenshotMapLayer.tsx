@@ -88,6 +88,7 @@ export function ScreenshotMapLayer({ selectedMap, settings }: Props) {
           id="screenshot-boundary-line"
           type="line"
           paint={{ "line-color": "#F00", "line-width": settings.boundary_line_width }}
+          beforeId="road-label"
         />
       </Source>
       <Source
