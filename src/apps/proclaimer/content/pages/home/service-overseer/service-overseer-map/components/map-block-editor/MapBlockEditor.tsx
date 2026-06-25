@@ -60,7 +60,7 @@ export function MapBlockEditor({ block, onPendingChange }: Props) {
 
     const draw = new MapboxDraw({
       displayControlsDefault: false,
-      controls: {},
+      controls: { trash: true },
       styles: MAP_DRAW_STYLES,
     });
 
