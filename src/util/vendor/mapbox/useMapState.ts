@@ -1,10 +1,14 @@
 import { useMapLocation } from "@util/vendor/mapbox/useMapLocation";
-import { resolveMapStyle, type SelectableStyleId } from "@util/vendor/mapbox/mapboxStyles";
+import {
+  resolveMapStyle,
+  type SelectableStyleId,
+  type StyleSpecification,
+} from "@util/vendor/mapbox/mapboxStyles";
 import { useTheme } from "@util/app/theme";
 import type { ViewState } from "react-map-gl/mapbox";
 
 type UseMapStateResult = ReturnType<typeof useMapLocation> & {
-  mapStyle: string;
+  mapStyle: string | StyleSpecification;
 };
 
 export function useMapState(

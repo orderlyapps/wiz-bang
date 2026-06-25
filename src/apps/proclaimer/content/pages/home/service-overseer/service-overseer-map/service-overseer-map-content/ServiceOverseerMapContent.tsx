@@ -12,6 +12,7 @@ import {
   type FitBoundsFn,
 } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/components/map-fit-bounds-controller/MapFitBoundsController";
 import type { ScreenshotSettings } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/utils/screenshotSettings";
+import type { SelectableStyleId } from "@util/vendor/mapbox/mapboxStyles";
 
 type Props = {
   fitBoundsRef: React.MutableRefObject<FitBoundsFn | null>;
@@ -21,6 +22,7 @@ type Props = {
   screenshotSettings: ScreenshotSettings;
   onPendingChange: (boundary: GeoJSON.Position[] | null) => void;
   onBlockPendingChange: (block: Block | null) => void;
+  styleId: SelectableStyleId;
 };
 
 export function ServiceOverseerMapContent({
@@ -31,9 +33,10 @@ export function ServiceOverseerMapContent({
   screenshotSettings,
   onPendingChange,
   onBlockPendingChange,
+  styleId,
 }: Props) {
   return (
-    <MapView style={{ position: "absolute", inset: 0 }} height="100%">
+    <MapView style={{ position: "absolute", inset: 0 }} height="100%" styleId={styleId}>
       <MapFitBoundsController fitBoundsRef={fitBoundsRef} />
       {screenshotMode && selectedMap ? (
         <>

@@ -30,6 +30,8 @@ import { Body } from "@ui/components/display/text/body/Body";
 import { Space } from "@ui/components/layout/space/Space";
 import { AlertTextInput } from "@ui/components/inputs/alert-text/AlertTextInput";
 import { RenameIconButton } from "@ui/components/inputs/button/icon/rename/RenameIconButton";
+import { MapStyleSelect } from "@util/vendor/mapbox/MapStyleSelect";
+import type { SelectableStyleId } from "@util/vendor/mapbox/mapboxStyles";
 
 type Props = {
   hasPendingChanges: boolean;
@@ -47,6 +49,8 @@ type Props = {
   screenshotSettings: ScreenshotSettings;
   onScreenshotSettingsChange: (settings: ScreenshotSettings) => void;
   onToggleScreenshot: () => void;
+  styleId: SelectableStyleId;
+  onStyleIdChange: (styleId: SelectableStyleId) => void;
 };
 
 function MapMenu({
@@ -65,6 +69,8 @@ function MapMenu({
   screenshotSettings,
   onScreenshotSettingsChange,
   onToggleScreenshot,
+  styleId,
+  onStyleIdChange,
 }: Props) {
   const menu_ref = useRef<HTMLIonMenuElement>(null);
   const [show_add_flow, set_show_add_flow] = useState(false);
@@ -105,6 +111,7 @@ function MapMenu({
         }}
       />
       <IonContent className="content-wide">
+        <MapStyleSelect value={styleId} on_change={onStyleIdChange} />
         {screenshotMode && is_map && (
           <>
             <RangeInput

@@ -1,9 +1,13 @@
 import { useState } from "react";
 import type { ViewState, ViewStateChangeEvent } from "react-map-gl/mapbox";
 import { localStorageKeys, localStorageKeyWithVariant } from "@util/constants/localStorageKeys";
-import type { SelectableStyleId } from "@util/vendor/mapbox/mapboxStyles";
+import { selectableStyles, type SelectableStyleId } from "@util/vendor/mapbox/mapboxStyles";
 
 type StoredLocation = Pick<ViewState, "longitude" | "latitude" | "zoom" | "pitch" | "bearing">;
+
+function isSelectableStyleId(value: string): value is SelectableStyleId {
+  return selectableStyles.some((s) => s.id === value);
+}
 
 function storageKey(id?: string): string {
   return id ? localStorageKeyWithVariant("mapViewLocation", id) : localStorageKeys.mapViewLocation;
@@ -20,6 +24,26 @@ function loadLocation(id?: string): StoredLocation | null {
 
 function saveLocation(location: StoredLocation, id?: string): void {
   localStorage.setItem(storageKey(id), JSON.stringify(location));
+}
+
+function styleStorageKey(id?: string): string {
+  return id ? localStorageKeyWithVariant("mapStyle", id) : localStorageKeys.mapStyle;
+}
+
+function loadStyleId(id?: string, fallback: SelectableStyleId = "custom"): SelectableStyleId {
+  try {
+    const raw = localStorage.getItem(styleStorageKey(id));
+    if (raw && isSelectableStyleId(raw)) {
+      return raw;
+    }
+  } catch {
+    /* ignore */
+  }
+  return fallback;
+}
+
+function saveStyleId(styleId: SelectableStyleId, id?: string): void {
+  localStorage.setItem(styleStorageKey(id), styleId);
 }
 
 type UseMapLocationResult = {
@@ -58,10 +82,13 @@ export function useMapLocation(
     saveLocation(next, id);
   }
 
-  const [styleId, setStyleIdState] = useState<SelectableStyleId>(initialStyleId);
+  const [styleId, setStyleIdState] = useState<SelectableStyleId>(() =>
+    loadStyleId(id, initialStyleId),
+  );
 
   function setStyleId(nextStyleId: SelectableStyleId) {
     setStyleIdState(nextStyleId);
+    saveStyleId(nextStyleId, id);
   }
 
   return { viewState, styleId, setStyleId, onMove };

@@ -11,10 +11,27 @@ import {
   screenshotSettingsSchema,
 } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/utils/screenshotSettings";
 import { localStorageKeys } from "@util/constants/localStorageKeys";
+import { selectableStyles, type SelectableStyleId } from "@util/vendor/mapbox/mapboxStyles";
+
+function isSelectableStyleId(value: string): value is SelectableStyleId {
+  return selectableStyles.some((s) => s.id === value);
+}
 
 function ServiceOverseerMapPage() {
   const fitBoundsRef = useRef<FitBoundsFn | null>(null);
   const save_settings_timeout_ref = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const save_style_timeout_ref = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [style_id, set_style_id] = useState<SelectableStyleId>(() => {
+    try {
+      const stored = localStorage.getItem(localStorageKeys.mapStyle);
+      if (stored && isSelectableStyleId(stored)) {
+        return stored;
+      }
+    } catch {
+      /* ignore */
+    }
+    return "custom-local";
+  });
   const [screenshot_settings, set_screenshot_settings] = useState<ScreenshotSettings>(() => {
     try {
       const stored = localStorage.getItem(localStorageKeys.screenshotSettings);
@@ -42,9 +59,22 @@ function ServiceOverseerMapPage() {
     }, 500);
   }
 
+  function handleStyleIdChange(nextStyleId: SelectableStyleId) {
+    set_style_id(nextStyleId);
+    if (save_style_timeout_ref.current) clearTimeout(save_style_timeout_ref.current);
+    save_style_timeout_ref.current = setTimeout(() => {
+      try {
+        localStorage.setItem(localStorageKeys.mapStyle, nextStyleId);
+      } catch {
+        /* ignore */
+      }
+    }, 500);
+  }
+
   useEffect(() => {
     return () => {
       if (save_settings_timeout_ref.current) clearTimeout(save_settings_timeout_ref.current);
+      if (save_style_timeout_ref.current) clearTimeout(save_style_timeout_ref.current);
     };
   }, []);
 
@@ -86,6 +116,8 @@ function ServiceOverseerMapPage() {
         onEditBlock={handleEditBlock}
         onDeleteBlock={handleDeleteBlock}
         onAddBlock={handleAddBlock}
+        styleId={style_id}
+        onStyleIdChange={handleStyleIdChange}
       />
       <IonPage id="map-content">
         <IonHeader>
@@ -100,6 +132,7 @@ function ServiceOverseerMapPage() {
             screenshotSettings={screenshot_settings}
             onPendingChange={handlePendingChange}
             onBlockPendingChange={handleBlockPendingChange}
+            styleId={style_id}
           />
         </IonContent>
       </IonPage>

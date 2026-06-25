@@ -1,3 +1,7 @@
+import type { StyleSpecification } from "mapbox-gl";
+
+export type { StyleSpecification };
+
 export type MapboxStyleId =
   | "streets-v12"
   | "outdoors-v12"
@@ -17,6 +21,7 @@ export type MapboxStyle = {
 
 export type SelectableStyleId =
   | "custom"
+  | "custom-local"
   | "streets-v12"
   | "outdoors-v12"
   | "light-dark"
@@ -27,8 +32,8 @@ export type SelectableStyleId =
 export type SelectableStyle = {
   id: SelectableStyleId;
   label: string;
-  light_url: string;
-  dark_url: string;
+  light_url: string | StyleSpecification;
+  dark_url: string | StyleSpecification;
 };
 
 export const mapboxStyles: MapboxStyle[] = [
@@ -74,6 +79,12 @@ export const selectableStyles: SelectableStyle[] = [
     dark_url: "mapbox://styles/damianamodeo/cmel2s3td005z01si07d9b3wb",
   },
   {
+    id: "custom-local",
+    label: "Custom Local",
+    light_url: `${import.meta.env.BASE_URL}mapbox/custom-local-light.json`,
+    dark_url: "mapbox://styles/damianamodeo/cmel2s3td005z01si07d9b3wb",
+  },
+  {
     id: "streets-v12",
     label: "Streets",
     light_url: "mapbox://styles/mapbox/streets-v12",
@@ -114,7 +125,7 @@ export const selectableStyles: SelectableStyle[] = [
 export function resolveMapStyle(
   styleId: SelectableStyleId,
   resolved_theme: "light" | "dark",
-): string {
+): string | StyleSpecification {
   const style = selectableStyles.find((s) => s.id === styleId) ?? selectableStyles[0];
   return resolved_theme === "dark" ? style.dark_url : style.light_url;
 }
