@@ -74,13 +74,13 @@ export const mapboxStyles: MapboxStyle[] = [
 export const selectableStyles: SelectableStyle[] = [
   {
     id: "custom",
-    label: "Custom",
+    label: "Proclaimer",
     light_url: "mapbox://styles/damianamodeo/cmdpsma8m001101srez71g8d0",
     dark_url: "mapbox://styles/damianamodeo/cmel2s3td005z01si07d9b3wb",
   },
   {
     id: "custom-local",
-    label: "Custom Local",
+    label: "Custom",
     light_url: `${import.meta.env.BASE_URL}mapbox/custom-local-light.json`,
     dark_url: "mapbox://styles/damianamodeo/cmel2s3td005z01si07d9b3wb",
   },

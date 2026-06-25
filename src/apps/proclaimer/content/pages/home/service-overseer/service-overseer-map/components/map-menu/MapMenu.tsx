@@ -16,7 +16,7 @@ import { SaveTextButton } from "@ui/components/inputs/button/text/save/SaveTextB
 import { TextButton } from "@ui/components/inputs/button/text/TextButton";
 import { EditIconButton } from "@ui/components/inputs/button/icon/edit/EditIconButton";
 import { AlertIconButton } from "@ui/components/inputs/button/icon/alert/AlertIconButton";
-import { create, camera } from "ionicons/icons";
+import { create, camera, cameraOutline } from "ionicons/icons";
 import { DeleteIconButton } from "@ui/components/inputs/button/icon/delete/DeleteIconButton";
 import { AddIconButton } from "@ui/components/inputs/button/icon/add/AddIconButton";
 import { AddBlockFlow } from "./components/add-block-flow/AddBlockFlow";
@@ -25,6 +25,7 @@ import type {
   SelectedMap,
 } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/utils/types";
 import type { ScreenshotSettings } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/utils/screenshotSettings";
+import type { CustomLocalStyleSettings } from "@util/vendor/mapbox/customLocalStyleSettings";
 import { RangeInput } from "@ui/components/inputs/range/RangeInput";
 import { Body } from "@ui/components/display/text/body/Body";
 import { Space } from "@ui/components/layout/space/Space";
@@ -51,6 +52,8 @@ type Props = {
   onToggleScreenshot: () => void;
   styleId: SelectableStyleId;
   onStyleIdChange: (styleId: SelectableStyleId) => void;
+  customLocalStyleSettings: CustomLocalStyleSettings;
+  onCustomLocalStyleSettingsChange: (settings: CustomLocalStyleSettings) => void;
 };
 
 function MapMenu({
@@ -71,6 +74,8 @@ function MapMenu({
   onToggleScreenshot,
   styleId,
   onStyleIdChange,
+  customLocalStyleSettings,
+  onCustomLocalStyleSettingsChange,
 }: Props) {
   const menu_ref = useRef<HTMLIonMenuElement>(null);
   const [show_add_flow, set_show_add_flow] = useState(false);
@@ -93,7 +98,7 @@ function MapMenu({
                   if (!screenshotMode) void menu_ref.current?.close();
                 }}
               >
-                <IonIcon slot="icon-only" icon={camera} />
+                <IonIcon slot="icon-only" icon={screenshotMode ? camera : cameraOutline} />
               </IonButton>
             )}
             {can_add && !screenshotMode && (
@@ -112,13 +117,44 @@ function MapMenu({
       />
       <IonContent className="content-wide">
         <MapStyleSelect value={styleId} on_change={onStyleIdChange} />
+
         {screenshotMode && is_map && (
           <>
+            {styleId === "custom-local" && (
+              <>
+                <RangeInput
+                  label="Road Width"
+                  value={customLocalStyleSettings.road_width_multiplier}
+                  min={0.5}
+                  max={3}
+                  step={0.1}
+                  on_change={(v) =>
+                    onCustomLocalStyleSettingsChange({
+                      ...customLocalStyleSettings,
+                      road_width_multiplier: v,
+                    })
+                  }
+                />
+                <RangeInput
+                  label="Road Label Size"
+                  value={customLocalStyleSettings.road_label_size_multiplier}
+                  min={0.6}
+                  max={1.4}
+                  step={0.02}
+                  on_change={(v) =>
+                    onCustomLocalStyleSettingsChange({
+                      ...customLocalStyleSettings,
+                      road_label_size_multiplier: v,
+                    })
+                  }
+                />
+              </>
+            )}
             <RangeInput
               label="Label Font Size"
               value={screenshotSettings.overlay_font_size}
               min={8}
-              max={32}
+              max={48}
               step={1}
               on_change={(v) =>
                 onScreenshotSettingsChange({ ...screenshotSettings, overlay_font_size: v })
@@ -253,7 +289,7 @@ function MapMenu({
           </IonList>
         )}
 
-        {!screenshotMode && <Space />}
+        <Space />
 
         {hasPendingChanges ? (
           <SaveTextButton

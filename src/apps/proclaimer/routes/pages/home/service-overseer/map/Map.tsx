@@ -10,6 +10,11 @@ import {
   DEFAULT_SCREENSHOT_SETTINGS,
   screenshotSettingsSchema,
 } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/utils/screenshotSettings";
+import {
+  type CustomLocalStyleSettings,
+  DEFAULT_CUSTOM_LOCAL_STYLE_SETTINGS,
+  customLocalStyleSettingsSchema,
+} from "@util/vendor/mapbox/customLocalStyleSettings";
 import { localStorageKeys } from "@util/constants/localStorageKeys";
 import { selectableStyles, type SelectableStyleId } from "@util/vendor/mapbox/mapboxStyles";
 
@@ -21,6 +26,7 @@ function ServiceOverseerMapPage() {
   const fitBoundsRef = useRef<FitBoundsFn | null>(null);
   const save_settings_timeout_ref = useRef<ReturnType<typeof setTimeout> | null>(null);
   const save_style_timeout_ref = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const save_custom_local_style_timeout_ref = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [style_id, set_style_id] = useState<SelectableStyleId>(() => {
     try {
       const stored = localStorage.getItem(localStorageKeys.mapStyle);
@@ -46,6 +52,21 @@ function ServiceOverseerMapPage() {
     }
     return DEFAULT_SCREENSHOT_SETTINGS;
   });
+  const [custom_local_style_settings, set_custom_local_style_settings] =
+    useState<CustomLocalStyleSettings>(() => {
+      try {
+        const stored = localStorage.getItem(localStorageKeys.customLocalStyleSettings);
+        if (stored) {
+          return customLocalStyleSettingsSchema.parse({
+            ...DEFAULT_CUSTOM_LOCAL_STYLE_SETTINGS,
+            ...(JSON.parse(stored) as Record<string, unknown>),
+          });
+        }
+      } catch {
+        /* ignore */
+      }
+      return DEFAULT_CUSTOM_LOCAL_STYLE_SETTINGS;
+    });
 
   function handleScreenshotSettingsChange(settings: ScreenshotSettings) {
     set_screenshot_settings(settings);
@@ -71,10 +92,25 @@ function ServiceOverseerMapPage() {
     }, 500);
   }
 
+  function handleCustomLocalStyleSettingsChange(settings: CustomLocalStyleSettings) {
+    set_custom_local_style_settings(settings);
+    if (save_custom_local_style_timeout_ref.current)
+      clearTimeout(save_custom_local_style_timeout_ref.current);
+    save_custom_local_style_timeout_ref.current = setTimeout(() => {
+      try {
+        localStorage.setItem(localStorageKeys.customLocalStyleSettings, JSON.stringify(settings));
+      } catch {
+        /* ignore */
+      }
+    }, 500);
+  }
+
   useEffect(() => {
     return () => {
       if (save_settings_timeout_ref.current) clearTimeout(save_settings_timeout_ref.current);
       if (save_style_timeout_ref.current) clearTimeout(save_style_timeout_ref.current);
+      if (save_custom_local_style_timeout_ref.current)
+        clearTimeout(save_custom_local_style_timeout_ref.current);
     };
   }, []);
 
@@ -118,6 +154,8 @@ function ServiceOverseerMapPage() {
         onAddBlock={handleAddBlock}
         styleId={style_id}
         onStyleIdChange={handleStyleIdChange}
+        customLocalStyleSettings={custom_local_style_settings}
+        onCustomLocalStyleSettingsChange={handleCustomLocalStyleSettingsChange}
       />
       <IonPage id="map-content">
         <IonHeader>
@@ -133,6 +171,7 @@ function ServiceOverseerMapPage() {
             onPendingChange={handlePendingChange}
             onBlockPendingChange={handleBlockPendingChange}
             styleId={style_id}
+            customLocalStyleSettings={custom_local_style_settings}
           />
         </IonContent>
       </IonPage>

@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
 import { Spinner } from "@ui/components/display/spinner/Spinner";
+import type { CustomLocalStyleSettings } from "@util/vendor/mapbox/customLocalStyleSettings";
 import type { SelectableStyleId } from "@util/vendor/mapbox/mapboxStyles";
 import type { ViewState } from "react-map-gl/mapbox";
 
@@ -14,6 +15,7 @@ type Props = {
   style?: React.CSSProperties;
   children?: React.ReactNode;
   fallback?: React.ReactNode;
+  customLocalStyleSettings?: CustomLocalStyleSettings;
 };
 
 export function MapView({ fallback = <Spinner />, ...props }: Props) {

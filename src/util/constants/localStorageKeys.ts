@@ -11,6 +11,7 @@ export const localStorageKeys = {
   publisherSortOrder: "publisher_sort_order",
   screenshotSettings: "screenshot_settings",
   mapStyle: "map_style",
+  customLocalStyleSettings: "custom_local_style_settings",
 } as const;
 
 export const localStorageKeyWithVariant = (
