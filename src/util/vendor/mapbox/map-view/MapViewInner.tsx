@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Map from "react-map-gl/mapbox";
-import mapboxgl from "mapbox-gl";
+import mapboxgl, { type LngLat } from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { mapboxToken } from "@util/vendor/mapbox/mapboxToken";
 import { useMapLocation } from "@util/vendor/mapbox/useMapLocation";
@@ -24,6 +24,8 @@ type Props = {
   style?: React.CSSProperties;
   children?: React.ReactNode;
   customLocalStyleSettings?: CustomLocalStyleSettings;
+  on_press?: (lngLat: LngLat, features: mapboxgl.GeoJSONFeature[]) => void;
+  on_long_press?: (lngLat: LngLat, features: mapboxgl.GeoJSONFeature[]) => void;
 };
 
 export function MapViewInner({
@@ -35,8 +37,54 @@ export function MapViewInner({
   style,
   children,
   customLocalStyleSettings,
+  on_press,
+  on_long_press,
 }: Props) {
   const [map_loaded, set_map_loaded] = useState(false);
+  const mapRef = useRef<mapboxgl.Map | null>(null);
+  const long_press_timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const long_press_point = useRef<{ x: number; y: number } | null>(null);
+
+  function getMapPointAndFeatures(clientX: number, clientY: number) {
+    const map = mapRef.current!;
+    const canvas = map.getCanvas();
+    const rect = canvas.getBoundingClientRect();
+    const point = new mapboxgl.Point(clientX - rect.left, clientY - rect.top);
+    return { lngLat: map.unproject(point), features: map.queryRenderedFeatures(point) };
+  }
+
+  function handlePointerDown(e: React.PointerEvent<HTMLDivElement>) {
+    if (!mapRef.current) return;
+    long_press_point.current = { x: e.clientX, y: e.clientY };
+    if (on_long_press) {
+      long_press_timer.current = setTimeout(() => {
+        if (!mapRef.current || !long_press_point.current) return;
+        long_press_point.current = null;
+        const { lngLat, features } = getMapPointAndFeatures(e.clientX, e.clientY);
+        on_long_press(lngLat, features);
+      }, 500);
+    }
+  }
+
+  function handlePointerUp(e: React.PointerEvent<HTMLDivElement>) {
+    if (long_press_timer.current) {
+      clearTimeout(long_press_timer.current);
+      long_press_timer.current = null;
+    }
+    if (on_press && mapRef.current && long_press_point.current) {
+      const { lngLat, features } = getMapPointAndFeatures(e.clientX, e.clientY);
+      on_press(lngLat, features);
+    }
+    long_press_point.current = null;
+  }
+
+  function cancelLongPress() {
+    if (long_press_timer.current) {
+      clearTimeout(long_press_timer.current);
+      long_press_timer.current = null;
+    }
+    long_press_point.current = null;
+  }
   const { resolved_theme } = useTheme();
   const {
     viewState,
@@ -82,18 +130,33 @@ export function MapViewInner({
   }, [baseMapStyle, customLocalStyleSettings, styleId]);
 
   return (
-    <Map
-      {...viewState}
-      onMove={onMove}
-      onLoad={() => set_map_loaded(true)}
-      mapboxAccessToken={mapboxToken}
-      style={{ width: "100%", height, ...style }}
-      mapStyle={resolvedStyle}
-      reuseMaps
-      fadeDuration={0}
+    <div
+      style={{
+        width: "100%",
+        height: typeof height === "number" ? `${height}px` : height,
+        ...style,
+      }}
+      onPointerDown={handlePointerDown}
+      onPointerUp={handlePointerUp}
+      onPointerMove={cancelLongPress}
+      onPointerCancel={cancelLongPress}
     >
-      {map_loaded ? children : null}
-    </Map>
+      <Map
+        {...viewState}
+        onMove={onMove}
+        onLoad={() => set_map_loaded(true)}
+        ref={(ref) => {
+          mapRef.current = ref?.getMap() ?? null;
+        }}
+        mapboxAccessToken={mapboxToken}
+        style={{ width: "100%", height: "100%" }}
+        mapStyle={resolvedStyle}
+        reuseMaps
+        fadeDuration={0}
+      >
+        {map_loaded ? children : null}
+      </Map>
+    </div>
   );
 }
 
