@@ -1,6 +1,8 @@
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton } from "@ionic/react";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 import { TextInput } from "@ui/components/inputs/text/TextInput";
+import { SaveTextButton } from "@ui/components/inputs/button/text/save/SaveTextButton";
+import { Space } from "@ui/components/layout/space/Space";
 import { SuburbSelect } from "./suburb-select/SuburbSelect";
 import { StreetSelect } from "./street-select/StreetSelect";
 import { useDoorToDoorForm } from "./use-door-to-door-form";
@@ -61,6 +63,8 @@ export function DoorToDoorModal({ isOpen, onDidDismiss }: DoorToDoorModalProps) 
           disabled={!houseNumber}
           on_change={handleUnitNumberChange}
         />
+        {houseNumber && <Space />}
+        {houseNumber && <SaveTextButton on_click={onDidDismiss} />}
       </IonContent>
     </ResponsiveModal>
   );
