@@ -16,6 +16,8 @@ function ServiceOverseerMapPage() {
     handleDeselect,
     handlePendingChange,
     handleBlockPendingChange,
+    screenshot_mode,
+    handleToggleScreenshot,
     handleEditBoundary,
     handleRenameBlock,
     handleUpdateMap,
@@ -24,7 +26,7 @@ function ServiceOverseerMapPage() {
     handleDeleteMap,
     handleAddBlock,
     handleSave,
-  } = useMapPage((bounds) => fitBoundsRef.current?.(bounds));
+  } = useMapPage((bounds) => bounds && fitBoundsRef.current?.(bounds));
 
   return (
     <>
@@ -33,6 +35,8 @@ function ServiceOverseerMapPage() {
         onSave={handleSave}
         selectedMap={selected_map}
         onDeselect={handleDeselect}
+        screenshotMode={screenshot_mode}
+        onToggleScreenshot={handleToggleScreenshot}
         onEditBoundary={handleEditBoundary}
         onUpdateMap={handleUpdateMap}
         onRenameBlock={handleRenameBlock}
@@ -50,6 +54,7 @@ function ServiceOverseerMapPage() {
             fitBoundsRef={fitBoundsRef}
             selectedMap={selected_map}
             selectedBlock={selected_block}
+            screenshotMode={screenshot_mode}
             onPendingChange={handlePendingChange}
             onBlockPendingChange={handleBlockPendingChange}
           />

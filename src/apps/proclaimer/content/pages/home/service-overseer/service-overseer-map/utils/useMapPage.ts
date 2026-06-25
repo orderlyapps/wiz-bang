@@ -15,6 +15,7 @@ export function useMapPage(onFitBounds: (bounds: SelectedMap["bounds"]) => void)
     undefined,
   );
   const [pending_block, set_pending_block] = useState<Block | null | undefined>(undefined);
+  const [screenshot_mode, set_screenshot_mode] = useState(false);
 
   function handleSelect(selection: SelectedMap) {
     set_selected_map(selection);
@@ -70,6 +71,13 @@ export function useMapPage(onFitBounds: (bounds: SelectedMap["bounds"]) => void)
         ...current,
         blocks: current.blocks?.filter((block) => block.id !== blockId) ?? null,
       };
+    });
+  }
+
+  function handleToggleScreenshot() {
+    set_screenshot_mode((prev) => {
+      if (!prev && selected_map?.bounds) onFitBounds(selected_map.bounds);
+      return !prev;
     });
   }
 
@@ -195,6 +203,8 @@ export function useMapPage(onFitBounds: (bounds: SelectedMap["bounds"]) => void)
     handleEditBlock,
     handleBlockPendingChange,
     handleAddBlock,
+    screenshot_mode,
+    handleToggleScreenshot,
     handleEditBoundary,
     handleRenameBlock,
     handleUpdateMap,

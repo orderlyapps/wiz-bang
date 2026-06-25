@@ -5,6 +5,8 @@ import type { Block, SelectedMap } from "../utils/types";
 import { MapsLayer } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/components/layers/maps-layer/MapsLayer";
 import { MapMasterLayer } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/components/layers/map-master-layer/MapMasterLayer";
 import { MapBlocksLayer } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/components/layers/map-blocks-layer/MapBlocksLayer";
+import { ScreenshotMapLayer } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/components/layers/screenshot-map-layer/ScreenshotMapLayer";
+import { ScreenshotOverlay } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/components/screenshot-overlay/ScreenshotOverlay";
 import {
   MapFitBoundsController,
   type FitBoundsFn,
@@ -14,6 +16,7 @@ type Props = {
   fitBoundsRef: React.MutableRefObject<FitBoundsFn | null>;
   selectedMap: SelectedMap | null;
   selectedBlock: Block | null;
+  screenshotMode: boolean;
   onPendingChange: (boundary: GeoJSON.Position[] | null) => void;
   onBlockPendingChange: (block: Block | null) => void;
 };
@@ -22,24 +25,36 @@ export function ServiceOverseerMapContent({
   fitBoundsRef,
   selectedMap,
   selectedBlock,
+  screenshotMode,
   onPendingChange,
   onBlockPendingChange,
 }: Props) {
   return (
     <MapView style={{ position: "absolute", inset: 0 }} height="100%">
       <MapFitBoundsController fitBoundsRef={fitBoundsRef} />
-      <MapMasterLayer />
-      <MapsLayer />
-      {selectedMap && <MapBlocksLayer selectedMap={selectedMap} />}
-      {selectedBlock && (
-        <MapBlockEditor block={selectedBlock} onPendingChange={onBlockPendingChange} />
-      )}
-      {selectedMap && !selectedBlock && (
-        <MapPolygonEditor
-          key={selectedMap.type === "map" ? selectedMap.id : selectedMap.congregation_id}
-          selection={selectedMap}
-          onPendingChange={onPendingChange}
-        />
+      {screenshotMode && selectedMap ? (
+        <>
+          <ScreenshotMapLayer selectedMap={selectedMap} />
+          {selectedMap.type === "map" && (
+            <ScreenshotOverlay name={selectedMap.name} details={selectedMap.details} />
+          )}
+        </>
+      ) : (
+        <>
+          <MapMasterLayer />
+          <MapsLayer />
+          {selectedMap && <MapBlocksLayer selectedMap={selectedMap} />}
+          {selectedBlock && (
+            <MapBlockEditor block={selectedBlock} onPendingChange={onBlockPendingChange} />
+          )}
+          {selectedMap && !selectedBlock && (
+            <MapPolygonEditor
+              key={selectedMap.type === "map" ? selectedMap.id : selectedMap.congregation_id}
+              selection={selectedMap}
+              onPendingChange={onPendingChange}
+            />
+          )}
+        </>
       )}
     </MapView>
   );
