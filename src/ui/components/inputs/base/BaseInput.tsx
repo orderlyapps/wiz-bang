@@ -24,7 +24,7 @@ export function BaseInput({
   color,
   disabled = false,
   readonly = false,
-  clear_input = false,
+  clear_input = true,
   max_length,
   on_change,
   on_blur,
@@ -38,11 +38,12 @@ export function BaseInput({
         color={color}
         disabled={disabled}
         readonly={readonly}
-        clearInput={value ? clear_input : false}
+        clearInput={clear_input}
         maxlength={max_length}
         onIonInput={(event) => on_change(event.detail.value ?? "")}
         onIonBlur={on_blur}
         slot="end"
+        style={{ minHeight: "auto" }}
       />
     </InputWrapper>
   );
