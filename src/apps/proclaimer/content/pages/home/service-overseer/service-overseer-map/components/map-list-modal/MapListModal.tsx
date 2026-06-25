@@ -1,4 +1,6 @@
+import { useState } from "react";
 import {
+  IonAlert,
   IonButton,
   IonButtons,
   IonContent,
@@ -10,6 +12,7 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
+import { AddIconButton } from "@ui/components/inputs/button/icon/add/AddIconButton";
 import { useLiveQuery } from "@tanstack/react-db";
 import { mapCollection } from "@shared/database/collections/map";
 import { mapMasterCollection } from "@shared/database/collections/map-master";
@@ -29,6 +32,7 @@ type MapListModalProps = {
 };
 
 export function MapListModal({ isOpen, onDidDismiss, onSelect }: MapListModalProps) {
+  const [show_add_alert, set_show_add_alert] = useState(false);
   const { data: maps } = useLiveQuery((q) =>
     q.from({ m: mapCollection }).orderBy(({ m }) => m.name),
   );
@@ -76,9 +80,12 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect }: MapListModalPro
     <IonModal isOpen={isOpen} onDidDismiss={onDidDismiss}>
       <IonHeader>
         <IonToolbar>
+          <IonButtons slot="start">
+            <IonButton onClick={onDidDismiss}>Close</IonButton>
+          </IonButtons>
           <IonTitle>Maps</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={onDidDismiss}>Close</IonButton>
+            <AddIconButton on_click={() => set_show_add_alert(true)} />
           </IonButtons>
         </IonToolbar>
       </IonHeader>
@@ -129,6 +136,39 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect }: MapListModalPro
           ))}
         </IonList>
       </IonContent>
+      <IonAlert
+        isOpen={show_add_alert}
+        header="New Map"
+        inputs={[{ name: "name", type: "text", placeholder: "Map name" }]}
+        buttons={[
+          { text: "Cancel", role: "cancel" },
+          {
+            text: "Create",
+            handler: (data: { name: string }) => {
+              const name = data.name.trim();
+              if (!name || !congregation_id) return;
+              const id = crypto.randomUUID();
+              mapCollection.insert({
+                id,
+                congregation_id,
+                name,
+                boundary: null,
+                blocks: null,
+              });
+              onSelect({
+                type: "map",
+                id,
+                name,
+                details: null,
+                boundary: null,
+                blocks: null,
+              });
+              onDidDismiss();
+            },
+          },
+        ]}
+        onDidDismiss={() => set_show_add_alert(false)}
+      />
     </IonModal>
   );
 }

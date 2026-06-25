@@ -21,7 +21,7 @@ export function useMapPage(onFitBounds: (bounds: SelectedMap["bounds"]) => void)
     set_selected_block(null);
     set_pending_boundary(undefined);
     set_pending_block(undefined);
-    onFitBounds(selection.bounds);
+    if (selection.bounds) onFitBounds(selection.bounds);
   }
 
   function handlePendingChange(boundary: GeoJSON.Position[] | null) {
@@ -31,7 +31,7 @@ export function useMapPage(onFitBounds: (bounds: SelectedMap["bounds"]) => void)
   function handleEditBoundary() {
     set_selected_block(null);
     set_pending_block(undefined);
-    if (selected_map) onFitBounds(selected_map.bounds);
+    if (selected_map?.bounds) onFitBounds(selected_map.bounds);
   }
 
   function handleEditBlock(block: Block) {
@@ -103,10 +103,16 @@ export function useMapPage(onFitBounds: (bounds: SelectedMap["bounds"]) => void)
   function handleDeleteMap() {
     if (!selected_map || selected_map.type !== "map") return;
     mapCollection.delete(selected_map.id);
-    handleDeselect();
+    set_selected_map(null);
+    set_selected_block(null);
+    set_pending_boundary(undefined);
+    set_pending_block(undefined);
   }
 
   function handleDeselect() {
+    if (selected_map?.type === "map" && !selected_map.boundary && !pending_boundary) {
+      mapCollection.delete(selected_map.id);
+    }
     set_selected_map(null);
     set_selected_block(null);
     set_pending_boundary(undefined);
@@ -121,6 +127,10 @@ export function useMapPage(onFitBounds: (bounds: SelectedMap["bounds"]) => void)
       if (pending_boundary !== undefined) {
         mapCollection.update(selected_map.id, (draft) => {
           draft.boundary = pending_boundary as [number, number][] | null;
+        });
+        set_selected_map((current) => {
+          if (!current || current.type !== "map") return current;
+          return { ...current, boundary: pending_boundary };
         });
       }
 

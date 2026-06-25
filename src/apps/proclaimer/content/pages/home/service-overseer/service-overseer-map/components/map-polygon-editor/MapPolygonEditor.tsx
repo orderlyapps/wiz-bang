@@ -23,7 +23,7 @@ export function MapPolygonEditor({ selection, onPendingChange }: Props) {
     if (!map) return;
 
     const coordinates = boundaryToPolygonCoords(selection.boundary);
-    if (!coordinates) return;
+    const is_new = !coordinates;
 
     const draw = new MapboxDraw({
       displayControlsDefault: false,
@@ -34,7 +34,17 @@ export function MapPolygonEditor({ selection, onPendingChange }: Props) {
     let added = false;
     let listeners_attached = false;
     let feature_id: string | null = null;
-    let current_ring = coordinates[0];
+    let current_ring: GeoJSON.Position[] = coordinates?.[0] ?? [];
+
+    function handleCreate(e: { features: GeoJSON.Feature[] }) {
+      const created = e.features[0];
+      if (!created || created.geometry.type !== "Polygon") return;
+      const ring = created.geometry.coordinates[0];
+      if (!ring) return;
+      feature_id = String(created.id ?? "");
+      current_ring = ring;
+      onPendingChangeRef.current(ring);
+    }
 
     function handleUpdate(e: { features: GeoJSON.Feature[] }) {
       const updated = e.features[0];
@@ -75,23 +85,29 @@ export function MapPolygonEditor({ selection, onPendingChange }: Props) {
       map.addControl(draw as unknown as IControl);
       added = true;
 
-      const feature = draw.add({
-        type: "Feature",
-        id: "editing-polygon",
-        geometry: { type: "Polygon", coordinates: coordinates },
-        properties: {},
-      });
-      feature_id = feature[0] ?? null;
+      if (is_new) {
+        draw.changeMode("draw_polygon");
+      } else {
+        const feature = draw.add({
+          type: "Feature",
+          id: "editing-polygon",
+          geometry: { type: "Polygon", coordinates: coordinates },
+          properties: {},
+        });
+        feature_id = feature[0] ?? null;
 
-      if (feature_id) {
-        draw.changeMode("direct_select", { featureId: feature_id });
+        if (feature_id) {
+          draw.changeMode("direct_select", { featureId: feature_id });
+        }
       }
 
+      map.on("draw.create", handleCreate);
       map.on("draw.update", handleUpdate);
       map.on("draw.delete", handleDelete);
       listeners_attached = true;
     } catch {
       if (listeners_attached) {
+        map.off("draw.create", handleCreate);
         map.off("draw.update", handleUpdate);
         map.off("draw.delete", handleDelete);
       }
@@ -102,6 +118,7 @@ export function MapPolygonEditor({ selection, onPendingChange }: Props) {
     }
 
     return () => {
+      map.off("draw.create", handleCreate);
       map.off("draw.update", handleUpdate);
       map.off("draw.delete", handleDelete);
       map.removeControl(draw as unknown as IControl);

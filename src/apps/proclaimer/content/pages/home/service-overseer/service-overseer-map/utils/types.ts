@@ -10,7 +10,7 @@ export type SelectedMap =
       name: string;
       details: MapRow["details"];
       boundary: unknown;
-      bounds: LngLatBoundsLike;
+      bounds?: LngLatBoundsLike;
       blocks: MapRow["blocks"];
     }
   | { type: "master"; congregation_id: string; boundary: unknown; bounds: LngLatBoundsLike };
