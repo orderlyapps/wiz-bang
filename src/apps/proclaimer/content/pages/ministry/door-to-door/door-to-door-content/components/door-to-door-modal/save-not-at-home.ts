@@ -10,18 +10,17 @@ type SaveNotAtHomeData = {
   house_number: string;
   unit_number: string;
   visit_type: "letter" | "return";
-  onSuccess: () => void;
 };
 
-export async function saveNotAtHome(data: SaveNotAtHomeData): Promise<void> {
+export async function saveNotAtHome(data: SaveNotAtHomeData): Promise<[number, number] | null> {
   const congregation = getStoredCongregation();
   const congregation_id = congregation?.id;
   const suburb_id = data.suburb.id;
   const street_id = data.street.id;
-  if (!congregation_id || !suburb_id || !street_id) return;
+  if (!congregation_id || !suburb_id || !street_id) return null;
 
   const bbox = data.suburb.bbox;
-  if (bbox.length !== 4) return;
+  if (bbox.length !== 4) return null;
 
   const feature = await geocodeAddress(
     {
@@ -32,7 +31,7 @@ export async function saveNotAtHome(data: SaveNotAtHomeData): Promise<void> {
     { bbox: bbox as [number, number, number, number] },
   );
 
-  if (!feature) return;
+  if (!feature) return null;
 
   const [longitude, latitude] = feature.geometry.coordinates;
 
@@ -50,5 +49,5 @@ export async function saveNotAtHome(data: SaveNotAtHomeData): Promise<void> {
     match_data: feature.properties,
   });
 
-  data.onSuccess();
+  return [longitude, latitude];
 }

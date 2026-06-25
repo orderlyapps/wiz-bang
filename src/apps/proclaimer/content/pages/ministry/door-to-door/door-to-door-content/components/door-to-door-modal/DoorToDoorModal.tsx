@@ -12,9 +12,10 @@ import { useDoorToDoorForm } from "./use-door-to-door-form";
 type DoorToDoorModalProps = {
   isOpen: boolean;
   onDidDismiss: () => void;
+  onSave: (coordinates: [number, number]) => void;
 };
 
-export function DoorToDoorModal({ isOpen, onDidDismiss }: DoorToDoorModalProps) {
+export function DoorToDoorModal({ isOpen, onDidDismiss, onSave }: DoorToDoorModalProps) {
   const {
     selectedSuburb,
     selectedStreet,
@@ -28,16 +29,16 @@ export function DoorToDoorModal({ isOpen, onDidDismiss }: DoorToDoorModalProps) 
     handleVisitTypeChange,
   } = useDoorToDoorForm();
 
-  function handleSave() {
+  async function handleSave() {
     if (!selectedSuburb || !selectedStreet) return;
-    void saveNotAtHome({
+    const coordinates = await saveNotAtHome({
       suburb: selectedSuburb,
       street: selectedStreet,
       house_number: houseNumber,
       unit_number: unitNumber,
       visit_type: visitType,
-      onSuccess: onDidDismiss,
     });
+    if (coordinates) onSave(coordinates);
   }
 
   return (
