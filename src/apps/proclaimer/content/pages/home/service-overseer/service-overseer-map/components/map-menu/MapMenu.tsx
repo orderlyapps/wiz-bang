@@ -24,6 +24,8 @@ import type {
   Block,
   SelectedMap,
 } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/utils/types";
+import type { ScreenshotSettings } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/utils/screenshotSettings";
+import { RangeInput } from "@ui/components/inputs/range/RangeInput";
 import { Body } from "@ui/components/display/text/body/Body";
 import { Space } from "@ui/components/layout/space/Space";
 import { AlertTextInput } from "@ui/components/inputs/alert-text/AlertTextInput";
@@ -42,6 +44,8 @@ type Props = {
   onDeleteBlock: (blockId: string) => void;
   onAddBlock: (type: "block" | "face", name: string) => void;
   screenshotMode: boolean;
+  screenshotSettings: ScreenshotSettings;
+  onScreenshotSettingsChange: (settings: ScreenshotSettings) => void;
   onToggleScreenshot: () => void;
 };
 
@@ -58,6 +62,8 @@ function MapMenu({
   onDeleteBlock,
   onAddBlock,
   screenshotMode,
+  screenshotSettings,
+  onScreenshotSettingsChange,
   onToggleScreenshot,
 }: Props) {
   const menu_ref = useRef<HTMLIonMenuElement>(null);
@@ -99,6 +105,60 @@ function MapMenu({
         }}
       />
       <IonContent className="content-wide">
+        {screenshotMode && is_map && (
+          <>
+            <RangeInput
+              label="Label Font Size"
+              value={screenshotSettings.overlay_font_size}
+              min={8}
+              max={32}
+              step={1}
+              on_change={(v) =>
+                onScreenshotSettingsChange({ ...screenshotSettings, overlay_font_size: v })
+              }
+            />
+            <RangeInput
+              label="Boundary Line Width"
+              value={screenshotSettings.boundary_line_width}
+              min={0.5}
+              max={8}
+              step={0.5}
+              on_change={(v) =>
+                onScreenshotSettingsChange({ ...screenshotSettings, boundary_line_width: v })
+              }
+            />
+            <RangeInput
+              label="Block Line Width"
+              value={screenshotSettings.block_line_width}
+              min={0.5}
+              max={8}
+              step={0.5}
+              on_change={(v) =>
+                onScreenshotSettingsChange({ ...screenshotSettings, block_line_width: v })
+              }
+            />
+            <RangeInput
+              label="Block Text Size"
+              value={screenshotSettings.block_text_size}
+              min={8}
+              max={32}
+              step={1}
+              on_change={(v) =>
+                onScreenshotSettingsChange({ ...screenshotSettings, block_text_size: v })
+              }
+            />
+            <RangeInput
+              label="Block Opacity"
+              value={screenshotSettings.block_opacity}
+              min={0}
+              max={1}
+              step={0.1}
+              on_change={(v) =>
+                onScreenshotSettingsChange({ ...screenshotSettings, block_opacity: v })
+              }
+            />
+          </>
+        )}
         {!screenshotMode && is_map && selectedMap?.type === "map" && (
           <>
             <AlertTextInput

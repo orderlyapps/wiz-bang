@@ -9,6 +9,7 @@ export const localStorageKeys = {
   filterSortActivePreset: "filter_sort_active_preset",
   publisherGenderFilter: "publisher_gender_filter",
   publisherSortOrder: "publisher_sort_order",
+  screenshotSettings: "screenshot_settings",
 } as const;
 
 export const localStorageKeyWithVariant = (

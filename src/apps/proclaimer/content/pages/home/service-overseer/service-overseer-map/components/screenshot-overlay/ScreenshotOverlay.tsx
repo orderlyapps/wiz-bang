@@ -1,9 +1,10 @@
 type Props = {
   name: string;
   details?: string | null;
+  fontSize: number;
 };
 
-export function ScreenshotOverlay({ name, details }: Props) {
+export function ScreenshotOverlay({ name, details, fontSize }: Props) {
   return (
     <div
       style={{
@@ -15,13 +16,14 @@ export function ScreenshotOverlay({ name, details }: Props) {
         borderRadius: 8,
         padding: "10px 14px",
         boxShadow: "0 2px 8px rgba(0,0,0,0.18)",
-        maxWidth: 240,
         pointerEvents: "none",
       }}
     >
-      <div style={{ fontWeight: 700, fontSize: 15, color: "#111827", lineHeight: 1.3 }}>{name}</div>
+      <div style={{ fontWeight: 700, fontSize: fontSize, color: "#111827", lineHeight: 1.3 }}>
+        {name}
+      </div>
       {details && (
-        <div style={{ fontSize: 12, color: "#6b7280", marginTop: 3, lineHeight: 1.4 }}>
+        <div style={{ fontSize: fontSize * 0.8, color: "#6b7280", marginTop: 3, lineHeight: 1.4 }}>
           {details}
         </div>
       )}
