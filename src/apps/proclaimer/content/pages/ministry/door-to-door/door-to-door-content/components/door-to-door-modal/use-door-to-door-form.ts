@@ -32,6 +32,7 @@ export type UseDoorToDoorFormResult = {
   handleHouseNumberChange: (value: string) => void;
   handleUnitNumberChange: (value: string) => void;
   handleVisitTypeChange: (value: "letter" | "return") => void;
+  resetAfterSave: () => void;
 };
 
 export function useDoorToDoorForm(): UseDoorToDoorFormResult {
@@ -78,6 +79,12 @@ export function useDoorToDoorForm(): UseDoorToDoorFormResult {
     setVisitType(value);
   }
 
+  function resetAfterSave() {
+    if (!unitNumber) setHouseNumber("");
+    setUnitNumber("");
+    setVisitType("return");
+  }
+
   return {
     selectedSuburb,
     selectedStreet,
@@ -89,5 +96,6 @@ export function useDoorToDoorForm(): UseDoorToDoorFormResult {
     handleHouseNumberChange,
     handleUnitNumberChange,
     handleVisitTypeChange,
+    resetAfterSave,
   };
 }

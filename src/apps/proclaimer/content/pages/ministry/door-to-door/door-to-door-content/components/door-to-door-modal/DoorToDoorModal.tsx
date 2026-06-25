@@ -34,6 +34,7 @@ export function DoorToDoorModal({ isOpen, onDidDismiss, onSave }: DoorToDoorModa
     handleHouseNumberChange,
     handleUnitNumberChange,
     handleVisitTypeChange,
+    resetAfterSave,
   } = useDoorToDoorForm();
 
   async function handleSave() {
@@ -45,7 +46,10 @@ export function DoorToDoorModal({ isOpen, onDidDismiss, onSave }: DoorToDoorModa
       unit_number: unitNumber,
       visit_type: visitType,
     });
-    if (coordinates) onSave(coordinates);
+    if (coordinates) {
+      resetAfterSave();
+      onSave(coordinates);
+    }
   }
 
   return (
