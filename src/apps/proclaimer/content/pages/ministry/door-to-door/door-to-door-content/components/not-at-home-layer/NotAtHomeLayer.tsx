@@ -1,11 +1,13 @@
 import { Source, Layer } from "react-map-gl/mapbox";
+import { NotAtHomeClickHandler } from "./components/not-at-home-click-handler/NotAtHomeClickHandler";
 import type { NotAtHomeGeoJSON } from "./hooks/useNotAtHomeMarkers";
 
 type Props = {
   geojson: NotAtHomeGeoJSON;
+  onSelect: (id: string) => void;
 };
 
-export function NotAtHomeLayer({ geojson }: Props) {
+export function NotAtHomeLayer({ geojson, onSelect }: Props) {
   return (
     <Source
       id="not-at-home"
@@ -47,6 +49,7 @@ export function NotAtHomeLayer({ geojson }: Props) {
           "circle-stroke-color": "#ffffff",
         }}
       />
+      <NotAtHomeClickHandler onSelect={onSelect} />
     </Source>
   );
 }

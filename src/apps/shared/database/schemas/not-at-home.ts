@@ -8,7 +8,7 @@ export const notAtHomeSchema = z.object({
   suburb_id: z.uuid(),
   street_id: z.uuid(),
   house_number: z.string().min(1),
-  unit_number: z.string().optional(),
+  unit_number: z.string().nullable().optional(),
   visit_log: z.array(z.string()), // array of timestamp strings
   write: z.boolean(),
   match_data: z.any(), // jsonb
