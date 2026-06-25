@@ -6,6 +6,7 @@ import { Space } from "@ui/components/layout/space/Space";
 import { SuburbSelect } from "./suburb-select/SuburbSelect";
 import { StreetSelect } from "./street-select/StreetSelect";
 import { VisitTypeSelect } from "./components/visit-type-select/VisitTypeSelect";
+import { saveNotAtHome } from "./save-not-at-home";
 import { useDoorToDoorForm } from "./use-door-to-door-form";
 
 type DoorToDoorModalProps = {
@@ -26,6 +27,18 @@ export function DoorToDoorModal({ isOpen, onDidDismiss }: DoorToDoorModalProps) 
     handleUnitNumberChange,
     handleVisitTypeChange,
   } = useDoorToDoorForm();
+
+  function handleSave() {
+    if (!selectedSuburb || !selectedStreet) return;
+    void saveNotAtHome({
+      suburb: selectedSuburb,
+      street: selectedStreet,
+      house_number: houseNumber,
+      unit_number: unitNumber,
+      visit_type: visitType,
+      onSuccess: onDidDismiss,
+    });
+  }
 
   return (
     <ResponsiveModal isOpen={isOpen} onDidDismiss={onDidDismiss}>
@@ -72,7 +85,7 @@ export function DoorToDoorModal({ isOpen, onDidDismiss }: DoorToDoorModalProps) 
           on_change={handleVisitTypeChange}
         />
         {houseNumber && <Space />}
-        {houseNumber && <SaveTextButton on_click={onDidDismiss} />}
+        {houseNumber && <SaveTextButton on_click={handleSave} />}
       </IonContent>
     </ResponsiveModal>
   );
