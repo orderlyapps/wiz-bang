@@ -20,11 +20,20 @@ export function DoorToDoorModal({ isOpen, onDidDismiss }: DoorToDoorModalProps) 
 
   const handleSuburbSelect = (suburb: Suburb) => {
     setSelectedSuburb(suburb);
-    setSelectedStreet(undefined); // Reset street when suburb changes
+    setSelectedStreet(undefined); // Reset downstream values when suburb changes
+    setHouseNumber("");
+    setUnitNumber("");
   };
 
   const handleStreetSelect = (street: Street) => {
     setSelectedStreet(street);
+    setHouseNumber(""); // Reset downstream values when street changes
+    setUnitNumber("");
+  };
+
+  const handleHouseNumberChange = (value: string) => {
+    setHouseNumber(value);
+    setUnitNumber(""); // Reset unit number when house number changes
   };
 
   return (
@@ -57,7 +66,7 @@ export function DoorToDoorModal({ isOpen, onDidDismiss }: DoorToDoorModalProps) 
           value={houseNumber}
           placeholder="Enter house number..."
           disabled={!selectedStreet}
-          on_change={setHouseNumber}
+          on_change={handleHouseNumberChange}
         />
         <TextInput
           label="Unit Number"
