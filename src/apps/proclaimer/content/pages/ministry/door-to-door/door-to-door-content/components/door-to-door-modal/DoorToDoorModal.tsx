@@ -5,6 +5,7 @@ import { SaveTextButton } from "@ui/components/inputs/button/text/save/SaveTextB
 import { Space } from "@ui/components/layout/space/Space";
 import { SuburbSelect } from "./suburb-select/SuburbSelect";
 import { StreetSelect } from "./street-select/StreetSelect";
+import { VisitTypeSelect } from "./components/visit-type-select/VisitTypeSelect";
 import { useDoorToDoorForm } from "./use-door-to-door-form";
 
 type DoorToDoorModalProps = {
@@ -18,10 +19,12 @@ export function DoorToDoorModal({ isOpen, onDidDismiss }: DoorToDoorModalProps) 
     selectedStreet,
     houseNumber,
     unitNumber,
+    visitType,
     handleSuburbSelect,
     handleStreetSelect,
     handleHouseNumberChange,
     handleUnitNumberChange,
+    handleVisitTypeChange,
   } = useDoorToDoorForm();
 
   return (
@@ -62,6 +65,11 @@ export function DoorToDoorModal({ isOpen, onDidDismiss }: DoorToDoorModalProps) 
           placeholder="Enter unit number..."
           disabled={!houseNumber}
           on_change={handleUnitNumberChange}
+        />
+        <VisitTypeSelect
+          value={visitType}
+          disabled={!houseNumber}
+          on_change={handleVisitTypeChange}
         />
         {houseNumber && <Space />}
         {houseNumber && <SaveTextButton on_click={onDidDismiss} />}

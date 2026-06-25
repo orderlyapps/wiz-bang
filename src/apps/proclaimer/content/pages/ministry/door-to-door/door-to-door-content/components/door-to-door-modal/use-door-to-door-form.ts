@@ -17,6 +17,7 @@ function getInitialState() {
     street,
     house_number: street ? (stored?.house_number ?? "") : "",
     unit_number: street ? (stored?.unit_number ?? "") : "",
+    visit_type: stored?.visit_type ?? "return",
   };
 }
 
@@ -25,10 +26,12 @@ export type UseDoorToDoorFormResult = {
   selectedStreet: Street | undefined;
   houseNumber: string;
   unitNumber: string;
+  visitType: "letter" | "return";
   handleSuburbSelect: (suburb: Suburb) => void;
   handleStreetSelect: (street: Street) => void;
   handleHouseNumberChange: (value: string) => void;
   handleUnitNumberChange: (value: string) => void;
+  handleVisitTypeChange: (value: "letter" | "return") => void;
 };
 
 export function useDoorToDoorForm(): UseDoorToDoorFormResult {
@@ -37,6 +40,7 @@ export function useDoorToDoorForm(): UseDoorToDoorFormResult {
   const [selectedStreet, setSelectedStreet] = useState<Street | undefined>(initialState.street);
   const [houseNumber, setHouseNumber] = useState(initialState.house_number);
   const [unitNumber, setUnitNumber] = useState(initialState.unit_number);
+  const [visitType, setVisitType] = useState<"letter" | "return">(initialState.visit_type);
 
   useEffect(() => {
     saveDoorToDoorForm({
@@ -44,8 +48,9 @@ export function useDoorToDoorForm(): UseDoorToDoorFormResult {
       street: selectedStreet,
       house_number: houseNumber,
       unit_number: unitNumber,
+      visit_type: visitType,
     });
-  }, [selectedSuburb, selectedStreet, houseNumber, unitNumber]);
+  }, [selectedSuburb, selectedStreet, houseNumber, unitNumber, visitType]);
 
   function handleSuburbSelect(suburb: Suburb) {
     setSelectedSuburb(suburb);
@@ -69,14 +74,20 @@ export function useDoorToDoorForm(): UseDoorToDoorFormResult {
     setUnitNumber(value);
   }
 
+  function handleVisitTypeChange(value: "letter" | "return") {
+    setVisitType(value);
+  }
+
   return {
     selectedSuburb,
     selectedStreet,
     houseNumber,
     unitNumber,
+    visitType,
     handleSuburbSelect,
     handleStreetSelect,
     handleHouseNumberChange,
     handleUnitNumberChange,
+    handleVisitTypeChange,
   };
 }
