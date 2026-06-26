@@ -43,7 +43,7 @@ export function IncrementInput({
   const is_at_max = max !== undefined && value >= max;
 
   return (
-    <InputWrapper label={label}>
+    <InputWrapper label={label} disabled={disabled}>
       <div className="ion-display-flex ion-align-items-center">
         <IonButton
           color={color}
@@ -54,7 +54,7 @@ export function IncrementInput({
         >
           <IonIcon slot="icon-only" icon={remove} />
         </IonButton>
-        <Body size="xl" className="ion-margin-horizontal">
+        <Body size="xl" className="ion-margin-horizontal" style={{ opacity: disabled ? 0.3 : 1 }}>
           {value}
         </Body>
         <IonButton

@@ -38,16 +38,12 @@ export function Select({
         color={color}
         multiple={multiple}
         interface={interface_type}
+        disabled={disabled}
         onIonChange={(event) => {
-          if (disabled) return;
           on_change(event.detail.value);
         }}
         slot="end"
-        style={{
-          minHeight: "auto",
-          pointerEvents: disabled ? "none" : "auto",
-          opacity: disabled ? 0.17 : 1,
-        }}
+        style={{ opacity: disabled ? 0.2 : 1 }}
       >
         {options.map((option) => (
           <IonSelectOption key={option.value} value={option.value}>

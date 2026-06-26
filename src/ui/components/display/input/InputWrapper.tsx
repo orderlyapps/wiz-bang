@@ -9,12 +9,21 @@ interface InputWrapperProps {
 
 export function InputWrapper({ label, children, disabled }: InputWrapperProps) {
   return (
-    <IonItem style={{ maxWidth: 480, marginInline: "auto" }}>
-      <IonLabel>
-        <Label style={{ opacity: disabled ? 0.25 : 1 }}>{label}</Label>
-        <br />
-        <div className="ion-text-end ion-display-flex ion-justify-content-end">{children}</div>
-      </IonLabel>
-    </IonItem>
+    <>
+      <IonItem style={{ maxWidth: 480, marginInline: "auto", paddingBlock: 0 }} lines="none">
+        <IonLabel>
+          <Label style={{ opacity: disabled ? 0.25 : 1 }}>{label}</Label>
+        </IonLabel>
+      </IonItem>
+      <IonItem style={{ maxWidth: 480, marginInline: "auto" }}>
+        <div
+          slot="end"
+          className="ion-text-end ion-display-flex ion-justify-content-end"
+          style={{ minWidth: "100%" }}
+        >
+          {children}
+        </div>
+      </IonItem>
+    </>
   );
 }

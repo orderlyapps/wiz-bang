@@ -30,7 +30,7 @@ export function ModalSelectTrigger({
           display: "flex",
           alignItems: "center",
           gap: "4px",
-          opacity: disabled ? 0.3 : 1,
+          opacity: disabled ? 0.4 : 1,
         }}
       >
         <Body color={!display_value || disabled ? "medium" : undefined}>

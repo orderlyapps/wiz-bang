@@ -42,8 +42,6 @@ export function BaseInput({
         maxlength={max_length}
         onIonInput={(event) => on_change(event.detail.value ?? "")}
         onIonBlur={on_blur}
-        slot="end"
-        style={{ minHeight: "auto" }}
       />
     </InputWrapper>
   );
