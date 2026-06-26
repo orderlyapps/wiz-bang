@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   IonHeader,
   IonToolbar,
@@ -9,17 +10,22 @@ import {
   IonSkeletonText,
   IonButtons,
   IonButton,
+  IonIcon,
 } from "@ionic/react";
+import { addOutline } from "ionicons/icons";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 import { streetCollection } from "@shared/database/collections/street";
 import { useLiveQuery, eq } from "@tanstack/react-db";
 import type { Street } from "@shared/database/schemas/street";
+import type { Suburb } from "@shared/database/schemas/suburb";
+import { AddStreetModal } from "./components/add-street-modal/AddStreetModal";
 
 type StreetSelectModalProps = {
   isOpen: boolean;
   onDidDismiss: () => void;
   onSelect: (street: Street) => void;
   suburbId?: string;
+  suburb?: Suburb;
 };
 
 export function StreetSelectModal({
@@ -27,7 +33,10 @@ export function StreetSelectModal({
   onDidDismiss,
   onSelect,
   suburbId,
+  suburb,
 }: StreetSelectModalProps) {
+  const [showAddStreet, setShowAddStreet] = useState(false);
+
   const { data: streets, isLoading } = useLiveQuery(
     (q) => {
       if (!suburbId) return undefined;
@@ -39,6 +48,11 @@ export function StreetSelectModal({
   );
 
   const sortedStreets = streets ? [...streets].sort((a, b) => a.name.localeCompare(b.name)) : [];
+
+  function handleAdded(street: Street) {
+    onSelect(street);
+    onDidDismiss();
+  }
 
   return (
     <ResponsiveModal isOpen={isOpen} onDidDismiss={onDidDismiss}>
@@ -67,22 +81,21 @@ export function StreetSelectModal({
               </IonItem>
             ))}
           </IonList>
-        ) : sortedStreets.length === 0 ? (
-          <IonList>
-            <IonItem>
-              <IonLabel>No streets found for this suburb</IonLabel>
-            </IonItem>
-          </IonList>
         ) : (
           <IonList>
+            <IonItem onClick={() => setShowAddStreet(true)} button detail={false}>
+              <IonIcon icon={addOutline} slot="start" color="primary" />
+              <IonLabel color="primary">Add New Street</IonLabel>
+            </IonItem>
             {sortedStreets.map((street) => (
               <IonItem
                 key={street.id}
-                button
                 onClick={() => {
                   onSelect(street);
                   onDidDismiss();
                 }}
+                button
+                detail={false}
               >
                 <IonLabel>{street.name}</IonLabel>
               </IonItem>
@@ -90,6 +103,12 @@ export function StreetSelectModal({
           </IonList>
         )}
       </IonContent>
+      <AddStreetModal
+        isOpen={showAddStreet}
+        onDidDismiss={() => setShowAddStreet(false)}
+        onAdded={handleAdded}
+        suburb={suburb}
+      />
     </ResponsiveModal>
   );
 }

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   IonHeader,
   IonToolbar,
@@ -9,11 +10,14 @@ import {
   IonSkeletonText,
   IonButtons,
   IonButton,
+  IonIcon,
 } from "@ionic/react";
+import { addOutline } from "ionicons/icons";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 import { suburbCollection } from "@shared/database/collections/suburb";
 import { useLiveQuery } from "@tanstack/react-db";
 import type { Suburb } from "@shared/database/schemas/suburb";
+import { AddSuburbModal } from "./components/add-suburb-modal/AddSuburbModal";
 
 type SuburbSelectModalProps = {
   isOpen: boolean;
@@ -22,10 +26,16 @@ type SuburbSelectModalProps = {
 };
 
 export function SuburbSelectModal({ isOpen, onDidDismiss, onSelect }: SuburbSelectModalProps) {
+  const [showAddSuburb, setShowAddSuburb] = useState(false);
   const { data: suburbs, isLoading } = useLiveQuery((q) => q.from({ suburb: suburbCollection }));
 
   // Sort suburbs alphabetically by name
   const sortedSuburbs = suburbs ? [...suburbs].sort((a, b) => a.name.localeCompare(b.name)) : [];
+
+  function handleAdded(suburb: Suburb) {
+    onSelect(suburb);
+    onDidDismiss();
+  }
 
   return (
     <ResponsiveModal isOpen={isOpen} onDidDismiss={onDidDismiss}>
@@ -48,22 +58,21 @@ export function SuburbSelectModal({ isOpen, onDidDismiss, onSelect }: SuburbSele
               </IonItem>
             ))}
           </IonList>
-        ) : sortedSuburbs.length === 0 ? (
-          <IonList>
-            <IonItem>
-              <IonLabel>No suburbs found.</IonLabel>
-            </IonItem>
-          </IonList>
         ) : (
           <IonList>
+            <IonItem onClick={() => setShowAddSuburb(true)} button detail={false}>
+              <IonIcon icon={addOutline} slot="start" color="primary" />
+              <IonLabel color="primary">Add New Suburb</IonLabel>
+            </IonItem>
             {sortedSuburbs.map((suburb) => (
               <IonItem
                 key={suburb.id}
-                button
                 onClick={() => {
                   onSelect(suburb);
                   onDidDismiss();
                 }}
+                button
+                detail={false}
               >
                 <IonLabel>{suburb.name}</IonLabel>
               </IonItem>
@@ -71,6 +80,11 @@ export function SuburbSelectModal({ isOpen, onDidDismiss, onSelect }: SuburbSele
           </IonList>
         )}
       </IonContent>
+      <AddSuburbModal
+        isOpen={showAddSuburb}
+        onDidDismiss={() => setShowAddSuburb(false)}
+        onAdded={handleAdded}
+      />
     </ResponsiveModal>
   );
 }

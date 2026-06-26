@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ModalSelect } from "@ui/components/inputs/modal-select/ModalSelect";
 import { StreetSelectModal } from "./street-select-modal/StreetSelectModal";
 import type { Street } from "@shared/database/schemas/street";
+import type { Suburb } from "@shared/database/schemas/suburb";
 
 interface StreetSelectProps {
   label: string;
@@ -9,6 +10,7 @@ interface StreetSelectProps {
   placeholder?: string;
   disabled?: boolean;
   suburbId?: string;
+  suburb?: Suburb;
   onSelect: (street: Street) => void;
 }
 
@@ -18,6 +20,7 @@ export function StreetSelect({
   placeholder,
   disabled = false,
   suburbId,
+  suburb,
   onSelect,
 }: StreetSelectProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -50,6 +53,7 @@ export function StreetSelect({
         onDidDismiss={handleDismiss}
         onSelect={handleSelect}
         suburbId={suburbId}
+        suburb={suburb}
       />
     </>
   );

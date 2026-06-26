@@ -75,6 +75,7 @@ export function DoorToDoorModal({ isOpen, onDidDismiss, onSave }: DoorToDoorModa
           placeholder="Choose a street..."
           disabled={!selectedSuburb}
           suburbId={selectedSuburb?.id}
+          suburb={selectedSuburb}
           onSelect={handleStreetSelect}
         />
         <TextInput
