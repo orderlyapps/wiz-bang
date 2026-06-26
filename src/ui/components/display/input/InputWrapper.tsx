@@ -9,9 +9,9 @@ interface InputWrapperProps {
 
 export function InputWrapper({ label, children, disabled }: InputWrapperProps) {
   return (
-    <IonItem style={{ maxWidth: 480, marginInline: "auto", opacity: disabled ? 0.5 : 1 }}>
+    <IonItem style={{ maxWidth: 480, marginInline: "auto" }}>
       <IonLabel>
-        <Label color={disabled ? "medium" : undefined}>{label}</Label>
+        <Label style={{ opacity: disabled ? 0.25 : 1 }}>{label}</Label>
         <br />
         <div className="ion-text-end ion-display-flex ion-justify-content-end">{children}</div>
       </IonLabel>

@@ -11,6 +11,7 @@ interface LabelProps {
   balance?: boolean;
   pretty?: boolean;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export function Label({
@@ -22,6 +23,7 @@ export function Label({
   balance = false,
   pretty = false,
   className,
+  style,
 }: LabelProps) {
   return (
     <Body
@@ -32,6 +34,7 @@ export function Label({
       balance={balance}
       pretty={pretty}
       className={className}
+      style={style}
     >
       {children}
     </Body>

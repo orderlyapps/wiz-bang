@@ -69,6 +69,7 @@ export function DoorToDoorModal({ isOpen, onDidDismiss, onSave }: DoorToDoorModa
           placeholder="Choose a suburb..."
           onSelect={handleSuburbSelect}
         />
+
         <StreetSelect
           label="Street"
           value={selectedStreet}
@@ -78,6 +79,7 @@ export function DoorToDoorModal({ isOpen, onDidDismiss, onSave }: DoorToDoorModa
           suburb={selectedSuburb}
           onSelect={handleStreetSelect}
         />
+
         <TextInput
           label="House Number"
           value={houseNumber}
@@ -85,6 +87,7 @@ export function DoorToDoorModal({ isOpen, onDidDismiss, onSave }: DoorToDoorModa
           disabled={!selectedStreet}
           on_change={handleHouseNumberChange}
         />
+
         <TextInput
           label="Unit Number"
           value={unitNumber}
@@ -92,6 +95,7 @@ export function DoorToDoorModal({ isOpen, onDidDismiss, onSave }: DoorToDoorModa
           disabled={!houseNumber}
           on_change={handleUnitNumberChange}
         />
+
         <VisitTypeSelect
           value={visitType}
           disabled={!houseNumber}

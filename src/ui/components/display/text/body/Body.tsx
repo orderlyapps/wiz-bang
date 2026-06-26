@@ -12,6 +12,7 @@ interface BodyProps {
   balance?: boolean;
   pretty?: boolean;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export function Body({
@@ -23,41 +24,46 @@ export function Body({
   balance = false,
   pretty = false,
   className,
+  style,
 }: BodyProps) {
   const getTextStyle = () => {
-    const style: React.CSSProperties = {};
+    const textStyle: React.CSSProperties = {};
 
     switch (size) {
       case "xs":
-        style.fontSize = "0.75rem";
+        textStyle.fontSize = "0.75rem";
         break;
       case "sm":
-        style.fontSize = "0.875rem";
+        textStyle.fontSize = "0.875rem";
         break;
       case "lg":
-        style.fontSize = "1.125rem";
+        textStyle.fontSize = "1.125rem";
         break;
       case "xl":
-        style.fontSize = "1.25rem";
+        textStyle.fontSize = "1.25rem";
         break;
       case "2xl":
-        style.fontSize = "1.5rem";
+        textStyle.fontSize = "1.5rem";
         break;
       default: // md
-        style.fontSize = "1rem";
+        textStyle.fontSize = "1rem";
     }
 
-    if (bold) style.fontWeight = "bold";
-    if (italic) style.fontStyle = "italic";
+    if (bold) textStyle.fontWeight = "bold";
+    if (italic) textStyle.fontStyle = "italic";
 
-    return style;
+    return textStyle;
   };
 
   const needsWrapper = balance || pretty;
   const wrapClass = balance ? styles.balance : pretty ? styles.pretty : "";
 
   return (
-    <IonText {...(color && { color })} style={getTextStyle()} className={className}>
+    <IonText
+      {...(color && { color })}
+      style={{ ...getTextStyle(), ...style }}
+      className={className}
+    >
       {needsWrapper ? <span className={wrapClass}>{children}</span> : children}
     </IonText>
   );
