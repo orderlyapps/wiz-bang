@@ -67,7 +67,7 @@ export function getFilterInputItems(
       id: "min_avg_weeks",
       node: (
         <IncrementInput
-          label="Minimum Average Weeks Between Assignments"
+          label="Average Weeks Between Assignments"
           value={filter.min_avg_weeks_between}
           min={0}
           on_change={(value) => on_change({ ...filter, min_avg_weeks_between: value })}
@@ -79,7 +79,7 @@ export function getFilterInputItems(
       id: "participation_types",
       node: (
         <AlertMultiSelect
-          label="Assignment Types"
+          label="Participants Assignment Types"
           options={participationTypeOptions}
           selected={filter.participation_types}
           disabled={disabled}
@@ -108,7 +108,7 @@ export function getFilterInputItems(
       id: "stat_participation_types",
       node: (
         <AlertMultiSelect
-          label="Assignment Type Statistics"
+          label="Statistics Included Assignment Type"
           options={participationTypeOptions}
           selected={filter.stat_participation_types}
           disabled={disabled}
