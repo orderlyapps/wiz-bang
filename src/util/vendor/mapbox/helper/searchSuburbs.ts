@@ -2,6 +2,7 @@ import type {
   MapboxGeocodingFeature,
   MapboxGeocodingResponse,
 } from "@util/vendor/mapbox/types/MapboxGeocodingResponse";
+import { mapboxToken } from "@util/vendor/mapbox/mapboxToken";
 
 export async function searchSuburbs(
   query: string,
@@ -20,19 +21,12 @@ export async function searchSuburbs(
     ];
   }
 
-  const accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
-  if (!accessToken) {
-    throw new Error(
-      "Mapbox access token not found. Please set VITE_MAPBOX_ACCESS_TOKEN environment variable.",
-    );
-  }
-
   try {
     const encodedQuery = encodeURIComponent(query);
     let url =
       `https://api.mapbox.com/search/geocode/v6/forward?` +
       `q=${encodedQuery}&` +
-      `access_token=${accessToken}&` +
+      `access_token=${mapboxToken}&` +
       `country=AU&` +
       `limit=10&` +
       `types=locality,place`;

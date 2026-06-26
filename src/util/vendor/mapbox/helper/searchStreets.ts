@@ -2,19 +2,13 @@ import type {
   MapboxGeocodingFeature,
   MapboxGeocodingResponse,
 } from "@util/vendor/mapbox/types/MapboxGeocodingResponse";
+import { mapboxToken } from "@util/vendor/mapbox/mapboxToken";
 
 export async function searchStreets(
   query: string,
   bbox: [number, number, number, number],
   padding: number = 0.01,
 ): Promise<MapboxGeocodingFeature[]> {
-  const accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
-  if (!accessToken) {
-    throw new Error(
-      "Mapbox access token not found. Please set VITE_MAPBOX_TOKEN environment variable.",
-    );
-  }
-
   try {
     // Apply padding to bbox
     const [minLng, minLat, maxLng, maxLat] = bbox;
@@ -28,7 +22,7 @@ export async function searchStreets(
       // Strategy 1: Search for addresses and streets within bbox
       `https://api.mapbox.com/search/geocode/v6/forward?` +
       `q=${encodedQuery}&` +
-      `access_token=${accessToken}&` +
+      `access_token=${mapboxToken}&` +
       `country=AU&` +
       `limit=10&` +
       `types=address,street&` +
