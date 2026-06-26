@@ -21,7 +21,7 @@ export function OtpSignInModal({ publisher_id, onSignIn }: OtpSignInModalProps) 
           <IonToolbar>
             <IonTitle>Sign In with Code</IonTitle>
             <IonButtons slot="end">
-              <CloseIconButton confirm={false} on_click={() => setIsOpen(false)} />
+              <CloseIconButton skip_confirmation on_click={() => setIsOpen(false)} />
             </IonButtons>
           </IonToolbar>
         </IonHeader>
