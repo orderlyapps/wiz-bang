@@ -235,6 +235,7 @@ export default defineConfig({
         ],
       },
       workbox: {
+        disableDevLogs: true,
         globPatterns: ["**/*.{js,css,html,svg,png,ico,woff2,jpg}"],
         globIgnores: ["**/assets/pwa/**"],
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
