@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IonAlert, IonItem, IonList } from "@ionic/react";
+import { IonAlert, IonItem, IonList, IonNote } from "@ionic/react";
 import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiColumnList";
 import { Select } from "@ui/components/inputs/select/Select";
 import { CopyIconButton } from "@ui/components/inputs/button/icon/copy/CopyIconButton";
@@ -32,6 +32,7 @@ export function PresetManager({
 
   const preset_options = presets.map((p) => ({ label: p.name, value: p.id }));
   const active_preset_name = presets.find((p) => p.id === active_preset_id)?.name ?? "";
+  const has_custom_presets = presets.some((p) => p.id !== DEFAULT_PRESET_ID);
 
   const row_items = [
     {
@@ -76,6 +77,12 @@ export function PresetManager({
         gap="sm"
         column_offset={-1}
       />
+
+      {!has_custom_presets && (
+        <IonItem lines="none">
+          <IonNote>NOTE: Save the current filters as a preset using the copy icon above.</IonNote>
+        </IonItem>
+      )}
 
       <IonAlert
         isOpen={show_save_alert}
