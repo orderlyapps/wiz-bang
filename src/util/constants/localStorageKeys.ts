@@ -13,6 +13,7 @@ export const localStorageKeys = {
   mapStyle: "map_style",
   customLocalStyleSettings: "custom_local_style_settings",
   doorToDoorForm: "door_to_door_form",
+  recentMaps: "recent_maps",
 } as const;
 
 export const localStorageKeyWithVariant = (
