@@ -11,6 +11,7 @@ import {
   type ZoomToFn,
 } from "./components/map-zoom-to-controller/MapZoomToController";
 import { MapShareActionSheet } from "./components/map-share-action-sheet/MapShareActionSheet";
+import { MapMasterLayer } from "./components/map-master-layer/MapMasterLayer";
 
 type SelectedNotAtHome = {
   id: string;
@@ -43,6 +44,7 @@ export function DoorToDoorContent() {
         height="100%"
         on_long_press={(lngLat) => setShareLocation({ lat: lngLat.lat, lng: lngLat.lng })}
       >
+        <MapMasterLayer />
         <NotAtHomeLayer geojson={geojson} onSelect={handleSelect} />
         <MapZoomToController zoomToRef={zoomToRef} />
       </MapView>
