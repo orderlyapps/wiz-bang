@@ -16,6 +16,8 @@ dist-ssr
 .env*
 !.env.*
 *schema.sql
+example-code/*
+!example-code/.gitkeep
 
 # Editor directories and files
 !.vscode/extensions.json
