@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { IonFab, IonFabButton, IonIcon } from "@ionic/react";
 import { add } from "ionicons/icons";
 import { MapView } from "@util/vendor/mapbox/MapView";
@@ -6,13 +6,11 @@ import { NotAtHomeLayer } from "./components/layers/not-at-home-layer/NotAtHomeL
 import { useNotAtHomeMarkers } from "./components/layers/not-at-home-layer/hooks/useNotAtHomeMarkers";
 import { NotAtHomeActionSheet } from "./components/layers/not-at-home-layer/components/not-at-home-action-sheet/NotAtHomeActionSheet";
 import { DoorToDoorModal } from "./components/door-to-door-modal/DoorToDoorModal";
-import {
-  MapZoomToController,
-  type ZoomToFn,
-} from "./components/map-zoom-to-controller/MapZoomToController";
+import { MapZoomToController } from "./components/map-zoom-to-controller/MapZoomToController";
 import { MapShareActionSheet } from "./components/map-share-action-sheet/MapShareActionSheet";
 import { MapMasterLayer } from "./components/layers/map-master-layer/MapMasterLayer";
 import { MapsLayer } from "./components/layers/maps-layer/MapsLayer";
+import { useMapZoom } from "./context/mapZoomContext";
 
 type SelectedNotAtHome = {
   id: string;
@@ -28,7 +26,7 @@ export function DoorToDoorContent() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedNotAtHome, setSelectedNotAtHome] = useState<SelectedNotAtHome | null>(null);
   const [shareLocation, setShareLocation] = useState<ShareLocation | null>(null);
-  const zoomToRef = useRef<ZoomToFn | null>(null);
+  const { zoomToRef } = useMapZoom();
 
   function handleSelect(id: string) {
     setSelectedNotAtHome({ id });
