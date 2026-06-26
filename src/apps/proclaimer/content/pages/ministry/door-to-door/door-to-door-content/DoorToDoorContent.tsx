@@ -2,17 +2,17 @@ import { useRef, useState } from "react";
 import { IonFab, IonFabButton, IonIcon } from "@ionic/react";
 import { add } from "ionicons/icons";
 import { MapView } from "@util/vendor/mapbox/MapView";
-import { NotAtHomeLayer } from "./components/not-at-home-layer/NotAtHomeLayer";
-import { useNotAtHomeMarkers } from "./components/not-at-home-layer/hooks/useNotAtHomeMarkers";
-import { NotAtHomeActionSheet } from "./components/not-at-home-layer/components/not-at-home-action-sheet/NotAtHomeActionSheet";
+import { NotAtHomeLayer } from "./components/layers/not-at-home-layer/NotAtHomeLayer";
+import { useNotAtHomeMarkers } from "./components/layers/not-at-home-layer/hooks/useNotAtHomeMarkers";
+import { NotAtHomeActionSheet } from "./components/layers/not-at-home-layer/components/not-at-home-action-sheet/NotAtHomeActionSheet";
 import { DoorToDoorModal } from "./components/door-to-door-modal/DoorToDoorModal";
 import {
   MapZoomToController,
   type ZoomToFn,
 } from "./components/map-zoom-to-controller/MapZoomToController";
 import { MapShareActionSheet } from "./components/map-share-action-sheet/MapShareActionSheet";
-import { MapMasterLayer } from "./components/map-master-layer/MapMasterLayer";
-import { MapsLayer } from "./components/maps-layer/MapsLayer";
+import { MapMasterLayer } from "./components/layers/map-master-layer/MapMasterLayer";
+import { MapsLayer } from "./components/layers/maps-layer/MapsLayer";
 
 type SelectedNotAtHome = {
   id: string;
