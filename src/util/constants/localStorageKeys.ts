@@ -14,6 +14,8 @@ export const localStorageKeys = {
   customLocalStyleSettings: "custom_local_style_settings",
   doorToDoorForm: "door_to_door_form",
   recentMaps: "recent_maps",
+  mapDisplayMode: "map_display_mode",
+  selectedMapId: "selected_map_id",
 } as const;
 
 export const localStorageKeyWithVariant = (

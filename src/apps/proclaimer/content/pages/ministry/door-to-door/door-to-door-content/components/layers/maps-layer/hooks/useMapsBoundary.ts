@@ -3,6 +3,8 @@ import { mapCollection } from "@shared/database/collections/map";
 import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
 import type { MapRow } from "@shared/database/schemas/map";
 import { isValidBoundary } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/utils/boundary";
+import { useMapDisplayMode } from "@proclaimer-content/pages/ministry/door-to-door/shared/hooks/useMapDisplayModeContext";
+import { useSelectedMap } from "@proclaimer-content/pages/ministry/door-to-door/shared/hooks/useSelectedMapContext";
 
 type PolygonFeature = {
   type: "Feature";
@@ -23,12 +25,22 @@ export function useMapsBoundary(): MapsGeoJSON {
   const { data } = useLiveQuery((q) => q.from({ m: mapCollection }));
   const publisher = useStoredPublisher();
   const congregation_id = publisher?.congregation_id;
+  const { displayMode } = useMapDisplayMode();
+  const { selectedMapId } = useSelectedMap();
 
   const features = ((data ?? []) as MapRow[])
     .filter(
       (row): row is MapRow & { boundary: number[][] } =>
         row.congregation_id === congregation_id && isValidBoundary(row.boundary),
     )
+    .filter((row) => {
+      // If display mode is "selected", only show the selected map
+      if (displayMode === "selected") {
+        return selectedMapId ? row.id === selectedMapId : false;
+      }
+      // Otherwise show all maps
+      return true;
+    })
     .map((row) => ({
       type: "Feature" as const,
       geometry: toGeoJSONPolygon(row.boundary),

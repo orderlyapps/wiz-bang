@@ -1,6 +1,7 @@
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons } from "@ionic/react";
 import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { MapDisplaySetting } from "./components/MapDisplaySetting";
 
 interface SettingsModalProps {
   is_open: boolean;
@@ -18,7 +19,9 @@ export function SettingsModal({ is_open, on_dismiss }: SettingsModalProps) {
           </IonButtons>
         </IonToolbar>
       </IonHeader>
-      <IonContent />
+      <IonContent>
+        <MapDisplaySetting />
+      </IonContent>
     </ResponsiveModal>
   );
 }
