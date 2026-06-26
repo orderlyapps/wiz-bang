@@ -10,6 +10,7 @@ import { MapZoomToController } from "./components/map-zoom-to-controller/MapZoom
 import { MapShareActionSheet } from "./components/map-share-action-sheet/MapShareActionSheet";
 import { MapMasterLayer } from "./components/layers/map-master-layer/MapMasterLayer";
 import { MapsLayer } from "./components/layers/maps-layer/MapsLayer";
+import { BlocksLayer } from "./components/layers/blocks-layer/BlocksLayer";
 import { useMapZoom } from "./context/mapZoomContext";
 
 type SelectedNotAtHome = {
@@ -45,6 +46,7 @@ export function DoorToDoorContent() {
       >
         <MapMasterLayer />
         <MapsLayer />
+        <BlocksLayer />
         <NotAtHomeLayer geojson={geojson} onSelect={handleSelect} />
         <MapZoomToController zoomToRef={zoomToRef} />
       </MapView>
