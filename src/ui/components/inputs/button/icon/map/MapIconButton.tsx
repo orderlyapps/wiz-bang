@@ -1,8 +1,8 @@
 import { IonButton, IonIcon } from "@ionic/react";
-import { settingsOutline } from "ionicons/icons";
+import { mapOutline } from "ionicons/icons";
 import type { IonicColor } from "@util/vendor/ionic/types/IonicColor";
 
-interface SettingsIconButtonProps {
+interface MapIconButtonProps {
   color?: IonicColor;
   fill?: "clear" | "outline" | "solid" | "default";
   size?: "small" | "default" | "large";
@@ -10,16 +10,16 @@ interface SettingsIconButtonProps {
   on_click: () => void;
 }
 
-export function SettingsIconButton({
+export function MapIconButton({
   color,
   fill = "clear",
   size = "default",
   disabled = false,
   on_click,
-}: SettingsIconButtonProps) {
+}: MapIconButtonProps) {
   return (
     <IonButton color={color} fill={fill} size={size} disabled={disabled} onClick={on_click}>
-      <IonIcon slot="icon-only" icon={settingsOutline} />
+      <IonIcon slot="icon-only" icon={mapOutline} />
     </IonButton>
   );
 }

@@ -14,6 +14,7 @@ interface DeleteIconButtonProps {
   alert_message?: string;
   confirm_text?: string;
   cancel_text?: string;
+  skip_confirmation?: boolean;
   on_click: () => void;
 }
 
@@ -27,6 +28,7 @@ export function DeleteIconButton({
   alert_message = "Are you sure you want to delete this item?",
   confirm_text = "Delete",
   cancel_text = "Cancel",
+  skip_confirmation = false,
   on_click,
 }: DeleteIconButtonProps) {
   const [show_alert, set_show_alert] = useState(false);
@@ -39,7 +41,7 @@ export function DeleteIconButton({
         size={size}
         disabled={disabled}
         slot={slot}
-        onClick={() => set_show_alert(true)}
+        onClick={() => (skip_confirmation ? on_click() : set_show_alert(true))}
       >
         <IonIcon slot="icon-only" icon={trash} />
       </IonButton>

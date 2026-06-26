@@ -14,6 +14,7 @@ interface AlertIconButtonProps {
   confirm_text: string;
   confirm_color?: IonicColor;
   cancel_text?: string;
+  skip_confirmation?: boolean;
   on_click: () => void;
   children: React.ReactElement;
 }
@@ -29,6 +30,7 @@ export function AlertIconButton({
   confirm_text,
   confirm_color,
   cancel_text = "Cancel",
+  skip_confirmation = false,
   on_click,
   children,
 }: AlertIconButtonProps) {
@@ -42,7 +44,7 @@ export function AlertIconButton({
         size={size}
         disabled={disabled}
         slot={slot}
-        onClick={() => set_show_alert(true)}
+        onClick={() => (skip_confirmation ? on_click() : set_show_alert(true))}
       >
         {isValidElement(children)
           ? cloneElement(children, { slot: "icon-only" } as object)

@@ -13,6 +13,7 @@ interface SaveIconButtonProps {
   alert_message?: string;
   confirm_text?: string;
   cancel_text?: string;
+  skip_confirmation?: boolean;
   on_click: () => void;
 }
 
@@ -25,6 +26,7 @@ export function SaveIconButton({
   alert_message = "Are you sure you want to save this item?",
   confirm_text = "Save",
   cancel_text = "Cancel",
+  skip_confirmation = false,
   on_click,
 }: SaveIconButtonProps) {
   const [show_alert, set_show_alert] = useState(false);
@@ -36,7 +38,7 @@ export function SaveIconButton({
         fill={fill}
         size={size}
         disabled={disabled}
-        onClick={() => set_show_alert(true)}
+        onClick={() => (skip_confirmation ? on_click() : set_show_alert(true))}
       >
         <IonIcon slot="icon-only" icon={save} />
       </IonButton>
