@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import Map from "react-map-gl/mapbox";
+import Map, { GeolocateControl } from "react-map-gl/mapbox";
 import mapboxgl, { type LngLat } from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { mapboxToken } from "@util/vendor/mapbox/mapboxToken";
@@ -173,6 +173,13 @@ export function MapViewInner({
         reuseMaps
         fadeDuration={0}
       >
+        <GeolocateControl
+          position="top-right"
+          trackUserLocation={true}
+          showUserHeading={true}
+          showAccuracyCircle={true}
+          fitBoundsOptions={{ zoom: 17 }}
+        />
         {map_loaded ? children : null}
       </Map>
     </div>
