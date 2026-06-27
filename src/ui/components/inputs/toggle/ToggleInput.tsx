@@ -18,7 +18,7 @@ export function ToggleInput({
   on_change,
 }: ToggleInputProps) {
   return (
-    <InputWrapper label={label}>
+    <InputWrapper label={label} disabled={disabled}>
       <IonToggle
         checked={checked}
         color={color}
