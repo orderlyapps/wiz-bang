@@ -15,8 +15,10 @@ import {
   DEFAULT_CUSTOM_LOCAL_STYLE_SETTINGS,
   customLocalStyleSettingsSchema,
 } from "@util/vendor/mapbox/customLocalStyleSettings";
-import { localStorageKeys } from "@util/constants/localStorageKeys";
+import { localStorageKeys, localStorageKeyWithVariant } from "@util/constants/localStorageKeys";
 import { selectableStyles, type SelectableStyleId } from "@util/vendor/mapbox/mapboxStyles";
+
+const SERVICE_OVERSEER_MAP_STYLE_KEY = localStorageKeyWithVariant("mapStyle", "service-overseer");
 
 function isSelectableStyleId(value: string): value is SelectableStyleId {
   return selectableStyles.some((s) => s.id === value);
@@ -29,7 +31,7 @@ function ServiceOverseerMapPage() {
   const save_custom_local_style_timeout_ref = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [style_id, set_style_id] = useState<SelectableStyleId>(() => {
     try {
-      const stored = localStorage.getItem(localStorageKeys.mapStyle);
+      const stored = localStorage.getItem(SERVICE_OVERSEER_MAP_STYLE_KEY);
       if (stored && isSelectableStyleId(stored)) {
         return stored;
       }
@@ -85,7 +87,7 @@ function ServiceOverseerMapPage() {
     if (save_style_timeout_ref.current) clearTimeout(save_style_timeout_ref.current);
     save_style_timeout_ref.current = setTimeout(() => {
       try {
-        localStorage.setItem(localStorageKeys.mapStyle, nextStyleId);
+        localStorage.setItem(SERVICE_OVERSEER_MAP_STYLE_KEY, nextStyleId);
       } catch {
         /* ignore */
       }

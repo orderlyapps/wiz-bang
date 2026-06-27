@@ -13,6 +13,7 @@ import { MapMasterLayer } from "./components/layers/map-master-layer/MapMasterLa
 import { MapsLayer } from "./components/layers/maps-layer/MapsLayer";
 import { BlocksLayer } from "./components/layers/blocks-layer/BlocksLayer";
 import { useMapZoom } from "./context/mapZoomContext";
+import { useMapStyle } from "@proclaimer-content/pages/ministry/door-to-door/shared/hooks/useMapStyleContext";
 
 type ShareLocation = {
   lat: number;
@@ -25,12 +26,14 @@ export function DoorToDoorContent() {
   const [selectedUnitsKey, setSelectedUnitsKey] = useState<string | null>(null);
   const [shareLocation, setShareLocation] = useState<ShareLocation | null>(null);
   const { zoomToRef } = useMapZoom();
+  const { styleId } = useMapStyle();
 
   return (
     <>
       <MapView
         style={{ position: "absolute", inset: 0 }}
         height="100%"
+        styleId={styleId}
         on_long_press={(lngLat) => setShareLocation({ lat: lngLat.lat, lng: lngLat.lng })}
       >
         <MapMasterLayer />
