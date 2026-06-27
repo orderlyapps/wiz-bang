@@ -13,14 +13,6 @@ export function MapMasterLayer() {
           "line-width": 2,
         }}
       />
-      <Layer
-        id="boundary-fill"
-        type="fill"
-        paint={{
-          "fill-color": "#3b82f6",
-          "fill-opacity": 0.1,
-        }}
-      />
     </Source>
   );
 }

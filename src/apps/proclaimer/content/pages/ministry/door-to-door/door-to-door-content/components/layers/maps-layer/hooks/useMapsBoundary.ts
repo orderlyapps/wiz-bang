@@ -9,7 +9,7 @@ import { useSelectedMap } from "@proclaimer-content/pages/ministry/door-to-door/
 type PolygonFeature = {
   type: "Feature";
   geometry: { type: "Polygon"; coordinates: number[][][] };
-  properties: { id: string | null; name: string; details: string | null };
+  properties: { id: string | null; name: string; details: string | null; is_selected: boolean };
 };
 
 export type MapsGeoJSON = {
@@ -48,6 +48,7 @@ export function useMapsBoundary(): MapsGeoJSON {
         id: row.id ?? null,
         name: row.name,
         details: row.details ?? null,
+        is_selected: row.id === selectedMapId,
       },
     }));
 
