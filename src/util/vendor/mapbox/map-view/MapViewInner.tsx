@@ -172,6 +172,7 @@ export function MapViewInner({
         mapStyle={resolvedStyle}
         reuseMaps
         fadeDuration={0}
+        maxPitch={60}
       >
         <GeolocateControl
           position="top-right"

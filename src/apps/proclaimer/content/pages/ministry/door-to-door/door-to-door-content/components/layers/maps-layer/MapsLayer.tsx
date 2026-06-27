@@ -13,6 +13,7 @@ export function MapsLayer() {
           "line-color": "#ef4444",
           "line-width": ["case", ["==", ["get", "is_selected"], true], 5, 1],
         }}
+        beforeId="road-label"
       />
       <Layer
         id="maps-labels"
@@ -27,9 +28,9 @@ export function MapsLayer() {
           "symbol-placement": "point",
         }}
         paint={{
-          "text-color": "#10b981",
+          "text-color": "#ef4444",
           "text-halo-color": "#ffffff",
-          "text-halo-width": 2,
+          "text-halo-width": 1,
         }}
       />
     </Source>
