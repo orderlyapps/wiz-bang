@@ -84,7 +84,7 @@ export default defineConfig({
     env: {
       builtin: true,
     },
-    ignorePatterns: ["dist"],
+    ignorePatterns: ["dist", "example-code"],
     overrides: [
       {
         files: ["vite.config.ts"],

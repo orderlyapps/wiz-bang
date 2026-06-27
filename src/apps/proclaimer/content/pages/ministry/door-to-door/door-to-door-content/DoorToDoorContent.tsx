@@ -13,6 +13,9 @@ import { MapMasterLayer } from "./components/layers/map-master-layer/MapMasterLa
 import { MapsLayer } from "./components/layers/maps-layer/MapsLayer";
 import { BlocksLayer } from "./components/layers/blocks-layer/BlocksLayer";
 import { useMapZoom } from "./context/mapZoomContext";
+import { DoNotCallSource } from "./components/layers/do-not-call-source/DoNotCallSource";
+import { DoNotCallAlert } from "./components/layers/do-not-call-source/components/do-not-call-alert/DoNotCallAlert";
+import type { DoNotCall } from "./components/layers/do-not-call-source/types";
 import { useMapStyle } from "@proclaimer-content/pages/ministry/door-to-door/shared/hooks/useMapStyleContext";
 
 type ShareLocation = {
@@ -25,6 +28,7 @@ export function DoorToDoorContent() {
   const [selectedNotAtHome, setSelectedNotAtHome] = useState<NotAtHome | null>(null);
   const [selectedUnitsKey, setSelectedUnitsKey] = useState<string | null>(null);
   const [shareLocation, setShareLocation] = useState<ShareLocation | null>(null);
+  const [selectedDoNotCall, setSelectedDoNotCall] = useState<DoNotCall | null>(null);
   const { zoomToRef } = useMapZoom();
   const { styleId } = useMapStyle();
 
@@ -39,6 +43,7 @@ export function DoorToDoorContent() {
         <MapMasterLayer />
         <MapsLayer />
         <BlocksLayer />
+        <DoNotCallSource onSelect={setSelectedDoNotCall} />
         <NotAtHomeSource onSelect={setSelectedNotAtHome} onSelectUnits={setSelectedUnitsKey} />
         <MapZoomToController zoomToRef={zoomToRef} />
       </MapView>
@@ -58,6 +63,7 @@ export function DoorToDoorContent() {
         }}
       />
 
+      <DoNotCallAlert selected={selectedDoNotCall} onDismiss={() => setSelectedDoNotCall(null)} />
       <NotAtHomeAlert selected={selectedNotAtHome} onDismiss={() => setSelectedNotAtHome(null)} />
       <NotAtHomeUnitModal groupKey={selectedUnitsKey} onDismiss={() => setSelectedUnitsKey(null)} />
 
