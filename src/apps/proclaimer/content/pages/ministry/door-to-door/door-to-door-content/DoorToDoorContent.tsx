@@ -2,9 +2,10 @@ import { useState } from "react";
 import { IonFab, IonFabButton, IonIcon } from "@ionic/react";
 import { add } from "ionicons/icons";
 import { MapView } from "@util/vendor/mapbox/MapView";
-import { NotAtHomeLayer } from "./components/layers/not-at-home-layer/NotAtHomeLayer";
-import { useNotAtHomeMarkers } from "./components/layers/not-at-home-layer/hooks/useNotAtHomeMarkers";
-import { NotAtHomeActionSheet } from "./components/layers/not-at-home-layer/components/not-at-home-action-sheet/NotAtHomeActionSheet";
+import { NotAtHomeSource } from "./components/not-at-home-source/NotAtHomeSource";
+import { NotAtHomeAlert } from "./components/not-at-home-source/components/not-at-home-alert/NotAtHomeAlert";
+import { NotAtHomeUnitModal } from "./components/not-at-home-source/components/not-at-home-unit-modal/NotAtHomeUnitModal";
+import type { NotAtHome } from "./components/not-at-home-source/types";
 import { DoorToDoorModal } from "./components/door-to-door-modal/DoorToDoorModal";
 import { MapZoomToController } from "./components/map-zoom-to-controller/MapZoomToController";
 import { MapShareActionSheet } from "./components/map-share-action-sheet/MapShareActionSheet";
@@ -13,29 +14,17 @@ import { MapsLayer } from "./components/layers/maps-layer/MapsLayer";
 import { BlocksLayer } from "./components/layers/blocks-layer/BlocksLayer";
 import { useMapZoom } from "./context/mapZoomContext";
 
-type SelectedNotAtHome = {
-  id: string;
-};
-
 type ShareLocation = {
   lat: number;
   lng: number;
 };
 
 export function DoorToDoorContent() {
-  const geojson = useNotAtHomeMarkers();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedNotAtHome, setSelectedNotAtHome] = useState<SelectedNotAtHome | null>(null);
+  const [selectedNotAtHome, setSelectedNotAtHome] = useState<NotAtHome | null>(null);
+  const [selectedUnitsKey, setSelectedUnitsKey] = useState<string | null>(null);
   const [shareLocation, setShareLocation] = useState<ShareLocation | null>(null);
   const { zoomToRef } = useMapZoom();
-
-  function handleSelect(id: string) {
-    setSelectedNotAtHome({ id });
-  }
-
-  function handleDismiss() {
-    setSelectedNotAtHome(null);
-  }
 
   return (
     <>
@@ -47,7 +36,7 @@ export function DoorToDoorContent() {
         <MapMasterLayer />
         <MapsLayer />
         <BlocksLayer />
-        <NotAtHomeLayer geojson={geojson} onSelect={handleSelect} />
+        <NotAtHomeSource onSelect={setSelectedNotAtHome} onSelectUnits={setSelectedUnitsKey} />
         <MapZoomToController zoomToRef={zoomToRef} />
       </MapView>
 
@@ -66,9 +55,8 @@ export function DoorToDoorContent() {
         }}
       />
 
-      {selectedNotAtHome && (
-        <NotAtHomeActionSheet id={selectedNotAtHome.id} is_open={true} on_dismiss={handleDismiss} />
-      )}
+      <NotAtHomeAlert selected={selectedNotAtHome} onDismiss={() => setSelectedNotAtHome(null)} />
+      <NotAtHomeUnitModal groupKey={selectedUnitsKey} onDismiss={() => setSelectedUnitsKey(null)} />
 
       <MapShareActionSheet
         lat={shareLocation?.lat ?? 0}
