@@ -1,13 +1,18 @@
 import { Source, Layer } from "react-map-gl/mapbox";
 import { useSelectedMapBlocks } from "./hooks/useSelectedMapBlocks";
+import { useTheme } from "@util/app/theme/hooks/use-theme";
+import { JW_BLUE } from "@ui/colors/jwColors";
 
 export function BlocksLayer() {
   const { polygons, lines, lineEndpoints } = useSelectedMapBlocks();
+  const { resolved_theme } = useTheme();
   const hasPolygons = polygons.features.length > 0;
   const hasLines = lines.features.length > 0;
   const hasEndpoints = lineEndpoints.features.length > 0;
 
   if (!hasPolygons && !hasLines && !hasEndpoints) return null;
+
+  const blue = JW_BLUE[resolved_theme].base;
 
   return (
     <>
@@ -17,10 +22,10 @@ export function BlocksLayer() {
             id="selected-map-blocks-polygons-line"
             type="line"
             paint={{
-              "line-color": "#4f46e5",
+              "line-color": blue,
               "line-width": 2,
-              "line-opacity": 0.3,
-              "line-dasharray": [4, 2],
+              "line-opacity": 0.4,
+              "line-dasharray": [2, 1],
             }}
           />
           <Layer
@@ -29,15 +34,13 @@ export function BlocksLayer() {
             minzoom={15}
             layout={{
               "text-field": ["get", "name"],
-              "text-size": 20,
+              "text-size": 24,
               "text-anchor": "center",
               "text-allow-overlap": true,
               "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
             }}
             paint={{
-              "text-color": "#1f2937",
-              "text-halo-color": "#ffffff",
-              "text-halo-width": 2,
+              "text-color": blue,
             }}
           />
         </Source>
@@ -49,10 +52,10 @@ export function BlocksLayer() {
             type="line"
             minzoom={15}
             paint={{
-              "line-color": "#4f46e5",
+              "line-color": blue,
               "line-width": 2,
-              "line-opacity": 0.3,
-              "line-dasharray": [4, 2],
+              "line-opacity": 0.4,
+              "line-dasharray": [2, 1],
             }}
           />
         </Source>
@@ -65,15 +68,13 @@ export function BlocksLayer() {
             minzoom={15}
             layout={{
               "text-field": ["get", "name"],
-              "text-size": 20,
+              "text-size": 24,
               "text-anchor": "center",
               "text-allow-overlap": true,
               "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
             }}
             paint={{
-              "text-color": "#1f2937",
-              "text-halo-color": "#ffffff",
-              "text-halo-width": 2,
+              "text-color": blue,
             }}
           />
         </Source>

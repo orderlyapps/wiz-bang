@@ -29,8 +29,6 @@ export function MapsLayer() {
         }}
         paint={{
           "text-color": "#ef4444",
-          "text-halo-color": "#ffffff",
-          "text-halo-width": 1,
         }}
       />
     </Source>
