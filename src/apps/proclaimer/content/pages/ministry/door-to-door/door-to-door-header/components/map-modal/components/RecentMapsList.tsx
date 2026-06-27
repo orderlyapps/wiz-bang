@@ -1,6 +1,7 @@
-import { IonList, IonItem, IonLabel, IonNote } from "@ionic/react";
+import { IonList, IonItem, IonLabel } from "@ionic/react";
 import { useMapsList } from "../hooks/useMapsList";
 import type { MapRow } from "@shared/database/schemas/map";
+import { Heading } from "@ui/components/display/text/heading/Heading";
 
 interface RecentMapsListProps {
   recentMapIds: string[];
@@ -21,13 +22,10 @@ export function RecentMapsList({ recentMapIds, onMapSelect }: RecentMapsListProp
 
   return (
     <>
-      <div style={{ padding: "16px 16px 8px 16px" }}>
-        <h3
-          style={{ margin: 0, fontSize: "16px", fontWeight: "600", color: "var(--ion-color-dark)" }}
-        >
-          Recently Selected
-        </h3>
-      </div>
+      <IonItem>
+        <Heading>Recent Maps</Heading>
+      </IonItem>
+
       <IonList>
         {recentMaps.map((map) => (
           <IonItem key={map.id} button onClick={() => onMapSelect(map)}>
@@ -35,9 +33,6 @@ export function RecentMapsList({ recentMapIds, onMapSelect }: RecentMapsListProp
               <h2>{map.name}</h2>
               {map.details && <p>{map.details}</p>}
             </IonLabel>
-            <IonNote slot="end" color="medium">
-              Recent
-            </IonNote>
           </IonItem>
         ))}
       </IonList>
