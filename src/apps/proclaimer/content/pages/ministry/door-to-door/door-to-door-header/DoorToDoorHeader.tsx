@@ -5,18 +5,20 @@ import { SettingsIconButton } from "@ui/components/inputs/button/icon/settings/S
 import { MapModal } from "./components/map-modal/MapModal";
 import { SettingsModal } from "./components/settings-modal/SettingsModal";
 import { useMapZoom } from "../door-to-door-content/context/mapZoomContext";
+import { useSelectedMapName } from "../shared/hooks/useSelectedMapName";
 
 export function DoorToDoorHeader() {
   const [show_map, set_show_map] = useState(false);
   const [show_settings, set_show_settings] = useState(false);
   const { zoomToMap } = useMapZoom();
+  const selectedMapName = useSelectedMapName();
 
   return (
     <IonToolbar>
       <IonButtons slot="start">
         <IonBackButton />
       </IonButtons>
-      <IonTitle>Door To Door</IonTitle>
+      <IonTitle>{selectedMapName ?? "Door To Door"}</IonTitle>
       <IonButtons slot="end">
         <MapIconButton on_click={() => set_show_map(true)} />
         <SettingsIconButton on_click={() => set_show_settings(true)} />
