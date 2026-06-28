@@ -17,6 +17,9 @@ export const midweekAVAssignmentIDs = [
   "platform_midweek",
   "microphone_1_midweek",
   "microphone_2_midweek",
+] as const;
+
+export const midweekAttendantAssignmentIDs = [
   "entrance_midweek",
   "auditorium_midweek",
   "zoom_midweek",
@@ -62,6 +65,7 @@ export const avAssignmentLabels: Record<string, string> = {
 
 export const avAssignmentIDs = [
   ...midweekAVAssignmentIDs,
+  ...midweekAttendantAssignmentIDs,
   ...weekendAVAssignmentIDs,
   ...weekendAttendantAssignmentIDs,
 ] as const;
