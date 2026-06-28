@@ -14,6 +14,10 @@ interface FormatOptions {
 export const getTheocraticWeekLabel = (dateStr: string, options: FormatOptions = {}): string => {
   const { format = "week-range", useRelativeWeek = false } = options;
 
+  if (!dateStr) {
+    return "Invalid Date";
+  }
+
   const [year, month, day] = dateStr.split("-").map(Number);
 
   if (useRelativeWeek) {

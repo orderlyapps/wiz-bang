@@ -221,7 +221,7 @@ function App() {
           component={AssignmentDetailPage}
           exact
         />
-        <Route path="/schedules/weekend-meeting" component={WeekendMeetingPage} exact />
+        <Route path="/schedules/weekend-meeting/:week_id?" component={WeekendMeetingPage} exact />
         <Route path="/schedules/events" component={EventsPage} exact />
         <Route path="/schedules/cleaning" component={CleaningPage} exact />
         {/* PUBLISHERS */}
