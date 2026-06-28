@@ -8,7 +8,7 @@ function PublishersPage() {
       <IonHeader>
         <PublishersHeader />
       </IonHeader>
-      <IonContent className="ion-padding">
+      <IonContent>
         <PublishersContent />
       </IonContent>
     </IonPage>
