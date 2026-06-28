@@ -11,9 +11,8 @@ interface MidweekMeetingContentProps {
 export function MidweekMeetingContent({ week_id }: MidweekMeetingContentProps) {
   return (
     <>
-      {/* <WeekNavigation week_id={week_id} /> */}
-      <IonList className="ion-margin" inset>
-        <ScheduleContent week_id={week_id} base_path="/schedules/midweek-meeting" />
+      <ScheduleContent week_id={week_id} base_path="/schedules/midweek-meeting" />
+      <IonList inset>
         <Space />
         <MidweekAssignmentsDisplay weekId={week_id} />
         <Space />

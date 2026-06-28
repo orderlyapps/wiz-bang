@@ -57,7 +57,7 @@ export function ScheduleContent({ week_id, base_path }: ScheduleContentProps) {
   return (
     <>
       <WeekNavigation week_id={week_id} />
-      <IonList className="ion-margin" inset>
+      <IonList inset>
         <MultiColumnList<AssignmentRow>
           items={rows}
           get_id={(row) => row.id}
