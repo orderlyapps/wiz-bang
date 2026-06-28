@@ -6,6 +6,7 @@ import MinistryPage from "@proclaimer-routes/pages/ministry/Ministry";
 import DoorToDoorPage from "@proclaimer-routes/pages/ministry/door-to-door/DoorToDoor";
 import LetterWritingPage from "@proclaimer-routes/pages/ministry/letter-writing/LetterWriting";
 import MapsPage from "@proclaimer-routes/pages/ministry/maps/Maps";
+import MapDetailPage from "@proclaimer-routes/pages/ministry/maps/map-detail/MapDetail";
 import SchedulePage from "@proclaimer-routes/pages/ministry/schedule/Schedule";
 import SchedulesPage from "@proclaimer-routes/pages/schedules/Schedules";
 import MidweekMeetingPage from "@proclaimer-routes/pages/schedules/midweek-meeting/MidweekMeeting";
@@ -210,6 +211,7 @@ function App() {
         <Route path="/ministry/door-to-door" component={DoorToDoorPage} exact />
         <Route path="/ministry/letter-writing" component={LetterWritingPage} exact />
         <Route path="/ministry/maps" component={MapsPage} exact />
+        <Route path="/ministry/maps/detail/:map_id/:file_type" component={MapDetailPage} exact />
         <Route path="/ministry/schedule" component={SchedulePage} exact />
         {/* SCHEDULES */}
         <Route path="/schedules" component={SchedulesPage} exact />
