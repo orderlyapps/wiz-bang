@@ -8,7 +8,7 @@ function LetterWritingPage() {
       <IonHeader>
         <LetterWritingHeader />
       </IonHeader>
-      <IonContent className="ion-padding">
+      <IonContent className="content-wide">
         <LetterWritingContent />
       </IonContent>
     </IonPage>

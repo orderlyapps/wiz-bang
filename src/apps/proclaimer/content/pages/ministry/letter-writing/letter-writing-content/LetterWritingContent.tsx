@@ -1,3 +1,5 @@
+import { LetterWritingList } from "./components/letter-writing-list/LetterWritingList";
+
 export function LetterWritingContent() {
-  return <h1>Letter Writing</h1>;
+  return <LetterWritingList />;
 }
