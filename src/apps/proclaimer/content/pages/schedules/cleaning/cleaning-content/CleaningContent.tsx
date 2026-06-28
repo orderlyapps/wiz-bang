@@ -1,3 +1,5 @@
+import { CleaningList } from "./cleaning-list/CleaningList";
+
 export function CleaningContent() {
-  return <h1>Cleaning</h1>;
+  return <CleaningList />;
 }
