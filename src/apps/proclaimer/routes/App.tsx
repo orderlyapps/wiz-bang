@@ -59,6 +59,8 @@ import CbsConductorParticipationPage from "@proclaimer-routes/pages/home/clam-ov
 import CbsReaderParticipationPage from "@proclaimer-routes/pages/home/clam-overseer/participation/cbs-reader/CbsReader";
 import ClamOverseerSchedulePage from "@proclaimer-routes/pages/home/clam-overseer/schedule/Schedule";
 import AssignmentDetailPage from "@proclaimer-routes/pages/home/clam-overseer/schedule/assignment-detail/AssignmentDetail";
+import AvSchedulePage from "@proclaimer-routes/pages/home/av-overseer/schedule/AvSchedule";
+import AvAssignmentDetailPage from "@proclaimer-routes/pages/home/av-overseer/schedule/assignment-detail/AvAssignmentDetail";
 import { Icon } from "@ui/components/icons/Icon";
 
 function App() {
@@ -204,6 +206,12 @@ function App() {
         <Route path="/home/cobe" component={CobePage} exact />
         <Route path="/home/territory-servant" component={TerritoryServantPage} exact />
         <Route path="/home/av-overseer" component={AvOverseerPage} exact />
+        <Route
+          path="/home/av-overseer/schedule/:week_id/assignment/:assignment_id"
+          component={AvAssignmentDetailPage}
+          exact
+        />
+        <Route path="/home/av-overseer/schedule/:week_id?" component={AvSchedulePage} exact />
         <Route path="/home/super-admin" component={SuperAdminPage} exact />
         <Route path="/home/super-admin/clam-data" component={ClamDataPage} exact />
         {/* MINISTRY */}

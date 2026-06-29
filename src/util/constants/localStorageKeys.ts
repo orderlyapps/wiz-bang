@@ -16,6 +16,8 @@ export const localStorageKeys = {
   recentMaps: "recent_maps",
   mapDisplayMode: "map_display_mode",
   selectedMapId: "selected_map_id",
+  avFilterSortPresets: "av_filter_sort_presets",
+  avFilterSortActivePreset: "av_filter_sort_active_preset",
 } as const;
 
 export const localStorageKeyWithVariant = (

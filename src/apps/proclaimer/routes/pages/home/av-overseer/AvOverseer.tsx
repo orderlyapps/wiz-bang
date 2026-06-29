@@ -8,7 +8,7 @@ function AvOverseerPage() {
       <IonHeader>
         <AvOverseerHeader />
       </IonHeader>
-      <IonContent className="ion-padding">
+      <IonContent>
         <AvOverseerContent />
       </IonContent>
     </IonPage>
