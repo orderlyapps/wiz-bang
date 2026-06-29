@@ -1,11 +1,10 @@
-import { Heading } from "@ui/components/display/text/heading/Heading";
+import { IonList } from "@ionic/react";
+import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
 
 export function WeekendContent() {
   return (
-    <div className="ion-padding">
-      <Heading size="lg" bold>
-        Weekend
-      </Heading>
-    </div>
+    <IonList>
+      <NavItem to="/home/weekend/schedule" label="Schedule" />
+    </IonList>
   );
 }

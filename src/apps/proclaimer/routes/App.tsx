@@ -46,6 +46,7 @@ import CobePage from "@proclaimer-routes/pages/home/cobe/Cobe";
 import TerritoryServantPage from "@proclaimer-routes/pages/home/territory-servant/TerritoryServant";
 import SpeakerPage from "@proclaimer-routes/pages/home/speaker/Speaker";
 import WeekendPage from "@proclaimer-routes/pages/home/weekend/Weekend";
+import WeekendSchedulePage from "@proclaimer-routes/pages/home/weekend/schedule/Schedule";
 import AvOverseerPage from "@proclaimer-routes/pages/home/av-overseer/AvOverseer";
 import ClamDataPage from "@proclaimer-routes/pages/home/super-admin/clam-data/ClamData";
 import ParticipationPage from "@proclaimer-routes/pages/home/clam-overseer/participation/Participation";
@@ -223,6 +224,7 @@ function App() {
         <Route path="/home/territory-servant" component={TerritoryServantPage} exact />
         <Route path="/home/speaker" component={SpeakerPage} exact />
         <Route path="/home/weekend" component={WeekendPage} exact />
+        <Route path="/home/weekend/schedule/:week_id?" component={WeekendSchedulePage} exact />
         <Route path="/home/av-overseer" component={AvOverseerPage} exact />
         <Route
           path="/home/av-overseer/schedule/:week_id/assignment/:assignment_id"
