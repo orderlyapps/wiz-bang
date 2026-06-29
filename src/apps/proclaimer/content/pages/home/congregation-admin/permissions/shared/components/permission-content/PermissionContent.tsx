@@ -35,7 +35,7 @@ export function PermissionContent({
           permitted_publishers.map((p) => (
             <IonItem key={p.id}>
               <IonLabel>{`${p.display_name ?? p.first_name} ${p.last_name ?? ""}`}</IonLabel>
-              <DeleteIconButton on_click={() => on_delete(p.permission_id)} />
+              <DeleteIconButton slot="end" on_click={() => on_delete(p.permission_id)} />
             </IonItem>
           ))
         )}
