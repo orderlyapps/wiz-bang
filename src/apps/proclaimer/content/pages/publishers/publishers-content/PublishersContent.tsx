@@ -32,6 +32,14 @@ export function PublishersContent() {
         publisher.standing === "elder" && publisher.type !== "speaker" && !publisher.archived_at,
     ) || [],
   );
+  const ministerialServants = sortPublishers(
+    publishers?.filter(
+      (publisher) =>
+        publisher.standing === "ministerial_servant" &&
+        publisher.type !== "speaker" &&
+        !publisher.archived_at,
+    ) || [],
+  );
   const regularPioneers = sortPublishers(
     publishers?.filter(
       (publisher) => publisher.type === "regular_pioneer" && !publisher.archived_at,
@@ -52,6 +60,23 @@ export function PublishersContent() {
               {elders.map((elder) => (
                 <IonItem key={elder.id}>
                   <IonLabel>{getPublisherDisplayName(elder)}</IonLabel>
+                </IonItem>
+              ))}
+            </IonList>
+          </div>
+        </IonAccordion>
+
+        <IonAccordion value="ministerial-servants">
+          <IonItem slot="header">
+            <IonLabel>
+              <Heading>Ministerial Servants ({ministerialServants.length})</Heading>
+            </IonLabel>
+          </IonItem>
+          <div slot="content">
+            <IonList>
+              {ministerialServants.map((servant) => (
+                <IonItem key={servant.id}>
+                  <IonLabel>{getPublisherDisplayName(servant)}</IonLabel>
                 </IonItem>
               ))}
             </IonList>
