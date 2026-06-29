@@ -19,6 +19,8 @@ export function PermissionsContent() {
         to="/home/congregation-admin/permissions/territory-servant"
       />
       <NavItem label="AV Overseer" to="/home/congregation-admin/permissions/av-overseer" />
+      <NavItem label="Speaker" to="/home/congregation-admin/permissions/speaker" />
+      <NavItem label="Weekend" to="/home/congregation-admin/permissions/weekend" />
     </IonList>
   );
 }

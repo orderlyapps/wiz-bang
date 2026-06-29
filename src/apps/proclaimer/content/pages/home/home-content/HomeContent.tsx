@@ -69,6 +69,14 @@ export function HomeContent() {
           {(canSeeAll || permissions.has_cleaning) && (
             <NavItem label="Cleaning" to="/home/cleaning" />
           )}
+
+          {(canSeeAll || permissions.has_speaker) && (
+            <NavItem label="Public Talks" to="/home/speaker" />
+          )}
+
+          {(canSeeAll || permissions.has_weekend) && (
+            <NavItem label="Weekend Meeting" to="/home/weekend" />
+          )}
         </IonList>
       )}
     </>

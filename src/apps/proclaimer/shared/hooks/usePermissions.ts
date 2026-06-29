@@ -8,6 +8,8 @@ import { serviceOverseerPermissionCollection } from "@shared/database/collection
 import { cobePermissionCollection } from "@shared/database/collections/cobe-permission";
 import { territoryServantPermissionCollection } from "@shared/database/collections/territory-servant-permission";
 import { avOverseerPermissionCollection } from "@shared/database/collections/av-overseer-permission";
+import { speakerPermissionCollection } from "@shared/database/collections/speaker-permission";
+import { weekendPermissionCollection } from "@shared/database/collections/weekend-permission";
 import { congregationAdminCollection } from "@shared/database/collections/congregation-admin";
 import { authUserCollection } from "@shared/database/collections/auth-user";
 import { useAuthSession } from "@util/app/auth/useAuthSession";
@@ -23,6 +25,8 @@ interface Permissions {
   has_cobe: boolean;
   has_territory_servant: boolean;
   has_av_overseer: boolean;
+  has_speaker: boolean;
+  has_weekend: boolean;
   has_congregation_admin: boolean;
   is_super_admin: boolean;
   is_authenticated: boolean;
@@ -59,6 +63,12 @@ export function usePermissions(): Permissions {
   const { data: av_permissions } = useLiveQuery((q) =>
     q.from({ ap: avOverseerPermissionCollection }),
   );
+  const { data: speaker_permissions } = useLiveQuery((q) =>
+    q.from({ sp: speakerPermissionCollection }),
+  );
+  const { data: weekend_permissions } = useLiveQuery((q) =>
+    q.from({ wp: weekendPermissionCollection }),
+  );
   const { data: congregation_admins } = useLiveQuery((q) =>
     q.from({ ca: congregationAdminCollection }),
   );
@@ -75,6 +85,8 @@ export function usePermissions(): Permissions {
       has_cobe: false,
       has_territory_servant: false,
       has_av_overseer: false,
+      has_speaker: false,
+      has_weekend: false,
       has_congregation_admin: false,
       is_super_admin: false,
       is_authenticated: !!auth_user_id,
@@ -134,6 +146,16 @@ export function usePermissions(): Permissions {
       ap.auth_user_id === auth_user_id && ap.congregation_id === congregation_id && ap.can_edit,
   );
 
+  const has_speaker = speaker_permissions.some(
+    (sp) =>
+      sp.auth_user_id === auth_user_id && sp.congregation_id === congregation_id && sp.can_edit,
+  );
+
+  const has_weekend = weekend_permissions.some(
+    (wp) =>
+      wp.auth_user_id === auth_user_id && wp.congregation_id === congregation_id && wp.can_edit,
+  );
+
   return {
     has_cleaning,
     has_reports,
@@ -144,6 +166,8 @@ export function usePermissions(): Permissions {
     has_cobe,
     has_territory_servant,
     has_av_overseer,
+    has_speaker,
+    has_weekend,
     has_congregation_admin,
     is_super_admin,
     is_authenticated: true,

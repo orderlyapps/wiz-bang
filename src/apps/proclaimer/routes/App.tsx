@@ -36,12 +36,16 @@ import ServiceOverseerPermissionsPage from "@proclaimer-routes/pages/home/congre
 import CobePermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/cobe/Cobe";
 import TerritoryServantPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/territory-servant/TerritoryServant";
 import AvOverseerPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/av-overseer/AvOverseer";
+import SpeakerPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/speaker/Speaker";
+import WeekendPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/weekend/Weekend";
 import ElderPage from "@proclaimer-routes/pages/home/elder/Elder";
 import ClamOverseerPage from "@proclaimer-routes/pages/home/clam-overseer/ClamOverseer";
 import ServiceOverseerPage from "@proclaimer-routes/pages/home/service-overseer/ServiceOverseer";
 import ServiceOverseerMapPage from "@proclaimer-routes/pages/home/service-overseer/map/Map";
 import CobePage from "@proclaimer-routes/pages/home/cobe/Cobe";
 import TerritoryServantPage from "@proclaimer-routes/pages/home/territory-servant/TerritoryServant";
+import SpeakerPage from "@proclaimer-routes/pages/home/speaker/Speaker";
+import WeekendPage from "@proclaimer-routes/pages/home/weekend/Weekend";
 import AvOverseerPage from "@proclaimer-routes/pages/home/av-overseer/AvOverseer";
 import ClamDataPage from "@proclaimer-routes/pages/home/super-admin/clam-data/ClamData";
 import ParticipationPage from "@proclaimer-routes/pages/home/clam-overseer/participation/Participation";
@@ -130,6 +134,16 @@ function App() {
           component={AvOverseerPermissionsPage}
           exact
         />
+        <Route
+          path="/home/congregation-admin/permissions/speaker"
+          component={SpeakerPermissionsPage}
+          exact
+        />
+        <Route
+          path="/home/congregation-admin/permissions/weekend"
+          component={WeekendPermissionsPage}
+          exact
+        />
         <Route path="/home/elder" component={ElderPage} exact />
         <Route path="/home/clam-overseer" component={ClamOverseerPage} exact />
         <Route path="/home/clam-overseer/participation" component={ParticipationPage} exact />
@@ -207,6 +221,8 @@ function App() {
         <Route path="/home/service-overseer/map" component={ServiceOverseerMapPage} exact />
         <Route path="/home/cobe" component={CobePage} exact />
         <Route path="/home/territory-servant" component={TerritoryServantPage} exact />
+        <Route path="/home/speaker" component={SpeakerPage} exact />
+        <Route path="/home/weekend" component={WeekendPage} exact />
         <Route path="/home/av-overseer" component={AvOverseerPage} exact />
         <Route
           path="/home/av-overseer/schedule/:week_id/assignment/:assignment_id"
