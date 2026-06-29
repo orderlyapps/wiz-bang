@@ -5,6 +5,7 @@ export function CongregationAdminContent() {
   return (
     <IonList>
       <NavItem label="Permissions" to="/home/congregation-admin/permissions" />
+      <NavItem label="Auth Users" to="/home/congregation-admin/auth-users" />
     </IonList>
   );
 }
