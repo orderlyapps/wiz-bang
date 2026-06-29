@@ -63,7 +63,7 @@ export function HomeContent() {
           )}
 
           {(canSeeAll || permissions.has_av_overseer) && (
-            <NavItem label="AV Overseer" to="/home/av-overseer" />
+            <NavItem label="Audio Video" to="/home/av-overseer" />
           )}
 
           {(canSeeAll || permissions.has_cleaning) && (
