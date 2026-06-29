@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { IonChip, IonItem, IonLabel, IonList } from "@ionic/react";
 import { useLiveQuery } from "@tanstack/react-db";
 import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiColumnList";
@@ -19,6 +20,7 @@ import { useWeekendPublisherStats } from "../../hooks/use-weekend-publisher-stat
 import { weekendParticipationCollection } from "@shared/database/collections/weekend-participation";
 import type { WeekendParticipation } from "@shared/database/schemas/weekend-participation";
 import { WeekendFilterSelect } from "../weekend-filter-select/WeekendFilterSelect";
+import { WeekendConfirmModal } from "./components/weekend-confirm-modal/WeekendConfirmModal";
 
 interface WeekendPublisherListProps {
   publishers: Publisher[];
@@ -35,6 +37,7 @@ export function WeekendPublisherList({
   assignment_id,
   on_select,
 }: WeekendPublisherListProps) {
+  const [confirm_publisher, set_confirm_publisher] = useState<Publisher | undefined>(undefined);
   const presets_api = useWeekendPresets(assignment_id);
   const {
     participation_types,
@@ -155,7 +158,7 @@ export function WeekendPublisherList({
               button
               detail={false}
               color={is_selected ? "primary" : undefined}
-              onClick={() => on_select(p.id ?? "")}
+              onClick={() => set_confirm_publisher(p)}
             >
               <IonLabel color={is_busy ? "warning" : undefined}>
                 {getPublisherDisplayName(p)}
@@ -166,6 +169,16 @@ export function WeekendPublisherList({
         }}
       />
       <Space size="2xl" />
+      <WeekendConfirmModal
+        is_open={confirm_publisher !== undefined}
+        publisher={confirm_publisher}
+        week_id={week_id}
+        weekend_assignments={(allWeekendAssignments as WeekendAssignment[] | undefined) ?? []}
+        speaker_assignments={(allSpeakerAssignments as SpeakerAssignment[] | undefined) ?? []}
+        av_assignments={(allAvAssignments as AvAssignment[] | undefined) ?? []}
+        on_dismiss={() => set_confirm_publisher(undefined)}
+        on_confirm={() => on_select(confirm_publisher?.id ?? "")}
+      />
     </>
   );
 }
