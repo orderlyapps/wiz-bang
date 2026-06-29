@@ -1,14 +1,14 @@
 import { z } from "zod";
 
 export const reportSchema = z.object({
-  confidential_id: z.uuid().optional(),
-  congregation_id: z.uuid().optional(),
-  date: z.string(),
+  confidential_id: z.uuid(),
+  congregation_id: z.uuid(),
+  group_id: z.uuid().nullable(),
+  date: z.string(), // date string
   active: z.boolean(),
-  hours: z.number().int().nullable().optional(),
-  bible_studies: z.number().int().nullable().optional(),
-  comments: z.string().nullable().optional(),
-  group_id: z.uuid().nullable().optional(),
+  hours: z.number().nullable(),
+  bible_studies: z.number().nullable(),
+  comments: z.string().nullable(),
 });
 
 export type Report = z.infer<typeof reportSchema>;
