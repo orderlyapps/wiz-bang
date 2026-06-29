@@ -44,9 +44,15 @@ export function AvPublisherSelector({
   const participation_types = useAvPublisherParticipationTypes();
 
   const { data: allAssignments } = useLiveQuery((q) => q.from({ aa: avAssignmentCollection }));
+  const is_midweek = assignment_id.includes("midweek");
   const publisher_ids_with_week_assignment = new Set(
     ((allAssignments as AvAssignment[] | undefined) ?? [])
-      .filter((a) => a.week_id === week_id && a.participant_id)
+      .filter(
+        (a) =>
+          a.week_id === week_id &&
+          a.participant_id &&
+          a.assignment_id.includes(is_midweek ? "midweek" : "weekend"),
+      )
       .map((a) => a.participant_id),
   );
 
