@@ -61,6 +61,8 @@ import ClamOverseerSchedulePage from "@proclaimer-routes/pages/home/clam-oversee
 import AssignmentDetailPage from "@proclaimer-routes/pages/home/clam-overseer/schedule/assignment-detail/AssignmentDetail";
 import AvSchedulePage from "@proclaimer-routes/pages/home/av-overseer/schedule/AvSchedule";
 import AvAssignmentDetailPage from "@proclaimer-routes/pages/home/av-overseer/schedule/assignment-detail/AvAssignmentDetail";
+import AvParticipationPage from "@proclaimer-routes/pages/home/av-overseer/participation/Participation";
+import AvParticipationTypePage from "@proclaimer-routes/pages/home/av-overseer/participation/AvParticipationType";
 import { Icon } from "@ui/components/icons/Icon";
 
 function App() {
@@ -212,6 +214,12 @@ function App() {
           exact
         />
         <Route path="/home/av-overseer/schedule/:week_id?" component={AvSchedulePage} exact />
+        <Route path="/home/av-overseer/participation" component={AvParticipationPage} exact />
+        <Route
+          path="/home/av-overseer/participation/:participation_id"
+          component={AvParticipationTypePage}
+          exact
+        />
         <Route path="/home/super-admin" component={SuperAdminPage} exact />
         <Route path="/home/super-admin/clam-data" component={ClamDataPage} exact />
         {/* MINISTRY */}

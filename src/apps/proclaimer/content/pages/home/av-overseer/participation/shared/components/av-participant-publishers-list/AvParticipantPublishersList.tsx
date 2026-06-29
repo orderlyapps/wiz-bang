@@ -1,17 +1,19 @@
 import { IonItem, IonLabel, IonList, IonSkeletonText } from "@ionic/react";
 import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiColumnList";
 import { Body } from "@ui/components/display/text/body/Body";
-import { useParticipantPublishers } from "@proclaimer-content/pages/home/clam-overseer/participation/shared/hooks/useParticipantPublishers";
-import type { MidweekParticipation } from "@shared/database/schemas/midweek-participation";
+import { useAvParticipantPublishers } from "@proclaimer-content/pages/home/av-overseer/participation/shared/hooks/useAvParticipantPublishers";
+import type { AvParticipation } from "@shared/database/schemas/av-participation";
 import { DeleteIconButton } from "@ui/components/inputs/button/icon/delete/DeleteIconButton";
 
-interface ParticipantPublishersListProps {
-  participation_id: MidweekParticipation["participation_id"];
+interface AvParticipantPublishersListProps {
+  participation_id: AvParticipation["participation_id"];
 }
 
-export function ParticipantPublishersList({ participation_id }: ParticipantPublishersListProps) {
+export function AvParticipantPublishersList({
+  participation_id,
+}: AvParticipantPublishersListProps) {
   const { participantPublishers, isLoading, removeParticipant } =
-    useParticipantPublishers(participation_id);
+    useAvParticipantPublishers(participation_id);
 
   if (isLoading) {
     return (
