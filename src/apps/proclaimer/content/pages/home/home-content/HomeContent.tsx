@@ -21,7 +21,7 @@ export function HomeContent() {
           {publisher && (
             <Heading size="xl" color="primary">
               <div> Welcome </div>
-              <div>{getPublisherDisplayName(publisher)}</div>
+              <div>{getPublisherDisplayName(publisher, "first_last")}</div>
             </Heading>
           )}
           {!publisher && (
