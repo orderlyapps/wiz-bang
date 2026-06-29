@@ -72,6 +72,7 @@ import AvSchedulePage from "@proclaimer-routes/pages/home/av-overseer/schedule/A
 import AvAssignmentDetailPage from "@proclaimer-routes/pages/home/av-overseer/schedule/assignment-detail/AvAssignmentDetail";
 import AvParticipationPage from "@proclaimer-routes/pages/home/av-overseer/participation/Participation";
 import AvParticipationTypePage from "@proclaimer-routes/pages/home/av-overseer/participation/AvParticipationType";
+import DataSharingPage from "@proclaimer-routes/pages/home/data-sharing/DataSharing";
 import { Icon } from "@ui/components/icons/Icon";
 
 function App() {
@@ -252,6 +253,7 @@ function App() {
         />
         <Route path="/home/super-admin" component={SuperAdminPage} exact />
         <Route path="/home/super-admin/clam-data" component={ClamDataPage} exact />
+        <Route path="/home/data-sharing" component={DataSharingPage} exact />
         {/* MINISTRY */}
         <Route path="/ministry" component={MinistryPage} exact />
         <Route path="/ministry/door-to-door" component={DoorToDoorPage} exact />

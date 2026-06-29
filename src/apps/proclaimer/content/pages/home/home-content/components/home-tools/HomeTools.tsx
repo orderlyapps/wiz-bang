@@ -68,6 +68,10 @@ export function HomeTools() {
             {(canSeeAll || permissions.has_weekend) && (
               <NavItem label="Weekend Meeting" to="/home/weekend" />
             )}
+
+            {(canSeeAll || permissions.has_elder || permissions.has_secretary) && (
+              <NavItem label="Data Sharing" to="/home/data-sharing" />
+            )}
           </IonList>
         </div>
       </IonAccordion>
