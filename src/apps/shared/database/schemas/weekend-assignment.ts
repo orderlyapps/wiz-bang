@@ -2,6 +2,11 @@ import { z } from "zod";
 
 export const weekendAssignmentIDs = ["chairman", "reader"] as const;
 
+export const weekendAssignmentLabels: Record<string, string> = {
+  chairman: "Chairman",
+  reader: "Reader",
+};
+
 export const weekendAssignmentIDSchema = z.union(weekendAssignmentIDs.map((id) => z.literal(id)));
 
 export type WeekendAssignmentID = z.infer<typeof weekendAssignmentIDSchema>;
