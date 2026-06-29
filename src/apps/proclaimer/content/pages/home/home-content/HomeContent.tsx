@@ -7,6 +7,7 @@ import { IonList } from "@ionic/react";
 import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
 import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
 import { HomeEvents } from "./components/home-events/HomeEvents";
+import { HomeAssignments } from "./components/home-assignments/HomeAssignments";
 
 export function HomeContent() {
   const publisher = useStoredPublisher();
@@ -32,6 +33,10 @@ export function HomeContent() {
           )}
         </div>
       </div>
+
+      <Space size="lg" />
+
+      <HomeAssignments />
 
       <Space size="lg" />
 

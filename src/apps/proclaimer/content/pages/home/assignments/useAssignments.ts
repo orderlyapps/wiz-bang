@@ -1,0 +1,170 @@
+import { and, eq, gte, useLiveQuery } from "@tanstack/react-db";
+import { format } from "date-fns";
+import { avAssignmentCollection } from "@shared/database/collections/av-assignment";
+import { speakerAssignmentCollection } from "@shared/database/collections/speaker-assignment";
+import { weekendAssignmentCollection } from "@shared/database/collections/weekend-assignment";
+import { cleanMajorCollection } from "@shared/database/collections/clean-major";
+import { cleanMinorCollection } from "@shared/database/collections/clean-minor";
+import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
+import { avAssignmentLabels } from "@shared/database/schemas/av-assignment";
+import { weekendAssignmentLabels } from "@shared/database/schemas/weekend-assignment";
+import { useMidweekAssignments } from "./useMidweekAssignments";
+
+export type AssignmentType =
+  | "av"
+  | "midweek"
+  | "speaker"
+  | "weekend"
+  | "clean-major"
+  | "clean-minor";
+
+export type Assignment = {
+  id: string;
+  type: AssignmentType;
+  week_id: string;
+  label: string;
+};
+
+const typeLabels: Record<AssignmentType, string> = {
+  av: "AV",
+  midweek: "Midweek",
+  speaker: "Public Talk",
+  weekend: "Weekend",
+  "clean-major": "Major Cleaning",
+  "clean-minor": "Minor Cleaning",
+};
+
+function getAssignmentLabel(type: AssignmentType, assignmentId?: string): string {
+  if (type === "av" && assignmentId) return avAssignmentLabels[assignmentId] ?? assignmentId;
+  if (type === "weekend" && assignmentId)
+    return weekendAssignmentLabels[assignmentId] ?? assignmentId;
+  if (type === "midweek" && assignmentId) {
+    return assignmentId.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+  }
+  return typeLabels[type];
+}
+
+export function useAssignments() {
+  const publisher = useStoredPublisher();
+  const congregation_id = publisher?.congregation_id ?? "";
+  const publisher_id = publisher?.id ?? "";
+  const group_id = publisher?.group_id ?? "";
+  const today_str = format(new Date(), "yyyy-MM-dd");
+
+  const { data: av } = useLiveQuery(
+    (q) =>
+      q
+        .from({ a: avAssignmentCollection })
+        .where(({ a }) =>
+          and(
+            eq(a.congregation_id, congregation_id),
+            eq(a.participant_id, publisher_id),
+            gte(a.week_id, today_str),
+          ),
+        )
+        .orderBy(({ a }) => a.week_id),
+    [congregation_id, publisher_id, today_str],
+  );
+
+  const midweek = useMidweekAssignments(congregation_id, publisher_id, today_str);
+
+  const { data: weekend } = useLiveQuery(
+    (q) =>
+      q
+        .from({ a: weekendAssignmentCollection })
+        .where(({ a }) =>
+          and(
+            eq(a.congregation_id, congregation_id),
+            eq(a.participant_id, publisher_id),
+            gte(a.week_id, today_str),
+          ),
+        )
+        .orderBy(({ a }) => a.week_id),
+    [congregation_id, publisher_id, today_str],
+  );
+
+  const { data: speaker } = useLiveQuery(
+    (q) =>
+      q
+        .from({ a: speakerAssignmentCollection })
+        .where(({ a }) =>
+          and(
+            eq(a.congregation_id, congregation_id),
+            eq(a.speaker_id, publisher_id),
+            gte(a.week_id, today_str),
+          ),
+        )
+        .orderBy(({ a }) => a.week_id),
+    [congregation_id, publisher_id, today_str],
+  );
+
+  const { data: cleanMajor } = useLiveQuery(
+    (q) =>
+      group_id
+        ? q
+            .from({ a: cleanMajorCollection })
+            .where(({ a }) =>
+              and(
+                eq(a.congregation_id, congregation_id),
+                eq(a.group_id, group_id),
+                gte(a.week_id, today_str),
+              ),
+            )
+            .orderBy(({ a }) => a.week_id)
+        : undefined,
+    [congregation_id, group_id, today_str],
+  );
+
+  const { data: cleanMinor } = useLiveQuery(
+    (q) =>
+      group_id
+        ? q
+            .from({ a: cleanMinorCollection })
+            .where(({ a }) =>
+              and(
+                eq(a.congregation_id, congregation_id),
+                eq(a.group_id, group_id),
+                gte(a.week_id, today_str),
+              ),
+            )
+            .orderBy(({ a }) => a.week_id)
+        : undefined,
+    [congregation_id, group_id, today_str],
+  );
+
+  const assignments: Assignment[] = [
+    ...(av?.map((a) => ({
+      id: `${a.week_id}-av-${a.assignment_id}`,
+      type: "av" as const,
+      week_id: a.week_id,
+      label: getAssignmentLabel("av", a.assignment_id),
+    })) ?? []),
+    ...midweek,
+    ...(weekend?.map((a) => ({
+      id: `${a.week_id}-weekend-${a.assignment_id}`,
+      type: "weekend" as const,
+      week_id: a.week_id,
+      label: getAssignmentLabel("weekend", a.assignment_id),
+    })) ?? []),
+    ...(speaker?.map((a) => ({
+      id: `${a.week_id}-speaker`,
+      type: "speaker" as const,
+      week_id: a.week_id,
+      label: getAssignmentLabel("speaker"),
+    })) ?? []),
+    ...(cleanMajor?.map((a) => ({
+      id: `${a.week_id}-clean-major`,
+      type: "clean-major" as const,
+      week_id: a.week_id,
+      label: getAssignmentLabel("clean-major"),
+    })) ?? []),
+    ...(cleanMinor?.map((a) => ({
+      id: `${a.week_id}-clean-minor`,
+      type: "clean-minor" as const,
+      week_id: a.week_id,
+      label: getAssignmentLabel("clean-minor"),
+    })) ?? []),
+  ].sort((a, b) => a.week_id.localeCompare(b.week_id));
+
+  return { assignments };
+}
