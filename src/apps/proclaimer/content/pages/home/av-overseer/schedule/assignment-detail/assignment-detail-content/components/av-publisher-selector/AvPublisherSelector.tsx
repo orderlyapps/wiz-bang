@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { useLiveQuery } from "@tanstack/react-db";
 import { avAssignmentCollection } from "@shared/database/collections/av-assignment";
+import { midweekAssignmentCollection } from "@shared/database/collections/midweek-assignment";
+import { weekendAssignmentCollection } from "@shared/database/collections/weekend-assignment";
+import { speakerAssignmentCollection } from "@shared/database/collections/speaker-assignment";
 import type { AvAssignment } from "@shared/database/schemas/av-assignment";
+import type { MidweekAssignment } from "@shared/database/schemas/midweek-assignment";
+import type { WeekendAssignment } from "@shared/database/schemas/weekend-assignment";
+import type { SpeakerAssignment } from "@shared/database/schemas/speaker-assignment";
 import type { Publisher } from "@shared/database/schemas/publisher";
 import type { AvAssignmentID } from "@shared/database/schemas/av-assignment";
 import { getStoredCongregation } from "@util/app/congregation/utils";
@@ -44,17 +50,40 @@ export function AvPublisherSelector({
   const participation_types = useAvPublisherParticipationTypes();
 
   const { data: allAssignments } = useLiveQuery((q) => q.from({ aa: avAssignmentCollection }));
-  const is_midweek = assignment_id.includes("midweek");
-  const publisher_ids_with_week_assignment = new Set(
-    ((allAssignments as AvAssignment[] | undefined) ?? [])
-      .filter(
-        (a) =>
-          a.week_id === week_id &&
-          a.participant_id &&
-          a.assignment_id.includes(is_midweek ? "midweek" : "weekend"),
-      )
-      .map((a) => a.participant_id),
+  const { data: allMidweekAssignments } = useLiveQuery((q) =>
+    q.from({ ma: midweekAssignmentCollection }),
   );
+  const { data: allWeekendAssignments } = useLiveQuery((q) =>
+    q.from({ wa: weekendAssignmentCollection }),
+  );
+  const { data: allSpeakerAssignments } = useLiveQuery((q) =>
+    q.from({ sa: speakerAssignmentCollection }),
+  );
+
+  const is_midweek = assignment_id.includes("midweek");
+  const av_publisher_ids = ((allAssignments as AvAssignment[] | undefined) ?? [])
+    .filter(
+      (a) =>
+        a.week_id === week_id &&
+        a.participant_id &&
+        a.assignment_id.includes(is_midweek ? "midweek" : "weekend"),
+    )
+    .map((a) => a.participant_id);
+
+  const clam_publisher_ids = is_midweek
+    ? ((allMidweekAssignments as MidweekAssignment[] | undefined) ?? [])
+        .filter((a) => a.week_id === week_id && a.participant_id)
+        .map((a) => a.participant_id)
+    : [
+        ...((allWeekendAssignments as WeekendAssignment[] | undefined) ?? [])
+          .filter((a) => a.week_id === week_id && a.participant_id)
+          .map((a) => a.participant_id),
+        ...((allSpeakerAssignments as SpeakerAssignment[] | undefined) ?? [])
+          .filter((a) => a.week_id === week_id && a.speaker_id)
+          .map((a) => a.speaker_id),
+      ];
+
+  const publisher_ids_with_week_assignment = new Set([...av_publisher_ids, ...clam_publisher_ids]);
 
   const [is_modal_open, set_is_modal_open] = useState(false);
   const [selected_publisher, set_selected_publisher] = useState<Publisher | undefined>();
@@ -99,7 +128,11 @@ export function AvPublisherSelector({
         is_open={is_modal_open}
         publisher={selected_publisher}
         week_id={week_id}
+        assignment_id={assignment_id}
         all_assignments={(allAssignments as AvAssignment[] | undefined) ?? []}
+        midweek_assignments={(allMidweekAssignments as MidweekAssignment[] | undefined) ?? []}
+        weekend_assignments={(allWeekendAssignments as WeekendAssignment[] | undefined) ?? []}
+        speaker_assignments={(allSpeakerAssignments as SpeakerAssignment[] | undefined) ?? []}
         on_dismiss={() => set_is_modal_open(false)}
         on_confirm={handleConfirm}
       />
