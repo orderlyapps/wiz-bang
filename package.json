@@ -48,6 +48,7 @@
     "react-router": "^5.3.4",
     "react-router-dom": "^5.3.4",
     "react-zoom-pan-pinch": "^4.0.3",
+    "rxdb": "^17.3.0",
     "workbox-window": "^7.3.0",
     "zod": "^4.4.3"
   },
