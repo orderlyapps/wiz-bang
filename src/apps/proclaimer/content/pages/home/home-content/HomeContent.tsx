@@ -6,6 +6,7 @@ import { Space } from "@ui/components/layout/space/Space";
 import { IonList } from "@ionic/react";
 import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
 import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
+import { HomeEvents } from "./components/home-events/HomeEvents";
 
 export function HomeContent() {
   const publisher = useStoredPublisher();
@@ -31,7 +32,13 @@ export function HomeContent() {
           )}
         </div>
       </div>
+
       <Space size="lg" />
+
+      <HomeEvents />
+
+      <Space size="lg" />
+
       {permissions.is_authenticated && publisher && (
         <IonList>
           {permissions.is_super_admin && <NavItem label="Super Admin" to="/home/super-admin" />}

@@ -2,6 +2,7 @@ import { Redirect, Route } from "react-router-dom";
 import { IonTabs, IonTabBar, IonTabButton, IonLabel, IonRouterOutlet } from "@ionic/react";
 import { CongregationGuard } from "@util/app/congregation/congregation-select/CongregationGuard";
 import HomePage from "@proclaimer-routes/pages/home/Home";
+import HomeEventsPage from "@proclaimer-routes/pages/home/events/Events";
 import MinistryPage from "@proclaimer-routes/pages/ministry/Ministry";
 import DoorToDoorPage from "@proclaimer-routes/pages/ministry/door-to-door/DoorToDoor";
 import LetterWritingPage from "@proclaimer-routes/pages/ministry/letter-writing/LetterWriting";
@@ -78,6 +79,7 @@ function App() {
       <IonRouterOutlet>
         <Redirect exact path="/" to="/home" />
         <Route path="/home" component={HomePage} exact />
+        <Route path="/home/events" component={HomeEventsPage} exact />
         <Route path="/home/cleaning" component={HomeCleaningPage} exact />
         <Route path="/home/reports" component={ReportsPage} exact />
         <Route path="/home/secretary" component={SecretaryPage} exact />
