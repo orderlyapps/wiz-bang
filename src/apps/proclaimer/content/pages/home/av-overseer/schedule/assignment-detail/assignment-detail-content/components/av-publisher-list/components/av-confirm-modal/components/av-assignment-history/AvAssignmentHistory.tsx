@@ -64,6 +64,7 @@ export function AvAssignmentHistory({
             ? `In ${row.weeks_away}w`
             : `${row.weeks_away}w ago`;
 
+        const meeting = row.assignment_id.includes("midweek") ? "Midweek" : "Weekend";
         const assignment_label =
           avAssignmentLabels[row.assignment_id as keyof typeof avAssignmentLabels] ??
           row.assignment_id.replace(/_/g, " ");
@@ -74,7 +75,7 @@ export function AvAssignmentHistory({
             label={weeks_label}
             label_size={row.is_current ? "xl" : undefined}
             label_color={row.is_current ? "primary" : undefined}
-            value={assignment_label}
+            value={`${assignment_label} (${meeting})`}
           />
         );
       })}
