@@ -43,6 +43,7 @@ import AvOverseerPermissionsPage from "@proclaimer-routes/pages/home/congregatio
 import SpeakerPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/speaker/Speaker";
 import WeekendPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/weekend/Weekend";
 import ElderPage from "@proclaimer-routes/pages/home/elder/Elder";
+import ContactsListPage from "@proclaimer-routes/pages/home/elder/contacts-list/ContactsList";
 import ContactListPage from "@proclaimer-routes/pages/home/elder/contact-list/ContactList";
 import ClamOverseerPage from "@proclaimer-routes/pages/home/clam-overseer/ClamOverseer";
 import ServiceOverseerPage from "@proclaimer-routes/pages/home/service-overseer/ServiceOverseer";
@@ -162,6 +163,7 @@ function App() {
         />
         <Route path="/home/elder" component={ElderPage} exact />
         <Route path="/home/elder/contact-list" component={ContactListPage} exact />
+        <Route path="/home/elder/contacts-list" component={ContactsListPage} exact />
         <Route path="/home/clam-overseer" component={ClamOverseerPage} exact />
         <Route path="/home/clam-overseer/participation" component={ParticipationPage} exact />
         <Route
