@@ -20,5 +20,6 @@ export interface SignalingChannelOptions {
   session_id: string;
   device_id: string;
   onMessage: (message: SignalMessage) => void;
+  onSubscribed?: () => void;
   onError?: (error: Error) => void;
 }

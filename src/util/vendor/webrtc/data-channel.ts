@@ -84,6 +84,10 @@ export function waitForDataChannelOpen(channel: RTCDataChannel, timeoutMs = 3000
       resolve();
       return;
     }
+    if (channel.readyState === "closing" || channel.readyState === "closed") {
+      reject(new Error("Data channel is already closed"));
+      return;
+    }
 
     const timer = setTimeout(() => reject(new Error("Data channel open timed out")), timeoutMs);
 

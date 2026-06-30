@@ -6,6 +6,7 @@ export interface PeerConnectionOptions {
   device_id: string;
   onDataChannel?: (channel: RTCDataChannel) => void;
   onPeerReady?: () => void;
+  onSubscribed?: () => void;
   onError?: (error: Error) => void;
   onConnected?: () => void;
   onDisconnected?: () => void;
@@ -31,6 +32,7 @@ export function createPeerConnection(options: PeerConnectionOptions): PeerConnec
     device_id,
     onDataChannel,
     onPeerReady,
+    onSubscribed,
     onError,
     onConnected,
     onDisconnected,
@@ -40,6 +42,7 @@ export function createPeerConnection(options: PeerConnectionOptions): PeerConnec
   const pendingCandidates: RTCIceCandidateInit[] = [];
   let remoteDescriptionSet = false;
   let makingOffer = false;
+  let negotiationStarted = false;
   let peerReadyResolve: (() => void) | null = null;
   let peerReadyPromise: Promise<void> | null = null;
 
@@ -55,6 +58,7 @@ export function createPeerConnection(options: PeerConnectionOptions): PeerConnec
   const signaling = createSignalingChannel({
     session_id,
     device_id,
+    onSubscribed,
     onMessage: async (message: SignalMessage) => {
       try {
         switch (message.type) {
@@ -62,7 +66,7 @@ export function createPeerConnection(options: PeerConnectionOptions): PeerConnec
             const offerCollision = makingOffer || pc.signalingState !== "stable";
             if (offerCollision) {
               // For this simple two-peer share flow we ignore the collision;
-              // the receiver always answers the offer.
+              // the sender is the only peer that creates offers.
               return;
             }
             await pc.setRemoteDescription({ type: "offer", sdp: message.sdp });
@@ -143,6 +147,8 @@ export function createPeerConnection(options: PeerConnectionOptions): PeerConnec
   };
 
   async function startNegotiation(): Promise<void> {
+    if (negotiationStarted) return;
+    negotiationStarted = true;
     makingOffer = true;
     try {
       const offer = await pc.createOffer();

@@ -6,7 +6,8 @@ function channelName(session_id: string): string {
 }
 
 export function createSignalingChannel(options: SignalingChannelOptions): SignalingChannel {
-  const { session_id, device_id, onMessage, onError } = options;
+  const { session_id, device_id, onMessage, onSubscribed, onError } = options;
+  let subscribed = false;
 
   const channel = supabase.channel(channelName(session_id), {
     config: { broadcast: { self: false } },
@@ -20,6 +21,10 @@ export function createSignalingChannel(options: SignalingChannelOptions): Signal
       onMessage(message);
     })
     .subscribe((status) => {
+      if (status === "SUBSCRIBED" && onSubscribed && !subscribed) {
+        subscribed = true;
+        onSubscribed();
+      }
       if (status === "CHANNEL_ERROR" && onError) {
         onError(new Error(`Signaling channel error for session ${session_id}`));
       }
