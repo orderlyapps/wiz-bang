@@ -1,11 +1,9 @@
-import { Heading } from "@ui/components/display/text/heading/Heading";
+import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
 
 export function ElderContent() {
   return (
-    <div className="ion-padding">
-      <Heading size="lg" bold>
-        Elder
-      </Heading>
-    </div>
+    <>
+      <NavItem label="Contact List" to="/home/elder/contact-list" />
+    </>
   );
 }
