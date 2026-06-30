@@ -1,11 +1,12 @@
-import { Heading } from "@ui/components/display/text/heading/Heading";
+import { ExportContactsButton } from "./components/ExportContactsButton";
+import { useContactsForExport } from "./hooks/useContactsForExport";
 
 export function ContactsListContent() {
+  const { data: contacts, isLoading, error } = useContactsForExport();
+
   return (
-    <div className="ion-padding">
-      <Heading size="lg" bold>
-        Contacts List
-      </Heading>
-    </div>
+    <>
+      <ExportContactsButton contacts={contacts} isLoading={isLoading} error={error} />
+    </>
   );
 }
