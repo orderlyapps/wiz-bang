@@ -10,6 +10,7 @@ import { territoryServantPermissionCollection } from "@shared/database/collectio
 import { avOverseerPermissionCollection } from "@shared/database/collections/av-overseer-permission";
 import { speakerPermissionCollection } from "@shared/database/collections/speaker-permission";
 import { weekendPermissionCollection } from "@shared/database/collections/weekend-permission";
+import { ministerialServantPermissionCollection } from "@shared/database/collections/ministerial-servant-permission";
 import { congregationAdminCollection } from "@shared/database/collections/congregation-admin";
 import { authUserCollection } from "@shared/database/collections/auth-user";
 import { useAuthSession } from "@util/app/auth/useAuthSession";
@@ -20,6 +21,7 @@ interface Permissions {
   has_reports: boolean;
   has_secretary: boolean;
   has_elder: boolean;
+  has_ministerial_servant: boolean;
   has_clam_overseer: boolean;
   has_service_overseer: boolean;
   has_cobe: boolean;
@@ -69,6 +71,9 @@ export function usePermissions(): Permissions {
   const { data: weekend_permissions } = useLiveQuery((q) =>
     q.from({ wp: weekendPermissionCollection }),
   );
+  const { data: ministerial_servant_permissions } = useLiveQuery((q) =>
+    q.from({ msp: ministerialServantPermissionCollection }),
+  );
   const { data: congregation_admins } = useLiveQuery((q) =>
     q.from({ ca: congregationAdminCollection }),
   );
@@ -80,6 +85,7 @@ export function usePermissions(): Permissions {
       has_reports: false,
       has_secretary: false,
       has_elder: false,
+      has_ministerial_servant: false,
       has_clam_overseer: false,
       has_service_overseer: false,
       has_cobe: false,
@@ -156,11 +162,17 @@ export function usePermissions(): Permissions {
       wp.auth_user_id === auth_user_id && wp.congregation_id === congregation_id && wp.can_edit,
   );
 
+  const has_ministerial_servant = ministerial_servant_permissions.some(
+    (msp) =>
+      msp.auth_user_id === auth_user_id && msp.congregation_id === congregation_id && msp.can_edit,
+  );
+
   return {
     has_cleaning,
     has_reports,
     has_secretary,
     has_elder,
+    has_ministerial_servant,
     has_clam_overseer,
     has_service_overseer,
     has_cobe,

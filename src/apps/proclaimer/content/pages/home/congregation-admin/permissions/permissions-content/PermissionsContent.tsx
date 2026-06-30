@@ -8,6 +8,10 @@ export function PermissionsContent() {
       <NavItem label="Reports" to="/home/congregation-admin/permissions/reports" />
       <NavItem label="Secretary" to="/home/congregation-admin/permissions/secretary" />
       <NavItem label="Elder" to="/home/congregation-admin/permissions/elder" />
+      <NavItem
+        label="Ministerial Servant"
+        to="/home/congregation-admin/permissions/ministerial-servant"
+      />
       <NavItem label="CLAM Overseer" to="/home/congregation-admin/permissions/clam-overseer" />
       <NavItem
         label="Service Overseer"

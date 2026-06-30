@@ -69,7 +69,10 @@ export function HomeTools() {
               <NavItem label="Weekend Meeting" to="/home/weekend" />
             )}
 
-            {(canSeeAll || permissions.has_elder || permissions.has_secretary) && (
+            {(canSeeAll ||
+              permissions.has_elder ||
+              permissions.has_secretary ||
+              permissions.has_ministerial_servant) && (
               <NavItem label="Data Sharing" to="/home/data-sharing" />
             )}
           </IonList>

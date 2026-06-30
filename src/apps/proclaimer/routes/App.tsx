@@ -34,6 +34,7 @@ import CleaningPermissionsPage from "@proclaimer-routes/pages/home/congregation-
 import ReportsPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/reports/Reports";
 import SecretaryPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/secretary/Secretary";
 import ElderPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/elder/Elder";
+import MinisterialServantPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/ministerial-servant/MinisterialServant";
 import ClamOverseerPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/clam-overseer/ClamOverseer";
 import ServiceOverseerPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/service-overseer/ServiceOverseer";
 import CobePermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/cobe/Cobe";
@@ -116,6 +117,11 @@ function App() {
         <Route
           path="/home/congregation-admin/permissions/elder"
           component={ElderPermissionsPage}
+          exact
+        />
+        <Route
+          path="/home/congregation-admin/permissions/ministerial-servant"
+          component={MinisterialServantPermissionsPage}
           exact
         />
         <Route

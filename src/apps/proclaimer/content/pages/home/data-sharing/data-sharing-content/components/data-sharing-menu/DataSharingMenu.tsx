@@ -4,7 +4,6 @@ import { JoinSessionForm } from "../../../join-session/JoinSessionForm";
 import { ReceiveConfirm } from "../../../receive-confirm/ReceiveConfirm";
 import { ShareCodeDisplay } from "../../../share-code/ShareCodeDisplay";
 import { TextButton } from "@ui/components/inputs/button/text/TextButton";
-import { Heading } from "@ui/components/display/text/heading/Heading";
 import { Body } from "@ui/components/display/text/body/Body";
 import type { TrustedPeer } from "../../../hooks/useTrustedDevices";
 import type { ReceiveStatus } from "../../../hooks/useReceivePublisher";
@@ -71,10 +70,7 @@ export function DataSharingMenu({
   }
 
   return (
-    <div className="ion-padding">
-      <Heading size="lg" bold>
-        Data Sharing
-      </Heading>
+    <>
       <TrustedPeersList peers={peers} is_loading={peers_loading} on_share={on_share_to_peer} />
 
       <Space />
@@ -146,6 +142,6 @@ export function DataSharingMenu({
           </div>
         </IonContent>
       </ResponsiveModal>
-    </div>
+    </>
   );
 }
