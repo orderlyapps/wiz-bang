@@ -30,15 +30,15 @@ export function HomeContent() {
         </div>
       </div>
 
-      <Space size="lg" />
+      <Space size="sm" />
 
       <HomeAssignments />
 
-      <Space size="lg" />
+      <Space size="sm" />
 
       <HomeEvents />
 
-      <Space size="lg" />
+      <Space size="sm" />
 
       <HomeTools />
     </>
