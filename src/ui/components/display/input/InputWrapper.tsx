@@ -4,10 +4,10 @@ import { Label } from "@ui/components/display/text/label/Label";
 interface InputWrapperProps {
   label: string;
   children: React.ReactNode;
-  disabled: boolean;
+  disabled?: boolean;
 }
 
-export function InputWrapper({ label, children, disabled }: InputWrapperProps) {
+export function InputWrapper({ label, children, disabled = false }: InputWrapperProps) {
   return (
     <>
       <IonItem style={{ maxWidth: 480, marginInline: "auto", paddingBlock: 0 }} lines="none">
