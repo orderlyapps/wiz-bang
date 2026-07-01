@@ -1,11 +1,19 @@
+import { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
 import { MapView } from "@util/vendor/mapbox/MapView";
 import { MapMasterLayer } from "@proclaimer-content/pages/ministry/door-to-door/door-to-door-content/components/layers/map-master-layer/MapMasterLayer";
+import { MapShareActionSheet } from "@proclaimer-content/pages/ministry/door-to-door/door-to-door-content/components/map-share-action-sheet/MapShareActionSheet";
 import { PublisherLocationsHeatmap } from "./components/publisher-locations-heatmap/PublisherLocationsHeatmap";
 import { PublisherLocationsPoints } from "./components/publisher-locations-points/PublisherLocationsPoints";
 
+type ShareLocation = {
+  lat: number;
+  lng: number;
+};
+
 export function LocationsContent() {
+  const [shareLocation, setShareLocation] = useState<ShareLocation | null>(null);
   const permissions = usePermissions();
   const can_access =
     permissions.has_elder || permissions.has_congregation_admin || permissions.is_super_admin;
@@ -15,10 +23,23 @@ export function LocationsContent() {
   }
 
   return (
-    <MapView id="publisher-locations" style={{ position: "absolute", inset: 0 }} height="100%">
-      <MapMasterLayer />
-      <PublisherLocationsHeatmap />
-      <PublisherLocationsPoints />
-    </MapView>
+    <>
+      <MapView
+        id="publisher-locations"
+        style={{ position: "absolute", inset: 0 }}
+        height="100%"
+        on_long_press={(lngLat) => setShareLocation({ lat: lngLat.lat, lng: lngLat.lng })}
+      >
+        <MapMasterLayer />
+        <PublisherLocationsHeatmap />
+        <PublisherLocationsPoints />
+      </MapView>
+      <MapShareActionSheet
+        lat={shareLocation?.lat ?? 0}
+        lng={shareLocation?.lng ?? 0}
+        is_open={shareLocation !== null}
+        on_dismiss={() => setShareLocation(null)}
+      />
+    </>
   );
 }
