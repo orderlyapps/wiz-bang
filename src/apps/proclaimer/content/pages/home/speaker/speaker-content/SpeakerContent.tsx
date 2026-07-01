@@ -1,11 +1,10 @@
-import { Heading } from "@ui/components/display/text/heading/Heading";
+import { IonList } from "@ionic/react";
+import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
 
 export function SpeakerContent() {
   return (
-    <div className="ion-padding">
-      <Heading size="lg" bold>
-        Speaker
-      </Heading>
-    </div>
+    <IonList>
+      <NavItem to="/home/speaker/schedule" label="Schedule" />
+    </IonList>
   );
 }
