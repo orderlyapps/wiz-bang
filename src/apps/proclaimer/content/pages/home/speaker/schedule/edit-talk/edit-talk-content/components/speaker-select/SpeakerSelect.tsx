@@ -12,6 +12,7 @@ import {
 import { InputWrapper } from "@ui/components/display/input/InputWrapper";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
+import { AddVisitingSpeakerModal } from "../add-visiting-speaker-modal/AddVisitingSpeakerModal";
 import type { Publisher } from "@shared/database/schemas/publisher";
 
 interface SpeakerSelectProps {
@@ -32,6 +33,7 @@ export function SpeakerSelect({
   on_change,
 }: SpeakerSelectProps) {
   const [is_open, set_is_open] = useState(false);
+  const [is_add_visiting_open, set_is_add_visiting_open] = useState(false);
 
   const selected_speaker =
     local_speakers.find((p) => p.id === value) ?? visiting_speakers.find((p) => p.id === value);
@@ -41,6 +43,11 @@ export function SpeakerSelect({
   function handleSelect(speaker_id: string) {
     on_change(speaker_id);
     set_is_open(false);
+  }
+
+  function handleSpeakerCreated(speaker_id: string) {
+    handleSelect(speaker_id);
+    set_is_add_visiting_open(false);
   }
 
   return (
@@ -66,6 +73,13 @@ export function SpeakerSelect({
             selected_id={value}
             on_select={handleSelect}
           />
+          <IonButton
+            expand="block"
+            className="ion-padding"
+            onClick={() => set_is_add_visiting_open(true)}
+          >
+            Add Visiting Speaker
+          </IonButton>
           <SpeakerGroup
             label="Visiting Speakers"
             speakers={visiting_speakers}
@@ -74,6 +88,11 @@ export function SpeakerSelect({
           />
         </IonContent>
       </ResponsiveModal>
+      <AddVisitingSpeakerModal
+        is_open={is_add_visiting_open}
+        on_dismiss={() => set_is_add_visiting_open(false)}
+        on_speaker_created={handleSpeakerCreated}
+      />
     </>
   );
 }
