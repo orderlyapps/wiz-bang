@@ -22,10 +22,20 @@ export function UnitSection({ title, units, onMove, onDelete }: UnitSectionProps
       {units.map((unit) => (
         <IonItem key={unit.id}>
           <IonLabel>Unit {unit.unit_number || "—"}</IonLabel>
-          <IonButton slot="end" color="primary" onClick={() => onMove(unit)}>
+          <IonButton
+            slot="end"
+            color="primary"
+            onClick={() => onMove(unit)}
+            className="ion-margin-end"
+          >
             <IonIcon icon={createOutline} slot="icon-only" aria-label="Move" />
           </IonButton>
-          <IonButton slot="end" color="danger" onClick={() => onDelete(unit)}>
+          <IonButton
+            slot="end"
+            color="danger"
+            onClick={() => onDelete(unit)}
+            className="ion-margin"
+          >
             <IonIcon icon={trashOutline} slot="icon-only" aria-label="Delete" />
           </IonButton>
         </IonItem>

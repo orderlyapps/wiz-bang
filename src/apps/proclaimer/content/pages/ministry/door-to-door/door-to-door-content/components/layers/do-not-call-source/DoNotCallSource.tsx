@@ -14,19 +14,20 @@ type DoNotCallWithCoordinates = DoNotCall & { coordinates: [number, number] };
 type DoNotCallFeature = {
   type: "Feature";
   id?: string;
-  properties: DoNotCallWithCoordinates & { unit_count: number };
+  properties: DoNotCallWithCoordinates & { unit_count: number; group_key: string };
   geometry: { type: "Point"; coordinates: [number, number] };
 };
 
 type DoNotCallSourceProps = {
   onSelect: (doNotCall: DoNotCall) => void;
+  onSelectGroup?: (groupKey: string) => void;
 };
 
-export function DoNotCallSource({ onSelect }: DoNotCallSourceProps) {
+export function DoNotCallSource({ onSelect, onSelectGroup }: DoNotCallSourceProps) {
   const groupedByAddress = useDoNotCallMarkers();
   if (!groupedByAddress) return null;
 
-  const features: DoNotCallFeature[] = Object.values(groupedByAddress).map((group) => {
+  const features: DoNotCallFeature[] = Object.entries(groupedByAddress).map(([groupKey, group]) => {
     const firstItem = group[0];
     return {
       type: "Feature",
@@ -34,6 +35,7 @@ export function DoNotCallSource({ onSelect }: DoNotCallSourceProps) {
       properties: {
         ...firstItem,
         unit_count: group.length,
+        group_key: groupKey,
       },
       geometry: {
         type: "Point",
@@ -53,7 +55,7 @@ export function DoNotCallSource({ onSelect }: DoNotCallSourceProps) {
       <Layer {...getUnitLabelLayer()} />
       <Layer {...getHousePointLayer()} />
       <Layer {...getHouseLabelLayer()} />
-      <DoNotCallClickHandler onSelect={onSelect} />
+      <DoNotCallClickHandler onSelect={onSelect} onSelectGroup={onSelectGroup} />
     </Source>
   );
 }
