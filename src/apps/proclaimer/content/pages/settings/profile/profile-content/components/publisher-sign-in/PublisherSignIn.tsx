@@ -4,19 +4,25 @@ import { useAuthSession } from "@util/app/auth/useAuthSession";
 import type { Publisher } from "@shared/database/schemas/publisher";
 
 interface PublisherSignInProps {
-  publisher: Publisher;
+  publisher: Publisher | null;
 }
 
 export function PublisherSignIn({ publisher }: PublisherSignInProps) {
   const session = useAuthSession();
 
-  if (!publisher.auth_id) return null;
+  if (!publisher) return null;
 
-  const is_signed_in = !!session && session.user.id === publisher.auth_id;
+  const is_signed_in = !!session;
 
-  return is_signed_in ? (
-    <SignedInStatus on_sign_out={() => {}} />
-  ) : (
-    <OtpSignInModal publisher_id={publisher.id ?? ""} onSignIn={() => {}} />
+  return (
+    <>
+      {is_signed_in ? (
+        <>
+          <SignedInStatus on_sign_out={() => {}} />
+        </>
+      ) : (
+        <OtpSignInModal publisher_id={publisher.id ?? ""} onSignIn={() => {}} />
+      )}
+    </>
   );
 }

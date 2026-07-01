@@ -9,11 +9,14 @@ import { Space } from "@ui/components/layout/space/Space";
 export function ProfileContent() {
   const [publisher, setPublisher] = useState<Publisher | null>(getStoredPublisher);
 
+  console.log("ProfileContent - publisher state:", publisher);
+  console.log("ProfileContent - publisher.auth_id:", publisher?.auth_id);
+
   return (
     <IonList inset lines="none">
       <PublisherSelect on_change={setPublisher} />
       <Space />
-      {publisher && <PublisherSignIn publisher={publisher} />}
+      <PublisherSignIn publisher={publisher} />
     </IonList>
   );
 }

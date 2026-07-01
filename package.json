@@ -6,6 +6,7 @@
   "scripts": {
     "dev:app:proclaimer": "vp run dev:app proclaimer",
     "deploy:app:proclaimer": "vp run deploy:app proclaimer",
+    "deploy:app:proclaimer:beta": "vp run build:app -- proclaimer && wrangler pages deploy dist --project-name=orderly --branch=beta && echo '✓ DEPLOYED TO BETA'",
     "supabase:download:public_schema": "supabase db dump --schema public -f src/apps/shared/database/public_schema.sql",
     "dev": "vp dev --host",
     "dev:app": "bash scripts/dev-app.sh",
