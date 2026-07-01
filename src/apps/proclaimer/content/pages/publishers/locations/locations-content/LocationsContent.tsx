@@ -6,13 +6,22 @@ import { MapMasterLayer } from "@proclaimer-content/pages/ministry/door-to-door/
 import { MapShareActionSheet } from "@proclaimer-content/pages/ministry/door-to-door/door-to-door-content/components/map-share-action-sheet/MapShareActionSheet";
 import { PublisherLocationsHeatmap } from "./components/publisher-locations-heatmap/PublisherLocationsHeatmap";
 import { PublisherLocationsPoints } from "./components/publisher-locations-points/PublisherLocationsPoints";
+import { FlyToPublisherController } from "./components/fly-to-publisher-controller/FlyToPublisherController";
 
 type ShareLocation = {
   lat: number;
   lng: number;
 };
 
-export function LocationsContent() {
+type LocationsContentProps = {
+  fly_to_coordinates: [number, number] | null;
+  on_fly_to_complete: () => void;
+};
+
+export function LocationsContent({
+  fly_to_coordinates,
+  on_fly_to_complete,
+}: LocationsContentProps) {
   const [shareLocation, setShareLocation] = useState<ShareLocation | null>(null);
   const permissions = usePermissions();
   const can_access =
@@ -33,6 +42,10 @@ export function LocationsContent() {
         <MapMasterLayer />
         <PublisherLocationsHeatmap />
         <PublisherLocationsPoints />
+        <FlyToPublisherController
+          coordinates={fly_to_coordinates}
+          on_complete={on_fly_to_complete}
+        />
       </MapView>
       <MapShareActionSheet
         lat={shareLocation?.lat ?? 0}
