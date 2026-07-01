@@ -1,4 +1,5 @@
 import { IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonList } from "@ionic/react";
+import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
 import { publisherCollection } from "@shared/database/collections/publisher";
 import { useLiveQuery } from "@tanstack/react-db";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
@@ -49,6 +50,9 @@ export function PublishersContent() {
 
   return (
     <>
+      <IonList>
+        <NavItem label="Locations" to="/publishers/locations" />
+      </IonList>
       <IonAccordionGroup>
         <IonAccordion value="elders">
           <IonItem slot="header">

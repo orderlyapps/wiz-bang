@@ -16,6 +16,7 @@ import WeekendMeetingPage from "@proclaimer-routes/pages/schedules/weekend-meeti
 import EventsPage from "@proclaimer-routes/pages/schedules/events/Events";
 import CleaningPage from "@proclaimer-routes/pages/schedules/cleaning/Cleaning";
 import PublishersPage from "@proclaimer-routes/pages/publishers/Publishers";
+import LocationsPage from "@proclaimer-routes/pages/publishers/locations/Locations";
 import SettingsPage from "@proclaimer-routes/pages/settings/Settings";
 import AppearancePage from "@proclaimer-routes/pages/settings/appearance/Appearance";
 import ProfilePage from "@proclaimer-routes/pages/settings/profile/Profile";
@@ -282,6 +283,7 @@ function App() {
         <Route path="/schedules/cleaning" component={CleaningPage} exact />
         {/* PUBLISHERS */}
         <Route path="/publishers" component={PublishersPage} exact />
+        <Route path="/publishers/locations" component={LocationsPage} exact />
         {/* SETTINGS */}
         <Route path="/settings" component={SettingsPage} exact />
         <Route path="/settings/appearance" component={AppearancePage} exact />
