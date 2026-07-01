@@ -1,5 +1,6 @@
 import { IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonList } from "@ionic/react";
 import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
+import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
 import { publisherCollection } from "@shared/database/collections/publisher";
 import { useLiveQuery } from "@tanstack/react-db";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
@@ -27,6 +28,7 @@ function sortPublishers(publishers: Publisher[]) {
 
 export function PublishersContent() {
   const { data: publishers } = useLiveQuery((q) => q.from({ p: publisherCollection }));
+  const permissions = usePermissions();
 
   const elders = sortPublishers(
     publishers?.filter(
@@ -48,11 +50,18 @@ export function PublishersContent() {
     ) || [],
   );
 
+  const can_see_locations =
+    permissions.has_elder || permissions.has_congregation_admin || permissions.is_super_admin;
+
   return (
     <>
-      <IonList>
-        <NavItem label="Locations" to="/publishers/locations" />
-      </IonList>
+      {can_see_locations && (
+        <IonList>
+          <NavItem label="Locations" to="/publishers/locations" />
+
+          <Space />
+        </IonList>
+      )}
       <IonAccordionGroup>
         <IonAccordion value="elders">
           <IonItem slot="header">
