@@ -1,5 +1,6 @@
 import { Redirect } from "react-router-dom";
 import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
+import { MapView } from "@util/vendor/mapbox/MapView";
 
 export function LocationsContent() {
   const permissions = usePermissions();
@@ -10,5 +11,7 @@ export function LocationsContent() {
     return <Redirect to="/publishers" />;
   }
 
-  return <></>;
+  return (
+    <MapView id="publisher-locations" style={{ position: "absolute", inset: 0 }} height="100%" />
+  );
 }

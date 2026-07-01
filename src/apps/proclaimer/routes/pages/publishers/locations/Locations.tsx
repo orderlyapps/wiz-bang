@@ -8,7 +8,7 @@ function LocationsPage() {
       <IonHeader>
         <LocationsHeader />
       </IonHeader>
-      <IonContent>
+      <IonContent className="content-full" scrollY={false}>
         <LocationsContent />
       </IonContent>
     </IonPage>
