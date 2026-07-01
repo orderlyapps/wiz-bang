@@ -35,6 +35,7 @@ export function DoorToDoorContent() {
   return (
     <>
       <MapView
+        id="door-to-door"
         style={{ position: "absolute", inset: 0 }}
         height="100%"
         styleId={styleId}

@@ -54,6 +54,7 @@ export function ServiceOverseerMapContent({
   return (
     <>
       <MapView
+        id="service-overseer-map"
         style={{ position: "absolute", inset: 0 }}
         height="100%"
         styleId={styleId}
