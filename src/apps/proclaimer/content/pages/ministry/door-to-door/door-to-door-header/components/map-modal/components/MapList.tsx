@@ -24,7 +24,7 @@ export function MapList({ onMapSelect, onPreviewImage }: MapListProps) {
   return (
     <IonList>
       {maps.map((map) => (
-        <IonItem key={map.id} button onClick={() => onMapSelect(map)}>
+        <IonItem key={map.id} button onClick={() => onMapSelect(map)} detail={false}>
           <IonLabel>
             <h2>{map.name}</h2>
             {map.details && <p>{map.details}</p>}
@@ -38,7 +38,7 @@ export function MapList({ onMapSelect, onPreviewImage }: MapListProps) {
                   onPreviewImage(map.url!);
                 }}
               >
-                <IonIcon slot="icon-only" icon={imageOutline} />
+                <IonIcon slot="icon-only" icon={imageOutline} size="large" />
               </IonButton>
             </IonButtons>
           )}

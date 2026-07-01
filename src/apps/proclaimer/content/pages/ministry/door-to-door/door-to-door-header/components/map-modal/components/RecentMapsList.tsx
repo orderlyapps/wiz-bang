@@ -30,7 +30,7 @@ export function RecentMapsList({ recentMapIds, onMapSelect, onPreviewImage }: Re
 
       <IonList>
         {recentMaps.map((map) => (
-          <IonItem key={map.id} button onClick={() => onMapSelect(map)}>
+          <IonItem key={map.id} button onClick={() => onMapSelect(map)} detail={false}>
             <IonLabel>
               <h2>{map.name}</h2>
               {map.details && <p>{map.details}</p>}
@@ -44,7 +44,7 @@ export function RecentMapsList({ recentMapIds, onMapSelect, onPreviewImage }: Re
                     onPreviewImage(map.url!);
                   }}
                 >
-                  <IonIcon slot="icon-only" icon={imageOutline} />
+                  <IonIcon slot="icon-only" icon={imageOutline} size="large" />
                 </IonButton>
               </IonButtons>
             )}

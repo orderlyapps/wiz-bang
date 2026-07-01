@@ -2,6 +2,7 @@ import { createPortal } from "react-dom";
 import { IonButton, IonIcon } from "@ionic/react";
 import { close } from "ionicons/icons";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
+import { Space } from "@ui/components/layout/space/Space";
 
 interface Props {
   url: string;
@@ -45,6 +46,7 @@ export function MapImagePreview({ url, on_dismiss }: Props) {
           style={{ position: "absolute", top: 4, right: 4, zIndex: 2 }}
           onClick={on_dismiss}
         >
+          <Space size="2xl" />
           <IonIcon slot="icon-only" icon={close} size="large" />
         </IonButton>
         <TransformWrapper>
