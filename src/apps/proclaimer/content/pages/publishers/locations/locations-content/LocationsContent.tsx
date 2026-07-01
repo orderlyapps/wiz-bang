@@ -1,6 +1,7 @@
 import { Redirect } from "react-router-dom";
 import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
 import { MapView } from "@util/vendor/mapbox/MapView";
+import { PublisherLocationsHeatmap } from "./components/publisher-locations-heatmap/PublisherLocationsHeatmap";
 
 export function LocationsContent() {
   const permissions = usePermissions();
@@ -12,6 +13,8 @@ export function LocationsContent() {
   }
 
   return (
-    <MapView id="publisher-locations" style={{ position: "absolute", inset: 0 }} height="100%" />
+    <MapView id="publisher-locations" style={{ position: "absolute", inset: 0 }} height="100%">
+      <PublisherLocationsHeatmap />
+    </MapView>
   );
 }
