@@ -5,7 +5,10 @@ import { publisherCollection } from "@shared/database/collections/publisher";
 import { outlineCollection } from "@shared/database/collections/outline";
 import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
+import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
 import { LabelValueItem } from "@ui/components/display/data/label-value/LabelValueItem";
+import { TextButton } from "@ui/components/inputs/button/text/TextButton";
+import { Space } from "@ui/components/layout/space/Space";
 
 type SpeakerWeekInfoProps = {
   week_id: string;
@@ -14,6 +17,8 @@ type SpeakerWeekInfoProps = {
 export function SpeakerWeekInfo({ week_id }: SpeakerWeekInfoProps) {
   const publisher = useStoredPublisher();
   const congregation_id = publisher?.congregation_id ?? "";
+  const permissions = usePermissions();
+  const can_edit = permissions.has_speaker || permissions.has_congregation_admin;
 
   const { data: assignments } = useLiveQuery(
     (q) =>
@@ -56,6 +61,15 @@ export function SpeakerWeekInfo({ week_id }: SpeakerWeekInfoProps) {
           value="No speaker assigned for this week"
           value_color="medium"
         />
+      )}
+      {can_edit && (
+        <>
+          <Space />
+          <TextButton
+            label="Edit Public Talk"
+            routerLink={`/home/speaker/schedule/${week_id}/edit`}
+          />
+        </>
       )}
     </>
   );
