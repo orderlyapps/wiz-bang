@@ -4,6 +4,7 @@ import { useLiveQuery } from "@tanstack/react-db";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
 import type { Publisher } from "@shared/database/schemas/publisher";
 import { Heading } from "@ui/components/display/text/heading/Heading";
+import { Space } from "@ui/components/layout/space/Space";
 
 function sortPublishers(publishers: Publisher[]) {
   return publishers.sort((a, b) => {
@@ -62,6 +63,8 @@ export function PublishersContent() {
                   <IonLabel>{getPublisherDisplayName(elder)}</IonLabel>
                 </IonItem>
               ))}
+
+              <Space />
             </IonList>
           </div>
         </IonAccordion>
@@ -79,6 +82,8 @@ export function PublishersContent() {
                   <IonLabel>{getPublisherDisplayName(servant)}</IonLabel>
                 </IonItem>
               ))}
+
+              <Space />
             </IonList>
           </div>
         </IonAccordion>
@@ -96,6 +101,8 @@ export function PublishersContent() {
                   <IonLabel>{getPublisherDisplayName(pioneer)}</IonLabel>
                 </IonItem>
               ))}
+
+              <Space />
             </IonList>
           </div>
         </IonAccordion>
