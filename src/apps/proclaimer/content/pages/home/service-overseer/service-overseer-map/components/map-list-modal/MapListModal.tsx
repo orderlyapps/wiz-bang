@@ -57,6 +57,7 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect }: MapListModalPro
       id: map.id,
       name: map.name,
       details: map.details,
+      url: map.url,
       boundary: map.boundary,
       bounds,
       blocks: map.blocks,
@@ -160,6 +161,7 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect }: MapListModalPro
                 id,
                 name,
                 details: null,
+                url: null,
                 boundary: null,
                 blocks: null,
               });

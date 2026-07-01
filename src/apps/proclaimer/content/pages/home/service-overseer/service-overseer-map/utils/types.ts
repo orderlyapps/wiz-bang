@@ -9,6 +9,7 @@ export type SelectedMap =
       id: string;
       name: string;
       details: MapRow["details"];
+      url: MapRow["url"];
       boundary: unknown;
       bounds?: LngLatBoundsLike;
       blocks: MapRow["blocks"];

@@ -97,15 +97,16 @@ export function useMapPage(onFitBounds: (bounds: SelectedMap["bounds"]) => void)
     });
   }
 
-  function handleUpdateMap(name: string, details: string) {
+  function handleUpdateMap(name: string, details: string, url: string) {
     if (!selected_map || selected_map.type !== "map") return;
     mapCollection.update(selected_map.id, (draft) => {
       draft.name = name;
       draft.details = details || null;
+      draft.url = url || null;
     });
     set_selected_map((current) => {
       if (!current || current.type !== "map") return current;
-      return { ...current, name, details: details || null };
+      return { ...current, name, details: details || null, url: url || null };
     });
   }
 

@@ -40,7 +40,7 @@ type Props = {
   selectedMap: SelectedMap | null;
   onDeselect: () => void;
   onEditBoundary: () => void;
-  onUpdateMap: (name: string, details: string) => void;
+  onUpdateMap: (name: string, details: string, url: string) => void;
   onDeleteMap: () => void;
   onRenameBlock: (blockId: string, name: string) => void;
   onEditBlock: (block: Block) => void;
@@ -208,13 +208,21 @@ function MapMenu({
             <AlertTextInput
               label="Name"
               value={selectedMap.name}
-              on_change={(name) => onUpdateMap(name, selectedMap.details ?? "")}
+              on_change={(name) =>
+                onUpdateMap(name, selectedMap.details ?? "", selectedMap.url ?? "")
+              }
             />
             <AlertTextInput
               label="Details"
               value={selectedMap.details ?? ""}
               placeholder="Add details..."
-              on_change={(details) => onUpdateMap(selectedMap.name, details)}
+              on_change={(details) => onUpdateMap(selectedMap.name, details, selectedMap.url ?? "")}
+            />
+            <AlertTextInput
+              label="URL"
+              value={selectedMap.url ?? ""}
+              placeholder="Add URL..."
+              on_change={(url) => onUpdateMap(selectedMap.name, selectedMap.details ?? "", url)}
             />
             <Space />
           </>
