@@ -5,6 +5,7 @@ export const mapSchema = z.object({
   congregation_id: z.uuid(),
   name: z.string(),
   details: z.string().nullable().optional(),
+  url: z.string().nullable().optional(),
   boundary: z.array(z.tuple([z.number(), z.number()])).nullable(),
   blocks: z
     .array(
