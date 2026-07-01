@@ -58,6 +58,7 @@ import WeekendSchedulePage from "@proclaimer-routes/pages/home/weekend/schedule/
 import WeekendAssignmentDetailPage from "@proclaimer-routes/pages/home/weekend/schedule/assignment-detail/WeekendAssignmentDetail";
 import AvOverseerPage from "@proclaimer-routes/pages/home/av-overseer/AvOverseer";
 import ClamDataPage from "@proclaimer-routes/pages/home/super-admin/clam-data/ClamData";
+import OutlineManagementPage from "@proclaimer-routes/pages/home/super-admin/outline-management/OutlineManagement";
 import ParticipationPage from "@proclaimer-routes/pages/home/clam-overseer/participation/Participation";
 import ChairmanParticipationPage from "@proclaimer-routes/pages/home/clam-overseer/participation/chairman/Chairman";
 import PrayerParticipationPage from "@proclaimer-routes/pages/home/clam-overseer/participation/prayer/Prayer";
@@ -266,6 +267,7 @@ function App() {
         />
         <Route path="/home/super-admin" component={SuperAdminPage} exact />
         <Route path="/home/super-admin/clam-data" component={ClamDataPage} exact />
+        <Route path="/home/super-admin/outlines" component={OutlineManagementPage} exact />
         <Route path="/home/data-sharing" component={DataSharingPage} exact />
         {/* MINISTRY */}
         <Route path="/ministry" component={MinistryPage} exact />
