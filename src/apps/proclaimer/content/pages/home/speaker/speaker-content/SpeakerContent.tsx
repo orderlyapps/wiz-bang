@@ -5,6 +5,8 @@ export function SpeakerContent() {
   return (
     <IonList>
       <NavItem to="/home/speaker/schedule" label="Schedule" />
+      <NavItem to="/home/speaker/local-speakers" label="Local Speakers" />
+      <NavItem to="/home/speaker/visiting-speakers" label="Visiting Speakers" />
     </IonList>
   );
 }

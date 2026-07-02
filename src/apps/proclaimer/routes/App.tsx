@@ -53,6 +53,8 @@ import TerritoryServantPage from "@proclaimer-routes/pages/home/territory-servan
 import SpeakerPage from "@proclaimer-routes/pages/home/speaker/Speaker";
 import SpeakerSchedulePage from "@proclaimer-routes/pages/home/speaker/schedule/Schedule";
 import SpeakerEditTalkPage from "@proclaimer-routes/pages/home/speaker/schedule/edit-talk/EditTalk";
+import LocalSpeakersPage from "@proclaimer-routes/pages/home/speaker/local-speakers/LocalSpeakers";
+import VisitingSpeakersPage from "@proclaimer-routes/pages/home/speaker/visiting-speakers/VisitingSpeakers";
 import WeekendPage from "@proclaimer-routes/pages/home/weekend/Weekend";
 import WeekendSchedulePage from "@proclaimer-routes/pages/home/weekend/schedule/Schedule";
 import WeekendAssignmentDetailPage from "@proclaimer-routes/pages/home/weekend/schedule/assignment-detail/WeekendAssignmentDetail";
@@ -246,6 +248,8 @@ function App() {
         <Route path="/home/speaker" component={SpeakerPage} exact />
         <Route path="/home/speaker/schedule/:week_id?" component={SpeakerSchedulePage} exact />
         <Route path="/home/speaker/schedule/:week_id/edit" component={SpeakerEditTalkPage} exact />
+        <Route path="/home/speaker/local-speakers" component={LocalSpeakersPage} exact />
+        <Route path="/home/speaker/visiting-speakers" component={VisitingSpeakersPage} exact />
         <Route path="/home/weekend" component={WeekendPage} exact />
         <Route
           path="/home/weekend/schedule/:week_id/assignment/:assignment_id"
