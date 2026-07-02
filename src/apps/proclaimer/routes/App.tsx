@@ -60,6 +60,7 @@ import WeekendPage from "@proclaimer-routes/pages/home/weekend/Weekend";
 import WeekendSchedulePage from "@proclaimer-routes/pages/home/weekend/schedule/Schedule";
 import WeekendAssignmentDetailPage from "@proclaimer-routes/pages/home/weekend/schedule/assignment-detail/WeekendAssignmentDetail";
 import WeekendParticipationPage from "@proclaimer-routes/pages/home/weekend/participation/Participation";
+import WeekendParticipationTypePage from "@proclaimer-routes/pages/home/weekend/participation/participation-type/ParticipationType";
 import AvOverseerPage from "@proclaimer-routes/pages/home/av-overseer/AvOverseer";
 import ClamDataPage from "@proclaimer-routes/pages/home/super-admin/clam-data/ClamData";
 import OutlineManagementPage from "@proclaimer-routes/pages/home/super-admin/outline-management/OutlineManagement";
@@ -273,6 +274,11 @@ function App() {
         />
         <Route path="/home/weekend/schedule/:week_id?" component={WeekendSchedulePage} exact />
         <Route path="/home/weekend/participation" component={WeekendParticipationPage} exact />
+        <Route
+          path="/home/weekend/participation/:participation_id"
+          component={WeekendParticipationTypePage}
+          exact
+        />
         <Route path="/home/av-overseer" component={AvOverseerPage} exact />
         <Route
           path="/home/av-overseer/schedule/:week_id/assignment/:assignment_id"
