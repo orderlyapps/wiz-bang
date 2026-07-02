@@ -1,8 +1,11 @@
-import { IonToolbar, IonTitle } from "@ionic/react";
+import { IonToolbar, IonTitle, IonButtons, IonBackButton } from "@ionic/react";
 
 export function ReportsHeader() {
   return (
     <IonToolbar>
+      <IonButtons slot="start">
+        <IonBackButton />
+      </IonButtons>
       <IonTitle>Reports</IonTitle>
     </IonToolbar>
   );
