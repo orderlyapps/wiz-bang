@@ -5,6 +5,7 @@ export function WeekendContent() {
   return (
     <IonList>
       <NavItem to="/home/weekend/schedule" label="Schedule" />
+      <NavItem to="/home/weekend/participation" label="Participation" />
     </IonList>
   );
 }
