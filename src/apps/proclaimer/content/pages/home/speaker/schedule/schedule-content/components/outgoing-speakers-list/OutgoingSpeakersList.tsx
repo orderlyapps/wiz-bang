@@ -1,3 +1,4 @@
+import { useHistory } from "react-router-dom";
 import { useLiveQuery } from "@tanstack/react-db";
 import { and, eq } from "@tanstack/react-db";
 import { speakerAssignmentCollection } from "@shared/database/collections/speaker-assignment";
@@ -8,14 +9,16 @@ import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
 import { makeCompositeKey } from "@shared/database/util/composite-key";
 import { LabelValueItem } from "@ui/components/display/data/label-value/LabelValueItem";
+import { AddIconButton } from "@ui/components/inputs/button/icon/add/AddIconButton";
 import { DeleteIconButton } from "@ui/components/inputs/button/icon/delete/DeleteIconButton";
 import { Space } from "@ui/components/layout/space/Space";
 
 type OutgoingSpeakersListProps = { week_id: string };
 export function OutgoingSpeakersList({ week_id }: OutgoingSpeakersListProps) {
+  const history = useHistory();
   const congregation_id = useStoredPublisher()?.congregation_id ?? "";
   const permissions = usePermissions();
-  const can_delete =
+  const can_edit =
     permissions.has_speaker || permissions.has_congregation_admin || permissions.is_super_admin;
   const { data: assignments } = useLiveQuery(
     (q) =>
@@ -40,37 +43,53 @@ export function OutgoingSpeakersList({ week_id }: OutgoingSpeakersListProps) {
         })),
     [week_id, congregation_id],
   );
-  return assignments && assignments.length > 0 ? (
+  const has_assignments = assignments && assignments.length > 0;
+  if (!has_assignments && !can_edit) return null;
+
+  return (
     <>
       <Space />
-      <LabelValueItem label="Outgoing Speakers" />
-      {assignments.map((assignment) => (
-        <LabelValueItem
-          key={makeCompositeKey(assignment.week_id, assignment.congregation_id)}
-          label={
-            assignment.first_name && assignment.last_name
-              ? getPublisherDisplayName({
-                  first_name: assignment.first_name,
-                  last_name: assignment.last_name,
-                  display_name: assignment.display_name,
-                })
-              : "Unknown Speaker"
-          }
-          value={assignment.target_congregation_name}
-          end_detail={
-            can_delete && (
-              <DeleteIconButton
-                slot="end"
-                on_click={() =>
-                  speakerAssignmentCollection.delete(
-                    makeCompositeKey(assignment.week_id, assignment.congregation_id),
-                  )
-                }
-              />
-            )
-          }
-        />
-      ))}
+      <LabelValueItem
+        label="Outgoing Speakers"
+        end_detail={
+          can_edit && (
+            <AddIconButton
+              slot="end"
+              on_click={() =>
+                history.push(`/home/speaker/schedule/${week_id}/add-outgoing-speaker`)
+              }
+            />
+          )
+        }
+      />
+      {has_assignments &&
+        assignments.map((assignment) => (
+          <LabelValueItem
+            key={makeCompositeKey(assignment.week_id, assignment.congregation_id)}
+            label={
+              assignment.first_name && assignment.last_name
+                ? getPublisherDisplayName({
+                    first_name: assignment.first_name,
+                    last_name: assignment.last_name,
+                    display_name: assignment.display_name,
+                  })
+                : "Unknown Speaker"
+            }
+            value={assignment.target_congregation_name}
+            end_detail={
+              can_edit && (
+                <DeleteIconButton
+                  slot="end"
+                  on_click={() =>
+                    speakerAssignmentCollection.delete(
+                      makeCompositeKey(assignment.week_id, assignment.congregation_id),
+                    )
+                  }
+                />
+              )
+            }
+          />
+        ))}
     </>
-  ) : null;
+  );
 }

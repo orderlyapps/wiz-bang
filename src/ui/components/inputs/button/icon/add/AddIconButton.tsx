@@ -7,6 +7,7 @@ interface AddIconButtonProps {
   fill?: "clear" | "outline" | "solid" | "default";
   size?: "small" | "default" | "large";
   disabled?: boolean;
+  slot?: string;
   on_click: () => void;
 }
 
@@ -15,10 +16,18 @@ export function AddIconButton({
   fill = "clear",
   size = "default",
   disabled = false,
+  slot,
   on_click,
 }: AddIconButtonProps) {
   return (
-    <IonButton color={color} fill={fill} size={size} disabled={disabled} onClick={on_click}>
+    <IonButton
+      color={color}
+      fill={fill}
+      size={size}
+      disabled={disabled}
+      slot={slot}
+      onClick={on_click}
+    >
       <IonIcon slot="icon-only" icon={add} />
     </IonButton>
   );

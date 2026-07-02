@@ -53,6 +53,7 @@ import TerritoryServantPage from "@proclaimer-routes/pages/home/territory-servan
 import SpeakerPage from "@proclaimer-routes/pages/home/speaker/Speaker";
 import SpeakerSchedulePage from "@proclaimer-routes/pages/home/speaker/schedule/Schedule";
 import SpeakerEditTalkPage from "@proclaimer-routes/pages/home/speaker/schedule/edit-talk/EditTalk";
+import AddOutgoingSpeakerPage from "@proclaimer-routes/pages/home/speaker/schedule/add-outgoing-speaker/AddOutgoingSpeaker";
 import LocalSpeakersPage from "@proclaimer-routes/pages/home/speaker/local-speakers/LocalSpeakers";
 import VisitingSpeakersPage from "@proclaimer-routes/pages/home/speaker/visiting-speakers/VisitingSpeakers";
 import WeekendPage from "@proclaimer-routes/pages/home/weekend/Weekend";
@@ -257,6 +258,11 @@ function App() {
         <Route path="/home/speaker" component={SpeakerPage} exact />
         <Route path="/home/speaker/schedule/:week_id?" component={SpeakerSchedulePage} exact />
         <Route path="/home/speaker/schedule/:week_id/edit" component={SpeakerEditTalkPage} exact />
+        <Route
+          path="/home/speaker/schedule/:week_id/add-outgoing-speaker"
+          component={AddOutgoingSpeakerPage}
+          exact
+        />
         <Route path="/home/speaker/local-speakers" component={LocalSpeakersPage} exact />
         <Route path="/home/speaker/visiting-speakers" component={VisitingSpeakersPage} exact />
         <Route path="/home/weekend" component={WeekendPage} exact />
