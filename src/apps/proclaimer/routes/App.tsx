@@ -83,8 +83,17 @@ import AvParticipationPage from "@proclaimer-routes/pages/home/av-overseer/parti
 import AvParticipationTypePage from "@proclaimer-routes/pages/home/av-overseer/participation/AvParticipationType";
 import DataSharingPage from "@proclaimer-routes/pages/home/data-sharing/DataSharing";
 import { Icon } from "@ui/components/icons/Icon";
+import { useOrientation } from "@util/hooks/use-orientation/use-orientation";
+import { getPlatforms } from "@ionic/react";
 
 function App() {
+  const isPortrait = useOrientation();
+  const layout = isPortrait ? "icon-top" : "icon-start";
+  const className =
+    isPortrait && (getPlatforms().includes("iphone") || getPlatforms().includes("ipad"))
+      ? ""
+      : "ion-padding-end-xxx";
+
   return (
     <IonTabs>
       <CongregationGuard />
@@ -303,28 +312,28 @@ function App() {
       </IonRouterOutlet>
 
       <IonTabBar slot="bottom">
-        <IonTabButton tab="home" href="/home">
-          <Icon name="home" />
+        <IonTabButton tab="home" href="/home" layout={layout}>
+          <Icon name="home" className={className} />
           <IonLabel>Home</IonLabel>
         </IonTabButton>
 
-        <IonTabButton tab="ministry" href="/ministry">
-          <Icon name="ministry" />
+        <IonTabButton tab="ministry" href="/ministry" layout={layout}>
+          <Icon name="ministry" className={className} />
           <IonLabel>Ministry</IonLabel>
         </IonTabButton>
 
-        <IonTabButton tab="schedules" href="/schedules">
-          <Icon name="schedules" />
+        <IonTabButton tab="schedules" href="/schedules" layout={layout}>
+          <Icon name="schedules" className={className} />
           <IonLabel>Schedules</IonLabel>
         </IonTabButton>
 
-        <IonTabButton tab="publishers" href="/publishers">
-          <Icon name="publishers" />
+        <IonTabButton tab="publishers" href="/publishers" layout={layout}>
+          <Icon name="publishers" className={className} />
           <IonLabel>Publishers</IonLabel>
         </IonTabButton>
 
-        <IonTabButton tab="settings" href="/settings">
-          <Icon name="settings" />
+        <IonTabButton tab="settings" href="/settings" layout={layout}>
+          <Icon name="settings" className={className} />
           <IonLabel>Settings</IonLabel>
         </IonTabButton>
       </IonTabBar>
