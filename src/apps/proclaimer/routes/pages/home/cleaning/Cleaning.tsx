@@ -8,7 +8,7 @@ function CleaningPage() {
       <IonHeader>
         <CleaningHeader />
       </IonHeader>
-      <IonContent className="ion-padding">
+      <IonContent className="content-wide">
         <CleaningContent />
       </IonContent>
     </IonPage>
