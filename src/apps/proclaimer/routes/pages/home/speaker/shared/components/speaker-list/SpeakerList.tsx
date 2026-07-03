@@ -15,9 +15,10 @@ type SpeakerListProps = {
   speakers: SpeakerListItem[];
   empty_label: string;
   is_loading?: boolean;
+  get_href?: (speaker: SpeakerListItem) => string;
 };
 
-export function SpeakerList({ speakers, empty_label, is_loading }: SpeakerListProps) {
+export function SpeakerList({ speakers, empty_label, is_loading, get_href }: SpeakerListProps) {
   if (is_loading) {
     return <Spinner />;
   }
@@ -33,7 +34,7 @@ export function SpeakerList({ speakers, empty_label, is_loading }: SpeakerListPr
   return (
     <IonList>
       {speakers.map((speaker, index) => (
-        <IonItem key={speaker.id ?? index}>
+        <IonItem key={speaker.id ?? index} routerLink={get_href?.(speaker)} button={!!get_href}>
           <IonLabel>
             {getPublisherDisplayName(speaker)}
             {speaker.subtitle && (

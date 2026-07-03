@@ -55,7 +55,9 @@ import SpeakerSchedulePage from "@proclaimer-routes/pages/home/speaker/schedule/
 import SpeakerEditTalkPage from "@proclaimer-routes/pages/home/speaker/schedule/edit-talk/EditTalk";
 import AddOutgoingSpeakerPage from "@proclaimer-routes/pages/home/speaker/schedule/add-outgoing-speaker/AddOutgoingSpeaker";
 import LocalSpeakersPage from "@proclaimer-routes/pages/home/speaker/local-speakers/LocalSpeakers";
+import LocalSpeakerDetailPage from "@proclaimer-routes/pages/home/speaker/local-speakers/speaker-detail/SpeakerDetail";
 import VisitingSpeakersPage from "@proclaimer-routes/pages/home/speaker/visiting-speakers/VisitingSpeakers";
+import VisitingSpeakerDetailPage from "@proclaimer-routes/pages/home/speaker/visiting-speakers/speaker-detail/SpeakerDetail";
 import WeekendPage from "@proclaimer-routes/pages/home/weekend/Weekend";
 import WeekendSchedulePage from "@proclaimer-routes/pages/home/weekend/schedule/Schedule";
 import WeekendAssignmentDetailPage from "@proclaimer-routes/pages/home/weekend/schedule/assignment-detail/WeekendAssignmentDetail";
@@ -265,7 +267,17 @@ function App() {
           exact
         />
         <Route path="/home/speaker/local-speakers" component={LocalSpeakersPage} exact />
+        <Route
+          path="/home/speaker/local-speakers/:speaker_id"
+          component={LocalSpeakerDetailPage}
+          exact
+        />
         <Route path="/home/speaker/visiting-speakers" component={VisitingSpeakersPage} exact />
+        <Route
+          path="/home/speaker/visiting-speakers/:speaker_id"
+          component={VisitingSpeakerDetailPage}
+          exact
+        />
         <Route path="/home/weekend" component={WeekendPage} exact />
         <Route
           path="/home/weekend/schedule/:week_id/assignment/:assignment_id"
