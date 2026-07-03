@@ -1,8 +1,8 @@
 import { IonPage, IonHeader, IonContent } from "@ionic/react";
 import { useRouteMatch } from "react-router-dom";
 import { startOfWeek, format } from "date-fns";
-import { ClamHeader } from "@proclaimer-content/pages/home/clam/clam-header/ClamHeader";
-import { ClamContent } from "@proclaimer-content/pages/home/clam/clam-content/ClamContent";
+import { ClamHeader } from "@proclaimer-content/pages/home/reminders/clam/clam-header/ClamHeader";
+import { ClamContent } from "@proclaimer-content/pages/home/reminders/clam/clam-content/ClamContent";
 
 function ClamPage() {
   const match = useRouteMatch<{ week_id?: string }>();
