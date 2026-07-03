@@ -87,6 +87,7 @@ import AvAssignmentDetailPage from "@proclaimer-routes/pages/home/av-overseer/sc
 import AvParticipationPage from "@proclaimer-routes/pages/home/av-overseer/participation/Participation";
 import AvParticipationTypePage from "@proclaimer-routes/pages/home/av-overseer/participation/AvParticipationType";
 import RemindersPage from "@proclaimer-routes/pages/home/reminders/Reminders";
+import ClamPage from "@proclaimer-routes/pages/home/clam/Clam";
 import DataSharingPage from "@proclaimer-routes/pages/home/data-sharing/DataSharing";
 import { Icon } from "@ui/components/icons/Icon";
 import { useOrientation } from "@util/hooks/use-orientation/use-orientation";
@@ -315,6 +316,7 @@ function App() {
         <Route path="/home/super-admin/clam-data" component={ClamDataPage} exact />
         <Route path="/home/super-admin/outlines" component={OutlineManagementPage} exact />
         <Route path="/home/reminders" component={RemindersPage} exact />
+        <Route path="/home/clam/:week_id?" component={ClamPage} exact />
         <Route path="/home/data-sharing" component={DataSharingPage} exact />
         {/* MINISTRY */}
         <Route path="/ministry" component={MinistryPage} exact />
