@@ -43,6 +43,7 @@ import TerritoryServantPermissionsPage from "@proclaimer-routes/pages/home/congr
 import AvOverseerPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/av-overseer/AvOverseer";
 import SpeakerPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/speaker/Speaker";
 import WeekendPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/weekend/Weekend";
+import RemindersPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/reminders/Reminders";
 import ElderPage from "@proclaimer-routes/pages/home/elder/Elder";
 import ContactsListPage from "@proclaimer-routes/pages/home/elder/contacts-list/ContactsList";
 import ClamOverseerPage from "@proclaimer-routes/pages/home/clam-overseer/ClamOverseer";
@@ -85,6 +86,7 @@ import AvSchedulePage from "@proclaimer-routes/pages/home/av-overseer/schedule/A
 import AvAssignmentDetailPage from "@proclaimer-routes/pages/home/av-overseer/schedule/assignment-detail/AvAssignmentDetail";
 import AvParticipationPage from "@proclaimer-routes/pages/home/av-overseer/participation/Participation";
 import AvParticipationTypePage from "@proclaimer-routes/pages/home/av-overseer/participation/AvParticipationType";
+import RemindersPage from "@proclaimer-routes/pages/home/reminders/Reminders";
 import DataSharingPage from "@proclaimer-routes/pages/home/data-sharing/DataSharing";
 import { Icon } from "@ui/components/icons/Icon";
 import { useOrientation } from "@util/hooks/use-orientation/use-orientation";
@@ -178,6 +180,11 @@ function App() {
         <Route
           path="/home/congregation-admin/permissions/weekend"
           component={WeekendPermissionsPage}
+          exact
+        />
+        <Route
+          path="/home/congregation-admin/permissions/reminders"
+          component={RemindersPermissionsPage}
           exact
         />
         <Route path="/home/elder" component={ElderPage} exact />
@@ -307,6 +314,7 @@ function App() {
         <Route path="/home/super-admin" component={SuperAdminPage} exact />
         <Route path="/home/super-admin/clam-data" component={ClamDataPage} exact />
         <Route path="/home/super-admin/outlines" component={OutlineManagementPage} exact />
+        <Route path="/home/reminders" component={RemindersPage} exact />
         <Route path="/home/data-sharing" component={DataSharingPage} exact />
         {/* MINISTRY */}
         <Route path="/ministry" component={MinistryPage} exact />

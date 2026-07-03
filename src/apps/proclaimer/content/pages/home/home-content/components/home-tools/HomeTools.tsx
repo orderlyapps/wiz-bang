@@ -170,6 +170,17 @@ export function HomeTools() {
               />
             )}
 
+            {(canSeeAll || permissions.has_reminders) && (
+              <NavItem
+                color={COLOR}
+                size="md"
+                lines="none"
+                label_class={CLASSNAME}
+                label="Reminders"
+                to="/home/reminders"
+              />
+            )}
+
             {(canSeeAll ||
               permissions.has_elder ||
               permissions.has_secretary ||

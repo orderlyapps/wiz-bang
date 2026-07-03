@@ -25,6 +25,7 @@ export function PermissionsContent() {
       <NavItem label="AV Overseer" to="/home/congregation-admin/permissions/av-overseer" />
       <NavItem label="Speaker" to="/home/congregation-admin/permissions/speaker" />
       <NavItem label="Weekend" to="/home/congregation-admin/permissions/weekend" />
+      <NavItem label="Reminders" to="/home/congregation-admin/permissions/reminders" />
     </IonList>
   );
 }
