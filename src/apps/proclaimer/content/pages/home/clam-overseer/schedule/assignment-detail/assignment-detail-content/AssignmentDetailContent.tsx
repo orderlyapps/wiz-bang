@@ -74,6 +74,8 @@ export function AssignmentDetailContent({ week_id, assignment_id }: AssignmentDe
           assistantAssignment={assistantAssignment}
           onSelectAssignee={handleSelect}
           onSelectAssistant={handleSelectAssistant}
+          onClearAssignee={handleDelete}
+          onClearAssistant={handleDeleteAssistant}
           assignment_id={assignment_id}
           week_id={week_id}
         />

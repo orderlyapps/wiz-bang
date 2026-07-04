@@ -3,6 +3,8 @@ import { PublisherList } from "../publisher-list/PublisherList";
 import { PublisherControls } from "./components/publisher-controls/PublisherControls";
 import { PublisherSelectModal } from "../publisher-list/components/publisher-select-modal/PublisherSelectModal";
 import { PublisherSegment } from "./components/publisher-segment/PublisherSegment";
+import { ClearAssignmentButton } from "./components/clear-assignment-button/ClearAssignmentButton";
+import { Space } from "@ui/components/layout/space/Space";
 import type { Publisher } from "@shared/database/schemas/publisher";
 import type {
   MidweekAssignment,
@@ -24,6 +26,8 @@ interface PublisherSelectorProps {
   assistantAssignment: MidweekAssignment | undefined;
   onSelectAssignee: (publisher_id: string) => void;
   onSelectAssistant: (publisher_id: string) => void;
+  onClearAssignee: () => void;
+  onClearAssistant: () => void;
   assignment_id: string;
   week_id: string;
 }
@@ -35,6 +39,8 @@ export function PublisherSelector({
   assistantAssignment,
   onSelectAssignee,
   onSelectAssistant,
+  onClearAssignee,
+  onClearAssistant,
   assignment_id,
   week_id,
 }: PublisherSelectorProps) {
@@ -93,6 +99,8 @@ export function PublisherSelector({
           on_delete_preset={assignee_presets_api.deletePreset}
           on_change={handleAssigneeChange}
         />
+        <Space size="sm" />
+        <ClearAssignmentButton on_click={onClearAssignee} disabled={!assignment?.participant_id} />
         <PublisherList
           publishers={publishers}
           selected_id={assignment?.participant_id}
@@ -144,6 +152,8 @@ export function PublisherSelector({
         onChangeAssistant={handleAssistantChange}
         onSelectAssignee={(id) => handleSelectPublisher(id, "assignee")}
         onSelectAssistant={(id) => handleSelectPublisher(id, "assistant")}
+        onClearAssignee={onClearAssignee}
+        onClearAssistant={onClearAssistant}
         publisher_ids_with_week_assignment={publisher_ids_with_week_assignment}
       />
       <PublisherSelectModal

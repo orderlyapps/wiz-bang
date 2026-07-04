@@ -10,6 +10,8 @@ import type { Publisher } from "@shared/database/schemas/publisher";
 import type { MidweekAssignment } from "@shared/database/schemas/midweek-assignment";
 import { PublisherList } from "../../../publisher-list/PublisherList";
 import { PublisherControls } from "../publisher-controls/PublisherControls";
+import { ClearAssignmentButton } from "../clear-assignment-button/ClearAssignmentButton";
+import { Space } from "@ui/components/layout/space/Space";
 import type { PublisherStats } from "../../hooks/use-publisher-stats/usePublisherStats";
 import type {
   FilterSortPreset,
@@ -44,6 +46,8 @@ interface PublisherSegmentProps {
   onChangeAssistant: (filter: PublisherFilter, sort_order: PublisherSortOrder) => void;
   onSelectAssignee: (id: string) => void;
   onSelectAssistant: (id: string) => void;
+  onClearAssignee: () => void;
+  onClearAssistant: () => void;
   publisher_ids_with_week_assignment?: Set<string>;
 }
 
@@ -73,6 +77,8 @@ export function PublisherSegment({
   onChangeAssistant,
   onSelectAssignee,
   onSelectAssistant,
+  onClearAssignee,
+  onClearAssistant,
   publisher_ids_with_week_assignment,
 }: PublisherSegmentProps) {
   return (
@@ -99,6 +105,11 @@ export function PublisherSegment({
             on_delete_preset={onDeleteAssigneePreset}
             on_change={onChangeAssignee}
           />
+          <Space size="sm" />
+          <ClearAssignmentButton
+            on_click={onClearAssignee}
+            disabled={!assignment?.participant_id}
+          />
           <PublisherList
             publishers={publishers}
             selected_id={assignment?.participant_id}
@@ -120,6 +131,12 @@ export function PublisherSegment({
             on_rename_preset={onRenameAssistantPreset}
             on_delete_preset={onDeleteAssistantPreset}
             on_change={onChangeAssistant}
+          />
+          <Space size="sm" />
+          <ClearAssignmentButton
+            label={`Clear ${assistant_label}`}
+            on_click={onClearAssistant}
+            disabled={!assistantAssignment?.participant_id}
           />
           <PublisherList
             publishers={publishers}
