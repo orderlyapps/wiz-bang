@@ -11,6 +11,7 @@ export function PublisherSignIn({ publisher }: PublisherSignInProps) {
   const session = useAuthSession();
 
   if (!publisher) return null;
+  if (session === undefined) return null;
 
   const is_signed_in = !!session;
 

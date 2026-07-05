@@ -46,6 +46,6 @@ export function usePermissionedPublishers() {
   return {
     publishers: (publishers ?? []).filter((p) => p.type !== "associate"),
     has_access,
-    isLoading,
+    isLoading: isLoading || session === undefined,
   };
 }

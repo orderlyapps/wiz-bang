@@ -84,6 +84,28 @@ export function usePermissions(): Permissions {
   );
   const { data: auth_users } = useLiveQuery((q) => q.from({ au: authUserCollection }));
 
+  if (session === undefined) {
+    return {
+      has_cleaning: false,
+      has_reports: false,
+      has_secretary: false,
+      has_elder: false,
+      has_ministerial_servant: false,
+      has_clam_overseer: false,
+      has_service_overseer: false,
+      has_cobe: false,
+      has_territory_servant: false,
+      has_av_overseer: false,
+      has_speaker: false,
+      has_weekend: false,
+      has_reminders: false,
+      has_congregation_admin: false,
+      is_super_admin: false,
+      is_authenticated: false,
+      is_loaded: false,
+    };
+  }
+
   if (!auth_user_id || !congregation_id) {
     return {
       has_cleaning: false,
@@ -102,7 +124,7 @@ export function usePermissions(): Permissions {
       has_congregation_admin: false,
       is_super_admin: false,
       is_authenticated: !!auth_user_id,
-      is_loaded: !!auth_user_id,
+      is_loaded: true,
     };
   }
 
