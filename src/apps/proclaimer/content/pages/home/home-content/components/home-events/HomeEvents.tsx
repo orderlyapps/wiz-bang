@@ -2,14 +2,14 @@ import { and, eq, gte, useLiveQuery } from "@tanstack/react-db";
 import { IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonList } from "@ionic/react";
 import { format } from "date-fns";
 import { eventCollection } from "@shared/database/collections/event";
-import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
+import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
 import { Heading } from "@ui/components/display/text/heading/Heading";
 import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
 import { EventItem } from "@proclaimer-content/pages/schedules/events/components/event-item/EventItem";
 
 export function HomeEvents() {
-  const publisher = useStoredPublisher();
-  const congregation_id = publisher?.congregation_id;
+  const congregation = useStoredCongregation();
+  const congregation_id = congregation?.id;
   const today_str = format(new Date(), "yyyy-MM-dd");
 
   const { data: events } = useLiveQuery(

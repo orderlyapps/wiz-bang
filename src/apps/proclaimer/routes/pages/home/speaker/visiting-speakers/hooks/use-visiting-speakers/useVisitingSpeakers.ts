@@ -1,7 +1,7 @@
 import { useLiveQuery, and, eq } from "@tanstack/react-db";
 import { publisherCollection } from "@shared/database/collections/publisher";
 import { congregationCollection } from "@shared/database/collections/congregation";
-import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
+import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
 
 export type VisitingSpeaker = {
   id?: string;
@@ -13,7 +13,7 @@ export type VisitingSpeaker = {
 };
 
 export function useVisitingSpeakers() {
-  const congregation_id = useStoredPublisher()?.congregation_id ?? "";
+  const congregation_id = useStoredCongregation()?.id ?? "";
 
   const { data, isLoading } = useLiveQuery(
     (q) =>

@@ -1,7 +1,7 @@
 import { eq, useLiveQuery } from "@tanstack/react-db";
 import { addWeeks, endOfYear, format, parseISO, startOfWeek } from "date-fns";
 import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
-import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
+import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
 import { getTheocraticWeekLabel } from "@proclaimer-shared/util/date/getTheocraticWeekLabel";
 import { cleanMajorCollection } from "@shared/database/collections/clean-major";
 import { cleanMinorCollection } from "@shared/database/collections/clean-minor";
@@ -32,8 +32,8 @@ const NONE_OPTION: CleaningScheduleOption = { label: "None", value: "" };
 
 export function useCleaningSchedules() {
   const permissions = usePermissions();
-  const publisher = useStoredPublisher();
-  const congregation_id = publisher?.congregation_id;
+  const congregation = useStoredCongregation();
+  const congregation_id = congregation?.id;
 
   const { data: major_entries } = useLiveQuery(
     (q) =>

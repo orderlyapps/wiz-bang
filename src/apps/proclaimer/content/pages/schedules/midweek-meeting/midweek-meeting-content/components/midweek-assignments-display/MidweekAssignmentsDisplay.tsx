@@ -4,7 +4,7 @@ import { publisherCollection } from "@shared/database/collections/publisher";
 import { midweekAVAssignmentIDs, avAssignmentLabels } from "@shared/database/schemas/av-assignment";
 import { and, eq, inArray } from "@tanstack/react-db";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
-import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
+import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
 import { LabelValueItem } from "@ui/components/display/data/label-value/LabelValueItem";
 
 type MidweekAssignmentsDisplayProps = {
@@ -12,8 +12,8 @@ type MidweekAssignmentsDisplayProps = {
 };
 
 export const MidweekAssignmentsDisplay: React.FC<MidweekAssignmentsDisplayProps> = ({ weekId }) => {
-  const publisher = useStoredPublisher();
-  const congregationId = publisher?.congregation_id;
+  const congregation = useStoredCongregation();
+  const congregationId = congregation?.id;
 
   const { data: avAssignments } = useLiveQuery(
     (q) =>

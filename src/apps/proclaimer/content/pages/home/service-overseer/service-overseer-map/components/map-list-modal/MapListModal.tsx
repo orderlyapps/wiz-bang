@@ -16,7 +16,7 @@ import { AddIconButton } from "@ui/components/inputs/button/icon/add/AddIconButt
 import { useLiveQuery } from "@tanstack/react-db";
 import { mapCollection } from "@shared/database/collections/map";
 import { mapMasterCollection } from "@shared/database/collections/map-master";
-import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
+import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
 import { boundaryToBounds } from "../../utils/boundary";
 import { getRecentMapIds } from "../../utils/useRecentMaps";
 import type { MapRow } from "@shared/database/schemas/map";
@@ -37,8 +37,8 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect }: MapListModalPro
     q.from({ m: mapCollection }).orderBy(({ m }) => m.name),
   );
   const { data: masters } = useLiveQuery((q) => q.from({ mm: mapMasterCollection }));
-  const publisher = useStoredPublisher();
-  const congregation_id = publisher?.congregation_id;
+  const congregation = useStoredCongregation();
+  const congregation_id = congregation?.id;
 
   const filtered_maps = maps?.filter((map) => map.congregation_id === congregation_id);
   const recent_ids = getRecentMapIds();

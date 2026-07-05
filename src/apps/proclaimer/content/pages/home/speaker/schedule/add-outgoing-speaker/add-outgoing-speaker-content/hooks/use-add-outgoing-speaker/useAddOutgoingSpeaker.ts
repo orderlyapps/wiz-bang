@@ -4,7 +4,7 @@ import { congregationCollection } from "@shared/database/collections/congregatio
 import { outlineCollection } from "@shared/database/collections/outline";
 import { speakerAssignmentCollection } from "@shared/database/collections/speaker-assignment";
 import { speakerOutlineCollection } from "@shared/database/collections/speaker-outline";
-import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
+import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
 import { makeCompositeKey } from "@shared/database/util/composite-key";
 import type { Congregation } from "@shared/database/schemas/congregation";
@@ -27,7 +27,7 @@ export function useAddOutgoingSpeaker({
   selected_speaker_id,
   selected_outline_id,
 }: UseAddOutgoingSpeakerProps) {
-  const current_congregation_id = useStoredPublisher()?.congregation_id ?? "";
+  const current_congregation_id = useStoredCongregation()?.id ?? "";
 
   const { data: all_congregations } = useLiveQuery((q) =>
     q.from({ c: congregationCollection }).orderBy(({ c }) => c.name),

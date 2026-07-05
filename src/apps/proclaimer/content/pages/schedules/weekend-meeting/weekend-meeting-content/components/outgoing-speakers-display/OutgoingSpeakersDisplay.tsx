@@ -5,7 +5,7 @@ import { congregationCollection } from "@shared/database/collections/congregatio
 import { outlineCollection } from "@shared/database/collections/outline";
 import { and, eq } from "@tanstack/react-db";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
-import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
+import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
 import { LabelValueItem } from "@ui/components/display/data/label-value/LabelValueItem";
 import { IonItem, IonLabel } from "@ionic/react";
 import { Heading } from "@ui/components/display/text/heading/Heading";
@@ -15,8 +15,8 @@ type OutgoingSpeakersDisplayProps = {
 };
 
 export const OutgoingSpeakersDisplay: React.FC<OutgoingSpeakersDisplayProps> = ({ weekId }) => {
-  const publisher = useStoredPublisher();
-  const congregationId = publisher?.congregation_id;
+  const congregation = useStoredCongregation();
+  const congregationId = congregation?.id;
 
   const { data: outgoingAssignments } = useLiveQuery(
     (q) =>

@@ -15,7 +15,7 @@ import { ministerialServantPermissionCollection } from "@shared/database/collect
 import { congregationAdminCollection } from "@shared/database/collections/congregation-admin";
 import { authUserCollection } from "@shared/database/collections/auth-user";
 import { useAuthSession } from "@util/app/auth/useAuthSession";
-import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
+import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
 
 interface Permissions {
   has_cleaning: boolean;
@@ -39,9 +39,9 @@ interface Permissions {
 
 export function usePermissions(): Permissions {
   const session = useAuthSession();
-  const stored_publisher = useStoredPublisher();
+  const stored_congregation = useStoredCongregation();
   const auth_user_id = session?.user?.id;
-  const congregation_id = stored_publisher?.congregation_id;
+  const congregation_id = stored_congregation?.id;
   const { data: clean_permissions } = useLiveQuery((q) =>
     q.from({ cp: cleanPermissionCollection }),
   );

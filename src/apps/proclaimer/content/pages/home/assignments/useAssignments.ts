@@ -6,6 +6,7 @@ import { weekendAssignmentCollection } from "@shared/database/collections/weeken
 import { cleanMajorCollection } from "@shared/database/collections/clean-major";
 import { cleanMinorCollection } from "@shared/database/collections/clean-minor";
 import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
+import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
 import { avAssignmentLabels } from "@shared/database/schemas/av-assignment";
 import { weekendAssignmentLabels } from "@shared/database/schemas/weekend-assignment";
 import { useMidweekAssignments } from "./useMidweekAssignments";
@@ -46,7 +47,8 @@ function getAssignmentLabel(type: AssignmentType, assignmentId?: string): string
 
 export function useAssignments() {
   const publisher = useStoredPublisher();
-  const congregation_id = publisher?.congregation_id ?? "";
+  const congregation = useStoredCongregation();
+  const congregation_id = congregation?.id ?? "";
   const publisher_id = publisher?.id ?? "";
   const group_id = publisher?.group_id ?? "";
   const today_str = format(new Date(), "yyyy-MM-dd");

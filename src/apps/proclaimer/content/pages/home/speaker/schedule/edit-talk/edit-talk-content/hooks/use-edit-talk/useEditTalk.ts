@@ -4,7 +4,7 @@ import { speakerAssignmentCollection } from "@shared/database/collections/speake
 import { publisherCollection } from "@shared/database/collections/publisher";
 import { outlineCollection } from "@shared/database/collections/outline";
 import { speakerOutlineCollection } from "@shared/database/collections/speaker-outline";
-import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
+import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
 import { makeCompositeKey } from "@shared/database/util/composite-key";
 import type { SpeakerAssignment } from "@shared/database/schemas/speaker-assignment";
@@ -17,8 +17,8 @@ interface UseEditTalkProps {
 }
 
 export function useEditTalk({ week_id }: UseEditTalkProps) {
-  const publisher = useStoredPublisher();
-  const congregation_id = publisher?.congregation_id ?? "";
+  const congregation = useStoredCongregation();
+  const congregation_id = congregation?.id ?? "";
 
   const { data: assignment } = useLiveQuery(
     (q) =>

@@ -1,12 +1,12 @@
 import { useLiveQuery } from "@tanstack/react-db";
 import { publisherCollection } from "@shared/database/collections/publisher";
 import { speakerOutlineCollection } from "@shared/database/collections/speaker-outline";
-import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
+import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
 import type { Publisher } from "@shared/database/schemas/publisher";
 import type { SpeakerOutline } from "@shared/database/schemas/speaker-outline";
 
 export function useLocalSpeakers() {
-  const congregation_id = useStoredPublisher()?.congregation_id ?? "";
+  const congregation_id = useStoredCongregation()?.id ?? "";
 
   const { data: all_publishers, isLoading } = useLiveQuery(
     (q) => q.from({ p: publisherCollection }).orderBy(({ p }) => p.last_name),

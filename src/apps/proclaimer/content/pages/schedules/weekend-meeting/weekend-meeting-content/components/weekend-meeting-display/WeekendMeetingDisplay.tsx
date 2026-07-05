@@ -5,7 +5,7 @@ import { outlineCollection } from "@shared/database/collections/outline";
 import { congregationCollection } from "@shared/database/collections/congregation";
 import { and, eq } from "@tanstack/react-db";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
-import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
+import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
 import { LabelValueItem } from "@ui/components/display/data/label-value/LabelValueItem";
 
 type WeekendMeetingDisplayProps = {
@@ -13,8 +13,8 @@ type WeekendMeetingDisplayProps = {
 };
 
 export const WeekendMeetingDisplay: React.FC<WeekendMeetingDisplayProps> = ({ weekId }) => {
-  const publisher = useStoredPublisher();
-  const congregationId = publisher?.congregation_id;
+  const congregation = useStoredCongregation();
+  const congregationId = congregation?.id;
 
   const { data: currentAssignments } = useLiveQuery(
     (q) =>

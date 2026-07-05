@@ -14,7 +14,7 @@ import { Select } from "@ui/components/inputs/select/Select";
 import { PublisherNameInput } from "@proclaimer-shared/publisher/components/publisher-name-input/PublisherNameInput";
 import { congregationCollection } from "@shared/database/collections/congregation";
 import { publisherCollection } from "@shared/database/collections/publisher";
-import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
+import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
 import type { Congregation } from "@shared/database/schemas/congregation";
 import type { NameValue } from "@ui/components/inputs/name/NameInput";
 
@@ -39,8 +39,8 @@ export function AddVisitingSpeakerModal({
     last_name: "",
     display_name: null,
   });
-  const publisher = useStoredPublisher();
-  const current_congregation_id = publisher?.congregation_id ?? "";
+  const congregation = useStoredCongregation();
+  const current_congregation_id = congregation?.id ?? "";
 
   const { data: all_congregations } = useLiveQuery((q) =>
     q.from({ c: congregationCollection }).orderBy(({ c }) => c.name),

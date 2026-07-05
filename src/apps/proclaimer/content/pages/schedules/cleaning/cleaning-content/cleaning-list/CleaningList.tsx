@@ -3,14 +3,14 @@ import { IonItem, IonLabel, IonList } from "@ionic/react";
 import { cleanMajorCollection } from "@shared/database/collections/clean-major";
 import { cleanMinorCollection } from "@shared/database/collections/clean-minor";
 import { groupCollection } from "@shared/database/collections/group";
-import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
+import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
 import { Body } from "@ui/components/display/text/body/Body";
 import { groupCleaningByMonth } from "./groupCleaningByMonth";
 import { CleaningMonthGroup } from "./components/cleaning-month-group/CleaningMonthGroup";
 
 export function CleaningList() {
-  const publisher = useStoredPublisher();
-  const congregation_id = publisher?.congregation_id;
+  const congregation = useStoredCongregation();
+  const congregation_id = congregation?.id;
 
   const { data: major_entries } = useLiveQuery(
     (q) =>

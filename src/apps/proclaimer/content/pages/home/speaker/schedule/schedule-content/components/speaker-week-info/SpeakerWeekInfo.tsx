@@ -3,7 +3,7 @@ import { and, eq } from "@tanstack/react-db";
 import { speakerAssignmentCollection } from "@shared/database/collections/speaker-assignment";
 import { publisherCollection } from "@shared/database/collections/publisher";
 import { outlineCollection } from "@shared/database/collections/outline";
-import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
+import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
 import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
 import { LabelValueItem } from "@ui/components/display/data/label-value/LabelValueItem";
@@ -15,8 +15,8 @@ type SpeakerWeekInfoProps = {
 };
 
 export function SpeakerWeekInfo({ week_id }: SpeakerWeekInfoProps) {
-  const publisher = useStoredPublisher();
-  const congregation_id = publisher?.congregation_id ?? "";
+  const congregation = useStoredCongregation();
+  const congregation_id = congregation?.id ?? "";
   const permissions = usePermissions();
   const can_edit = permissions.has_speaker || permissions.has_congregation_admin;
 

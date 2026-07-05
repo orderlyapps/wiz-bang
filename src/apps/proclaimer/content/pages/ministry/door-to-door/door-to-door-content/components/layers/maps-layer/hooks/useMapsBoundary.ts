@@ -1,6 +1,6 @@
 import { useLiveQuery } from "@tanstack/react-db";
 import { mapCollection } from "@shared/database/collections/map";
-import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
+import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
 import type { MapRow } from "@shared/database/schemas/map";
 import { isValidBoundary } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/utils/boundary";
 import { useMapDisplayMode } from "@proclaimer-content/pages/ministry/door-to-door/shared/hooks/useMapDisplayModeContext";
@@ -23,8 +23,8 @@ function toGeoJSONPolygon(boundary: number[][]): { type: "Polygon"; coordinates:
 
 export function useMapsBoundary(): MapsGeoJSON {
   const { data } = useLiveQuery((q) => q.from({ m: mapCollection }));
-  const publisher = useStoredPublisher();
-  const congregation_id = publisher?.congregation_id;
+  const congregation = useStoredCongregation();
+  const congregation_id = congregation?.id;
   const { displayMode } = useMapDisplayMode();
   const { selectedMapId } = useSelectedMap();
 

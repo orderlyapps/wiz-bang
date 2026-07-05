@@ -1,6 +1,6 @@
 import { useLiveQuery } from "@tanstack/react-db";
 import { mapCollection } from "@shared/database/collections/map";
-import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
+import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
 import type { MapRow } from "@shared/database/schemas/map";
 import {
   blockToLineStringCoords,
@@ -42,8 +42,8 @@ export function useSelectedMapBlocks(): {
   lineEndpoints: LineEndpointsGeoJSON;
 } {
   const { data } = useLiveQuery((q) => q.from({ m: mapCollection }));
-  const publisher = useStoredPublisher();
-  const congregation_id = publisher?.congregation_id;
+  const congregation = useStoredCongregation();
+  const congregation_id = congregation?.id;
   const { selectedMapId } = useSelectedMap();
 
   const selectedMap = ((data ?? []) as MapRow[]).find(

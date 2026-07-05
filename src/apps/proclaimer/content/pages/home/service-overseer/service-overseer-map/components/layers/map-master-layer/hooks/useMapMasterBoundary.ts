@@ -1,6 +1,6 @@
 import { useLiveQuery } from "@tanstack/react-db";
 import { mapMasterCollection } from "@shared/database/collections/map-master";
-import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
+import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
 import { isValidBoundary } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/utils/boundary";
 import type { MapMaster } from "@shared/database/schemas/map-master";
 
@@ -21,8 +21,8 @@ function toGeoJSONPolygon(boundary: number[][]): { type: "Polygon"; coordinates:
 
 export function useMapMasterBoundary(): MapMasterGeoJSON {
   const { data } = useLiveQuery((q) => q.from({ mm: mapMasterCollection }));
-  const publisher = useStoredPublisher();
-  const congregation_id = publisher?.congregation_id;
+  const congregation = useStoredCongregation();
+  const congregation_id = congregation?.id;
 
   const features = ((data ?? []) as MapMaster[])
     .filter(

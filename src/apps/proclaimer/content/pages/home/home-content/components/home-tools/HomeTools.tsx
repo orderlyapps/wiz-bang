@@ -2,18 +2,33 @@ import { IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonList } from "@io
 import { Heading } from "@ui/components/display/text/heading/Heading";
 import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
 import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
-import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
 import type { IonicColor } from "@util/vendor/ionic/types/IonicColor";
 
 const COLOR: IonicColor = "medium";
 const CLASSNAME = "ion-text-end";
 
 export function HomeTools() {
-  const publisher = useStoredPublisher();
   const permissions = usePermissions();
   const canSeeAll = permissions.has_congregation_admin || permissions.is_super_admin;
 
-  if (!permissions.is_authenticated || !publisher) {
+  const hasAnyTool =
+    permissions.is_super_admin ||
+    permissions.has_congregation_admin ||
+    permissions.has_cobe ||
+    permissions.has_secretary ||
+    permissions.has_service_overseer ||
+    permissions.has_elder ||
+    permissions.has_clam_overseer ||
+    permissions.has_reports ||
+    permissions.has_territory_servant ||
+    permissions.has_av_overseer ||
+    permissions.has_cleaning ||
+    permissions.has_speaker ||
+    permissions.has_weekend ||
+    permissions.has_reminders ||
+    permissions.has_ministerial_servant;
+
+  if (!permissions.is_loaded || !hasAnyTool) {
     return null;
   }
 

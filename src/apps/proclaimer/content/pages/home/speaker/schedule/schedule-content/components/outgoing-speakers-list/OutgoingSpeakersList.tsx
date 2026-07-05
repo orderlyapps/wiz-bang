@@ -4,7 +4,7 @@ import { and, eq } from "@tanstack/react-db";
 import { speakerAssignmentCollection } from "@shared/database/collections/speaker-assignment";
 import { publisherCollection } from "@shared/database/collections/publisher";
 import { congregationCollection } from "@shared/database/collections/congregation";
-import { useStoredPublisher } from "@proclaimer-shared/publisher/useStoredPublisher";
+import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
 import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
 import { makeCompositeKey } from "@shared/database/util/composite-key";
@@ -16,7 +16,7 @@ import { Space } from "@ui/components/layout/space/Space";
 type OutgoingSpeakersListProps = { week_id: string };
 export function OutgoingSpeakersList({ week_id }: OutgoingSpeakersListProps) {
   const history = useHistory();
-  const congregation_id = useStoredPublisher()?.congregation_id ?? "";
+  const congregation_id = useStoredCongregation()?.id ?? "";
   const permissions = usePermissions();
   const can_edit =
     permissions.has_speaker || permissions.has_congregation_admin || permissions.is_super_admin;
