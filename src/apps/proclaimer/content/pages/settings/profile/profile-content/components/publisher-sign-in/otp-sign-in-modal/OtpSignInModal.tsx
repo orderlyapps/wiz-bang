@@ -13,12 +13,10 @@ interface OtpSignInModalProps {
 export function OtpSignInModal({ publisher_id, onSignIn }: OtpSignInModalProps) {
   const [isOpen, setIsOpen] = useState(false);
 
-  console.log("OtpSignInModal - rendering with publisher_id:", publisher_id);
-
   return (
     <>
       <TextButton on_click={() => setIsOpen(true)} label="Sign In with Code" />
-      <ResponsiveModal isOpen={isOpen}>
+      <ResponsiveModal isOpen={isOpen} onIonModalDidDismiss={() => setIsOpen(false)}>
         <IonHeader>
           <IonToolbar>
             <IonTitle>Sign In with Code</IonTitle>

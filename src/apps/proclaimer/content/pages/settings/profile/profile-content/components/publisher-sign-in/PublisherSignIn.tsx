@@ -1,4 +1,5 @@
 import { OtpSignInModal } from "./otp-sign-in-modal/OtpSignInModal";
+import { PasswordSignInModal } from "./password-sign-in-modal/PasswordSignInModal";
 import { SignedInStatus } from "./signed-in-status/SignedInStatus";
 import { useAuthSession } from "@util/app/auth/useAuthSession";
 import type { Publisher } from "@shared/database/schemas/publisher";
@@ -15,15 +16,14 @@ export function PublisherSignIn({ publisher }: PublisherSignInProps) {
 
   const is_signed_in = !!session;
 
+  if (is_signed_in) {
+    return <SignedInStatus session={session} on_sign_out={() => {}} />;
+  }
+
   return (
     <>
-      {is_signed_in ? (
-        <>
-          <SignedInStatus on_sign_out={() => {}} />
-        </>
-      ) : (
-        <OtpSignInModal publisher_id={publisher.id ?? ""} onSignIn={() => {}} />
-      )}
+      <OtpSignInModal publisher_id={publisher.id ?? ""} onSignIn={() => {}} />
+      <PasswordSignInModal publisher_id={publisher.id ?? ""} onSignIn={() => {}} />
     </>
   );
 }
