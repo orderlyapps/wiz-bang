@@ -21,7 +21,7 @@ import { mapMasterCollection } from "@shared/database/collections/map-master";
 import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
 import { boundaryToBounds } from "../../utils/boundary";
 import { kmlToGeoJSON } from "../../utils/kml-to-geojson";
-import { getRecentMapIds } from "../../utils/useRecentMaps";
+import { getRecentMapIds, recordRecentMap } from "../../utils/useRecentMaps";
 import type { MapRow } from "@shared/database/schemas/map";
 import type { MapMaster } from "@shared/database/schemas/map-master";
 import type { SelectedMap } from "../../utils/types";
@@ -84,6 +84,7 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect, onImportKml }: Ma
     if (!map.id) return;
     const bounds = boundaryToBounds(map.boundary);
     if (!bounds) return;
+    recordRecentMap(map.id);
     onSelect({
       type: "map",
       id: map.id,
@@ -188,6 +189,7 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect, onImportKml }: Ma
                 boundary: null,
                 blocks: null,
               });
+              recordRecentMap(id);
               onSelect({
                 type: "map",
                 id,
