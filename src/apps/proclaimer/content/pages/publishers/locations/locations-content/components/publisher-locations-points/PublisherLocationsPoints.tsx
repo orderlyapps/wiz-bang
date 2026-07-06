@@ -15,7 +15,7 @@ const pointLayer: LayerProps = {
   source: SOURCE_ID,
   minzoom: 11,
   paint: {
-    "circle-radius": ["interpolate", ["linear"], ["zoom"], 10.5, 0, 14, 4, 16, 8, 18, 12],
+    "circle-radius": ["interpolate", ["linear"], ["zoom"], 10.5, 0, 14, 4, 16, 8, 18, 50],
     "circle-color": "#3b82f6",
   },
 };
@@ -25,11 +25,11 @@ const countLayer: LayerProps = {
   type: "symbol",
   source: SOURCE_ID,
   minzoom: 14,
-  filter: [">", ["get", "publisher_count"], 1],
+  // filter: [">", ["get", "publisher_count"], 1],
   layout: {
     "text-field": ["get", "publisher_count"],
     "text-font": ["Open Sans Bold", "Arial Unicode MS Bold"],
-    "text-size": 10,
+    "text-size": ["interpolate", ["linear"], ["zoom"], 10.5, 0, 14, 4, 16, 8, 18, 50],
     "text-anchor": "center",
   },
   paint: {

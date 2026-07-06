@@ -21,7 +21,7 @@ export function useGroupedPublisherLocations(): AddressPublisherGroup[] | null {
 
   const publisherMap = new Map<string, Publisher>();
   for (const publisher of data) {
-    if (publisher.id) publisherMap.set(publisher.id, publisher);
+    if (publisher.id && !publisher.archived_at) publisherMap.set(publisher.id, publisher);
   }
 
   const groups = new Map<string, AddressPublisherGroup>();
