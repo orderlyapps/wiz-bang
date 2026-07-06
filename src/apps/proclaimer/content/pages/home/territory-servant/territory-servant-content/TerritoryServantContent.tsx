@@ -1,11 +1,10 @@
-import { Heading } from "@ui/components/display/text/heading/Heading";
+import { IonList } from "@ionic/react";
+import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
 
 export function TerritoryServantContent() {
   return (
-    <div className="ion-padding">
-      <Heading size="lg" bold>
-        Territory Servant
-      </Heading>
-    </div>
+    <IonList>
+      <NavItem label="Map" to="/home/service-overseer/map" />
+    </IonList>
   );
 }
