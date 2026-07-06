@@ -3,6 +3,7 @@ import { IonTabs, IonTabBar, IonTabButton, IonLabel, IonRouterOutlet } from "@io
 import { CongregationGuard } from "@util/app/congregation/congregation-select/CongregationGuard";
 import HomePage from "@proclaimer-routes/pages/home/Home";
 import HomeEventsPage from "@proclaimer-routes/pages/home/events/Events";
+import EditEventPage from "@proclaimer-routes/pages/home/events/edit/EditEvent";
 import AssignmentsPage from "@proclaimer-routes/pages/home/assignments/Assignments";
 import MinistryPage from "@proclaimer-routes/pages/ministry/Ministry";
 import DoorToDoorPage from "@proclaimer-routes/pages/ministry/door-to-door/DoorToDoor";
@@ -47,6 +48,7 @@ import AvOverseerPermissionsPage from "@proclaimer-routes/pages/home/congregatio
 import SpeakerPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/speaker/Speaker";
 import WeekendPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/weekend/Weekend";
 import RemindersPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/reminders/Reminders";
+import EventsPermissionsPage from "@proclaimer-routes/pages/home/congregation-admin/permissions/events/Events";
 import ElderPage from "@proclaimer-routes/pages/home/elder/Elder";
 import ContactsListPage from "@proclaimer-routes/pages/home/elder/contacts-list/ContactsList";
 import PdfsPage from "@proclaimer-routes/pages/home/elder/pdfs/Pdfs";
@@ -113,6 +115,7 @@ function App() {
         <Redirect exact path="/" to="/home" />
         <Route path="/home" component={HomePage} exact />
         <Route path="/home/events" component={HomeEventsPage} exact />
+        <Route path="/home/events/edit/:event_id?" component={EditEventPage} exact />
         <Route path="/home/assignments" component={AssignmentsPage} exact />
         <Route path="/home/cleaning" component={HomeCleaningPage} exact />
         <Route path="/home/reports" component={ReportsPage} exact />
@@ -191,6 +194,11 @@ function App() {
         <Route
           path="/home/congregation-admin/permissions/reminders"
           component={RemindersPermissionsPage}
+          exact
+        />
+        <Route
+          path="/home/congregation-admin/permissions/events"
+          component={EventsPermissionsPage}
           exact
         />
         <Route path="/home/elder" component={ElderPage} exact />

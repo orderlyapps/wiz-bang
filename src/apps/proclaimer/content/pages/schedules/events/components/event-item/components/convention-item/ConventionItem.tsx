@@ -6,11 +6,12 @@ import { EventType } from "../event-type/EventType";
 
 interface ConventionItemProps {
   event: EventRow;
+  edit_href?: string;
 }
 
-export function ConventionItem({ event }: ConventionItemProps) {
+export function ConventionItem({ event, edit_href }: ConventionItemProps) {
   return (
-    <IonItem>
+    <IonItem button={!!edit_href} routerLink={edit_href}>
       <IonLabel>
         <EventDate startDate={event.start_date} endDate={event.end_date} />
         <br />

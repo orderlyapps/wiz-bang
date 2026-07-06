@@ -5,11 +5,12 @@ import { EventType } from "../event-type/EventType";
 
 interface CircuitVisitItemProps {
   event: EventRow;
+  edit_href?: string;
 }
 
-export function CircuitVisitItem({ event }: CircuitVisitItemProps) {
+export function CircuitVisitItem({ event, edit_href }: CircuitVisitItemProps) {
   return (
-    <IonItem>
+    <IonItem button={!!edit_href} routerLink={edit_href}>
       <IonLabel>
         <EventDate startDate={event.start_date} endDate={event.end_date} />
         <br />

@@ -11,6 +11,7 @@ import { avOverseerPermissionCollection } from "@shared/database/collections/av-
 import { speakerPermissionCollection } from "@shared/database/collections/speaker-permission";
 import { weekendPermissionCollection } from "@shared/database/collections/weekend-permission";
 import { reminderPermissionCollection } from "@shared/database/collections/reminder-permission";
+import { eventPermissionCollection } from "@shared/database/collections/event-permission";
 import { ministerialServantPermissionCollection } from "@shared/database/collections/ministerial-servant-permission";
 import { congregationAdminCollection } from "@shared/database/collections/congregation-admin";
 import { authUserCollection } from "@shared/database/collections/auth-user";
@@ -31,6 +32,7 @@ interface Permissions {
   has_speaker: boolean;
   has_weekend: boolean;
   has_reminders: boolean;
+  has_events: boolean;
   has_congregation_admin: boolean;
   is_super_admin: boolean;
   is_authenticated: boolean;
@@ -76,6 +78,9 @@ export function usePermissions(): Permissions {
   const { data: reminder_permissions } = useLiveQuery((q) =>
     q.from({ rp: reminderPermissionCollection }),
   );
+  const { data: event_permissions } = useLiveQuery((q) =>
+    q.from({ ep: eventPermissionCollection }),
+  );
   const { data: ministerial_servant_permissions } = useLiveQuery((q) =>
     q.from({ msp: ministerialServantPermissionCollection }),
   );
@@ -99,6 +104,7 @@ export function usePermissions(): Permissions {
       has_speaker: false,
       has_weekend: false,
       has_reminders: false,
+      has_events: false,
       has_congregation_admin: false,
       is_super_admin: false,
       is_authenticated: false,
@@ -121,6 +127,7 @@ export function usePermissions(): Permissions {
       has_speaker: false,
       has_weekend: false,
       has_reminders: false,
+      has_events: false,
       has_congregation_admin: false,
       is_super_admin: false,
       is_authenticated: !!auth_user_id,
@@ -195,6 +202,11 @@ export function usePermissions(): Permissions {
       rp.auth_user_id === auth_user_id && rp.congregation_id === congregation_id && rp.can_edit,
   );
 
+  const has_events = event_permissions.some(
+    (ep) =>
+      ep.auth_user_id === auth_user_id && ep.congregation_id === congregation_id && ep.can_edit,
+  );
+
   const has_ministerial_servant = ministerial_servant_permissions.some(
     (msp) =>
       msp.auth_user_id === auth_user_id && msp.congregation_id === congregation_id && msp.can_edit,
@@ -214,6 +226,7 @@ export function usePermissions(): Permissions {
     has_speaker,
     has_weekend,
     has_reminders,
+    has_events,
     has_congregation_admin,
     is_super_admin,
     is_authenticated: true,

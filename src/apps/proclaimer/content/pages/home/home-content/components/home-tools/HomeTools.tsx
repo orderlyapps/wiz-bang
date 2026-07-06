@@ -26,6 +26,7 @@ export function HomeTools() {
     permissions.has_speaker ||
     permissions.has_weekend ||
     permissions.has_reminders ||
+    permissions.has_events ||
     permissions.has_ministerial_servant;
 
   if (!permissions.is_loaded || !hasAnyTool) {
@@ -193,6 +194,17 @@ export function HomeTools() {
                 label_class={CLASSNAME}
                 label="Reminders"
                 to="/home/reminders"
+              />
+            )}
+
+            {(canSeeAll || permissions.has_events) && (
+              <NavItem
+                color={COLOR}
+                size="md"
+                lines="none"
+                label_class={CLASSNAME}
+                label="Events"
+                to="/home/events"
               />
             )}
 

@@ -5,11 +5,12 @@ import { EventType } from "../event-type/EventType";
 
 interface SpecialTalkItemProps {
   event: EventRow;
+  edit_href?: string;
 }
 
-export function SpecialTalkItem({ event }: SpecialTalkItemProps) {
+export function SpecialTalkItem({ event, edit_href }: SpecialTalkItemProps) {
   return (
-    <IonItem>
+    <IonItem button={!!edit_href} routerLink={edit_href}>
       <IonLabel>
         <EventDate startDate={event.start_date} endDate={event.end_date} />
         <br />

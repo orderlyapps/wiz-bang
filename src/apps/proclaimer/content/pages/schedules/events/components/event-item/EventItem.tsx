@@ -10,25 +10,26 @@ import { OtherEventItem } from "./components/other-event-item/OtherEventItem";
 
 interface EventItemProps {
   event: EventRow;
+  edit_href?: string;
 }
 
-export function EventItem({ event }: EventItemProps) {
+export function EventItem({ event, edit_href }: EventItemProps) {
   switch (event.type) {
     case "circuit_assembly":
-      return <CircuitAssemblyItem event={event} />;
+      return <CircuitAssemblyItem event={event} edit_href={edit_href} />;
     case "convention":
-      return <ConventionItem event={event} />;
+      return <ConventionItem event={event} edit_href={edit_href} />;
     case "memorial":
-      return <MemorialItem event={event} />;
+      return <MemorialItem event={event} edit_href={edit_href} />;
     case "circuit_visit":
-      return <CircuitVisitItem event={event} />;
+      return <CircuitVisitItem event={event} edit_href={edit_href} />;
     case "special_meeting":
-      return <SpecialMeetingItem event={event} />;
+      return <SpecialMeetingItem event={event} edit_href={edit_href} />;
     case "special_talk":
-      return <SpecialTalkItem event={event} />;
+      return <SpecialTalkItem event={event} edit_href={edit_href} />;
     case "campaign":
-      return <CampaignItem event={event} />;
+      return <CampaignItem event={event} edit_href={edit_href} />;
     case "other":
-      return <OtherEventItem event={event} />;
+      return <OtherEventItem event={event} edit_href={edit_href} />;
   }
 }

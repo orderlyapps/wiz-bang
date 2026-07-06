@@ -3,6 +3,7 @@ import { IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonList } from "@io
 import { format } from "date-fns";
 import { eventCollection } from "@shared/database/collections/event";
 import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
+import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
 import { Heading } from "@ui/components/display/text/heading/Heading";
 import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
 import { EventItem } from "@proclaimer-content/pages/schedules/events/components/event-item/EventItem";
@@ -10,7 +11,13 @@ import { EventItem } from "@proclaimer-content/pages/schedules/events/components
 export function HomeEvents() {
   const congregation = useStoredCongregation();
   const congregation_id = congregation?.id;
+  const permissions = usePermissions();
   const today_str = format(new Date(), "yyyy-MM-dd");
+
+  const can_edit =
+    permissions.has_events || permissions.has_congregation_admin || permissions.is_super_admin;
+
+  const edit_href = can_edit ? (event_id: string) => `/home/events/edit/${event_id}` : undefined;
 
   const { data: events } = useLiveQuery(
     (q) =>
@@ -42,7 +49,7 @@ export function HomeEvents() {
         <div slot="content">
           <IonList>
             {upcoming_events.map((event) => (
-              <EventItem key={event.id} event={event} />
+              <EventItem key={event.id} event={event} edit_href={edit_href?.(event.id)} />
             ))}
           </IonList>
           <NavItem label="See more" to="/home/events" />

@@ -6,11 +6,12 @@ import { EventType } from "../event-type/EventType";
 
 interface CircuitAssemblyItemProps {
   event: EventRow;
+  edit_href?: string;
 }
 
-export function CircuitAssemblyItem({ event }: CircuitAssemblyItemProps) {
+export function CircuitAssemblyItem({ event, edit_href }: CircuitAssemblyItemProps) {
   return (
-    <IonItem>
+    <IonItem button={!!edit_href} routerLink={edit_href}>
       <IonLabel>
         <EventDate startDate={event.start_date} endDate={event.end_date} />
         <br />

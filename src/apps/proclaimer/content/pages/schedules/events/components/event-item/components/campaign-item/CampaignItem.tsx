@@ -6,11 +6,12 @@ import { EventType } from "../event-type/EventType";
 
 interface CampaignItemProps {
   event: EventRow;
+  edit_href?: string;
 }
 
-export function CampaignItem({ event }: CampaignItemProps) {
+export function CampaignItem({ event, edit_href }: CampaignItemProps) {
   return (
-    <IonItem>
+    <IonItem button={!!edit_href} routerLink={edit_href}>
       <IonLabel>
         <EventDate startDate={event.start_date} endDate={event.end_date} />
         <br />

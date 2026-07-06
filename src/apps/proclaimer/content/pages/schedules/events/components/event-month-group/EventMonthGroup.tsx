@@ -6,9 +6,10 @@ import { EventItem } from "../event-item/EventItem";
 
 interface EventMonthGroupProps {
   group: MonthGroup;
+  edit_href?: (event_id: string) => string;
 }
 
-export function EventMonthGroup({ group }: EventMonthGroupProps) {
+export function EventMonthGroup({ group, edit_href }: EventMonthGroupProps) {
   return (
     <IonList>
       <IonItem>
@@ -19,7 +20,7 @@ export function EventMonthGroup({ group }: EventMonthGroupProps) {
         </IonLabel>
       </IonItem>
       {group.events.map((event) => (
-        <EventItem key={event.id} event={event} />
+        <EventItem key={event.id} event={event} edit_href={edit_href?.(event.id)} />
       ))}
       <Space size="sm" />
     </IonList>

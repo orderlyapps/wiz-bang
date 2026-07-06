@@ -6,11 +6,12 @@ import { EventType } from "../event-type/EventType";
 
 interface OtherEventItemProps {
   event: EventRow;
+  edit_href?: string;
 }
 
-export function OtherEventItem({ event }: OtherEventItemProps) {
+export function OtherEventItem({ event, edit_href }: OtherEventItemProps) {
   return (
-    <IonItem>
+    <IonItem button={!!edit_href} routerLink={edit_href}>
       <IonLabel>
         <EventDate startDate={event.start_date} endDate={event.end_date} />
         <br />
