@@ -95,16 +95,18 @@ export function AudioVideoContent() {
 
           <Space />
 
-          <PdfPublisherSelect on_change={set_pdf_publisher} />
+          {selected_month && (
+            <ToggleInput
+              label="Highlight Publisher"
+              checked={highlight_publisher}
+              on_change={set_highlight_publisher}
+              disabled={!pdf_publisher}
+            />
+          )}
 
           <Space />
 
-          <ToggleInput
-            label="Highlight Publisher"
-            checked={highlight_publisher}
-            on_change={set_highlight_publisher}
-            disabled={!pdf_publisher}
-          />
+          {highlight_publisher && <PdfPublisherSelect on_change={set_pdf_publisher} />}
 
           <Space />
 
