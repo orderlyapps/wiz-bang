@@ -3,11 +3,12 @@ import { format } from "date-fns";
 
 const styles = StyleSheet.create({
   header: {
-    marginBottom: 3,
+    marginBottom: 5,
+    paddingBottom: 2,
     borderBottom: "1pt solid #333",
   },
   title: {
-    fontSize: 11,
+    fontSize: 14,
     fontWeight: "bold",
   },
 });
