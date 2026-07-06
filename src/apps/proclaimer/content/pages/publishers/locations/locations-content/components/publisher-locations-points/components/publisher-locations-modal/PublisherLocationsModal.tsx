@@ -10,6 +10,7 @@ import {
   IonLabel,
 } from "@ionic/react";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
+import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
 import type { AddressPublisherGroup } from "../../hooks/useGroupedPublisherLocations";
 
 type PublisherLocationsModalProps = {
@@ -32,7 +33,7 @@ export function PublisherLocationsModal({ group, onDismiss }: PublisherLocations
         <IonList>
           {group?.publishers.map((publisher) => (
             <IonItem key={publisher.publisher_id}>
-              <IonLabel>{publisher.display_name}</IonLabel>
+              <IonLabel>{getPublisherDisplayName(publisher)}</IonLabel>
             </IonItem>
           ))}
         </IonList>

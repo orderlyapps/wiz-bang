@@ -2,10 +2,10 @@ import { useLiveQuery } from "@tanstack/react-db";
 import { publisherCollection } from "@shared/database/collections/publisher";
 import { usePublisherAddressPoints } from "@proclaimer-content/pages/publishers/locations/locations-content/components/publisher-locations-heatmap/hooks/usePublisherAddressPoints";
 import type { Publisher } from "@shared/database/schemas/publisher";
+import type { PublisherName } from "@proclaimer-shared/publisher/publisherUtils";
 
-export type PublisherAtAddress = {
+export type PublisherAtAddress = PublisherName & {
   publisher_id: string;
-  display_name: string;
 };
 
 export type AddressPublisherGroup = {
@@ -13,13 +13,6 @@ export type AddressPublisherGroup = {
   coordinates: [number, number];
   publishers: PublisherAtAddress[];
 };
-
-function getPublisherDisplayName(publisher?: Publisher): string {
-  if (!publisher) return "Unknown";
-  if (publisher.display_name) return publisher.display_name;
-  const name = `${publisher.first_name ?? ""} ${publisher.last_name ?? ""}`.trim();
-  return name || "Unknown";
-}
 
 export function useGroupedPublisherLocations(): AddressPublisherGroup[] | null {
   const points = usePublisherAddressPoints();
@@ -44,9 +37,13 @@ export function useGroupedPublisherLocations(): AddressPublisherGroup[] | null {
       });
     }
 
+    if (!publisher) continue;
     groups.get(key)!.publishers.push({
       publisher_id: point.publisher_id,
-      display_name: getPublisherDisplayName(publisher),
+      first_name: publisher.first_name,
+      middle_name: publisher.middle_name,
+      last_name: publisher.last_name,
+      display_name: publisher.display_name,
     });
   }
 
