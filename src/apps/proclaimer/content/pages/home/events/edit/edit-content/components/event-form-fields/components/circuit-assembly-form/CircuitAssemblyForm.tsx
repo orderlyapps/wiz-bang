@@ -13,7 +13,7 @@ export function CircuitAssemblyForm(props: EventFormFieldProps) {
   return (
     <>
       <Select
-        label="Description"
+        label="With"
         value={props.description}
         options={DESCRIPTION_OPTIONS}
         placeholder="Select a description"
@@ -21,8 +21,8 @@ export function CircuitAssemblyForm(props: EventFormFieldProps) {
         interface_type="popover"
       />
       <TextInput
-        label="Name"
-        value={props.name}
+        label="Theme"
+        value={props.name || "TBC"}
         placeholder="TBC"
         on_change={(v) => on_change("name", v)}
       />
