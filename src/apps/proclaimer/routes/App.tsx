@@ -17,6 +17,9 @@ import EventsPage from "@proclaimer-routes/pages/schedules/events/Events";
 import CleaningPage from "@proclaimer-routes/pages/schedules/cleaning/Cleaning";
 import PublishersPage from "@proclaimer-routes/pages/publishers/Publishers";
 import LocationsPage from "@proclaimer-routes/pages/publishers/locations/Locations";
+import EldersPage from "@proclaimer-routes/pages/publishers/elders/Elders";
+import MinisterialServantsPage from "@proclaimer-routes/pages/publishers/ministerial-servants/MinisterialServants";
+import RegularPioneersPage from "@proclaimer-routes/pages/publishers/regular-pioneers/RegularPioneers";
 import SettingsPage from "@proclaimer-routes/pages/settings/Settings";
 import AppearancePage from "@proclaimer-routes/pages/settings/appearance/Appearance";
 import ProfilePage from "@proclaimer-routes/pages/settings/profile/Profile";
@@ -339,6 +342,9 @@ function App() {
         {/* PUBLISHERS */}
         <Route path="/publishers" component={PublishersPage} exact />
         <Route path="/publishers/locations" component={LocationsPage} exact />
+        <Route path="/publishers/elders" component={EldersPage} exact />
+        <Route path="/publishers/ministerial-servants" component={MinisterialServantsPage} exact />
+        <Route path="/publishers/regular-pioneers" component={RegularPioneersPage} exact />
         {/* SETTINGS */}
         <Route path="/settings" component={SettingsPage} exact />
         <Route path="/settings/appearance" component={AppearancePage} exact />
