@@ -52,6 +52,7 @@ import EventsPermissionsPage from "@proclaimer-routes/pages/home/congregation-ad
 import ElderPage from "@proclaimer-routes/pages/home/elder/Elder";
 import ContactsListPage from "@proclaimer-routes/pages/home/elder/contacts-list/ContactsList";
 import PdfsPage from "@proclaimer-routes/pages/home/elder/pdfs/Pdfs";
+import AudioVideoPage from "@proclaimer-routes/pages/home/elder/audio-video/AudioVideo";
 import ElderClamPage from "@proclaimer-routes/pages/home/elder/clam/Clam";
 import ClamOverseerPage from "@proclaimer-routes/pages/home/clam-overseer/ClamOverseer";
 import ServiceOverseerPage from "@proclaimer-routes/pages/home/service-overseer/ServiceOverseer";
@@ -204,6 +205,7 @@ function App() {
         <Route path="/home/elder" component={ElderPage} exact />
         <Route path="/home/elder/contacts-list" component={ContactsListPage} exact />
         <Route path="/home/elder/pdfs" component={PdfsPage} exact />
+        <Route path="/home/elder/audio-video" component={AudioVideoPage} exact />
         <Route path="/home/elder/clam" component={ElderClamPage} exact />
         <Route path="/home/clam-overseer" component={ClamOverseerPage} exact />
         <Route path="/home/clam-overseer/participation" component={ParticipationPage} exact />
