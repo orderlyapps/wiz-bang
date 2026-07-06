@@ -1,75 +1,53 @@
-import { TextInput } from "@ui/components/inputs/text/TextInput";
 import { Select } from "@ui/components/inputs/select/Select";
-import { ToggleInput } from "@ui/components/inputs/toggle/ToggleInput";
-import { DateInput } from "@ui/components/inputs/date/DateInput";
 import { eventTypeSchema } from "@shared/database/schemas/event";
+import type { EventFormFieldProps } from "./types";
+import { CircuitAssemblyForm } from "./components/circuit-assembly-form/CircuitAssemblyForm";
+import { ConventionForm } from "./components/convention-form/ConventionForm";
+import { MemorialForm } from "./components/memorial-form/MemorialForm";
+import { CircuitVisitForm } from "./components/circuit-visit-form/CircuitVisitForm";
+import { SpecialMeetingForm } from "./components/special-meeting-form/SpecialMeetingForm";
+import { CampaignForm } from "./components/campaign-form/CampaignForm";
+import { SpecialTalkForm } from "./components/special-talk-form/SpecialTalkForm";
+import { OtherEventForm } from "./components/other-event-form/OtherEventForm";
 
 const EVENT_TYPE_OPTIONS = eventTypeSchema.options.map((value) => ({
   label: value.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
   value,
 }));
 
-interface EventFormFieldsProps {
-  name: string;
-  description: string;
-  address: string;
-  type: string;
-  all_day: boolean;
-  start_date: string;
-  start_time: string;
-  end_date: string;
-  end_time: string;
-  on_change: (field: string, value: string | boolean) => void;
-}
-
-export function EventFormFields(props: EventFormFieldsProps) {
+export function EventFormFields(props: EventFormFieldProps) {
   const { on_change } = props;
+
+  function renderTypeForm() {
+    switch (props.type) {
+      case "circuit_assembly":
+        return <CircuitAssemblyForm {...props} />;
+      case "convention":
+        return <ConventionForm {...props} />;
+      case "memorial":
+        return <MemorialForm {...props} />;
+      case "circuit_visit":
+        return <CircuitVisitForm {...props} />;
+      case "special_meeting":
+        return <SpecialMeetingForm {...props} />;
+      case "campaign":
+        return <CampaignForm {...props} />;
+      case "special_talk":
+        return <SpecialTalkForm {...props} />;
+      default:
+        return <OtherEventForm {...props} />;
+    }
+  }
+
   return (
     <>
-      <TextInput label="Name" value={props.name} on_change={(v) => on_change("name", v)} />
       <Select
-        label="Type"
+        label="Event Type"
         value={props.type}
         options={EVENT_TYPE_OPTIONS}
         on_change={(v) => on_change("type", v as string)}
       />
-      <TextInput
-        label="Description"
-        value={props.description}
-        on_change={(v) => on_change("description", v)}
-      />
-      <TextInput label="Address" value={props.address} on_change={(v) => on_change("address", v)} />
-      <ToggleInput
-        label="All Day"
-        checked={props.all_day}
-        on_change={(v) => on_change("all_day", v)}
-      />
-      <DateInput
-        label="Start Date"
-        value={props.start_date}
-        on_change={(v) => on_change("start_date", v)}
-      />
-      {!props.all_day && (
-        <TextInput
-          label="Start Time"
-          value={props.start_time}
-          placeholder="HH:MM"
-          on_change={(v) => on_change("start_time", v)}
-        />
-      )}
-      <DateInput
-        label="End Date"
-        value={props.end_date}
-        on_change={(v) => on_change("end_date", v)}
-      />
-      {!props.all_day && (
-        <TextInput
-          label="End Time"
-          value={props.end_time}
-          placeholder="HH:MM"
-          on_change={(v) => on_change("end_time", v)}
-        />
-      )}
+      {renderTypeForm()}
     </>
   );
 }
