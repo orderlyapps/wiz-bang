@@ -9,6 +9,7 @@ export function ClamOverseerContent() {
     <IonList>
       <NavItem label="Participation" to="/home/clam-overseer/participation" />
       <NavItem label="Schedule" to={`/home/clam-overseer/schedule/${currentWeekId}`} />
+      <NavItem label="PDF" to="/home/elder/clam" />
     </IonList>
   );
 }
