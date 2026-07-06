@@ -1,8 +1,6 @@
-import { IonItem, IonLabel } from "@ionic/react";
-import { Body } from "@ui/components/display/text/body/Body";
+import { LabelValueItem } from "@ui/components/display/data/label-value/LabelValueItem";
 import type { EventRow } from "@shared/database/schemas/event";
-import { EventDate } from "../event-date/EventDate";
-import { EventType } from "../event-type/EventType";
+import { formatEventDate } from "../../../../formatEventDate";
 
 interface ConventionItemProps {
   event: EventRow;
@@ -11,18 +9,11 @@ interface ConventionItemProps {
 
 export function ConventionItem({ event, edit_href }: ConventionItemProps) {
   return (
-    <IonItem button={!!edit_href} routerLink={edit_href}>
-      <IonLabel>
-        <EventDate startDate={event.start_date} endDate={event.end_date} />
-        <br />
-        <EventType label="Convention" />
-        {event.name ? (
-          <>
-            <br />
-            <Body size="sm">{event.name}</Body>
-          </>
-        ) : null}
-      </IonLabel>
-    </IonItem>
+    <LabelValueItem
+      value="Convention"
+      label={formatEventDate(event.start_date, event.end_date)}
+      value_2={event.name || undefined}
+      router_link={edit_href}
+    />
   );
 }

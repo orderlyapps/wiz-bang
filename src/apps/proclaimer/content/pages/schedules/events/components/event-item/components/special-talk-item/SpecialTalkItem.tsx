@@ -1,7 +1,6 @@
-import { IonItem, IonLabel } from "@ionic/react";
+import { LabelValueItem } from "@ui/components/display/data/label-value/LabelValueItem";
 import type { EventRow } from "@shared/database/schemas/event";
-import { EventDate } from "../event-date/EventDate";
-import { EventType } from "../event-type/EventType";
+import { formatEventDate } from "../../../../formatEventDate";
 
 interface SpecialTalkItemProps {
   event: EventRow;
@@ -10,12 +9,11 @@ interface SpecialTalkItemProps {
 
 export function SpecialTalkItem({ event, edit_href }: SpecialTalkItemProps) {
   return (
-    <IonItem button={!!edit_href} routerLink={edit_href}>
-      <IonLabel>
-        <EventDate startDate={event.start_date} endDate={event.end_date} />
-        <br />
-        <EventType label="Special Talk" />
-      </IonLabel>
-    </IonItem>
+    <LabelValueItem
+      label={formatEventDate(event.start_date, event.end_date)}
+      value="Special Talk"
+      value_2={event.name || undefined}
+      router_link={edit_href}
+    />
   );
 }

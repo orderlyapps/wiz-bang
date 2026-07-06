@@ -1,7 +1,6 @@
-import { IonItem, IonLabel } from "@ionic/react";
+import { LabelValueItem } from "@ui/components/display/data/label-value/LabelValueItem";
 import type { EventRow } from "@shared/database/schemas/event";
-import { EventDate } from "../event-date/EventDate";
-import { EventType } from "../event-type/EventType";
+import { formatEventDate } from "../../../../formatEventDate";
 
 interface MemorialItemProps {
   event: EventRow;
@@ -10,12 +9,10 @@ interface MemorialItemProps {
 
 export function MemorialItem({ event, edit_href }: MemorialItemProps) {
   return (
-    <IonItem button={!!edit_href} routerLink={edit_href}>
-      <IonLabel>
-        <EventDate startDate={event.start_date} endDate={event.end_date} />
-        <br />
-        <EventType label="Memorial" />
-      </IonLabel>
-    </IonItem>
+    <LabelValueItem
+      label={formatEventDate(event.start_date, event.end_date)}
+      value="Memorial"
+      router_link={edit_href}
+    />
   );
 }
