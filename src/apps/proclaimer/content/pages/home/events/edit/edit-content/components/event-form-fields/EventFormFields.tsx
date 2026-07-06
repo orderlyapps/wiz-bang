@@ -45,9 +45,10 @@ export function EventFormFields(props: EventFormFieldProps) {
         label="Event Type"
         value={props.type}
         options={EVENT_TYPE_OPTIONS}
+        placeholder="Select an event type"
         on_change={(v) => on_change("type", v as string)}
       />
-      {renderTypeForm()}
+      {props.type && renderTypeForm()}
     </>
   );
 }
