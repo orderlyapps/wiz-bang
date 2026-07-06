@@ -52,7 +52,13 @@ export function HomeEvents() {
               <EventItem key={event.id} event={event} edit_href={edit_href?.(event.id)} />
             ))}
           </IonList>
-          <NavItem label="See more" to="/home/events" />
+          <NavItem
+            label="See more"
+            to="/home/events"
+            label_class="ion-text-end"
+            size="sm"
+            lines="none"
+          />
         </div>
       </IonAccordion>
     </IonAccordionGroup>

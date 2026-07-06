@@ -1,8 +1,14 @@
 import { startOfWeek, endOfWeek, isWithinInterval, addWeeks } from "date-fns";
 
 interface FormatOptions {
-  format?: "week-label" | "week-range" | "week-range-capital-case";
+  format?:
+    | "week-label"
+    | "week-label-capital-case"
+    | "week-range"
+    | "week-range-capital-case"
+    | "event-date";
   useRelativeWeek?: boolean;
+  end_date?: string | null;
 }
 
 /**
@@ -45,14 +51,37 @@ export const getTheocraticWeekLabel = (dateStr: string, options: FormatOptions =
     // Fall through to apply the specified format if not in current or next week
   }
 
-  if (format === "week-label") {
-    // Original format: "Monday, September 8"
+  if (format === "week-label" || format === "week-label-capital-case") {
+    // Format: "Monday, September 8"
     const date = new Date(year, month - 1, day);
     return date.toLocaleDateString(undefined, {
       weekday: "long",
       month: "long",
       day: "numeric",
     });
+  }
+
+  if (format === "event-date") {
+    // Format: "SEPTEMBER 8 (MONDAY)" for single-day, "SEPTEMBER 8–10" or "SEPTEMBER 8–OCTOBER 2" for ranges
+    const startDate = new Date(year, month - 1, day);
+
+    if (!options.end_date || options.end_date === dateStr) {
+      const dayName = startDate.toLocaleDateString(undefined, { weekday: "long" });
+      const month = startDate.toLocaleDateString(undefined, { month: "long" });
+      const day = startDate.toLocaleDateString(undefined, { day: "numeric" });
+      return `${month.toUpperCase()} ${day} (${dayName})`;
+    }
+
+    const [eYear, eMonth, eDay] = options.end_date.split("-").map(Number);
+    const endDate = new Date(eYear, eMonth - 1, eDay);
+
+    const startMonth = startDate.toLocaleDateString(undefined, { month: "long" });
+    const endMonth = endDate.toLocaleDateString(undefined, { month: "long" });
+
+    if (startMonth === endMonth) {
+      return `${startMonth} ${day}–${eDay}`.toUpperCase();
+    }
+    return `${startMonth} ${day}–${endMonth} ${eDay}`.toUpperCase();
   }
 
   // Default format: "MMMM DD - MMMM DD" (second month only if different)

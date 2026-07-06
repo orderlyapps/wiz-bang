@@ -26,7 +26,13 @@ export function HomeAssignments() {
               <AssignmentItem key={assignment.id} assignment={assignment} />
             ))}
           </IonList>
-          <NavItem label="See more" to="/home/assignments" />
+          <NavItem
+            label="See more"
+            to="/home/assignments"
+            label_class="ion-text-end"
+            size="sm"
+            lines="none"
+          />
         </div>
       </IonAccordion>
     </IonAccordionGroup>

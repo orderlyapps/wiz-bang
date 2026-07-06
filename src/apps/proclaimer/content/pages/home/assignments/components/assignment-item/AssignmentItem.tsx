@@ -8,6 +8,9 @@ interface AssignmentItemProps {
 
 export function AssignmentItem({ assignment }: AssignmentItemProps) {
   return (
-    <LabelValueItem label={getTheocraticWeekLabel(assignment.week_id)} value={assignment.label} />
+    <LabelValueItem
+      label={getTheocraticWeekLabel(assignment.week_id, { format: "week-range" })}
+      value={assignment.label}
+    />
   );
 }
