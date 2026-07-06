@@ -14,10 +14,11 @@ import type { SelectedMap } from "../utils/types";
 
 type Props = {
   onSelect: (selection: SelectedMap) => void;
+  onImportKml: (geojson: GeoJSON.FeatureCollection) => void;
   selected_map: SelectedMap | null;
 };
 
-export function ServiceOverseerMapHeader({ onSelect, selected_map }: Props) {
+export function ServiceOverseerMapHeader({ onSelect, onImportKml, selected_map }: Props) {
   const [show_maps, set_show_maps] = useState(false);
 
   return (
@@ -40,6 +41,7 @@ export function ServiceOverseerMapHeader({ onSelect, selected_map }: Props) {
         isOpen={show_maps}
         onDidDismiss={() => set_show_maps(false)}
         onSelect={onSelect}
+        onImportKml={onImportKml}
       />
     </>
   );

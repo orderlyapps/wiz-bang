@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
+  IonActionSheet,
   IonAlert,
   IonButton,
   IonButtons,
@@ -12,12 +13,14 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
+import { addOutline, documentAttachOutline } from "ionicons/icons";
 import { AddIconButton } from "@ui/components/inputs/button/icon/add/AddIconButton";
 import { useLiveQuery } from "@tanstack/react-db";
 import { mapCollection } from "@shared/database/collections/map";
 import { mapMasterCollection } from "@shared/database/collections/map-master";
 import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
 import { boundaryToBounds } from "../../utils/boundary";
+import { kmlToGeoJSON } from "../../utils/kml-to-geojson";
 import { getRecentMapIds } from "../../utils/useRecentMaps";
 import type { MapRow } from "@shared/database/schemas/map";
 import type { MapMaster } from "@shared/database/schemas/map-master";
@@ -29,10 +32,39 @@ type MapListModalProps = {
   isOpen: boolean;
   onDidDismiss: () => void;
   onSelect: (selection: SelectedMap) => void;
+  onImportKml: (geojson: GeoJSON.FeatureCollection) => void;
 };
 
-export function MapListModal({ isOpen, onDidDismiss, onSelect }: MapListModalProps) {
+export function MapListModal({ isOpen, onDidDismiss, onSelect, onImportKml }: MapListModalProps) {
   const [show_add_alert, set_show_add_alert] = useState(false);
+  const [show_add_action_sheet, set_show_add_action_sheet] = useState(false);
+  const [show_error_alert, set_show_error_alert] = useState(false);
+  const file_input_ref = useRef<HTMLInputElement>(null);
+
+  function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const text = reader.result as string;
+        const geojson = kmlToGeoJSON(text);
+        if (geojson.features.length === 0) {
+          set_show_error_alert(true);
+          return;
+        }
+        onImportKml(geojson);
+        onDidDismiss();
+      } catch {
+        set_show_error_alert(true);
+      }
+    };
+    reader.onerror = () => {
+      set_show_error_alert(true);
+    };
+    reader.readAsText(file);
+    event.target.value = "";
+  }
   const { data: maps } = useLiveQuery((q) =>
     q.from({ m: mapCollection }).orderBy(({ m }) => m.name),
   );
@@ -86,7 +118,7 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect }: MapListModalPro
           </IonButtons>
           <IonTitle>Maps</IonTitle>
           <IonButtons slot="end">
-            <AddIconButton on_click={() => set_show_add_alert(true)} />
+            <AddIconButton on_click={() => set_show_add_action_sheet(true)} />
           </IonButtons>
         </IonToolbar>
       </IonHeader>
@@ -170,6 +202,37 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect }: MapListModalPro
           },
         ]}
         onDidDismiss={() => set_show_add_alert(false)}
+      />
+      <IonActionSheet
+        isOpen={show_add_action_sheet}
+        onDidDismiss={() => set_show_add_action_sheet(false)}
+        buttons={[
+          {
+            text: "Add Map",
+            icon: addOutline,
+            handler: () => set_show_add_alert(true),
+          },
+          {
+            text: "Import KML File",
+            icon: documentAttachOutline,
+            handler: () => file_input_ref.current?.click(),
+          },
+          { text: "Cancel", role: "cancel" },
+        ]}
+      />
+      <input
+        ref={file_input_ref}
+        type="file"
+        accept=".kml"
+        style={{ display: "none" }}
+        onChange={handleFileChange}
+      />
+      <IonAlert
+        isOpen={show_error_alert}
+        header="Import Failed"
+        message="Could not import the KML file. Please ensure it is a valid KML file with at least one placemark."
+        buttons={["OK"]}
+        onDidDismiss={() => set_show_error_alert(false)}
       />
     </IonModal>
   );

@@ -17,6 +17,9 @@ import {
 } from "@util/vendor/mapbox/customLocalStyleSettings";
 import { localStorageKeys, localStorageKeyWithVariant } from "@util/constants/localStorageKeys";
 import { selectableStyles, type SelectableStyleId } from "@util/vendor/mapbox/mapboxStyles";
+import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
+import { mapCollection } from "@shared/database/collections/map";
+import { boundaryToBounds } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/utils/boundary";
 
 const SERVICE_OVERSEER_MAP_STYLE_KEY = localStorageKeyWithVariant("mapStyle", "service-overseer");
 
@@ -69,6 +72,8 @@ function ServiceOverseerMapPage() {
       }
       return DEFAULT_CUSTOM_LOCAL_STYLE_SETTINGS;
     });
+  const [kml_geojson, set_kml_geojson] = useState<GeoJSON.FeatureCollection | null>(null);
+  const congregation = useStoredCongregation();
 
   function handleScreenshotSettingsChange(settings: ScreenshotSettings) {
     set_screenshot_settings(settings);
@@ -136,6 +141,32 @@ function ServiceOverseerMapPage() {
     handleSave,
   } = useMapPage((bounds) => bounds && fitBoundsRef.current?.(bounds));
 
+  function handleCreateMapFromBoundary(name: string, boundary: number[][]) {
+    const congregation_id = congregation?.id;
+    if (!congregation_id) return;
+    const bounds = boundaryToBounds(boundary);
+    if (!bounds) return;
+    const id = crypto.randomUUID();
+    mapCollection.insert({
+      id,
+      congregation_id,
+      name,
+      boundary: boundary as [number, number][],
+      blocks: null,
+    });
+    set_kml_geojson(null);
+    handleSelect({
+      type: "map",
+      id,
+      name,
+      details: null,
+      url: null,
+      boundary,
+      bounds,
+      blocks: null,
+    });
+  }
+
   return (
     <>
       <MapMenu
@@ -161,7 +192,11 @@ function ServiceOverseerMapPage() {
       />
       <IonPage id="map-content">
         <IonHeader>
-          <ServiceOverseerMapHeader onSelect={handleSelect} selected_map={selected_map} />
+          <ServiceOverseerMapHeader
+            onSelect={handleSelect}
+            onImportKml={set_kml_geojson}
+            selected_map={selected_map}
+          />
         </IonHeader>
         <IonContent className="content-full" scrollY={false}>
           <ServiceOverseerMapContent
@@ -174,6 +209,8 @@ function ServiceOverseerMapPage() {
             onBlockPendingChange={handleBlockPendingChange}
             styleId={style_id}
             customLocalStyleSettings={custom_local_style_settings}
+            kmlGeoJson={kml_geojson}
+            onCreateMapFromBoundary={handleCreateMapFromBoundary}
           />
         </IonContent>
       </IonPage>
