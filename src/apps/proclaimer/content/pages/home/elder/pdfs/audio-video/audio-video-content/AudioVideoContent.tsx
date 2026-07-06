@@ -11,7 +11,7 @@ import { useStoredCongregation } from "@util/app/congregation/useStoredCongregat
 import type { Publisher } from "@shared/database/schemas/publisher";
 import { getStoredPublisher } from "@proclaimer-shared/publisher/publisherUtils";
 import { AudioVideoPdfDocument } from "./components/audio-video-pdf/AudioVideoPdfDocument";
-import { PdfPublisherSelect } from "./components/pdf-publisher-select/PdfPublisherSelect";
+import { PdfPublisherSelect } from "@proclaimer-content/pages/home/elder/pdfs/shared/components/pdf-publisher-select/PdfPublisherSelect";
 import { useAudioVideoScheduleData } from "./hooks/useAudioVideoScheduleData";
 
 type MonthRange = {

@@ -17,12 +17,14 @@ type MidweekSchedulePdfDocumentProps = {
   readonly weeks: WeekScheduleData[];
   readonly isLoading: boolean;
   readonly monthDate: string;
+  readonly highlightPublisherId?: string;
 };
 
 export function MidweekSchedulePdfDocument({
   weeks,
   isLoading,
   monthDate,
+  highlightPublisherId,
 }: MidweekSchedulePdfDocumentProps) {
   if (isLoading) {
     return (
@@ -51,7 +53,7 @@ export function MidweekSchedulePdfDocument({
       <PdfPage>
         <SchedulePdfHeader scheduleName="Midweek Meeting" monthDate={monthDate} />
         {weeks.map((week) => (
-          <WeekSection key={week.weekId} week={week} />
+          <WeekSection key={week.weekId} week={week} highlightPublisherId={highlightPublisherId} />
         ))}
       </PdfPage>
     </Document>

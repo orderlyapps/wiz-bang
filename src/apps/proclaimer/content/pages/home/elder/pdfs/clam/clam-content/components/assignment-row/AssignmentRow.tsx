@@ -35,15 +35,21 @@ const styles = StyleSheet.create({
   grey: {
     color: "#6b7280",
   },
+  highlighted: {
+    backgroundColor: "#fff3cd",
+  },
 });
 
 type AssignmentRowProps = {
   readonly assignmentId: string;
   readonly title: string;
   readonly participant: string;
+  readonly participantId?: string;
   readonly assistantOrReader?: string;
+  readonly assistantId?: string;
   readonly assistantLabel?: string;
   readonly showAssistantLabel?: boolean;
+  readonly highlightPublisherId?: string;
 };
 
 function getColorStyle(assignmentId: string): typeof styles.slate {
@@ -57,14 +63,21 @@ export function AssignmentRow({
   assignmentId,
   title,
   participant,
+  participantId,
   assistantOrReader,
+  assistantId,
   assistantLabel = "Assistants",
   showAssistantLabel = false,
+  highlightPublisherId,
 }: AssignmentRowProps) {
   const colorStyle = getColorStyle(assignmentId);
 
   const shouldShowLabel =
     showAssistantLabel || assignmentId === "ayf_part1" || assignmentId === "lc_cbs";
+
+  const participantHighlighted =
+    highlightPublisherId != null && participantId === highlightPublisherId;
+  const assistantHighlighted = highlightPublisherId != null && assistantId === highlightPublisherId;
 
   return (
     <View style={styles.row}>
@@ -74,8 +87,12 @@ export function AssignmentRow({
           <Text style={styles.assistant}>{assistantLabel}:</Text>
         )}
       </Text>
-      <Text style={styles.assistant}>{assistantOrReader}</Text>
-      <Text style={styles.participant}>{participant}</Text>
+      <Text style={[styles.assistant, ...(assistantHighlighted ? [styles.highlighted] : [])]}>
+        {assistantOrReader}
+      </Text>
+      <Text style={[styles.participant, ...(participantHighlighted ? [styles.highlighted] : [])]}>
+        {participant}
+      </Text>
     </View>
   );
 }
