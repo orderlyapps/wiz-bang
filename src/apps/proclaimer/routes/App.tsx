@@ -21,6 +21,7 @@ import LocationsPage from "@proclaimer-routes/pages/publishers/locations/Locatio
 import EldersPage from "@proclaimer-routes/pages/publishers/elders/Elders";
 import MinisterialServantsPage from "@proclaimer-routes/pages/publishers/ministerial-servants/MinisterialServants";
 import RegularPioneersPage from "@proclaimer-routes/pages/publishers/regular-pioneers/RegularPioneers";
+import PublishersGroupsPage from "@proclaimer-routes/pages/publishers/groups/Groups";
 import SettingsPage from "@proclaimer-routes/pages/settings/Settings";
 import AppearancePage from "@proclaimer-routes/pages/settings/appearance/Appearance";
 import ProfilePage from "@proclaimer-routes/pages/settings/profile/Profile";
@@ -359,6 +360,7 @@ function App() {
         <Route path="/publishers/elders" component={EldersPage} exact />
         <Route path="/publishers/ministerial-servants" component={MinisterialServantsPage} exact />
         <Route path="/publishers/regular-pioneers" component={RegularPioneersPage} exact />
+        <Route path="/publishers/groups" component={PublishersGroupsPage} exact />
         {/* SETTINGS */}
         <Route path="/settings" component={SettingsPage} exact />
         <Route path="/settings/appearance" component={AppearancePage} exact />
