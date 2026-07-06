@@ -5,6 +5,7 @@ export function ElderContent() {
   return (
     <IonList>
       <NavItem label="Contacts List" to="/home/elder/contacts-list" />
+      <NavItem label="PDFs" to="/home/elder/pdfs" />
     </IonList>
   );
 }
