@@ -3,11 +3,15 @@ import { IonButton, IonContent, IonHeader, IonTitle, IonToolbar, IonButtons } fr
 import { format } from "date-fns";
 import { pdf } from "@react-pdf/renderer";
 import { TextButton } from "@ui/components/inputs/button/text/TextButton";
+import { ToggleInput } from "@ui/components/inputs/toggle/ToggleInput";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 import { Space } from "@ui/components/layout/space/Space";
 import { MonthPicker } from "@proclaimer-content/pages/home/elder/pdfs/shared/components/month-picker/MonthPicker";
 import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
+import type { Publisher } from "@shared/database/schemas/publisher";
+import { getStoredPublisher } from "@proclaimer-shared/publisher/publisherUtils";
 import { AudioVideoPdfDocument } from "./components/audio-video-pdf/AudioVideoPdfDocument";
+import { PdfPublisherSelect } from "./components/pdf-publisher-select/PdfPublisherSelect";
 import { useAudioVideoScheduleData } from "./hooks/useAudioVideoScheduleData";
 
 type MonthRange = {
@@ -20,6 +24,8 @@ export function AudioVideoContent() {
   const [selected_month, set_selected_month] = useState<MonthRange | null>(null);
   const [is_generating, set_is_generating] = useState(false);
   const [error_message, set_error_message] = useState<string | null>(null);
+  const [pdf_publisher, set_pdf_publisher] = useState<Publisher | null>(getStoredPublisher);
+  const [highlight_publisher, set_highlight_publisher] = useState(false);
 
   const congregation = useStoredCongregation();
   const { weeks, isLoading } = useAudioVideoScheduleData(selected_month);
@@ -37,7 +43,12 @@ export function AudioVideoContent() {
     set_error_message(null);
     try {
       const blob = await pdf(
-        <AudioVideoPdfDocument weeks={weeks} isLoading={isLoading} dateRange={selected_month} />,
+        <AudioVideoPdfDocument
+          weeks={weeks}
+          isLoading={isLoading}
+          dateRange={selected_month}
+          highlightPublisherId={highlight_publisher ? pdf_publisher?.id : undefined}
+        />,
       ).toBlob();
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
@@ -80,6 +91,19 @@ export function AudioVideoContent() {
             label="Select Month"
             value={selected_month ? selected_month.firstMonday.substring(0, 7) : undefined}
             onValueChange={set_selected_month}
+          />
+
+          <Space />
+
+          <PdfPublisherSelect on_change={set_pdf_publisher} />
+
+          <Space />
+
+          <ToggleInput
+            label="Highlight Publisher"
+            checked={highlight_publisher}
+            on_change={set_highlight_publisher}
+            disabled={!pdf_publisher}
           />
 
           <Space />

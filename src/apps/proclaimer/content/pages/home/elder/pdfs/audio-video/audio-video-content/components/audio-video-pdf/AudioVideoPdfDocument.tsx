@@ -107,6 +107,11 @@ const styles = StyleSheet.create({
     color: "#333",
     textAlign: "center",
   },
+  highlightedCell: {
+    backgroundColor: "#fff3cd",
+    borderRadius: 2,
+    padding: 1,
+  },
   eventBanner: {
     fontSize: 12,
     fontWeight: "bold",
@@ -131,6 +136,7 @@ type AudioVideoPdfDocumentProps = {
     readonly firstMonday: string;
     readonly lastMonday: string;
   };
+  readonly highlightPublisherId?: string;
 };
 
 function TableHeader() {
@@ -151,10 +157,12 @@ function MeetingRow({
   label,
   ids,
   assignments,
+  highlightPublisherId,
 }: {
   label: string;
   ids: readonly string[];
   assignments: Map<string, Publisher | undefined>;
+  highlightPublisherId?: string;
 }) {
   const cellWidth = `${100 / ids.length}%`;
 
@@ -168,8 +176,13 @@ function MeetingRow({
             return <View key={id} style={{ width: cellWidth }} />;
           }
           const firstLine = participant.display_name ?? participant.first_name;
+          const is_highlighted =
+            highlightPublisherId != null && participant.id === highlightPublisherId;
           return (
-            <View key={id} style={{ width: cellWidth }}>
+            <View
+              key={id}
+              style={[{ width: cellWidth }, ...(is_highlighted ? [styles.highlightedCell] : [])]}
+            >
               <Text style={styles.assignmentCell}>{firstLine}</Text>
               <Text style={styles.assignmentLastName}>{participant.last_name}</Text>
             </View>
@@ -184,10 +197,12 @@ function WeekSection({
   weekId,
   assignments,
   events,
+  highlightPublisherId,
 }: {
   weekId: string;
   assignments: Map<string, Publisher | undefined>;
   events: { type: string }[];
+  highlightPublisherId?: string;
 }) {
   const dateLabel = getTheocraticWeekLabel(weekId, { format: "week-range-capital-case" });
 
@@ -201,15 +216,30 @@ function WeekSection({
       </View>
       {hasCircuitAssembly && <Text style={styles.eventBanner}>Circuit Assembly</Text>}
       {hasConvention && <Text style={styles.eventBanner}>Convention</Text>}
-      <MeetingRow label="Midweek" ids={midweekIDs} assignments={assignments} />
+      <MeetingRow
+        label="Midweek"
+        ids={midweekIDs}
+        assignments={assignments}
+        highlightPublisherId={highlightPublisherId}
+      />
       <View style={{ paddingBottom: 30 }}>
-        <MeetingRow label="Weekend" ids={weekendIDs} assignments={assignments} />
+        <MeetingRow
+          label="Weekend"
+          ids={weekendIDs}
+          assignments={assignments}
+          highlightPublisherId={highlightPublisherId}
+        />
       </View>
     </>
   );
 }
 
-export function AudioVideoPdfDocument({ weeks, isLoading, dateRange }: AudioVideoPdfDocumentProps) {
+export function AudioVideoPdfDocument({
+  weeks,
+  isLoading,
+  dateRange,
+  highlightPublisherId,
+}: AudioVideoPdfDocumentProps) {
   if (isLoading) {
     return (
       <Document>
@@ -244,6 +274,7 @@ export function AudioVideoPdfDocument({ weeks, isLoading, dateRange }: AudioVide
               weekId={week.weekId}
               assignments={week.assignments}
               events={week.events}
+              highlightPublisherId={highlightPublisherId}
             />
           ))}
         </View>

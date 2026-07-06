@@ -16,9 +16,15 @@ import { getStoredCongregation } from "@util/app/congregation/utils";
 
 interface PublisherSelectContentProps {
   onSelect?: () => void;
+  onPublisherSelected?: (publisher: Publisher) => void;
+  selectedPublisherId?: string;
 }
 
-export function PublisherSelectContent({ onSelect }: PublisherSelectContentProps) {
+export function PublisherSelectContent({
+  onSelect,
+  onPublisherSelected,
+  selectedPublisherId,
+}: PublisherSelectContentProps) {
   const congregation_id = getStoredCongregation()?.id;
   const [query, setQuery] = useState("");
 
@@ -35,10 +41,14 @@ export function PublisherSelectContent({ onSelect }: PublisherSelectContentProps
   }
 
   const all_publishers = (data ?? []).filter((p) => p.congregation_id === congregation_id);
-  const selected_id = getStoredPublisher()?.id;
+  const selected_id = selectedPublisherId ?? getStoredPublisher()?.id;
 
   const handleSelect = (publisher: Publisher) => {
-    setStoredPublisher(publisher);
+    if (onPublisherSelected) {
+      onPublisherSelected(publisher);
+    } else {
+      setStoredPublisher(publisher);
+    }
     onSelect?.();
   };
 
