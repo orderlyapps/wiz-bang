@@ -1,4 +1,4 @@
-import { IonButton, IonItem, IonLabel, IonList } from "@ionic/react";
+import { IonItem, IonLabel, IonList, IonSelect, IonSelectOption } from "@ionic/react";
 import type { Phone } from "@shared/database/rxdb/collections/publisher";
 import { publisherLocalCollection } from "@shared/database/collections/publisher-local";
 import { PhoneInput } from "@ui/components/inputs/phone/PhoneInput";
@@ -20,14 +20,23 @@ export function PhoneList({ publisher_id, phone, read_only = false }: Props) {
             label={entry.label}
             value={entry.number}
             end_detail={
-              <IonButton
+              <IonSelect
                 slot="end"
-                fill="clear"
-                href={`tel:${entry.number}`}
-                aria-label={`Call ${entry.label}`}
+                interface="action-sheet"
+                placeholder="Contact"
+                aria-label={`Contact options for ${entry.label}`}
+                onIonChange={(event) => {
+                  const action = event.detail.value;
+                  if (action === "call") {
+                    window.location.href = `tel:${entry.number}`;
+                  } else if (action === "sms") {
+                    window.location.href = `sms:${entry.number}`;
+                  }
+                }}
               >
-                Call
-              </IonButton>
+                <IonSelectOption value="call">Call</IonSelectOption>
+                <IonSelectOption value="sms">SMS</IonSelectOption>
+              </IonSelect>
             }
           />
         ) : (
