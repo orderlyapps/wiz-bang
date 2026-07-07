@@ -12,7 +12,7 @@ import type { MidweekAssignment } from "@shared/database/schemas/midweek-assignm
 import type { Publisher } from "@shared/database/schemas/publisher";
 import { getTheocraticWeekLabel } from "@proclaimer-shared/util/date/getTheocraticWeekLabel";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
-import { AssignmentCard } from "@proclaimer-content/pages/home/clam-overseer/schedule/schedule-content/components/assignment-card/AssignmentCard";
+import { ChairmanAssignmentCard } from "./components/chairman-assignment-card/ChairmanAssignmentCard";
 import { getMeetingParts } from "@proclaimer-content/pages/home/clam-overseer/schedule/schedule-content/helper/get-meeting-parts";
 import type { AssignmentRow } from "@proclaimer-content/pages/home/clam-overseer/schedule/schedule-content/helper/types";
 import { useChairmanWeeks } from "../useChairmanWeeks";
@@ -34,12 +34,23 @@ function ChairmanWeekSchedule({
   const assignments = allAssignments?.filter((a) => a.week_id === week_id);
   const show_school_2 = assignments?.some((a) => a.assignment_id === "chairman_2") ?? false;
   const meetingParts = weekData ? getMeetingParts(weekData, assignments, show_school_2) : [];
-  const rows: AssignmentRow[] = meetingParts.map((part) => {
+  const week_label = getTheocraticWeekLabel(week_id, {
+    format: "week-range",
+    useRelativeWeek: true,
+  });
+
+  const rows: (AssignmentRow & {
+    publisher_id?: string;
+    publisher_first_name?: string;
+    week_label: string;
+  })[] = meetingParts.map((part) => {
     const assignment = assignments?.find((a) => a.assignment_id === part.assignmentId);
     const assignedPublisher = assignment
       ? publishers?.find((p) => p.id === assignment.participant_id)
       : undefined;
-    const assignedName = assignedPublisher ? getPublisherDisplayName(assignedPublisher) : undefined;
+    const assignedName = assignedPublisher
+      ? getPublisherDisplayName(assignedPublisher, "first_last")
+      : undefined;
     const assistantAssignment = part.assistantId
       ? assignments?.find((a) => a.assignment_id === part.assistantId)
       : undefined;
@@ -47,7 +58,7 @@ function ChairmanWeekSchedule({
       ? publishers?.find((p) => p.id === assistantAssignment.participant_id)
       : undefined;
     const assistantName = assistantPublisher
-      ? getPublisherDisplayName(assistantPublisher)
+      ? getPublisherDisplayName(assistantPublisher, "first_last")
       : undefined;
 
     return {
@@ -59,23 +70,27 @@ function ChairmanWeekSchedule({
       assistant: assistantName,
       pin_to_first_column: part.pin_to_first_column,
       base_path: BASE_PATH,
+      publisher_id: assignedPublisher?.id,
+      publisher_first_name: assignedPublisher?.display_name || assignedPublisher?.first_name,
+      week_label,
     };
   });
 
   return (
     <div>
-      <Heading>
-        {getTheocraticWeekLabel(week_id, {
-          format: "week-range",
-          useRelativeWeek: true,
-        })}
-      </Heading>
+      <Heading>{week_label}</Heading>
       <Space size="xs" />
       <IonList inset>
-        <MultiColumnList<AssignmentRow>
+        <MultiColumnList<
+          AssignmentRow & {
+            publisher_id?: string;
+            publisher_first_name?: string;
+            week_label: string;
+          }
+        >
           items={rows}
           get_id={(row) => row.id}
-          render_item={(row) => <AssignmentCard {...row} />}
+          render_item={(row) => <ChairmanAssignmentCard {...row} />}
           pin_to_first_column={(row) => row.pin_to_first_column ?? false}
         />
       </IonList>
