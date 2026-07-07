@@ -56,6 +56,7 @@ import PdfsPage from "@proclaimer-routes/pages/home/elder/pdfs/Pdfs";
 import AudioVideoPage from "@proclaimer-routes/pages/home/elder/audio-video/AudioVideo";
 import ElderClamPage from "@proclaimer-routes/pages/home/elder/clam/Clam";
 import ClamOverseerPage from "@proclaimer-routes/pages/home/clam-overseer/ClamOverseer";
+import ClamChairmanPage from "@proclaimer-routes/pages/home/clam-chairman/ClamChairman";
 import ServiceOverseerPage from "@proclaimer-routes/pages/home/service-overseer/ServiceOverseer";
 import ServiceOverseerMapPage from "@proclaimer-routes/pages/home/service-overseer/map/Map";
 import CobePage from "@proclaimer-routes/pages/home/cobe/Cobe";
@@ -209,6 +210,7 @@ function App() {
         <Route path="/home/elder/audio-video" component={AudioVideoPage} exact />
         <Route path="/home/elder/clam" component={ElderClamPage} exact />
         <Route path="/home/clam-overseer" component={ClamOverseerPage} exact />
+        <Route path="/home/clam-chairman" component={ClamChairmanPage} exact />
         <Route path="/home/clam-overseer/participation" component={ParticipationPage} exact />
         <Route
           path="/home/clam-overseer/participation/chairman"

@@ -2,6 +2,7 @@ import { IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonList } from "@io
 import { Heading } from "@ui/components/display/text/heading/Heading";
 import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
 import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
+import { useChairmanWeeks } from "@proclaimer-content/pages/home/clam-chairman/useChairmanWeeks";
 import type { IonicColor } from "@util/vendor/ionic/types/IonicColor";
 
 const COLOR: IonicColor = "medium";
@@ -10,6 +11,8 @@ const CLASSNAME = "ion-text-end";
 export function HomeTools() {
   const permissions = usePermissions();
   const canSeeAll = permissions.has_congregation_admin || permissions.is_super_admin;
+
+  const { is_chairman } = useChairmanWeeks();
 
   const hasAnyTool =
     permissions.is_super_admin ||
@@ -27,7 +30,8 @@ export function HomeTools() {
     permissions.has_weekend ||
     permissions.has_reminders ||
     permissions.has_events ||
-    permissions.has_ministerial_servant;
+    permissions.has_ministerial_servant ||
+    is_chairman;
 
   if (!permissions.is_loaded || !hasAnyTool) {
     return null;
@@ -117,6 +121,17 @@ export function HomeTools() {
                 label_class={CLASSNAME}
                 label="CLAM Overseer"
                 to="/home/clam-overseer"
+              />
+            )}
+
+            {is_chairman && (
+              <NavItem
+                color={COLOR}
+                size="md"
+                lines="none"
+                label_class={CLASSNAME}
+                label="CLAM Chairman"
+                to="/home/clam-chairman"
               />
             )}
 
