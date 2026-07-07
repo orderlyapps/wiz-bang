@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLiveQuery } from "@tanstack/react-db";
+import { useLocation } from "react-router-dom";
 import { IonItem, IonLabel, IonList } from "@ionic/react";
 import { publisherCollection } from "@shared/database/collections/publisher";
 import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiColumnList";
@@ -7,7 +8,6 @@ import { Spinner } from "@ui/components/display/spinner/Spinner";
 import { Body } from "@ui/components/display/text/body/Body";
 import { getStoredCongregation } from "@util/app/congregation/utils";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
-import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
 import { usePresets } from "@proclaimer-content/pages/home/secretary/publishers/publishers-content/hooks/use-presets/usePresets";
 import { filterPublishers } from "@proclaimer-content/pages/home/secretary/publishers/publishers-content/hooks/use-publisher-filter/usePublisherFilter";
 import { FilterSelectModal } from "@proclaimer-content/pages/home/secretary/publishers/publishers-content/components/filter-modal/FilterSelectModal";
@@ -27,8 +27,8 @@ export function AllPublishersContent({ searchTerm }: { searchTerm: string }) {
     deletePreset,
     updatePreset,
   } = usePresets();
+  const location = useLocation();
   const congregation_id = getStoredCongregation()?.id;
-  const permissions = usePermissions();
 
   const { data, isLoading } = useLiveQuery((q) =>
     q.from({ p: publisherCollection }).orderBy(({ p }) => p.last_name),
@@ -43,7 +43,9 @@ export function AllPublishersContent({ searchTerm }: { searchTerm: string }) {
     active_preset.filter,
   ).filter((p) => getPublisherDisplayName(p).toLowerCase().includes(searchTerm.toLowerCase()));
 
-  const detail_path = permissions.has_secretary ? "/home/secretary/publishers" : "/publishers/all";
+  const detail_path = location.pathname.startsWith("/home")
+    ? "/home/secretary/publishers"
+    : "/publishers/all";
 
   return (
     <>
