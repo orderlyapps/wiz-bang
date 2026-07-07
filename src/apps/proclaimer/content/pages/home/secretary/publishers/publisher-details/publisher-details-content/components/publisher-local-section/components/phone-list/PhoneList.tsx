@@ -1,4 +1,4 @@
-import { IonItem, IonLabel, IonList } from "@ionic/react";
+import { IonButton, IonItem, IonLabel, IonList } from "@ionic/react";
 import type { Phone } from "@shared/database/rxdb/collections/publisher";
 import { publisherLocalCollection } from "@shared/database/collections/publisher-local";
 import { PhoneInput } from "@ui/components/inputs/phone/PhoneInput";
@@ -15,7 +15,21 @@ export function PhoneList({ publisher_id, phone, read_only = false }: Props) {
     <IonList>
       {phone.map((entry) =>
         read_only ? (
-          <LabelValueItem key={entry.id} label={entry.label} value={entry.number} />
+          <LabelValueItem
+            key={entry.id}
+            label={entry.label}
+            value={entry.number}
+            end_detail={
+              <IonButton
+                slot="end"
+                fill="clear"
+                href={`tel:${entry.number}`}
+                aria-label={`Call ${entry.label}`}
+              >
+                Call
+              </IonButton>
+            }
+          />
         ) : (
           <PhoneInput
             key={entry.id}
