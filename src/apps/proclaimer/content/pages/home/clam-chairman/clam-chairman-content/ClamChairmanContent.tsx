@@ -42,7 +42,6 @@ function ChairmanWeekSchedule({
   const rows: (AssignmentRow & {
     publisher_id?: string;
     publisher_first_name?: string;
-    week_label: string;
   })[] = meetingParts.map((part) => {
     const assignment = assignments?.find((a) => a.assignment_id === part.assignmentId);
     const assignedPublisher = assignment
@@ -72,7 +71,6 @@ function ChairmanWeekSchedule({
       base_path: BASE_PATH,
       publisher_id: assignedPublisher?.id,
       publisher_first_name: assignedPublisher?.display_name || assignedPublisher?.first_name,
-      week_label,
     };
   });
 
@@ -85,7 +83,6 @@ function ChairmanWeekSchedule({
           AssignmentRow & {
             publisher_id?: string;
             publisher_first_name?: string;
-            week_label: string;
           }
         >
           items={rows}

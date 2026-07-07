@@ -7,12 +7,11 @@ const sectionLabels = ["main_hall_label", "second_school_label"];
 interface ChairmanAssignmentCardProps extends AssignmentRow {
   publisher_id?: string;
   publisher_first_name?: string;
-  week_label: string;
 }
 
 function buildSmsLink(phone: string, body: string): string {
   const encodedBody = encodeURIComponent(body);
-  return `sms:${phone}?&body=${encodedBody}`;
+  return `sms:${phone}?body=${encodedBody}`;
 }
 
 export function ChairmanAssignmentCard({
@@ -23,7 +22,6 @@ export function ChairmanAssignmentCard({
   assistant,
   publisher_id,
   publisher_first_name,
-  week_label,
 }: ChairmanAssignmentCardProps) {
   const phoneLookup = usePublisherPhoneLookup();
   const phone = publisher_id ? phoneLookup(publisher_id) : null;
@@ -31,7 +29,7 @@ export function ChairmanAssignmentCard({
   const handle_click = () => {
     if (!phone) return;
     const name = publisher_first_name ?? "";
-    const message = `Hi ${name},\nThis is a reminder for your CLAM assignment ${week_label.toLowerCase()}:\n\n${title.toUpperCase()}${assistant ? `\n\nYour assistant is ${assistant}.` : ""}`;
+    const message = `Hi ${name},\nThis is a reminder for your CLAM assignment:\n\n${title.toUpperCase()}${assistant ? `\n\nYour assistant is ${assistant}.` : ""}`;
     window.location.href = buildSmsLink(phone, message);
   };
 
@@ -44,7 +42,6 @@ export function ChairmanAssignmentCard({
       value_2={assistant}
       value_2_color="medium"
       on_click={phone ? handle_click : undefined}
-      detail={!!phone}
     />
   );
 }
