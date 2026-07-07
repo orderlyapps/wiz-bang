@@ -11,6 +11,7 @@ import {
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 import { TextInput } from "@ui/components/inputs/text/TextInput";
 import { PhoneInput } from "@ui/components/inputs/phone/PhoneInput";
+import { DeleteTextButton } from "@ui/components/inputs/button/text/delete/DeleteTextButton";
 import { publisherLocalCollection } from "@shared/database/collections/publisher-local";
 import type { EmergencyContact, Phone } from "@shared/database/rxdb/collections/publisher";
 
@@ -82,6 +83,16 @@ export function EmergencyContactModal({ is_open, on_dismiss, publisher_id, conta
     on_dismiss();
   }
 
+  function handle_delete() {
+    if (!contact) return;
+    publisherLocalCollection.update(publisher_id, (draft) => {
+      if (draft.emergency_contact) {
+        draft.emergency_contact = draft.emergency_contact.filter((c) => c.id !== contact.id);
+      }
+    });
+    on_dismiss();
+  }
+
   return (
     <ResponsiveModal isOpen={is_open} onDidDismiss={on_dismiss}>
       <IonHeader>
@@ -91,7 +102,11 @@ export function EmergencyContactModal({ is_open, on_dismiss, publisher_id, conta
             <IonButton onClick={on_dismiss}>Close</IonButton>
           </IonButtons>
           <IonButtons slot="end">
-            <IonButton strong onClick={handle_save}>
+            <IonButton
+              strong
+              disabled={!first_name.trim() || !last_name.trim() || !relationship.trim()}
+              onClick={handle_save}
+            >
               Save
             </IonButton>
           </IonButtons>
@@ -113,6 +128,14 @@ export function EmergencyContactModal({ is_open, on_dismiss, publisher_id, conta
             />
           ))}
         </IonList>
+        {contact && (
+          <DeleteTextButton
+            label="Delete Contact"
+            alert_header="Delete Emergency Contact"
+            alert_message={`Delete ${contact.first_name} ${contact.last_name}?`}
+            on_click={handle_delete}
+          />
+        )}
       </IonContent>
     </ResponsiveModal>
   );

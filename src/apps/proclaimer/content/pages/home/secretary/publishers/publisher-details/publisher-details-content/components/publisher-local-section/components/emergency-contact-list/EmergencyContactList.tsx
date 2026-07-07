@@ -49,18 +49,17 @@ export function EmergencyContactList({
           </IonLabel>
         </IonItem>
         {emergency_contact.map((contact) => (
-          <InputWrapper
-            key={contact.id}
-            label={`${contact.first_name} ${contact.last_name} (${contact.relationship})`}
-          >
-            <div onClick={() => !read_only && open_edit(contact)}>
+          <div key={contact.id} onClick={() => !read_only && open_edit(contact)}>
+            <InputWrapper
+              label={`${contact.first_name} ${contact.last_name} (${contact.relationship})`}
+            >
               <Body>
                 {contact.phone.map((p) => (
                   <p key={p.id}>{p.number}</p>
                 ))}
               </Body>
-            </div>
-          </InputWrapper>
+            </InputWrapper>
+          </div>
         ))}
         {emergency_contact.length === 0 && (
           <IonItem>
