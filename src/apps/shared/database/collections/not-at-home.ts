@@ -8,6 +8,7 @@ const baseOptions = queryCollectionOptions({
   id: "not_at_home",
   queryKey: ["not_at_home"],
   queryClient,
+  refetchInterval: 20_000,
   schema: notAtHomeSchema,
   getKey: (row) => row.id ?? "",
   queryFn: async () => {
