@@ -112,7 +112,10 @@ export function EmergencyContactModal({ is_open, on_dismiss, publisher_id, conta
     if (!contact) return;
     publisherLocalCollection.update(publisher_id, (draft) => {
       if (draft.emergency_contact) {
-        draft.emergency_contact = draft.emergency_contact.filter((c) => c.id !== contact.id);
+        const index = draft.emergency_contact.findIndex((c) => c.id === contact.id);
+        if (index !== -1) {
+          draft.emergency_contact.splice(index, 1);
+        }
       }
     });
     on_dismiss();
