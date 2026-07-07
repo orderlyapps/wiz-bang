@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { IonIcon, IonItem, IonLabel, IonList } from "@ionic/react";
-import { addOutline } from "ionicons/icons";
+import { IonButton, IonIcon, IonItem, IonLabel, IonList } from "@ionic/react";
+import { addOutline, callOutline, chatbubbleEllipsesOutline } from "ionicons/icons";
 import type { EmergencyContact } from "@shared/database/rxdb/collections/publisher";
 import { Heading } from "@ui/components/display/text/heading/Heading";
 import { EmergencyContactModal } from "./components/emergency-contact-modal/EmergencyContactModal";
-import { InputWrapper } from "@ui/components/display/input/InputWrapper";
-import { Body } from "@ui/components/display/text/body/Body";
+import { LabelValueItem } from "@ui/components/display/data/label-value/LabelValueItem";
 import { Space } from "@ui/components/layout/space/Space";
 
 type Contact = NonNullable<EmergencyContact>[number];
@@ -51,19 +50,42 @@ export function EmergencyContactList({
             <IonIcon onClick={open_add} icon={addOutline} slot="end" color="primary" />
           )}
         </IonItem>
-        {emergency_contact.map((contact) => (
-          <div key={contact.id} onClick={() => !read_only && open_edit(contact)}>
-            <InputWrapper
+        {emergency_contact.map((contact) =>
+          contact.phone.map((p) => (
+            <LabelValueItem
+              key={p.id}
               label={`${contact.first_name} ${contact.last_name} (${contact.relationship})`}
-            >
-              <Body>
-                {contact.phone.map((p) => (
-                  <p key={p.id}>{p.number}</p>
-                ))}
-              </Body>
-            </InputWrapper>
-          </div>
-        ))}
+              value={p.number}
+              on_click={() => !read_only && open_edit(contact)}
+              end_detail={
+                <>
+                  <IonButton
+                    fill="clear"
+                    size="small"
+                    aria-label={`SMS ${contact.first_name}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      window.location.href = `sms:${p.number}`;
+                    }}
+                  >
+                    <IonIcon slot="icon-only" icon={chatbubbleEllipsesOutline} />
+                  </IonButton>
+                  <IonButton
+                    fill="clear"
+                    size="small"
+                    aria-label={`Call ${contact.first_name}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      window.location.href = `tel:${p.number}`;
+                    }}
+                  >
+                    <IonIcon slot="icon-only" icon={callOutline} />
+                  </IonButton>
+                </>
+              }
+            />
+          )),
+        )}
         {emergency_contact.length === 0 && (
           <IonItem>
             <IonLabel color="medium">No emergency contacts</IonLabel>

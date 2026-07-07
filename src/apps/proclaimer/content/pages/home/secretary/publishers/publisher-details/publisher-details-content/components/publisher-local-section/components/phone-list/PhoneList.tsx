@@ -1,4 +1,5 @@
-import { IonItem, IonLabel, IonList, IonSelect, IonSelectOption } from "@ionic/react";
+import { IonButton, IonIcon, IonItem, IonLabel, IonList } from "@ionic/react";
+import { callOutline, chatbubbleEllipsesOutline } from "ionicons/icons";
 import type { Phone } from "@shared/database/rxdb/collections/publisher";
 import { publisherLocalCollection } from "@shared/database/collections/publisher-local";
 import { PhoneInput } from "@ui/components/inputs/phone/PhoneInput";
@@ -20,23 +21,28 @@ export function PhoneList({ publisher_id, phone, read_only = false }: Props) {
             label={entry.label}
             value={entry.number}
             end_detail={
-              <IonSelect
-                slot="end"
-                interface="action-sheet"
-                placeholder="Contact"
-                aria-label={`Contact options for ${entry.label}`}
-                onIonChange={(event) => {
-                  const action = event.detail.value;
-                  if (action === "call") {
-                    window.location.href = `tel:${entry.number}`;
-                  } else if (action === "sms") {
+              <>
+                <IonButton
+                  fill="clear"
+                  size="small"
+                  aria-label={`SMS ${entry.label}`}
+                  onClick={() => {
                     window.location.href = `sms:${entry.number}`;
-                  }
-                }}
-              >
-                <IonSelectOption value="call">Call</IonSelectOption>
-                <IonSelectOption value="sms">SMS</IonSelectOption>
-              </IonSelect>
+                  }}
+                >
+                  <IonIcon slot="icon-only" icon={chatbubbleEllipsesOutline} />
+                </IonButton>
+                <IonButton
+                  fill="clear"
+                  size="small"
+                  aria-label={`Call ${entry.label}`}
+                  onClick={() => {
+                    window.location.href = `tel:${entry.number}`;
+                  }}
+                >
+                  <IonIcon slot="icon-only" icon={callOutline} />
+                </IonButton>
+              </>
             }
           />
         ) : (

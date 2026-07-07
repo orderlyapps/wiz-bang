@@ -1,8 +1,9 @@
-import { IonItem, IonLabel, IonList } from "@ionic/react";
+import { IonButton, IonIcon, IonItem, IonLabel, IonList } from "@ionic/react";
 import type { Email } from "@shared/database/rxdb/collections/publisher";
 import { publisherLocalCollection } from "@shared/database/collections/publisher-local";
 import { EmailInput } from "@ui/components/inputs/email/EmailInput";
 import { LabelValueItem } from "@ui/components/display/data/label-value/LabelValueItem";
+import { mailOutline } from "ionicons/icons";
 
 interface Props {
   publisher_id: string;
@@ -15,7 +16,23 @@ export function EmailList({ publisher_id, email, read_only = false }: Props) {
     <IonList>
       {email.map((entry) =>
         read_only ? (
-          <LabelValueItem key={entry.id} label={entry.label} value={entry.address} />
+          <LabelValueItem
+            key={entry.id}
+            label={entry.label}
+            value={entry.address}
+            end_detail={
+              <IonButton
+                fill="clear"
+                size="small"
+                aria-label={`Email ${entry.label}`}
+                onClick={() => {
+                  window.location.href = `mailto:${entry.address}`;
+                }}
+              >
+                <IonIcon slot="icon-only" icon={mailOutline} />
+              </IonButton>
+            }
+          />
         ) : (
           <EmailInput
             key={entry.id}
