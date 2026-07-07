@@ -69,6 +69,7 @@ export function PublisherLocalSection({ publisher_id, read_only = false }: Props
       <EmergencyContactList
         publisher_id={publisher_id}
         emergency_contact={local.emergency_contact ?? []}
+        read_only={read_only}
       />
     </>
   );
