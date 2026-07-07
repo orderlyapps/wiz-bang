@@ -40,7 +40,7 @@ export function PublisherDetailsContent({
   }
 
   return (
-    <IonContent>
+    <IonContent className="content-full">
       <IonList>
         <PublisherPublicSection
           publisher_id={publisher_id}
