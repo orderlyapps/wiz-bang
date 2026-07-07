@@ -52,7 +52,7 @@ export function PublisherPublicSection({ publisher_id, publisher, read_only = fa
       <IonList>
         <LabelValueItem label="Name" value={getPublisherDisplayName(name_value, "complete")} />
         <LabelValueItem label="Gender" value={optionLabel(GENDER_OPTIONS, publisher.gender)} />
-        <LabelValueItem label="Type" value={optionLabel(TYPE_OPTIONS, publisher.type)} />
+        <LabelValueItem label="Ministry Type" value={optionLabel(TYPE_OPTIONS, publisher.type)} />
         <LabelValueItem
           label="Standing"
           value={optionLabel(STANDING_OPTIONS, publisher.standing)}
@@ -82,7 +82,7 @@ export function PublisherPublicSection({ publisher_id, publisher, read_only = fa
         }}
       />
       <Select
-        label="Type"
+        label="Ministry Type"
         value={publisher.type}
         options={TYPE_OPTIONS}
         on_change={(value) => {
