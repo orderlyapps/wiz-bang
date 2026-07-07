@@ -1,9 +1,13 @@
+import { useState } from "react";
 import { IonButton, IonIcon, IonItem, IonLabel } from "@ionic/react";
-import { callOutline, chatbubbleEllipsesOutline } from "ionicons/icons";
+import { addOutline, callOutline, chatbubbleEllipsesOutline } from "ionicons/icons";
 import type { Phone } from "@shared/database/rxdb/collections/publisher";
-import { publisherLocalCollection } from "@shared/database/collections/publisher-local";
-import { PhoneInput } from "@ui/components/inputs/phone/PhoneInput";
 import { LabelValueItem } from "@ui/components/display/data/label-value/LabelValueItem";
+import { Heading } from "@ui/components/display/text/heading/Heading";
+import { Space } from "@ui/components/layout/space/Space";
+import { PhoneAddModal } from "./components/phone-add-modal/PhoneAddModal";
+
+type PhoneEntry = NonNullable<Phone>[number];
 
 interface Props {
   publisher_id: string;
@@ -12,13 +16,50 @@ interface Props {
 }
 
 export function PhoneList({ publisher_id, phone, read_only = false }: Props) {
+  const [editing_entry, set_editing_entry] = useState<PhoneEntry | null>(null);
+  const [is_modal_open, set_is_modal_open] = useState(false);
+
+  function open_add() {
+    set_editing_entry(null);
+    set_is_modal_open(true);
+  }
+
+  function open_edit(entry: PhoneEntry) {
+    set_editing_entry(entry);
+    set_is_modal_open(true);
+  }
+
+  function close_modal() {
+    set_is_modal_open(false);
+    set_editing_entry(null);
+  }
+
   return (
     <>
+      {!read_only && (
+        <>
+          <Space />
+          <IonItem>
+            <IonLabel>
+              <Heading size="sm">Phone Numbers</Heading>
+            </IonLabel>
+            <IonButton
+              fill="clear"
+              size="small"
+              slot="end"
+              onClick={open_add}
+              aria-label="Add phone"
+            >
+              <IonIcon icon={addOutline} color="primary" />
+            </IonButton>
+          </IonItem>
+        </>
+      )}
       {phone.map((entry) =>
         read_only ? (
           <LabelValueItem
             key={entry.id}
-            label={entry.label}
+            label={entry.label + " Phone"}
             value={entry.number}
             end_detail={
               <>
@@ -46,15 +87,36 @@ export function PhoneList({ publisher_id, phone, read_only = false }: Props) {
             }
           />
         ) : (
-          <PhoneInput
+          <LabelValueItem
             key={entry.id}
             label={entry.label}
             value={entry.number}
-            on_change={(value) =>
-              publisherLocalCollection.update(publisher_id, (draft) => {
-                const item = draft.phone?.find((p) => p.id === entry.id);
-                if (item) item.number = value;
-              })
+            on_click={() => open_edit(entry)}
+            end_detail={
+              <>
+                <IonButton
+                  fill="clear"
+                  size="small"
+                  aria-label={`SMS ${entry.label}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    window.location.href = `sms:${entry.number}`;
+                  }}
+                >
+                  <IonIcon slot="icon-only" icon={chatbubbleEllipsesOutline} />
+                </IonButton>
+                <IonButton
+                  fill="clear"
+                  size="small"
+                  aria-label={`Call ${entry.label}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    window.location.href = `tel:${entry.number}`;
+                  }}
+                >
+                  <IonIcon slot="icon-only" icon={callOutline} />
+                </IonButton>
+              </>
             }
           />
         ),
@@ -63,6 +125,14 @@ export function PhoneList({ publisher_id, phone, read_only = false }: Props) {
         <IonItem>
           <IonLabel color="medium">No phone numbers</IonLabel>
         </IonItem>
+      )}
+      {!read_only && (
+        <PhoneAddModal
+          is_open={is_modal_open}
+          on_dismiss={close_modal}
+          publisher_id={publisher_id}
+          entry={editing_entry}
+        />
       )}
     </>
   );

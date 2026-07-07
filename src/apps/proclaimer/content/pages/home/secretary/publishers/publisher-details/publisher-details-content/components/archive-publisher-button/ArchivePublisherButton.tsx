@@ -6,9 +6,11 @@ import { TextButton } from "@ui/components/inputs/button/text/TextButton";
 export function ArchivePublisherButton({
   publisher_id,
   archived_at,
+  read_only,
 }: {
   publisher_id: string;
   archived_at: string | null | undefined;
+  read_only: boolean;
 }) {
   const [presentAlert] = useIonAlert();
 
@@ -51,12 +53,14 @@ export function ArchivePublisherButton({
           </IonLabel>
         </IonItem>
       )}
-      <TextButton
-        color={isArchived ? "medium" : "danger"}
-        fill="clear"
-        on_click={handlePress}
-        label={isArchived ? "Unarchive" : "Archive"}
-      />
+      {!read_only && (
+        <TextButton
+          color={isArchived ? "medium" : "danger"}
+          fill="clear"
+          on_click={handlePress}
+          label={isArchived ? "Unarchive" : "Archive"}
+        />
+      )}
     </>
   );
 }

@@ -52,7 +52,11 @@ export function PublisherDetailsContent({
 
         <Space />
 
-        <ArchivePublisherButton publisher_id={publisher_id} archived_at={publisher.archived_at} />
+        <ArchivePublisherButton
+          publisher_id={publisher_id}
+          archived_at={publisher.archived_at}
+          read_only={read_only}
+        />
       </IonList>
     </IonContent>
   );
