@@ -95,7 +95,7 @@ export function getFilterInputItems(
       id: "type",
       node: (
         <AlertMultiSelect
-          label="Type"
+          label="Service Type"
           options={typeOptions}
           selected={filter.type === "all" ? [] : filter.type}
           disabled={disabled}
