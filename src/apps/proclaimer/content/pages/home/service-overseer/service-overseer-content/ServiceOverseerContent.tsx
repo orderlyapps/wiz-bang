@@ -5,6 +5,8 @@ export function ServiceOverseerContent() {
   return (
     <IonList>
       <NavItem label="Map" to="/home/service-overseer/map" />
+      <NavItem label="History" to="/home/service-overseer/map-log" />
+      <NavItem label="Tags" to="/home/service-overseer/map-tags" />
     </IonList>
   );
 }

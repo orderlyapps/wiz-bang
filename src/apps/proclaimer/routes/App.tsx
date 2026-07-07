@@ -61,6 +61,8 @@ import ClamOverseerPage from "@proclaimer-routes/pages/home/clam-overseer/ClamOv
 import ClamChairmanPage from "@proclaimer-routes/pages/home/clam-chairman/ClamChairman";
 import ServiceOverseerPage from "@proclaimer-routes/pages/home/service-overseer/ServiceOverseer";
 import ServiceOverseerMapPage from "@proclaimer-routes/pages/home/service-overseer/map/Map";
+import MapLogPage from "@proclaimer-routes/pages/home/service-overseer/map-log/MapLog";
+import MapTagsPage from "@proclaimer-routes/pages/home/service-overseer/map-tags/MapTags";
 import CobePage from "@proclaimer-routes/pages/home/cobe/Cobe";
 import TerritoryServantPage from "@proclaimer-routes/pages/home/territory-servant/TerritoryServant";
 import SpeakerPage from "@proclaimer-routes/pages/home/speaker/Speaker";
@@ -111,7 +113,7 @@ function App() {
   const className =
     isPortrait && (getPlatforms().includes("iphone") || getPlatforms().includes("ipad"))
       ? ""
-      : "ion-padding-end-xxx";
+      : "ion-padding-end";
 
   return (
     <IonTabs>
@@ -286,6 +288,8 @@ function App() {
         />
         <Route path="/home/service-overseer" component={ServiceOverseerPage} exact />
         <Route path="/home/service-overseer/map" component={ServiceOverseerMapPage} exact />
+        <Route path="/home/service-overseer/map-log" component={MapLogPage} exact />
+        <Route path="/home/service-overseer/map-tags" component={MapTagsPage} exact />
         <Route path="/home/cobe" component={CobePage} exact />
         <Route path="/home/territory-servant" component={TerritoryServantPage} exact />
         <Route path="/home/speaker" component={SpeakerPage} exact />
