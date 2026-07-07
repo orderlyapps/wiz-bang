@@ -1,5 +1,6 @@
-import { IonItem, IonLabel, IonList, IonListHeader } from "@ionic/react";
+import { IonItem, IonLabel, IonList } from "@ionic/react";
 import type { EmergencyContact } from "@shared/database/rxdb/collections/publisher";
+import { Heading } from "@ui/components/display/text/heading/Heading";
 
 interface Props {
   publisher_id: string;
@@ -9,9 +10,11 @@ interface Props {
 export function EmergencyContactList({ publisher_id: _publisher_id, emergency_contact }: Props) {
   return (
     <IonList>
-      <IonListHeader>
-        <IonLabel>Emergency Contacts</IonLabel>
-      </IonListHeader>
+      <IonItem>
+        <IonLabel>
+          <Heading>Emergency Contacts</Heading>
+        </IonLabel>
+      </IonItem>
       {emergency_contact.map((contact) => (
         <IonItem key={contact.id}>
           <IonLabel>
