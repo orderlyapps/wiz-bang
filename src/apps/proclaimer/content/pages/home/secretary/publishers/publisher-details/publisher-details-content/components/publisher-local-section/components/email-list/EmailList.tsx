@@ -1,25 +1,37 @@
-import { IonItem, IonLabel, IonList, IonListHeader } from "@ionic/react";
+import { IonItem, IonLabel, IonList } from "@ionic/react";
 import type { Email } from "@shared/database/rxdb/collections/publisher";
+import { publisherLocalCollection } from "@shared/database/collections/publisher-local";
+import { EmailInput } from "@ui/components/inputs/email/EmailInput";
+import { LabelValueItem } from "@ui/components/display/data/label-value/LabelValueItem";
 
 interface Props {
   publisher_id: string;
   email: NonNullable<Email>;
+  read_only?: boolean;
 }
 
-export function EmailList({ publisher_id: _publisher_id, email }: Props) {
+export function EmailList({ publisher_id, email, read_only = false }: Props) {
   return (
     <IonList>
-      <IonListHeader>
-        <IonLabel>Email</IonLabel>
-      </IonListHeader>
-      {email.map((entry) => (
-        <IonItem key={entry.id}>
-          <IonLabel>
-            <h2>{entry.label}</h2>
-            <p>{entry.address}</p>
-          </IonLabel>
-        </IonItem>
-      ))}
+      {email.map((entry) =>
+        read_only ? (
+          <LabelValueItem key={entry.id} label={entry.label} value={entry.address} />
+        ) : (
+          <EmailInput
+            key={entry.id}
+            label={entry.label}
+            value={entry.address}
+            on_change={(value) =>
+              publisherLocalCollection.update(publisher_id, (draft) => {
+                const item = draft.email?.find((e) => e.id === entry.id);
+                if (item) {
+                  item.address = value;
+                }
+              })
+            }
+          />
+        ),
+      )}
       {email.length === 0 && (
         <IonItem>
           <IonLabel color="medium">No email addresses</IonLabel>

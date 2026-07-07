@@ -65,7 +65,7 @@ export function PublisherLocalSection({ publisher_id, read_only = false }: Props
         address={local.address ?? []}
         read_only={read_only}
       />
-      <EmailList publisher_id={publisher_id} email={local.email ?? []} />
+      <EmailList publisher_id={publisher_id} email={local.email ?? []} read_only={read_only} />
       <EmergencyContactList
         publisher_id={publisher_id}
         emergency_contact={local.emergency_contact ?? []}
