@@ -47,6 +47,9 @@ export function EmergencyContactList({
           <IonLabel>
             <Heading size="sm">Emergency Contacts</Heading>
           </IonLabel>
+          {!read_only && (
+            <IonIcon onClick={open_add} icon={addOutline} slot="end" color="primary" />
+          )}
         </IonItem>
         {emergency_contact.map((contact) => (
           <div key={contact.id} onClick={() => !read_only && open_edit(contact)}>
@@ -64,12 +67,6 @@ export function EmergencyContactList({
         {emergency_contact.length === 0 && (
           <IonItem>
             <IonLabel color="medium">No emergency contacts</IonLabel>
-          </IonItem>
-        )}
-        {!read_only && (
-          <IonItem button detail={false} onClick={open_add}>
-            <IonIcon icon={addOutline} slot="start" color="primary" />
-            <IonLabel color="primary">Add Emergency Contact</IonLabel>
           </IonItem>
         )}
       </IonList>

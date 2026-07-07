@@ -11,12 +11,37 @@ import {
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 import { TextInput } from "@ui/components/inputs/text/TextInput";
 import { PhoneInput } from "@ui/components/inputs/phone/PhoneInput";
+import { Select } from "@ui/components/inputs/select/Select";
 import { DeleteTextButton } from "@ui/components/inputs/button/text/delete/DeleteTextButton";
 import { publisherLocalCollection } from "@shared/database/collections/publisher-local";
 import type { EmergencyContact, Phone } from "@shared/database/rxdb/collections/publisher";
 
 type Contact = NonNullable<EmergencyContact>[number];
 type PhoneEntry = NonNullable<Phone>[number];
+
+const relationship_options = [
+  "Grandfather",
+  "Grandmother",
+  "Father",
+  "Mother",
+  "Son",
+  "Daughter",
+  "Brother",
+  "Sister",
+  "Grandson",
+  "Granddaughter",
+  "Husband",
+  "Wife",
+  "Uncle",
+  "Aunt",
+  "Cousin",
+  "Father-in-law",
+  "Mother-in-law",
+  "Son-in-law",
+  "Daughter-in-law",
+  "Friend",
+  "Other",
+];
 
 interface Props {
   is_open: boolean;
@@ -116,7 +141,13 @@ export function EmergencyContactModal({ is_open, on_dismiss, publisher_id, conta
         <IonList>
           <TextInput label="First Name" value={first_name} on_change={set_first_name} />
           <TextInput label="Last Name" value={last_name} on_change={set_last_name} />
-          <TextInput label="Relationship" value={relationship} on_change={set_relationship} />
+          <Select
+            label="Relationship"
+            value={relationship}
+            placeholder="Select relationship"
+            options={relationship_options.map((r) => ({ label: r, value: r }))}
+            on_change={(value) => set_relationship(value as string)}
+          />
           {phones.map((p, i) => (
             <PhoneInput
               key={p.id}
