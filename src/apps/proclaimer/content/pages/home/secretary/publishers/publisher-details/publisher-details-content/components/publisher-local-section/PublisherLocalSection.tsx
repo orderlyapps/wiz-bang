@@ -9,9 +9,10 @@ import { EmergencyContactList } from "./components/emergency-contact-list/Emerge
 
 interface Props {
   publisher_id: string;
+  read_only?: boolean;
 }
 
-export function PublisherLocalSection({ publisher_id }: Props) {
+export function PublisherLocalSection({ publisher_id, read_only = false }: Props) {
   const { data } = useLiveQuery((q) =>
     q.from({ p: publisherLocalCollection }).where(({ p }) => eq(p.publisher_id, publisher_id)),
   );
@@ -29,6 +30,7 @@ export function PublisherLocalSection({ publisher_id }: Props) {
         <DateInput
           label="Date of Birth"
           value={local.birth_date ?? ""}
+          disabled={read_only}
           on_change={(value) =>
             publisherLocalCollection.update(publisher_id, (draft) => {
               draft.birth_date = value;
@@ -38,6 +40,7 @@ export function PublisherLocalSection({ publisher_id }: Props) {
         <DateInput
           label="Baptism Date"
           value={local.baptism_date ?? ""}
+          disabled={read_only}
           on_change={(value) =>
             publisherLocalCollection.update(publisher_id, (draft) => {
               draft.baptism_date = value;

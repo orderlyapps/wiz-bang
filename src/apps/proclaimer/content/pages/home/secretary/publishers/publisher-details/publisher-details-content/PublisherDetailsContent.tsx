@@ -6,7 +6,13 @@ import { Body } from "@ui/components/display/text/body/Body";
 import { PublisherPublicSection } from "./components/publisher-public-section/PublisherPublicSection";
 import { PublisherLocalSection } from "./components/publisher-local-section/PublisherLocalSection";
 
-export function PublisherDetailsContent({ publisher_id }: { publisher_id: string }) {
+export function PublisherDetailsContent({
+  publisher_id,
+  read_only = false,
+}: {
+  publisher_id: string;
+  read_only?: boolean;
+}) {
   const { data, isLoading } = useLiveQuery((q) =>
     q.from({ p: publisherCollection }).where(({ p }) => eq(p.id, publisher_id)),
   );
@@ -33,8 +39,12 @@ export function PublisherDetailsContent({ publisher_id }: { publisher_id: string
 
   return (
     <IonContent>
-      <PublisherPublicSection publisher_id={publisher_id} publisher={publisher} />
-      <PublisherLocalSection publisher_id={publisher_id} />
+      <PublisherPublicSection
+        publisher_id={publisher_id}
+        publisher={publisher}
+        read_only={read_only}
+      />
+      <PublisherLocalSection publisher_id={publisher_id} read_only={read_only} />
     </IonContent>
   );
 }

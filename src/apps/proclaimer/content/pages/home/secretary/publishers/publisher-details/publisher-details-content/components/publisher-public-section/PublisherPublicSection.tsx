@@ -8,13 +8,15 @@ import { ArchivePublisherButton } from "../archive-publisher-button/ArchivePubli
 interface Props {
   publisher_id: string;
   publisher: Publisher & { id?: string };
+  read_only?: boolean;
 }
 
-export function PublisherPublicSection({ publisher_id, publisher }: Props) {
+export function PublisherPublicSection({ publisher_id, publisher, read_only = false }: Props) {
   return (
     <IonList>
       <PublisherNameInput
         publisher_id={publisher_id}
+        disabled={read_only}
         value={{
           first_name: publisher.first_name,
           middle_name: publisher.middle_name ?? null,
@@ -25,6 +27,7 @@ export function PublisherPublicSection({ publisher_id, publisher }: Props) {
       <Select
         label="Gender"
         value={publisher.gender}
+        disabled={read_only}
         options={[
           { label: "Male", value: "male" },
           { label: "Female", value: "female" },
@@ -39,6 +42,7 @@ export function PublisherPublicSection({ publisher_id, publisher }: Props) {
       <Select
         label="Type"
         value={publisher.type}
+        disabled={read_only}
         options={[
           { label: "Publisher", value: "publisher" },
           { label: "Continuous Auxiliary", value: "continuous_auxiliary" },
@@ -58,6 +62,7 @@ export function PublisherPublicSection({ publisher_id, publisher }: Props) {
       <Select
         label="Standing"
         value={publisher.standing}
+        disabled={read_only}
         options={[
           { label: "Publisher", value: "publisher" },
           { label: "Unbaptised Publisher", value: "unbaptised_publisher" },
@@ -80,9 +85,11 @@ export function PublisherPublicSection({ publisher_id, publisher }: Props) {
           </IonLabel>
         </IonItem>
       )}
-      <IonItem>
-        <ArchivePublisherButton publisher_id={publisher_id} archived_at={publisher.archived_at} />
-      </IonItem>
+      {!read_only && (
+        <IonItem>
+          <ArchivePublisherButton publisher_id={publisher_id} archived_at={publisher.archived_at} />
+        </IonItem>
+      )}
     </IonList>
   );
 }

@@ -37,6 +37,7 @@ export function PublishersContent() {
     <IonList>
       {can_see_locations && (
         <>
+          <NavItem label="All Publishers" to="/publishers/all" />
           <NavItem label="Locations" to="/publishers/locations" />
         </>
       )}

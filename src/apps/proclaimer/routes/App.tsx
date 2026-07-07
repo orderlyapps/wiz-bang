@@ -17,6 +17,8 @@ import WeekendMeetingPage from "@proclaimer-routes/pages/schedules/weekend-meeti
 import EventsPage from "@proclaimer-routes/pages/schedules/events/Events";
 import CleaningPage from "@proclaimer-routes/pages/schedules/cleaning/Cleaning";
 import PublishersPage from "@proclaimer-routes/pages/publishers/Publishers";
+import AllPublishersPage from "@proclaimer-routes/pages/publishers/all-publishers/AllPublishers";
+import AllPublishersDetailsPage from "@proclaimer-routes/pages/publishers/all-publishers/publisher-details/PublisherDetails";
 import LocationsPage from "@proclaimer-routes/pages/publishers/locations/Locations";
 import EldersPage from "@proclaimer-routes/pages/publishers/elders/Elders";
 import MinisterialServantsPage from "@proclaimer-routes/pages/publishers/ministerial-servants/MinisterialServants";
@@ -358,6 +360,8 @@ function App() {
         <Route path="/schedules/cleaning" component={CleaningPage} exact />
         {/* PUBLISHERS */}
         <Route path="/publishers" component={PublishersPage} exact />
+        <Route path="/publishers/all" component={AllPublishersPage} exact />
+        <Route path="/publishers/all/:publisher_id" component={AllPublishersDetailsPage} exact />
         <Route path="/publishers/locations" component={LocationsPage} exact />
         <Route path="/publishers/elders" component={EldersPage} exact />
         <Route path="/publishers/ministerial-servants" component={MinisterialServantsPage} exact />

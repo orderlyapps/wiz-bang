@@ -6,10 +6,16 @@ import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherU
 interface PublisherNameInputProps {
   value: NameValue;
   publisher_id?: string;
+  disabled?: boolean;
   on_change?: (value: NameValue) => void;
 }
 
-export function PublisherNameInput({ value, publisher_id, on_change }: PublisherNameInputProps) {
+export function PublisherNameInput({
+  value,
+  publisher_id,
+  on_change,
+  disabled,
+}: PublisherNameInputProps) {
   const display_value = getPublisherDisplayName(value, "complete");
 
   function handleChange(data: NameValue) {
@@ -25,6 +31,12 @@ export function PublisherNameInput({ value, publisher_id, on_change }: Publisher
   }
 
   return (
-    <NameInput label="Name" value={value} display_value={display_value} on_change={handleChange} />
+    <NameInput
+      label="Name"
+      value={value}
+      display_value={display_value}
+      disabled={disabled}
+      on_change={handleChange}
+    />
   );
 }
