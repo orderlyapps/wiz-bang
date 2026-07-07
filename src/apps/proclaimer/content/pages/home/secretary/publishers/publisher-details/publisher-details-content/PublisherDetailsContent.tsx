@@ -5,6 +5,8 @@ import { Spinner } from "@ui/components/display/spinner/Spinner";
 import { Body } from "@ui/components/display/text/body/Body";
 import { PublisherPublicSection } from "./components/publisher-public-section/PublisherPublicSection";
 import { PublisherLocalSection } from "./components/publisher-local-section/PublisherLocalSection";
+import { ArchivePublisherButton } from "@proclaimer-content/pages/home/secretary/publishers/publisher-details/publisher-details-content/components/archive-publisher-button/ArchivePublisherButton";
+import { Space } from "@ui/components/layout/space/Space";
 
 export function PublisherDetailsContent({
   publisher_id,
@@ -44,7 +46,12 @@ export function PublisherDetailsContent({
         publisher={publisher}
         read_only={read_only}
       />
+
       <PublisherLocalSection publisher_id={publisher_id} read_only={read_only} />
+
+      <Space />
+
+      <ArchivePublisherButton publisher_id={publisher_id} archived_at={publisher.archived_at} />
     </IonContent>
   );
 }

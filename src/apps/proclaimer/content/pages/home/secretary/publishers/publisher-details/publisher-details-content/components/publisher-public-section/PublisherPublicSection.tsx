@@ -1,11 +1,10 @@
-import { IonItem, IonList } from "@ionic/react";
+import { IonList } from "@ionic/react";
 import type { Publisher } from "@shared/database/schemas/publisher";
 import { publisherCollection } from "@shared/database/collections/publisher";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
 import { PublisherNameInput } from "@proclaimer-shared/publisher/components/publisher-name-input/PublisherNameInput";
 import { Select } from "@ui/components/inputs/select/Select";
 import { LabelValueItem } from "@ui/components/display/data/label-value/LabelValueItem";
-import { ArchivePublisherButton } from "../archive-publisher-button/ArchivePublisherButton";
 
 const GENDER_OPTIONS = [
   { label: "Male", value: "male" },
@@ -104,15 +103,6 @@ export function PublisherPublicSection({ publisher_id, publisher, read_only = fa
           });
         }}
       />
-      {publisher.archived_at && (
-        <LabelValueItem
-          label="Archived"
-          value={new Date(publisher.archived_at).toLocaleDateString()}
-        />
-      )}
-      <IonItem>
-        <ArchivePublisherButton publisher_id={publisher_id} archived_at={publisher.archived_at} />
-      </IonItem>
     </IonList>
   );
 }

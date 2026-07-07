@@ -1,6 +1,7 @@
-import { IonButton, IonIcon, useIonAlert } from "@ionic/react";
-import { archiveOutline, archiveSharp } from "ionicons/icons";
+import { IonItem, IonLabel, useIonAlert } from "@ionic/react";
 import { publisherCollection } from "@shared/database/collections/publisher";
+import { Body } from "@ui/components/display/text/body/Body";
+import { TextButton } from "@ui/components/inputs/button/text/TextButton";
 
 export function ArchivePublisherButton({
   publisher_id,
@@ -35,9 +36,27 @@ export function ArchivePublisherButton({
   };
 
   return (
-    <IonButton color={isArchived ? "medium" : "danger"} fill="clear" onClick={handlePress}>
-      <IonIcon slot="start" ios={archiveOutline} md={archiveSharp} />
-      {isArchived ? "Unarchive" : "Archive"}
-    </IonButton>
+    <>
+      {isArchived && (
+        <IonItem className="ion-text-center">
+          <IonLabel>
+            <Body color="medium" size="sm" style={{ textAlign: "center" }}>
+              Archived on{" "}
+              {new Date(archived_at!).toLocaleDateString(undefined, {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </Body>
+          </IonLabel>
+        </IonItem>
+      )}
+      <TextButton
+        color={isArchived ? "medium" : "danger"}
+        fill="clear"
+        on_click={handlePress}
+        label={isArchived ? "Unarchive" : "Archive"}
+      />
+    </>
   );
 }
