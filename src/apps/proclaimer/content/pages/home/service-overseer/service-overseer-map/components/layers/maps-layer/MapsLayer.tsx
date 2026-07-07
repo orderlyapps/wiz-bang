@@ -10,7 +10,7 @@ export function MapsLayer() {
       <Layer
         id="maps-line"
         type="line"
-        minzoom={MIN_VERTEX_ZOOM - 2}
+        minzoom={MIN_VERTEX_ZOOM - 6}
         paint={{
           "line-color": "#10b981",
           "line-width": 2,
@@ -30,7 +30,7 @@ export function MapsLayer() {
       <Layer
         id="maps-labels"
         type="symbol"
-        minzoom={MIN_VERTEX_ZOOM - 2}
+        minzoom={MIN_VERTEX_ZOOM - 6}
         layout={{
           "text-field": ["get", "name"],
           "text-size": 13,

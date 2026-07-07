@@ -1,4 +1,4 @@
-const MINZOOM = 14;
+const MINZOOM = 10;
 
 export const MAP_DRAW_STYLES: object[] = [
   // Polygon fill — no fill
