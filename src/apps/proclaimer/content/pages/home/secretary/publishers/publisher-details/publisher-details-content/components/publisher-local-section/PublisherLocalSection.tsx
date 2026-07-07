@@ -1,4 +1,3 @@
-import { IonList } from "@ionic/react";
 import { useLiveQuery, eq } from "@tanstack/react-db";
 import { publisherLocalCollection } from "@shared/database/collections/publisher-local";
 import { DateInput } from "@ui/components/inputs/date/DateInput";
@@ -25,7 +24,7 @@ export function PublisherLocalSection({ publisher_id, read_only = false }: Props
 
   return (
     <>
-      <IonList>
+      <>
         {read_only ? (
           <>
             <LabelValueItem
@@ -87,7 +86,7 @@ export function PublisherLocalSection({ publisher_id, read_only = false }: Props
             />
           </>
         )}
-      </IonList>
+      </>
       <PhoneList publisher_id={publisher_id} phone={local.phone ?? []} read_only={read_only} />
       <AddressList
         publisher_id={publisher_id}

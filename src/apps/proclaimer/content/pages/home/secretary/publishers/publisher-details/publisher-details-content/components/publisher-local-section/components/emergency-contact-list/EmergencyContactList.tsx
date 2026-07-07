@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IonButton, IonIcon, IonItem, IonLabel, IonList } from "@ionic/react";
+import { IonButton, IonIcon, IonItem, IonLabel } from "@ionic/react";
 import { addOutline, callOutline, chatbubbleEllipsesOutline } from "ionicons/icons";
 import type { EmergencyContact } from "@shared/database/rxdb/collections/publisher";
 import { Heading } from "@ui/components/display/text/heading/Heading";
@@ -40,7 +40,7 @@ export function EmergencyContactList({
 
   return (
     <>
-      <IonList>
+      <>
         <Space />
         <IonItem>
           <IonLabel>
@@ -91,7 +91,7 @@ export function EmergencyContactList({
             <IonLabel color="medium">No emergency contacts</IonLabel>
           </IonItem>
         )}
-      </IonList>
+      </>
       {!read_only && (
         <EmergencyContactModal
           is_open={is_modal_open}

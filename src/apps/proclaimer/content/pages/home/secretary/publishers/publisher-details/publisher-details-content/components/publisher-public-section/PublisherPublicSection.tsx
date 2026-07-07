@@ -1,4 +1,3 @@
-import { IonList } from "@ionic/react";
 import type { Publisher } from "@shared/database/schemas/publisher";
 import { publisherCollection } from "@shared/database/collections/publisher";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
@@ -49,7 +48,7 @@ export function PublisherPublicSection({ publisher_id, publisher, read_only = fa
 
   if (read_only) {
     return (
-      <IonList>
+      <>
         <LabelValueItem label="Name" value={getPublisherDisplayName(name_value, "complete")} />
         <LabelValueItem label="Gender" value={optionLabel(GENDER_OPTIONS, publisher.gender)} />
         <LabelValueItem label="Ministry Type" value={optionLabel(TYPE_OPTIONS, publisher.type)} />
@@ -63,12 +62,12 @@ export function PublisherPublicSection({ publisher_id, publisher, read_only = fa
             value={new Date(publisher.archived_at).toLocaleDateString()}
           />
         )}
-      </IonList>
+      </>
     );
   }
 
   return (
-    <IonList>
+    <>
       <PublisherNameInput publisher_id={publisher_id} value={name_value} />
       <Select
         label="Gender"
@@ -103,6 +102,6 @@ export function PublisherPublicSection({ publisher_id, publisher, read_only = fa
           });
         }}
       />
-    </IonList>
+    </>
   );
 }

@@ -1,4 +1,4 @@
-import { IonButton, IonIcon, IonItem, IonLabel, IonList } from "@ionic/react";
+import { IonButton, IonIcon, IonItem, IonLabel } from "@ionic/react";
 import type { Email } from "@shared/database/rxdb/collections/publisher";
 import { publisherLocalCollection } from "@shared/database/collections/publisher-local";
 import { EmailInput } from "@ui/components/inputs/email/EmailInput";
@@ -13,7 +13,7 @@ interface Props {
 
 export function EmailList({ publisher_id, email, read_only = false }: Props) {
   return (
-    <IonList>
+    <>
       {email.map((entry) =>
         read_only ? (
           <LabelValueItem
@@ -54,6 +54,6 @@ export function EmailList({ publisher_id, email, read_only = false }: Props) {
           <IonLabel color="medium">No email addresses</IonLabel>
         </IonItem>
       )}
-    </IonList>
+    </>
   );
 }

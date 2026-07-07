@@ -1,4 +1,6 @@
-import { IonItem, IonLabel, IonList } from "@ionic/react";
+import { useState } from "react";
+import { IonButton, IonIcon, IonItem, IonLabel } from "@ionic/react";
+import { mapOutline } from "ionicons/icons";
 import { useLiveQuery } from "@tanstack/react-db";
 import type { Address } from "@shared/database/rxdb/collections/publisher";
 import { publisherLocalCollection } from "@shared/database/collections/publisher-local";
@@ -7,6 +9,7 @@ import { streetCollection } from "@shared/database/collections/street";
 import { AddressInput } from "@ui/components/inputs/address/AddressInput";
 import { LabelValueItem } from "@ui/components/display/data/label-value/LabelValueItem";
 import type { AddressValue } from "@ui/components/inputs/address/types";
+import { MapShareActionSheet } from "@proclaimer-content/pages/ministry/door-to-door/door-to-door-content/components/map-share-action-sheet/MapShareActionSheet";
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
@@ -19,6 +22,7 @@ interface Props {
 export function AddressList({ publisher_id, address, read_only = false }: Props) {
   const { data: suburbs } = useLiveQuery((q) => q.from({ s: suburbCollection }));
   const { data: streets } = useLiveQuery((q) => q.from({ st: streetCollection }));
+  const [share_coords, set_share_coords] = useState<{ lat: number; lng: number } | null>(null);
 
   function resolveName(
     value: string | undefined,
@@ -58,10 +62,31 @@ export function AddressList({ publisher_id, address, read_only = false }: Props)
   }
 
   return (
-    <IonList>
+    <>
       {address.map((entry) =>
         read_only ? (
-          <LabelValueItem key={entry.id} label={entry.label} value={formatDisplayValue(entry)} />
+          <LabelValueItem
+            key={entry.id}
+            label={entry.label}
+            value={formatDisplayValue(entry)}
+            end_detail={
+              entry.coordinates && entry.coordinates.length >= 2 ? (
+                <IonButton
+                  fill="clear"
+                  size="small"
+                  aria-label={`Share ${entry.label}`}
+                  onClick={() =>
+                    set_share_coords({
+                      lat: entry.coordinates![1],
+                      lng: entry.coordinates![0],
+                    })
+                  }
+                >
+                  <IonIcon slot="icon-only" icon={mapOutline} />
+                </IonButton>
+              ) : undefined
+            }
+          />
         ) : (
           <AddressInput
             key={entry.id}
@@ -87,6 +112,12 @@ export function AddressList({ publisher_id, address, read_only = false }: Props)
           <IonLabel color="medium">No addresses</IonLabel>
         </IonItem>
       )}
-    </IonList>
+      <MapShareActionSheet
+        lat={share_coords?.lat ?? 0}
+        lng={share_coords?.lng ?? 0}
+        is_open={share_coords !== null}
+        on_dismiss={() => set_share_coords(null)}
+      />
+    </>
   );
 }
