@@ -60,7 +60,11 @@ export function PublisherLocalSection({ publisher_id, read_only = false }: Props
         )}
       </IonList>
       <PhoneList publisher_id={publisher_id} phone={local.phone ?? []} read_only={read_only} />
-      <AddressList publisher_id={publisher_id} address={local.address ?? []} />
+      <AddressList
+        publisher_id={publisher_id}
+        address={local.address ?? []}
+        read_only={read_only}
+      />
       <EmailList publisher_id={publisher_id} email={local.email ?? []} />
       <EmergencyContactList
         publisher_id={publisher_id}
