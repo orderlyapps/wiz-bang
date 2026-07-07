@@ -1,9 +1,38 @@
-import { IonItem, IonLabel, IonList } from "@ionic/react";
+import { IonItem, IonList } from "@ionic/react";
 import type { Publisher } from "@shared/database/schemas/publisher";
 import { publisherCollection } from "@shared/database/collections/publisher";
+import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
 import { PublisherNameInput } from "@proclaimer-shared/publisher/components/publisher-name-input/PublisherNameInput";
 import { Select } from "@ui/components/inputs/select/Select";
+import { LabelValueItem } from "@ui/components/display/data/label-value/LabelValueItem";
 import { ArchivePublisherButton } from "../archive-publisher-button/ArchivePublisherButton";
+
+const GENDER_OPTIONS = [
+  { label: "Male", value: "male" },
+  { label: "Female", value: "female" },
+];
+
+const TYPE_OPTIONS = [
+  { label: "Publisher", value: "publisher" },
+  { label: "Continuous Auxiliary", value: "continuous_auxiliary" },
+  { label: "Regular Pioneer", value: "regular_pioneer" },
+  { label: "Special Pioneer", value: "special_pioneer" },
+  { label: "Inactive", value: "inactive" },
+  { label: "Associate", value: "associate" },
+  { label: "Speaker", value: "speaker" },
+];
+
+const STANDING_OPTIONS = [
+  { label: "Publisher", value: "publisher" },
+  { label: "Unbaptised Publisher", value: "unbaptised_publisher" },
+  { label: "Ministerial Servant", value: "ministerial_servant" },
+  { label: "Elder", value: "elder" },
+  { label: "Associate", value: "associate" },
+];
+
+function optionLabel(options: { label: string; value: string }[], value: string): string {
+  return options.find((o) => o.value === value)?.label ?? value;
+}
 
 interface Props {
   publisher_id: string;
@@ -12,26 +41,40 @@ interface Props {
 }
 
 export function PublisherPublicSection({ publisher_id, publisher, read_only = false }: Props) {
+  const name_value = {
+    first_name: publisher.first_name,
+    middle_name: publisher.middle_name ?? null,
+    last_name: publisher.last_name,
+    display_name: publisher.display_name ?? null,
+  };
+
+  if (read_only) {
+    return (
+      <IonList>
+        <LabelValueItem label="Name" value={getPublisherDisplayName(name_value, "complete")} />
+        <LabelValueItem label="Gender" value={optionLabel(GENDER_OPTIONS, publisher.gender)} />
+        <LabelValueItem label="Type" value={optionLabel(TYPE_OPTIONS, publisher.type)} />
+        <LabelValueItem
+          label="Standing"
+          value={optionLabel(STANDING_OPTIONS, publisher.standing)}
+        />
+        {publisher.archived_at && (
+          <LabelValueItem
+            label="Archived"
+            value={new Date(publisher.archived_at).toLocaleDateString()}
+          />
+        )}
+      </IonList>
+    );
+  }
+
   return (
     <IonList>
-      <PublisherNameInput
-        publisher_id={publisher_id}
-        disabled={read_only}
-        value={{
-          first_name: publisher.first_name,
-          middle_name: publisher.middle_name ?? null,
-          last_name: publisher.last_name,
-          display_name: publisher.display_name ?? null,
-        }}
-      />
+      <PublisherNameInput publisher_id={publisher_id} value={name_value} />
       <Select
         label="Gender"
         value={publisher.gender}
-        disabled={read_only}
-        options={[
-          { label: "Male", value: "male" },
-          { label: "Female", value: "female" },
-        ]}
+        options={GENDER_OPTIONS}
         on_change={(value) => {
           if (!value || Array.isArray(value)) return;
           publisherCollection.update(publisher_id, (draft) => {
@@ -42,16 +85,7 @@ export function PublisherPublicSection({ publisher_id, publisher, read_only = fa
       <Select
         label="Type"
         value={publisher.type}
-        disabled={read_only}
-        options={[
-          { label: "Publisher", value: "publisher" },
-          { label: "Continuous Auxiliary", value: "continuous_auxiliary" },
-          { label: "Regular Pioneer", value: "regular_pioneer" },
-          { label: "Special Pioneer", value: "special_pioneer" },
-          { label: "Inactive", value: "inactive" },
-          { label: "Associate", value: "associate" },
-          { label: "Speaker", value: "speaker" },
-        ]}
+        options={TYPE_OPTIONS}
         on_change={(value) => {
           if (!value || Array.isArray(value)) return;
           publisherCollection.update(publisher_id, (draft) => {
@@ -62,14 +96,7 @@ export function PublisherPublicSection({ publisher_id, publisher, read_only = fa
       <Select
         label="Standing"
         value={publisher.standing}
-        disabled={read_only}
-        options={[
-          { label: "Publisher", value: "publisher" },
-          { label: "Unbaptised Publisher", value: "unbaptised_publisher" },
-          { label: "Ministerial Servant", value: "ministerial_servant" },
-          { label: "Elder", value: "elder" },
-          { label: "Associate", value: "associate" },
-        ]}
+        options={STANDING_OPTIONS}
         on_change={(value) => {
           if (!value || Array.isArray(value)) return;
           publisherCollection.update(publisher_id, (draft) => {
@@ -78,18 +105,14 @@ export function PublisherPublicSection({ publisher_id, publisher, read_only = fa
         }}
       />
       {publisher.archived_at && (
-        <IonItem>
-          <IonLabel>
-            <h2>Archived</h2>
-            <p>{new Date(publisher.archived_at).toLocaleDateString()}</p>
-          </IonLabel>
-        </IonItem>
+        <LabelValueItem
+          label="Archived"
+          value={new Date(publisher.archived_at).toLocaleDateString()}
+        />
       )}
-      {!read_only && (
-        <IonItem>
-          <ArchivePublisherButton publisher_id={publisher_id} archived_at={publisher.archived_at} />
-        </IonItem>
-      )}
+      <IonItem>
+        <ArchivePublisherButton publisher_id={publisher_id} archived_at={publisher.archived_at} />
+      </IonItem>
     </IonList>
   );
 }
