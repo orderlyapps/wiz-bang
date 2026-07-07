@@ -60,8 +60,12 @@ export function GroupsContent() {
               <IonItem slot="header">
                 <IonLabel>
                   <Heading>{group.name} </Heading>
-                  <Heading size="sm">({group_publishers.length})</Heading>
                 </IonLabel>
+                {group_publishers.length > 0 && (
+                  <div slot="end">
+                    <Body>{group_publishers.length}</Body>
+                  </div>
+                )}
               </IonItem>
               <div slot="content">
                 {group_publishers.length === 0 ? (

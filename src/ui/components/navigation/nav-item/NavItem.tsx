@@ -3,10 +3,12 @@ import { Heading } from "@ui/components/display/text/heading/Heading";
 import { Icon } from "@ui/components/icons/Icon";
 import type { IonicColor } from "@util/vendor/ionic/types/IonicColor";
 import type { Size } from "@util/types/Size";
+import { Body } from "@ui/components/display/text/body/Body";
 
 interface NavItemProps {
   label: string;
   to: string;
+  stat?: number;
   color?: IonicColor;
   size?: Size;
   bold?: boolean;
@@ -20,6 +22,7 @@ interface NavItemProps {
 export function NavItem({
   label,
   to,
+  stat,
   color = "primary",
   size,
   bold,
@@ -43,6 +46,11 @@ export function NavItem({
           {label}
         </Heading>
       </IonLabel>
+      {stat !== undefined && (
+        <div slot="end">
+          <Body>{stat}</Body>
+        </div>
+      )}
       <Icon name="chevronForwardJW" slot="end" />
     </IonItem>
   );

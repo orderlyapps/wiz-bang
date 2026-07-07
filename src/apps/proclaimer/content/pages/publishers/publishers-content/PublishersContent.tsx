@@ -40,16 +40,18 @@ export function PublishersContent() {
           <NavItem label="Locations" to="/publishers/locations" />
         </>
       )}
-      <NavItem label={`Elders (${eldersCount})`} to="/publishers/elders" />
+      <NavItem label="Elders" stat={eldersCount} to="/publishers/elders" />
       <NavItem
-        label={`Ministerial Servants (${ministerialServantsCount})`}
+        label="Ministerial Servants"
+        stat={ministerialServantsCount}
         to="/publishers/ministerial-servants"
       />
       <NavItem
-        label={`Regular Pioneers (${regularPioneersCount})`}
+        label="Regular Pioneers"
+        stat={regularPioneersCount}
         to="/publishers/regular-pioneers"
       />
-      <NavItem label={`Groups (${groupsCount})`} to="/publishers/groups" />
+      <NavItem label="Groups" stat={groupsCount} to="/publishers/groups" />
     </IonList>
   );
 }
