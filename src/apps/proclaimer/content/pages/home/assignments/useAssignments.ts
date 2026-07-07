@@ -1,5 +1,5 @@
 import { and, eq, gte, useLiveQuery } from "@tanstack/react-db";
-import { format } from "date-fns";
+import { format, startOfWeek } from "date-fns";
 import { avAssignmentCollection } from "@shared/database/collections/av-assignment";
 import { speakerAssignmentCollection } from "@shared/database/collections/speaker-assignment";
 import { weekendAssignmentCollection } from "@shared/database/collections/weekend-assignment";
@@ -51,7 +51,7 @@ export function useAssignments() {
   const congregation_id = congregation?.id ?? "";
   const publisher_id = publisher?.id ?? "";
   const group_id = publisher?.group_id ?? "";
-  const today_str = format(new Date(), "yyyy-MM-dd");
+  const today_str = format(startOfWeek(new Date(), { weekStartsOn: 1 }), "yyyy-MM-dd");
 
   const { data: av } = useLiveQuery(
     (q) =>
