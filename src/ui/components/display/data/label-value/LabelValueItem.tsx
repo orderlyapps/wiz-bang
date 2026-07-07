@@ -43,21 +43,43 @@ export function LabelValueItem({
       detail={detail}
       onClick={on_click}
     >
-      <IonLabel>
-        <div style={{ paddingLeft: "1rem", textIndent: "-1rem" }}>
+      <IonLabel style={{ minWidth: 0, overflow: "hidden" }}>
+        <div
+          style={{
+            paddingLeft: "1rem",
+            textIndent: "-1rem",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+          }}
+        >
           <Label color={label_color} size={label_size}>
             {label}
           </Label>
         </div>
         {value && (
-          <div style={{ paddingLeft: "1rem" }}>
+          <div
+            style={{
+              paddingLeft: "1rem",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+          >
             <Body color={value_color} size={value_size}>
               {value}
             </Body>
           </div>
         )}
         {value_2 && (
-          <div style={{ paddingLeft: "1rem" }}>
+          <div
+            style={{
+              paddingLeft: "1rem",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+          >
             <Body color={value_2_color} size={value_2_size}>
               {value_2}
             </Body>
