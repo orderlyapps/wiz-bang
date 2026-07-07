@@ -7,6 +7,7 @@ import { PhoneList } from "./components/phone-list/PhoneList";
 import { AddressList } from "./components/address-list/AddressList";
 import { EmailList } from "./components/email-list/EmailList";
 import { EmergencyContactList } from "./components/emergency-contact-list/EmergencyContactList";
+import { getYearsMonthsSince } from "@proclaimer-shared/util/date/getYearsMonthsSince";
 
 interface Props {
   publisher_id: string;
@@ -29,11 +30,39 @@ export function PublisherLocalSection({ publisher_id, read_only = false }: Props
           <>
             <LabelValueItem
               label="Date of Birth"
-              value={local.birth_date ? new Date(local.birth_date).toLocaleDateString() : ""}
+              value={
+                local.birth_date
+                  ? new Date(local.birth_date).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })
+                  : ""
+              }
+              value_2={local.birth_date ? getYearsMonthsSince(local.birth_date) : undefined}
+              value_2_color="medium"
             />
             <LabelValueItem
               label="Baptism Date"
-              value={local.baptism_date ? new Date(local.baptism_date).toLocaleDateString() : ""}
+              value={
+                local.baptism_date
+                  ? new Date(local.baptism_date).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })
+                  : ""
+              }
+              value_2={
+                local.baptism_date
+                  ? `${getYearsMonthsSince(local.baptism_date)}${
+                      local.birth_date
+                        ? ` (Age: ${getYearsMonthsSince(local.birth_date, local.baptism_date)})`
+                        : ""
+                    }`
+                  : undefined
+              }
+              value_2_color="medium"
             />
           </>
         ) : (
