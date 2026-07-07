@@ -21,7 +21,7 @@ export function PublisherListItem({
   return (
     <IonItem color={selected ? "primary" : undefined} onClick={on_select}>
       <IonLabel>
-        <Body color={has_week_assignment && !selected ? "medium" : undefined}>
+        <Body color={has_week_assignment && !selected ? "warning" : undefined}>
           {getPublisherDisplayName(publisher)}
         </Body>
       </IonLabel>
