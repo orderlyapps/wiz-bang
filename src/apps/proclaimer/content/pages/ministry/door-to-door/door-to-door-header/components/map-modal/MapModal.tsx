@@ -72,13 +72,17 @@ export function MapModal({ is_open, on_dismiss, onMapSelect }: MapModalProps) {
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          <RecentMapsList
-            recentMapIds={recentMaps.map((m) => m.id)}
-            onMapSelect={handleMapSelect}
-            onPreviewImage={set_preview_url}
-          />
+          {search_query.trim() === "" && (
+            <>
+              <RecentMapsList
+                recentMapIds={recentMaps.map((m) => m.id)}
+                onMapSelect={handleMapSelect}
+                onPreviewImage={set_preview_url}
+              />
 
-          <Space />
+              <Space />
+            </>
+          )}
 
           <IonItem>
             <Heading>All Maps</Heading>
