@@ -33,6 +33,7 @@ import { AlertTextInput } from "@ui/components/inputs/alert-text/AlertTextInput"
 import { RenameIconButton } from "@ui/components/inputs/button/icon/rename/RenameIconButton";
 import { MapStyleSelect } from "@util/vendor/mapbox/MapStyleSelect";
 import type { SelectableStyleId } from "@util/vendor/mapbox/mapboxStyles";
+import { MapTagSelect } from "./components/map-tag-select/MapTagSelect";
 
 type Props = {
   hasPendingChanges: boolean;
@@ -224,6 +225,7 @@ function MapMenu({
               placeholder="Add URL..."
               on_change={(url) => onUpdateMap(selectedMap.name, selectedMap.details ?? "", url)}
             />
+            <MapTagSelect map_id={selectedMap.id} />
             <Space />
           </>
         )}
