@@ -1,5 +1,4 @@
-import { IonIcon, IonItem, IonLabel, IonList } from "@ionic/react";
-import { layersOutline } from "ionicons/icons";
+import { IonItem, IonLabel, IonList } from "@ionic/react";
 import { useLiveQuery } from "@tanstack/react-db";
 import { mapCollection } from "@shared/database/collections/map";
 import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
@@ -17,13 +16,6 @@ export function MapLogContent() {
 
   return (
     <IonList>
-      <IonItem routerLink="/home/service-overseer/map-log/bulk-entry" button detail>
-        <IonIcon icon={layersOutline} slot="start" color="primary" />
-        <IonLabel>
-          <h3>Bulk Entry</h3>
-          <p>Add historical map logs</p>
-        </IonLabel>
-      </IonItem>
       {congregation_maps.length === 0 && (
         <IonItem>
           <IonLabel className="ion-text-center">
