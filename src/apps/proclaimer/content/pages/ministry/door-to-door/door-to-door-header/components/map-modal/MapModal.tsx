@@ -14,6 +14,7 @@ import { filterOutline } from "ionicons/icons";
 import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 import { MapList } from "./components/MapList";
+import { MyMapsList } from "./components/MyMapsList";
 import { RecentMapsList } from "./components/RecentMapsList";
 import { MapImagePreview } from "./components/map-image-preview/MapImagePreview";
 import { MapFilterModal } from "./components/map-filter-modal/MapFilterModal";
@@ -74,6 +75,10 @@ export function MapModal({ is_open, on_dismiss, onMapSelect }: MapModalProps) {
         <IonContent>
           {search_query.trim() === "" && (
             <>
+              <MyMapsList onMapSelect={handleMapSelect} onPreviewImage={set_preview_url} />
+
+              <Space />
+
               <RecentMapsList
                 recentMapIds={recentMaps.map((m) => m.id)}
                 onMapSelect={handleMapSelect}
