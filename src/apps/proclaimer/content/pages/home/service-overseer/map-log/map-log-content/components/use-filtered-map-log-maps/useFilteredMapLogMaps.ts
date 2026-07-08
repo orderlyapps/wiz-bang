@@ -4,11 +4,12 @@ import { mapTagAssignmentCollection } from "@shared/database/collections/map-tag
 import type { MapRow } from "@shared/database/schemas/map";
 import type { MapLogRow } from "@shared/database/schemas/map-log";
 import type { MapTagAssignmentRow } from "@shared/database/schemas/map-tag-assignment";
-import type { MapLogFilters } from "../use-map-log-filters/useMapLogFilters";
+import type { MapLogFilters, MapLogSortOrder } from "../use-map-log-presets/types";
 
 export function useFilteredMapLogMaps(
   maps: MapRow[],
   filters: MapLogFilters,
+  sort_order: MapLogSortOrder,
 ): { maps: MapRow[]; last_activity_by_map_id: Map<string, string> } {
   const { data: logs_data } = useLiveQuery((q) => q.from({ l: mapLogCollection }));
   const { data: assignments_data } = useLiveQuery((q) => q.from({ a: mapTagAssignmentCollection }));
@@ -55,12 +56,18 @@ export function useFilteredMapLogMaps(
   });
 
   const sorted = [...filtered].sort((a, b) => {
-    if (filters.checkout_filter === "any") {
+    if (sort_order === "alphabetical") {
       return a.name.localeCompare(b.name);
     }
     const a_activity = last_activity_by_map_id.get(a.id ?? "") ?? "";
     const b_activity = last_activity_by_map_id.get(b.id ?? "") ?? "";
-    return b_activity.localeCompare(a_activity) || a.name.localeCompare(b.name);
+    if (sort_order === "recent_activity") {
+      return b_activity.localeCompare(a_activity) || a.name.localeCompare(b.name);
+    }
+    if (!a_activity && !b_activity) return a.name.localeCompare(b.name);
+    if (!a_activity) return -1;
+    if (!b_activity) return 1;
+    return a_activity.localeCompare(b_activity) || a.name.localeCompare(b.name);
   });
 
   return { maps: sorted, last_activity_by_map_id };

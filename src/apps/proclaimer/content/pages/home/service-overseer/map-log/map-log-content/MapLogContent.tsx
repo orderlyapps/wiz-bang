@@ -6,7 +6,7 @@ import type { MapRow } from "@shared/database/schemas/map";
 import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
 import { Body } from "@ui/components/display/text/body/Body";
 import { MapLogFilterButton } from "./components/map-log-filter-button/MapLogFilterButton";
-import { useMapLogFilters } from "./components/use-map-log-filters/useMapLogFilters";
+import { useMapLogPresets } from "./components/use-map-log-presets/useMapLogPresets";
 import { useFilteredMapLogMaps } from "./components/use-filtered-map-log-maps/useFilteredMapLogMaps";
 
 export function MapLogContent() {
@@ -17,10 +17,11 @@ export function MapLogContent() {
   const all_maps = (maps_data as MapRow[] | undefined) ?? [];
   const congregation_maps = all_maps.filter((m) => m.congregation_id === congregation_id);
 
-  const { filters, update, has_active_filters } = useMapLogFilters();
+  const presets_api = useMapLogPresets();
   const { maps: filtered_maps, last_activity_by_map_id } = useFilteredMapLogMaps(
     congregation_maps,
-    filters,
+    presets_api.active_preset.filter,
+    presets_api.active_preset.sort_order,
   );
 
   function weeksSinceActivity(map_id: string | undefined): string | undefined {
@@ -42,9 +43,14 @@ export function MapLogContent() {
   return (
     <>
       <MapLogFilterButton
-        filters={filters}
-        has_active_filters={has_active_filters}
-        on_change={update}
+        presets={presets_api.presets}
+        active_preset={presets_api.active_preset}
+        is_default_active={presets_api.is_default_active}
+        on_select_preset={presets_api.selectPreset}
+        on_create_preset={presets_api.createPreset}
+        on_rename_preset={presets_api.renamePreset}
+        on_delete_preset={presets_api.deletePreset}
+        on_change={presets_api.updatePreset}
       />
       <IonItem className="ion-text-center" lines="none">
         <IonLabel>
@@ -66,7 +72,11 @@ export function MapLogContent() {
             key={map.id}
             to={`/home/service-overseer/map-log/${map.id}`}
             label={map.name}
-            stat={filters.checkout_filter !== "any" ? weeksSinceActivity(map.id) : undefined}
+            stat={
+              presets_api.active_preset.filter.checkout_filter !== "any"
+                ? weeksSinceActivity(map.id)
+                : undefined
+            }
           />
         ))}
       </IonList>

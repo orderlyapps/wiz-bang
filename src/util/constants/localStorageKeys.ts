@@ -22,7 +22,8 @@ export const localStorageKeys = {
   mapModalFilters: "map_modal_filters",
   serviceOverseerMapFilters: "service_overseer_map_filters",
   recentMapPublishers: "recent_map_publishers",
-  mapLogFilters: "map_log_filters",
+  mapLogFilterSortPresets: "map_log_filter_sort_presets",
+  mapLogFilterSortActivePreset: "map_log_filter_sort_active_preset",
 } as const;
 
 export const localStorageKeyWithVariant = (
