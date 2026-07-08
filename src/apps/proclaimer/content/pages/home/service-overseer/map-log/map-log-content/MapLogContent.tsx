@@ -1,5 +1,14 @@
-import { IonButton, IonIcon, IonItem, IonLabel, IonList } from "@ionic/react";
-import { layersOutline } from "ionicons/icons";
+import {
+  IonButton,
+  IonIcon,
+  IonItem,
+  IonItemSliding,
+  IonItemOptions,
+  IonItemOption,
+  IonLabel,
+  IonList,
+} from "@ionic/react";
+import { layersOutline, trashOutline } from "ionicons/icons";
 import { useLiveQuery } from "@tanstack/react-db";
 import { mapLogCollection } from "@shared/database/collections/map-log";
 import { mapCollection } from "@shared/database/collections/map";
@@ -54,6 +63,10 @@ export function MapLogContent() {
     });
   }
 
+  function handleDeleteLog(log_id: string) {
+    mapLogCollection.delete(log_id);
+  }
+
   return (
     <IonList>
       <IonItem routerLink="/home/service-overseer/map-log/bulk-entry" button detail>
@@ -73,26 +86,33 @@ export function MapLogContent() {
       {filtered_logs.map((log) => {
         const is_checked_out = !log.checked_in_at;
         return (
-          <IonItem key={log.id} detail={false}>
-            <IonLabel>
-              <h3>{getMapName(log.map_id, all_maps)}</h3>
-              <p>{getPublisherName(log.publisher_id, all_publishers)}</p>
-              <p>
-                Out: {formatDate(log.checked_out_at)} · In: {formatDate(log.checked_in_at)}
-              </p>
-              {log.notes && <p>{log.notes}</p>}
-            </IonLabel>
-            {is_checked_out && (
-              <IonButton
-                slot="end"
-                fill="outline"
-                size="small"
-                onClick={() => log.id && handleCheckIn(log.id)}
-              >
-                Check In
-              </IonButton>
-            )}
-          </IonItem>
+          <IonItemSliding key={log.id}>
+            <IonItem detail={false}>
+              <IonLabel>
+                <h3>{getMapName(log.map_id, all_maps)}</h3>
+                <p>{getPublisherName(log.publisher_id, all_publishers)}</p>
+                <p>
+                  Out: {formatDate(log.checked_out_at)} · In: {formatDate(log.checked_in_at)}
+                </p>
+                {log.notes && <p>{log.notes}</p>}
+              </IonLabel>
+              {is_checked_out && (
+                <IonButton
+                  slot="end"
+                  fill="outline"
+                  size="small"
+                  onClick={() => log.id && handleCheckIn(log.id)}
+                >
+                  Check In
+                </IonButton>
+              )}
+            </IonItem>
+            <IonItemOptions side="end">
+              <IonItemOption color="danger" onClick={() => log.id && handleDeleteLog(log.id)}>
+                <IonIcon slot="icon-only" icon={trashOutline} />
+              </IonItemOption>
+            </IonItemOptions>
+          </IonItemSliding>
         );
       })}
     </IonList>
