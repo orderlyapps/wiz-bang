@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { localStorageKeys } from "@util/constants/localStorageKeys";
 
 export type MapModalFilters = {
@@ -12,6 +12,8 @@ const DEFAULT_FILTERS: MapModalFilters = {
   untagged_only: false,
   tag_ids: [],
 };
+
+const FILTER_EVENT = "map-filters-changed";
 
 function loadFilters(storage_key: string): MapModalFilters {
   try {
@@ -33,6 +35,17 @@ function loadFilters(storage_key: string): MapModalFilters {
 export function useMapFilters(storage_key: string = localStorageKeys.mapModalFilters) {
   const [filters, set_filters] = useState<MapModalFilters>(() => loadFilters(storage_key));
 
+  useEffect(() => {
+    function handleFilterChange(e: Event) {
+      const detail = (e as CustomEvent).detail;
+      if (detail?.storage_key === storage_key) {
+        set_filters(loadFilters(storage_key));
+      }
+    }
+    window.addEventListener(FILTER_EVENT, handleFilterChange);
+    return () => window.removeEventListener(FILTER_EVENT, handleFilterChange);
+  }, [storage_key]);
+
   const update = useCallback(
     (next: MapModalFilters) => {
       set_filters(next);
@@ -41,6 +54,7 @@ export function useMapFilters(storage_key: string = localStorageKeys.mapModalFil
       } catch {
         /* ignore */
       }
+      window.dispatchEvent(new CustomEvent(FILTER_EVENT, { detail: { storage_key } }));
     },
     [storage_key],
   );
@@ -52,6 +66,7 @@ export function useMapFilters(storage_key: string = localStorageKeys.mapModalFil
     } catch {
       /* ignore */
     }
+    window.dispatchEvent(new CustomEvent(FILTER_EVENT, { detail: { storage_key } }));
   }, [storage_key]);
 
   const has_active_filters =

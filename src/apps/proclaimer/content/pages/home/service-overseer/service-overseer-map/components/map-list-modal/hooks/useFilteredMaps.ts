@@ -9,11 +9,11 @@ import type { MapTagAssignmentRow } from "@shared/database/schemas/map-tag-assig
 import type { Publisher } from "@shared/database/schemas/publisher";
 import type { MapModalFilters } from "@proclaimer-content/pages/ministry/door-to-door/door-to-door-header/components/map-modal/hooks/useMapFilters";
 
-export function useFilteredMaps(
-  maps: MapRow[],
+export function useFilteredMaps<T extends MapRow>(
+  maps: T[],
   search_query: string,
   filters: MapModalFilters,
-): MapRow[] {
+): T[] {
   const { data: logs_data } = useLiveQuery((q) => q.from({ l: mapLogCollection }));
   const { data: assignments_data } = useLiveQuery((q) => q.from({ a: mapTagAssignmentCollection }));
   const { data: publishers_data } = useLiveQuery((q) => q.from({ p: publisherCollection }));
