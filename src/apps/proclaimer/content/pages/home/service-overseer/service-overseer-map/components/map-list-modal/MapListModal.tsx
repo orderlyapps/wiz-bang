@@ -33,6 +33,7 @@ import type { MapMaster } from "@shared/database/schemas/map-master";
 import type { SelectedMap } from "../../utils/types";
 import { Heading } from "@ui/components/display/text/heading/Heading";
 import { Space } from "@ui/components/layout/space/Space";
+import { Body } from "@ui/components/display/text/body/Body";
 
 type MapListModalProps = {
   isOpen: boolean;
@@ -182,6 +183,11 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect, onImportKml }: Ma
                 All Maps
               </Heading>
             </IonLabel>
+            <div slot="end">
+              <Body size="sm">
+                {filtered_maps.length} of {congregation_maps.length}
+              </Body>
+            </div>
           </IonItem>
 
           {master && (
