@@ -63,6 +63,7 @@ import ServiceOverseerPage from "@proclaimer-routes/pages/home/service-overseer/
 import ServiceOverseerMapPage from "@proclaimer-routes/pages/home/service-overseer/map/Map";
 import MapLogPage from "@proclaimer-routes/pages/home/service-overseer/map-log/MapLog";
 import BulkEntryPage from "@proclaimer-routes/pages/home/service-overseer/map-log/bulk-entry/BulkEntry";
+import MapLogDetailPage from "@proclaimer-routes/pages/home/service-overseer/map-log/map-log-detail/MapLogDetail";
 import MapTagsPage from "@proclaimer-routes/pages/home/service-overseer/map-tags/MapTags";
 import CobePage from "@proclaimer-routes/pages/home/cobe/Cobe";
 import TerritoryServantPage from "@proclaimer-routes/pages/home/territory-servant/TerritoryServant";
@@ -291,6 +292,7 @@ function App() {
         <Route path="/home/service-overseer/map" component={ServiceOverseerMapPage} exact />
         <Route path="/home/service-overseer/map-log" component={MapLogPage} exact />
         <Route path="/home/service-overseer/map-log/bulk-entry" component={BulkEntryPage} exact />
+        <Route path="/home/service-overseer/map-log/:map_id" component={MapLogDetailPage} exact />
         <Route path="/home/service-overseer/map-tags" component={MapTagsPage} exact />
         <Route path="/home/cobe" component={CobePage} exact />
         <Route path="/home/territory-servant" component={TerritoryServantPage} exact />
