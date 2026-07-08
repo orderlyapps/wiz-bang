@@ -12,13 +12,19 @@ import {
   IonModal,
   IonTitle,
   IonToolbar,
+  IonSearchbar,
+  IonIcon,
 } from "@ionic/react";
-import { addOutline, documentAttachOutline } from "ionicons/icons";
+import { addOutline, documentAttachOutline, filterOutline } from "ionicons/icons";
 import { AddIconButton } from "@ui/components/inputs/button/icon/add/AddIconButton";
 import { useLiveQuery } from "@tanstack/react-db";
 import { mapCollection } from "@shared/database/collections/map";
 import { mapMasterCollection } from "@shared/database/collections/map-master";
 import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
+import { localStorageKeys } from "@util/constants/localStorageKeys";
+import { useMapFilters } from "@proclaimer-content/pages/ministry/door-to-door/door-to-door-header/components/map-modal/hooks/useMapFilters";
+import { MapFilterModal } from "@proclaimer-content/pages/ministry/door-to-door/door-to-door-header/components/map-modal/components/map-filter-modal/MapFilterModal";
+import { useFilteredMaps } from "./hooks/useFilteredMaps";
 import { boundaryToBounds } from "../../utils/boundary";
 import { kmlToGeoJSON } from "../../utils/kml-to-geojson";
 import { getRecentMapIds, recordRecentMap } from "../../utils/useRecentMaps";
@@ -39,7 +45,14 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect, onImportKml }: Ma
   const [show_add_alert, set_show_add_alert] = useState(false);
   const [show_add_action_sheet, set_show_add_action_sheet] = useState(false);
   const [show_error_alert, set_show_error_alert] = useState(false);
+  const [search_query, set_search_query] = useState("");
+  const [show_filters, set_show_filters] = useState(false);
   const file_input_ref = useRef<HTMLInputElement>(null);
+  const {
+    filters,
+    update: update_filters,
+    has_active_filters,
+  } = useMapFilters(localStorageKeys.serviceOverseerMapFilters);
 
   function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
@@ -72,10 +85,11 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect, onImportKml }: Ma
   const congregation = useStoredCongregation();
   const congregation_id = congregation?.id;
 
-  const filtered_maps = maps?.filter((map) => map.congregation_id === congregation_id);
+  const congregation_maps = maps?.filter((map) => map.congregation_id === congregation_id) ?? [];
+  const filtered_maps = useFilteredMaps(congregation_maps, search_query, filters);
   const recent_ids = getRecentMapIds();
   const recent_maps = recent_ids
-    .map((id) => filtered_maps?.find((m) => m.id === id))
+    .map((id) => congregation_maps.find((m) => m.id === id))
     .filter((m): m is NonNullable<typeof m> => m != null);
   const filtered_masters = masters?.filter((master) => master.congregation_id === congregation_id);
   const master = filtered_masters?.[0];
@@ -119,13 +133,28 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect, onImportKml }: Ma
           </IonButtons>
           <IonTitle>Maps</IonTitle>
           <IonButtons slot="end">
+            <IonButton
+              fill="clear"
+              color={has_active_filters ? "primary" : "medium"}
+              onClick={() => set_show_filters(true)}
+            >
+              <IonIcon slot="icon-only" icon={filterOutline} />
+            </IonButton>
             <AddIconButton on_click={() => set_show_add_action_sheet(true)} />
           </IonButtons>
+        </IonToolbar>
+        <IonToolbar>
+          <IonSearchbar
+            value={search_query}
+            onIonInput={(e) => set_search_query(e.detail.value ?? "")}
+            debounce={100}
+            placeholder="Search maps..."
+          />
         </IonToolbar>
       </IonHeader>
       <IonContent className="content-wide">
         <IonList>
-          {recent_maps.length > 0 && (
+          {search_query.trim() === "" && recent_maps.length > 0 && (
             <>
               <IonItem>
                 <IonLabel>
@@ -161,7 +190,7 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect, onImportKml }: Ma
             </IonItem>
           )}
 
-          {filtered_maps?.map((map) => (
+          {filtered_maps.map((map) => (
             <IonItem button key={map.id ?? map.name} onClick={() => handleSelectMap(map)}>
               <IonLabel>
                 {map.name} {map.details ? `| ${map.details}` : ""}
@@ -170,6 +199,12 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect, onImportKml }: Ma
           ))}
         </IonList>
       </IonContent>
+      <MapFilterModal
+        is_open={show_filters}
+        on_dismiss={() => set_show_filters(false)}
+        filters={filters}
+        on_change={update_filters}
+      />
       <IonAlert
         isOpen={show_add_alert}
         header="New Map"

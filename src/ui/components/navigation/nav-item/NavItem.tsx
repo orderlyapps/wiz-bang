@@ -8,7 +8,7 @@ import { Body } from "@ui/components/display/text/body/Body";
 interface NavItemProps {
   label: string;
   to: string;
-  stat?: number;
+  stat?: string | number;
   color?: IonicColor;
   size?: Size;
   bold?: boolean;

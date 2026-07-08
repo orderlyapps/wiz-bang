@@ -13,9 +13,9 @@ const DEFAULT_FILTERS: MapModalFilters = {
   tag_ids: [],
 };
 
-function loadFilters(): MapModalFilters {
+function loadFilters(storage_key: string): MapModalFilters {
   try {
-    const stored = localStorage.getItem(localStorageKeys.mapModalFilters);
+    const stored = localStorage.getItem(storage_key);
     if (stored) {
       const parsed = JSON.parse(stored) as Partial<MapModalFilters>;
       return {
@@ -30,26 +30,29 @@ function loadFilters(): MapModalFilters {
   return DEFAULT_FILTERS;
 }
 
-export function useMapFilters() {
-  const [filters, set_filters] = useState<MapModalFilters>(loadFilters);
+export function useMapFilters(storage_key: string = localStorageKeys.mapModalFilters) {
+  const [filters, set_filters] = useState<MapModalFilters>(() => loadFilters(storage_key));
 
-  const update = useCallback((next: MapModalFilters) => {
-    set_filters(next);
-    try {
-      localStorage.setItem(localStorageKeys.mapModalFilters, JSON.stringify(next));
-    } catch {
-      /* ignore */
-    }
-  }, []);
+  const update = useCallback(
+    (next: MapModalFilters) => {
+      set_filters(next);
+      try {
+        localStorage.setItem(storage_key, JSON.stringify(next));
+      } catch {
+        /* ignore */
+      }
+    },
+    [storage_key],
+  );
 
   const reset = useCallback(() => {
     set_filters(DEFAULT_FILTERS);
     try {
-      localStorage.removeItem(localStorageKeys.mapModalFilters);
+      localStorage.removeItem(storage_key);
     } catch {
       /* ignore */
     }
-  }, []);
+  }, [storage_key]);
 
   const has_active_filters =
     filters.checked_out_only || filters.untagged_only || filters.tag_ids.length > 0;
