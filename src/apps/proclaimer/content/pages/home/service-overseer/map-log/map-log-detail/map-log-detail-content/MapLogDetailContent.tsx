@@ -14,6 +14,7 @@ import { mapLogCollection } from "@shared/database/collections/map-log";
 import { publisherCollection } from "@shared/database/collections/publisher";
 import type { MapLogRow } from "@shared/database/schemas/map-log";
 import type { Publisher } from "@shared/database/schemas/publisher";
+import { MapNavigation } from "./components/map-navigation/MapNavigation";
 
 function formatDate(date_str: string | null | undefined): string {
   if (!date_str) return "—";
@@ -58,45 +59,48 @@ export function MapLogDetailContent({ map_id }: MapLogDetailContentProps) {
   }
 
   return (
-    <IonList>
-      {map_logs.length === 0 && (
-        <IonItem>
-          <IonLabel className="ion-text-center">
-            <p>No logs for this map yet.</p>
-          </IonLabel>
-        </IonItem>
-      )}
-      {map_logs.map((log) => {
-        const is_checked_out = !log.checked_in_at;
-        return (
-          <IonItemSliding key={log.id}>
-            <IonItem detail={false}>
-              <IonLabel>
-                <h3>{getPublisherName(log.publisher_id, all_publishers)}</h3>
-                <p>
-                  Out: {formatDate(log.checked_out_at)} · In: {formatDate(log.checked_in_at)}
-                </p>
-                {log.notes && <p>{log.notes}</p>}
-              </IonLabel>
-              {is_checked_out && (
-                <IonButton
-                  slot="end"
-                  fill="outline"
-                  size="small"
-                  onClick={() => log.id && handleCheckIn(log.id)}
-                >
-                  Check In
-                </IonButton>
-              )}
-            </IonItem>
-            <IonItemOptions side="end">
-              <IonItemOption color="danger" onClick={() => log.id && handleDeleteLog(log.id)}>
-                <IonIcon slot="icon-only" icon={trashOutline} />
-              </IonItemOption>
-            </IonItemOptions>
-          </IonItemSliding>
-        );
-      })}
-    </IonList>
+    <>
+      <MapNavigation map_id={map_id} />
+      <IonList>
+        {map_logs.length === 0 && (
+          <IonItem>
+            <IonLabel className="ion-text-center">
+              <p>No logs for this map yet.</p>
+            </IonLabel>
+          </IonItem>
+        )}
+        {map_logs.map((log) => {
+          const is_checked_out = !log.checked_in_at;
+          return (
+            <IonItemSliding key={log.id}>
+              <IonItem detail={false}>
+                <IonLabel>
+                  <h3>{getPublisherName(log.publisher_id, all_publishers)}</h3>
+                  <p>
+                    Out: {formatDate(log.checked_out_at)} · In: {formatDate(log.checked_in_at)}
+                  </p>
+                  {log.notes && <p>{log.notes}</p>}
+                </IonLabel>
+                {is_checked_out && (
+                  <IonButton
+                    slot="end"
+                    fill="outline"
+                    size="small"
+                    onClick={() => log.id && handleCheckIn(log.id)}
+                  >
+                    Check In
+                  </IonButton>
+                )}
+              </IonItem>
+              <IonItemOptions side="end">
+                <IonItemOption color="danger" onClick={() => log.id && handleDeleteLog(log.id)}>
+                  <IonIcon slot="icon-only" icon={trashOutline} />
+                </IonItemOption>
+              </IonItemOptions>
+            </IonItemSliding>
+          );
+        })}
+      </IonList>
+    </>
   );
 }
