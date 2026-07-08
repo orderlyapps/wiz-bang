@@ -3,6 +3,7 @@ import { useLiveQuery } from "@tanstack/react-db";
 import { mapCollection } from "@shared/database/collections/map";
 import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
 import type { MapRow } from "@shared/database/schemas/map";
+import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
 
 export function MapLogContent() {
   const { data: maps_data } = useLiveQuery((q) =>
@@ -24,11 +25,7 @@ export function MapLogContent() {
         </IonItem>
       )}
       {congregation_maps.map((map) => (
-        <IonItem key={map.id} routerLink={`/home/service-overseer/map-log/${map.id}`} button detail>
-          <IonLabel>
-            <h3>{map.name}</h3>
-          </IonLabel>
-        </IonItem>
+        <NavItem key={map.id} to={`/home/service-overseer/map-log/${map.id}`} label={map.name} />
       ))}
     </IonList>
   );
