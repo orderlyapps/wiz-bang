@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IonButton, IonItem, IonList, IonTextarea } from "@ionic/react";
+import { IonItem, IonList, IonTextarea } from "@ionic/react";
 import { useLiveQuery } from "@tanstack/react-db";
 import { mapCollection } from "@shared/database/collections/map";
 import { mapLogCollection } from "@shared/database/collections/map-log";
@@ -11,6 +11,8 @@ import { PublisherSelectModal } from "./components/publisher-select-modal/Publis
 import { MapNavigator } from "./components/map-navigator/MapNavigator";
 import type { MapRow } from "@shared/database/schemas/map";
 import type { Publisher } from "@shared/database/schemas/publisher";
+import { TextButton } from "@ui/components/inputs/button/text/TextButton";
+import { Space } from "@ui/components/layout/space/Space";
 
 export function BulkCheckout() {
   const [selected_publisher_id, set_selected_publisher_id] = useState<string | undefined>(
@@ -64,18 +66,21 @@ export function BulkCheckout() {
         selected_index={selected_map_index}
         on_change={set_selected_map_index}
       />
+
       <ModalSelect
         label="Publisher"
         display_value={selected_publisher_name}
         placeholder="Select a publisher"
         on_open={() => set_show_publisher_modal(true)}
       />
+
       <PublisherSelectModal
         isOpen={show_publisher_modal}
         onDismiss={() => set_show_publisher_modal(false)}
         onSelect={handlePublisherSelect}
         selectedId={selected_publisher_id}
       />
+
       <DateInput
         label="Check Out Date"
         value={checked_out_date}
@@ -88,6 +93,7 @@ export function BulkCheckout() {
           }
         }}
       />
+
       <DateInput
         label="Check In Date"
         value={checked_in_date}
@@ -100,6 +106,7 @@ export function BulkCheckout() {
           }
         }}
       />
+
       <IonItem>
         <IonTextarea
           label="Notes"
@@ -110,14 +117,14 @@ export function BulkCheckout() {
           autoGrow
         />
       </IonItem>
-      <IonButton
-        expand="block"
-        className="ion-margin"
+
+      <Space />
+
+      <TextButton
+        label="Add Log"
         disabled={!selected_publisher_id || congregation_maps.length === 0 || !checked_out_date}
-        onClick={handleBulkCheckout}
-      >
-        Add Log
-      </IonButton>
+        on_click={handleBulkCheckout}
+      />
     </IonList>
   );
 }
