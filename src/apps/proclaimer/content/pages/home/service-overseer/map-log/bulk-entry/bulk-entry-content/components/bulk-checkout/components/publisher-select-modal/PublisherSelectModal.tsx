@@ -9,6 +9,7 @@ import {
   IonLabel,
   IonList,
   IonTitle,
+  IonToggle,
   IonToolbar,
 } from "@ionic/react";
 import { checkmark } from "ionicons/icons";
@@ -18,7 +19,26 @@ import { useLiveQuery } from "@tanstack/react-db";
 import { publisherCollection } from "@shared/database/collections/publisher";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
 import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
+import { localStorageKeys } from "@util/constants/localStorageKeys";
 import type { Publisher } from "@shared/database/schemas/publisher";
+
+const MAX_RECENT_PUBLISHERS = 15;
+
+function getRecentPublisherIds(): string[] {
+  try {
+    const raw = localStorage.getItem(localStorageKeys.recentMapPublishers);
+    return raw ? (JSON.parse(raw) as string[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+function addRecentPublisherId(id: string) {
+  const current = getRecentPublisherIds().filter((existing) => existing !== id);
+  current.unshift(id);
+  const trimmed = current.slice(0, MAX_RECENT_PUBLISHERS);
+  localStorage.setItem(localStorageKeys.recentMapPublishers, JSON.stringify(trimmed));
+}
 
 interface PublisherSelectModalProps {
   isOpen: boolean;
@@ -34,6 +54,7 @@ export function PublisherSelectModal({
   selectedId,
 }: PublisherSelectModalProps) {
   const [query, set_query] = useState("");
+  const [show_recent_only, set_show_recent_only] = useState(false);
   const congregation = useStoredCongregation();
   const congregation_id = congregation?.id;
 
@@ -45,11 +66,23 @@ export function PublisherSelectModal({
     (p) => p.congregation_id === congregation_id && !p.archived_at,
   );
 
-  const filtered = publishers.filter((p) =>
-    getPublisherDisplayName(p).toLowerCase().includes(query.toLowerCase()),
-  );
+  const recent_ids = getRecentPublisherIds();
+  const recent_id_set = new Set(recent_ids);
+
+  const filtered = publishers
+    .filter((p) => getPublisherDisplayName(p).toLowerCase().includes(query.toLowerCase()))
+    .filter((p) => p.id && (!show_recent_only || recent_id_set.has(p.id)))
+    .sort((a, b) => {
+      if (show_recent_only) {
+        const a_index = recent_ids.indexOf(a.id!);
+        const b_index = recent_ids.indexOf(b.id!);
+        return a_index - b_index;
+      }
+      return 0;
+    });
 
   function handleSelect(publisher: Publisher) {
+    if (publisher.id) addRecentPublisherId(publisher.id);
     onSelect(publisher);
     set_query("");
     onDismiss();
@@ -57,6 +90,7 @@ export function PublisherSelectModal({
 
   function handleDismiss() {
     set_query("");
+    set_show_recent_only(false);
     onDismiss();
   }
 
@@ -72,6 +106,16 @@ export function PublisherSelectModal({
       </IonHeader>
       <IonContent className="ion-padding content-wide">
         <SearchInput value={query} placeholder="Search publishers..." on_change={set_query} />
+        <IonList inset>
+          <IonItem>
+            <IonLabel>Recent only</IonLabel>
+            <IonToggle
+              checked={show_recent_only}
+              onIonChange={(e) => set_show_recent_only(e.detail.checked)}
+              disabled={recent_ids.length === 0}
+            />
+          </IonItem>
+        </IonList>
         {filtered.length === 0 ? (
           <IonList inset>
             <IonItem>
