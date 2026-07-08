@@ -108,15 +108,12 @@ import ClamPage from "@proclaimer-routes/pages/home/clam/Clam";
 import DataSharingPage from "@proclaimer-routes/pages/home/data-sharing/DataSharing";
 import { Icon } from "@ui/components/icons/Icon";
 import { useOrientation } from "@util/hooks/use-orientation/use-orientation";
-import { getPlatforms } from "@ionic/react";
+// import { getPlatforms } from "@ionic/react";
 
 function App() {
   const isPortrait = useOrientation();
   const layout = isPortrait ? "icon-top" : "icon-start";
-  const className =
-    isPortrait && (getPlatforms().includes("iphone") || getPlatforms().includes("ipad"))
-      ? "ion-padding-end"
-      : "";
+  const className = isPortrait ? "" : "ion-padding-end";
 
   return (
     <IonTabs>
