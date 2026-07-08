@@ -19,6 +19,7 @@ export const localStorageKeys = {
   avFilterSortPresets: "av_filter_sort_presets",
   avFilterSortActivePreset: "av_filter_sort_active_preset",
   bulkEntryMapId: "bulk_entry_map_id",
+  mapModalFilters: "map_modal_filters",
 } as const;
 
 export const localStorageKeyWithVariant = (

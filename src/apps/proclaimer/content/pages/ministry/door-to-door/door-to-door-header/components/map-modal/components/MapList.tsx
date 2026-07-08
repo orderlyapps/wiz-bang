@@ -1,29 +1,71 @@
 import { IonList, IonItem, IonLabel, IonButtons, IonButton, IonIcon } from "@ionic/react";
 import { imageOutline } from "ionicons/icons";
+import { useLiveQuery } from "@tanstack/react-db";
 import { useMapsList } from "../hooks/useMapsList";
+import { mapLogCollection } from "@shared/database/collections/map-log";
+import { mapTagAssignmentCollection } from "@shared/database/collections/map-tag-assignment";
 import type { MapRow } from "@shared/database/schemas/map";
+import type { MapLogRow } from "@shared/database/schemas/map-log";
+import type { MapTagAssignmentRow } from "@shared/database/schemas/map-tag-assignment";
+import type { MapModalFilters } from "../hooks/useMapFilters";
 
 type MapWithBoundary = MapRow & { boundary: number[][] };
 
 interface MapListProps {
   onMapSelect: (map: MapWithBoundary) => void;
   onPreviewImage: (url: string) => void;
+  search_query: string;
+  filters: MapModalFilters;
 }
 
-export function MapList({ onMapSelect, onPreviewImage }: MapListProps) {
+export function MapList({ onMapSelect, onPreviewImage, search_query, filters }: MapListProps) {
   const maps = useMapsList();
+  const { data: logs_data } = useLiveQuery((q) => q.from({ l: mapLogCollection }));
+  const { data: assignments_data } = useLiveQuery((q) => q.from({ a: mapTagAssignmentCollection }));
 
-  if (maps.length === 0) {
+  const all_logs = (logs_data as MapLogRow[] | undefined) ?? [];
+  const all_assignments = (assignments_data as MapTagAssignmentRow[] | undefined) ?? [];
+
+  const checked_out_map_ids = new Set(
+    all_logs.filter((log) => log.checked_out_at && !log.checked_in_at).map((log) => log.map_id),
+  );
+
+  const tag_map_ids = new Set(
+    all_assignments.filter((a) => filters.tag_ids.includes(a.tag_id)).map((a) => a.map_id),
+  );
+
+  const all_tagged_map_ids = new Set(all_assignments.map((a) => a.map_id));
+
+  const filtered = maps.filter((map) => {
+    if (search_query) {
+      const q = search_query.toLowerCase();
+      if (!map.name.toLowerCase().includes(q) && !(map.details ?? "").toLowerCase().includes(q)) {
+        return false;
+      }
+    }
+    if (filters.checked_out_only && !checked_out_map_ids.has(map.id!)) {
+      return false;
+    }
+    if (filters.untagged_only && all_tagged_map_ids.has(map.id!)) {
+      return false;
+    }
+    if (filters.tag_ids.length > 0 && !tag_map_ids.has(map.id!)) {
+      return false;
+    }
+    return true;
+  });
+
+  if (filtered.length === 0) {
     return (
       <div style={{ padding: "16px", textAlign: "center", color: "var(--ion-color-medium)" }}>
-        No maps available
+        No maps found
       </div>
     );
   }
 
   return (
     <IonList>
-      {maps.map((map) => (
+      {filtered.map((map) => (
         <IonItem key={map.id} button onClick={() => onMapSelect(map)} detail={false}>
           <IonLabel>
             <h2>{map.name}</h2>
