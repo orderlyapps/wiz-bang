@@ -65,6 +65,7 @@ import MapLogPage from "@proclaimer-routes/pages/home/service-overseer/map-log/M
 import BulkEntryPage from "@proclaimer-routes/pages/home/service-overseer/map-log/bulk-entry/BulkEntry";
 import MapLogDetailPage from "@proclaimer-routes/pages/home/service-overseer/map-log/map-log-detail/MapLogDetail";
 import MapTagsPage from "@proclaimer-routes/pages/home/service-overseer/map-tags/MapTags";
+import MapTagDetailPage from "@proclaimer-routes/pages/home/service-overseer/map-tags/map-tag-detail/MapTagDetail";
 import CobePage from "@proclaimer-routes/pages/home/cobe/Cobe";
 import TerritoryServantPage from "@proclaimer-routes/pages/home/territory-servant/TerritoryServant";
 import SpeakerPage from "@proclaimer-routes/pages/home/speaker/Speaker";
@@ -114,8 +115,8 @@ function App() {
   const layout = isPortrait ? "icon-top" : "icon-start";
   const className =
     isPortrait && (getPlatforms().includes("iphone") || getPlatforms().includes("ipad"))
-      ? ""
-      : "ion-padding-end";
+      ? "ion-padding-end"
+      : "";
 
   return (
     <IonTabs>
@@ -294,6 +295,7 @@ function App() {
         <Route path="/home/service-overseer/map-log/bulk-entry" component={BulkEntryPage} exact />
         <Route path="/home/service-overseer/map-log/:map_id" component={MapLogDetailPage} exact />
         <Route path="/home/service-overseer/map-tags" component={MapTagsPage} exact />
+        <Route path="/home/service-overseer/map-tags/:tag_id" component={MapTagDetailPage} exact />
         <Route path="/home/cobe" component={CobePage} exact />
         <Route path="/home/territory-servant" component={TerritoryServantPage} exact />
         <Route path="/home/speaker" component={SpeakerPage} exact />
