@@ -6,8 +6,6 @@ import {
   IonHeader,
   IonItem,
   IonList,
-  IonSelect,
-  IonSelectOption,
   IonTextarea,
   IonTitle,
   IonToolbar,
@@ -16,8 +14,12 @@ import { ResponsiveModal } from "@ui/components/display/responsive-modal/Respons
 import { useLiveQuery } from "@tanstack/react-db";
 import { mapCollection } from "@shared/database/collections/map";
 import { mapLogCollection } from "@shared/database/collections/map-log";
-import { publisherCollection } from "@shared/database/collections/publisher";
 import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
+import { ModalSelect } from "@ui/components/inputs/modal-select/ModalSelect";
+import { DateInput } from "@ui/components/inputs/date/DateInput";
+import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
+import { PublisherSelectModal } from "@proclaimer-content/pages/home/service-overseer/map-log/bulk-entry/bulk-entry-content/components/bulk-checkout/components/publisher-select-modal/PublisherSelectModal";
+import { MapSelectModal } from "./components/map-select-modal/MapSelectModal";
 import type { MapRow } from "@shared/database/schemas/map";
 import type { MapLogRow } from "@shared/database/schemas/map-log";
 import type { Publisher } from "@shared/database/schemas/publisher";
@@ -29,8 +31,15 @@ type CheckoutModalProps = {
 
 export function CheckoutModal({ isOpen, onDidDismiss }: CheckoutModalProps) {
   const [selected_map_id, set_selected_map_id] = useState<string | undefined>(undefined);
+  const [selected_map_name, set_selected_map_name] = useState("");
+  const [show_map_modal, set_show_map_modal] = useState(false);
   const [selected_publisher_id, set_selected_publisher_id] = useState<string | undefined>(
     undefined,
+  );
+  const [selected_publisher_name, set_selected_publisher_name] = useState("");
+  const [show_publisher_modal, set_show_publisher_modal] = useState(false);
+  const [checked_out_date, set_checked_out_date] = useState(
+    new Date().toISOString().substring(0, 10),
   );
   const [notes, set_notes] = useState("");
 
@@ -38,9 +47,6 @@ export function CheckoutModal({ isOpen, onDidDismiss }: CheckoutModalProps) {
     q.from({ m: mapCollection }).orderBy(({ m }) => m.name),
   );
   const { data: logs_data } = useLiveQuery((q) => q.from({ ml: mapLogCollection }));
-  const { data: publishers_data } = useLiveQuery((q) =>
-    q.from({ p: publisherCollection }).orderBy(({ p }) => p.last_name),
-  );
   const congregation = useStoredCongregation();
   const congregation_id = congregation?.id;
 
@@ -52,17 +58,13 @@ export function CheckoutModal({ isOpen, onDidDismiss }: CheckoutModalProps) {
   );
   const available_maps = congregation_maps.filter((m) => m.id && !checked_out_map_ids.has(m.id));
 
-  const publishers = ((publishers_data as Publisher[] | undefined) ?? []).filter(
-    (p) => p.congregation_id === congregation_id && !p.archived_at,
-  );
-
   function handleCheckout() {
     if (!selected_map_id || !selected_publisher_id) return;
     mapLogCollection.insert({
       id: crypto.randomUUID(),
       map_id: selected_map_id,
       publisher_id: selected_publisher_id,
-      checked_out_at: new Date().toISOString(),
+      checked_out_at: new Date(checked_out_date + "T00:00:00").toISOString(),
       checked_in_at: null,
       notes: notes.trim() || null,
     });
@@ -71,9 +73,22 @@ export function CheckoutModal({ isOpen, onDidDismiss }: CheckoutModalProps) {
 
   function handleDismiss() {
     set_selected_map_id(undefined);
+    set_selected_map_name("");
     set_selected_publisher_id(undefined);
+    set_selected_publisher_name("");
+    set_checked_out_date(new Date().toISOString().substring(0, 10));
     set_notes("");
     onDidDismiss();
+  }
+
+  function handlePublisherSelect(publisher: Publisher) {
+    set_selected_publisher_id(publisher.id);
+    set_selected_publisher_name(getPublisherDisplayName(publisher));
+  }
+
+  function handleMapSelect(map: MapRow) {
+    set_selected_map_id(map.id);
+    set_selected_map_name(map.name);
   }
 
   return (
@@ -96,37 +111,37 @@ export function CheckoutModal({ isOpen, onDidDismiss }: CheckoutModalProps) {
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
+        <ModalSelect
+          label="Map"
+          display_value={selected_map_name}
+          placeholder="Select a map"
+          on_open={() => set_show_map_modal(true)}
+        />
+        <MapSelectModal
+          isOpen={show_map_modal}
+          onDismiss={() => set_show_map_modal(false)}
+          onSelect={handleMapSelect}
+          selectedId={selected_map_id}
+          maps={available_maps}
+        />
+        <ModalSelect
+          label="Publisher"
+          display_value={selected_publisher_name}
+          placeholder="Select a publisher"
+          on_open={() => set_show_publisher_modal(true)}
+        />
+        <PublisherSelectModal
+          isOpen={show_publisher_modal}
+          onDismiss={() => set_show_publisher_modal(false)}
+          onSelect={handlePublisherSelect}
+          selectedId={selected_publisher_id}
+        />
+        <DateInput
+          label="Check Out Date"
+          value={checked_out_date}
+          on_change={set_checked_out_date}
+        />
         <IonList>
-          <IonItem>
-            <IonSelect
-              label="Map"
-              labelPlacement="stacked"
-              value={selected_map_id}
-              onIonChange={(e) => set_selected_map_id(e.detail.value as string | undefined)}
-              placeholder="Select a map"
-            >
-              {available_maps.map((map) => (
-                <IonSelectOption key={map.id} value={map.id}>
-                  {map.name}
-                </IonSelectOption>
-              ))}
-            </IonSelect>
-          </IonItem>
-          <IonItem>
-            <IonSelect
-              label="Publisher"
-              labelPlacement="stacked"
-              value={selected_publisher_id}
-              onIonChange={(e) => set_selected_publisher_id(e.detail.value as string | undefined)}
-              placeholder="Select a publisher"
-            >
-              {publishers.map((p) => (
-                <IonSelectOption key={p.id} value={p.id}>
-                  {p.display_name ?? `${p.first_name} ${p.last_name}`}
-                </IonSelectOption>
-              ))}
-            </IonSelect>
-          </IonItem>
           <IonItem>
             <IonTextarea
               label="Notes"
