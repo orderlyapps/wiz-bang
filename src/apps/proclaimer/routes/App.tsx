@@ -291,8 +291,8 @@ function App() {
         <Route path="/home/service-overseer" component={ServiceOverseerPage} exact />
         <Route path="/home/service-overseer/map" component={ServiceOverseerMapPage} exact />
         <Route path="/home/service-overseer/map-log" component={MapLogPage} exact />
-        <Route path="/home/service-overseer/map-log/bulk-entry" component={BulkEntryPage} exact />
         <Route path="/home/service-overseer/map-log/:map_id" component={MapLogDetailPage} exact />
+        <Route path="/home/service-overseer/map-log/bulk-entry" component={BulkEntryPage} exact />
         <Route path="/home/service-overseer/map-tags" component={MapTagsPage} exact />
         <Route path="/home/service-overseer/map-tags/:tag_id" component={MapTagDetailPage} exact />
         <Route path="/home/service-overseer/map-checkout" component={MapCheckoutPage} exact />

@@ -7,7 +7,7 @@ export function ServiceOverseerContent() {
       <NavItem label="Map" to="/home/service-overseer/map" />
       <NavItem label="History" to="/home/service-overseer/map-log" />
       <NavItem label="Tags" to="/home/service-overseer/map-tags" />
-      <NavItem label="Auto Checkout" to="/home/service-overseer/map-checkout" />
+      {/* <NavItem label="Auto Checkout" to="/home/service-overseer/map-checkout" /> */}
     </IonList>
   );
 }
