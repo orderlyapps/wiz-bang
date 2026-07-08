@@ -66,6 +66,8 @@ import BulkEntryPage from "@proclaimer-routes/pages/home/service-overseer/map-lo
 import MapLogDetailPage from "@proclaimer-routes/pages/home/service-overseer/map-log/map-log-detail/MapLogDetail";
 import MapTagsPage from "@proclaimer-routes/pages/home/service-overseer/map-tags/MapTags";
 import MapTagDetailPage from "@proclaimer-routes/pages/home/service-overseer/map-tags/map-tag-detail/MapTagDetail";
+import MapCheckoutPage from "@proclaimer-routes/pages/home/service-overseer/map-checkout/MapCheckout";
+import MapCheckoutDetailPage from "@proclaimer-routes/pages/home/service-overseer/map-checkout/map-checkout-detail/MapCheckoutDetail";
 import CobePage from "@proclaimer-routes/pages/home/cobe/Cobe";
 import TerritoryServantPage from "@proclaimer-routes/pages/home/territory-servant/TerritoryServant";
 import SpeakerPage from "@proclaimer-routes/pages/home/speaker/Speaker";
@@ -293,6 +295,12 @@ function App() {
         <Route path="/home/service-overseer/map-log/:map_id" component={MapLogDetailPage} exact />
         <Route path="/home/service-overseer/map-tags" component={MapTagsPage} exact />
         <Route path="/home/service-overseer/map-tags/:tag_id" component={MapTagDetailPage} exact />
+        <Route path="/home/service-overseer/map-checkout" component={MapCheckoutPage} exact />
+        <Route
+          path="/home/service-overseer/map-checkout/:publisher_id"
+          component={MapCheckoutDetailPage}
+          exact
+        />
         <Route path="/home/cobe" component={CobePage} exact />
         <Route path="/home/territory-servant" component={TerritoryServantPage} exact />
         <Route path="/home/speaker" component={SpeakerPage} exact />
