@@ -1,7 +1,14 @@
-import { IonList, IonItem, IonLabel, IonButtons, IonButton, IonIcon } from "@ionic/react";
+import { IonList, IonItem, IonButtons, IonButton, IonIcon } from "@ionic/react";
 import { imageOutline } from "ionicons/icons";
+import { useLiveQuery } from "@tanstack/react-db";
 import { useMapsList } from "../hooks/useMapsList";
+import { mapLogCollection } from "@shared/database/collections/map-log";
+import { publisherCollection } from "@shared/database/collections/publisher";
+import { LabelValueItem } from "@ui/components/display/data/label-value/LabelValueItem";
+import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
 import type { MapRow } from "@shared/database/schemas/map";
+import type { MapLogRow } from "@shared/database/schemas/map-log";
+import type { Publisher } from "@shared/database/schemas/publisher";
 import { Heading } from "@ui/components/display/text/heading/Heading";
 
 interface RecentMapsListProps {
@@ -12,6 +19,25 @@ interface RecentMapsListProps {
 
 export function RecentMapsList({ recentMapIds, onMapSelect, onPreviewImage }: RecentMapsListProps) {
   const allMaps = useMapsList();
+  const { data: logs_data } = useLiveQuery((q) => q.from({ l: mapLogCollection }));
+  const { data: publishers_data } = useLiveQuery((q) => q.from({ p: publisherCollection }));
+
+  const all_logs = (logs_data as MapLogRow[] | undefined) ?? [];
+  const all_publishers = (publishers_data as Publisher[] | undefined) ?? [];
+
+  const publisher_name_by_id = new Map(
+    all_publishers.map((p) => [p.id ?? "", getPublisherDisplayName(p)]),
+  );
+
+  const checked_out_map_ids = new Set(
+    all_logs.filter((log) => log.checked_out_at && !log.checked_in_at).map((log) => log.map_id),
+  );
+
+  const checked_out_name_by_map_id = new Map(
+    all_logs
+      .filter((log) => log.checked_out_at && !log.checked_in_at)
+      .map((log) => [log.map_id, publisher_name_by_id.get(log.publisher_id) ?? ""]),
+  );
 
   // Filter maps to only include recent ones, maintaining the order from recentMapIds
   const recentMaps = recentMapIds
@@ -29,27 +55,35 @@ export function RecentMapsList({ recentMapIds, onMapSelect, onPreviewImage }: Re
       </IonItem>
 
       <IonList>
-        {recentMaps.map((map) => (
-          <IonItem key={map.id} button onClick={() => onMapSelect(map)} detail={false}>
-            <IonLabel>
-              <h2>{map.name}</h2>
-              {map.details && <p>{map.details}</p>}
-            </IonLabel>
-            {map.url && (
-              <IonButtons slot="end">
-                <IonButton
-                  fill="clear"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onPreviewImage(map.url!);
-                  }}
-                >
-                  <IonIcon slot="icon-only" icon={imageOutline} size="large" />
-                </IonButton>
-              </IonButtons>
-            )}
-          </IonItem>
-        ))}
+        {recentMaps.map((map) => {
+          const is_checked_out = checked_out_map_ids.has(map.id ?? "");
+          const checked_out_name = checked_out_name_by_map_id.get(map.id ?? "") ?? "";
+          return (
+            <LabelValueItem
+              key={map.id}
+              label={map.name}
+              label_color={is_checked_out ? "success" : undefined}
+              value={map.details ?? undefined}
+              value_2={checked_out_name || undefined}
+              on_click={() => onMapSelect(map)}
+              end_detail={
+                map.url ? (
+                  <IonButtons slot="end">
+                    <IonButton
+                      fill="clear"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onPreviewImage(map.url!);
+                      }}
+                    >
+                      <IonIcon slot="icon-only" icon={imageOutline} size="large" />
+                    </IonButton>
+                  </IonButtons>
+                ) : undefined
+              }
+            />
+          );
+        })}
       </IonList>
     </>
   );
