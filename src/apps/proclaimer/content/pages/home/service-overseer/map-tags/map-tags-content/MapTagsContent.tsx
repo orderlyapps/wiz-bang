@@ -16,6 +16,7 @@ import { mapTagAssignmentCollection } from "@shared/database/collections/map-tag
 import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
 import type { MapTagRow } from "@shared/database/schemas/map-tag";
 import type { MapTagAssignmentRow } from "@shared/database/schemas/map-tag-assignment";
+import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
 
 type MapTagsContentProps = {
   showAddAlert: boolean;
@@ -80,14 +81,11 @@ export function MapTagsContent({ showAddAlert, onAddAlertDismiss }: MapTagsConte
           const count = getTagCount(tag.id ?? "");
           return (
             <IonItemSliding key={tag.id}>
-              <IonItem button detail routerLink={`/home/service-overseer/map-tags/${tag.id}`}>
-                <IonLabel>
-                  <h3>{tag.name}</h3>
-                  <p>
-                    {count} map{count !== 1 ? "s" : ""}
-                  </p>
-                </IonLabel>
-              </IonItem>
+              <NavItem
+                to={`/home/service-overseer/map-tags/${tag.id}`}
+                label={tag.name}
+                stat={count}
+              />
               <IonItemOptions side="end">
                 <IonItemOption color="primary" onClick={() => set_rename_tag(tag)}>
                   <IonIcon slot="icon-only" icon={createOutline} />
