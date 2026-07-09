@@ -13,6 +13,7 @@ import type { MapRow } from "@shared/database/schemas/map";
 import type { Publisher } from "@shared/database/schemas/publisher";
 import { TextButton } from "@ui/components/inputs/button/text/TextButton";
 import { Space } from "@ui/components/layout/space/Space";
+import { MapLogSummary } from "./components/map-log-summary/MapLogSummary";
 
 export function BulkCheckout() {
   const [selected_publisher_id, set_selected_publisher_id] = useState<string | undefined>(
@@ -33,9 +34,9 @@ export function BulkCheckout() {
 
   const all_maps = (maps_data as MapRow[] | undefined) ?? [];
   const congregation_maps = all_maps.filter((m) => m.congregation_id === congregation_id);
+  const selected_map = congregation_maps[selected_map_index];
 
   function handleBulkCheckout() {
-    const selected_map = congregation_maps[selected_map_index];
     if (!selected_publisher_id || !selected_map?.id || !checked_out_date) return;
     const checked_out_at = new Date(checked_out_date + "T00:00:00").toISOString();
     const checked_in_at = checked_in_date
@@ -125,6 +126,8 @@ export function BulkCheckout() {
         disabled={!selected_publisher_id || congregation_maps.length === 0 || !checked_out_date}
         on_click={handleBulkCheckout}
       />
+
+      {selected_map?.id && <MapLogSummary map_id={selected_map.id} />}
     </IonList>
   );
 }
