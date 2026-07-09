@@ -1,8 +1,19 @@
-import { IonContent, IonItem, IonLabel, IonList } from "@ionic/react";
+import { useState } from "react";
+import {
+  IonButtons,
+  IonButton,
+  IonContent,
+  IonIcon,
+  IonItem,
+  IonLabel,
+  IonList,
+} from "@ionic/react";
+import { timeOutline } from "ionicons/icons";
 import { Heading } from "@ui/components/display/text/heading/Heading";
 import { Body } from "@ui/components/display/text/body/Body";
 import { Space } from "@ui/components/layout/space/Space";
 import { LabelValueItem } from "@ui/components/display/data/label-value/LabelValueItem";
+import { MapLogModal } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/service-overseer-map-header/map-list-modal/components/map-list-modal-content/map-log-modal/MapLogModal";
 import type { MapRow } from "@shared/database/schemas/map";
 import type { MapMaster } from "@shared/database/schemas/map-master";
 
@@ -29,6 +40,8 @@ export function MapListModalContent({
   on_select_map,
   on_select_master,
 }: MapListModalContentProps) {
+  const [log_map_id, set_log_map_id] = useState<string | null>(null);
+
   return (
     <IonContent className="content-wide">
       <IonList>
@@ -52,6 +65,21 @@ export function MapListModalContent({
                   value={map.details ?? undefined}
                   value_2={checked_out_name || undefined}
                   on_click={() => on_select_map(map)}
+                  end_detail={
+                    map.id ? (
+                      <IonButtons slot="end">
+                        <IonButton
+                          fill="clear"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            set_log_map_id(map.id!);
+                          }}
+                        >
+                          <IonIcon slot="icon-only" icon={timeOutline} size="large" />
+                        </IonButton>
+                      </IonButtons>
+                    ) : undefined
+                  }
                 />
               );
             })}
@@ -85,10 +113,33 @@ export function MapListModalContent({
               value={map.details ?? undefined}
               value_2={checked_out_name || undefined}
               on_click={() => on_select_map(map)}
+              end_detail={
+                map.id ? (
+                  <IonButtons slot="end">
+                    <IonButton
+                      fill="clear"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        set_log_map_id(map.id!);
+                      }}
+                    >
+                      <IonIcon slot="icon-only" icon={timeOutline} size="large" />
+                    </IonButton>
+                  </IonButtons>
+                ) : undefined
+              }
             />
           );
         })}
       </IonList>
+
+      {log_map_id && (
+        <MapLogModal
+          isOpen={log_map_id !== null}
+          onDidDismiss={() => set_log_map_id(null)}
+          map_id={log_map_id}
+        />
+      )}
     </IonContent>
   );
 }

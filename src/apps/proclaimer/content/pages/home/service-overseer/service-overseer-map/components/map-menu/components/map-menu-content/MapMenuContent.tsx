@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { IonContent } from "@ionic/react";
 import { MapStyleSelect } from "@util/vendor/mapbox/MapStyleSelect";
 import { Space } from "@ui/components/layout/space/Space";
@@ -12,7 +11,6 @@ import type { ScreenshotSettings } from "@proclaimer-content/pages/home/service-
 import { ScreenshotSettingsSection } from "./components/screenshot-settings-section/ScreenshotSettingsSection";
 import { MapDetailsSection } from "./components/map-details-section/MapDetailsSection";
 import { MapActionsSection } from "./components/map-actions-section/MapActionsSection";
-import { MapLogModal } from "./components/map-log-modal/MapLogModal";
 import { TextButton } from "@ui/components/inputs/button/text/TextButton";
 
 type Props = {
@@ -56,10 +54,6 @@ export function MapMenuContent({
   onEditBlock,
   onDeleteBlock,
 }: Props) {
-  const [show_logs, set_show_logs] = useState(false);
-
-  const map_id = selectedMap?.type === "map" ? selectedMap.id : null;
-
   return (
     <IonContent className="content-wide">
       {hasPendingChanges && (
@@ -67,12 +61,6 @@ export function MapMenuContent({
           <TextButton label="Save Changes" disabled={!hasPendingChanges} on_click={onSave} />
           <Space />
         </>
-      )}
-
-      {is_map && map_id && <TextButton label="Records" on_click={() => set_show_logs(true)} />}
-
-      {map_id && (
-        <MapLogModal isOpen={show_logs} onDidDismiss={() => set_show_logs(false)} map_id={map_id} />
       )}
 
       <MapStyleSelect value={styleId} on_change={onStyleIdChange} />
