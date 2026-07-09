@@ -1,23 +1,21 @@
 import { useState } from "react";
+import type { ComponentProps } from "react";
+import { IonButton } from "@ionic/react";
 import type { IonicColor } from "@util/vendor/ionic/types/IonicColor";
 import { ConfirmationAlert } from "@ui/components/display/alert/ConfirmationAlert";
 import { TextButton } from "@ui/components/inputs/button/text/TextButton";
 
-interface SaveTextButtonProps {
+type SaveTextButtonProps = Omit<ComponentProps<typeof IonButton>, "onClick" | "color"> & {
   variant?: "save" | "update";
   label?: string;
   color?: IonicColor;
-  fill?: "clear" | "outline" | "solid" | "default";
-  size?: "small" | "default" | "large";
-  expand?: "block" | "full";
-  disabled?: boolean;
   alert_header?: string;
   alert_message?: string;
   confirm_text?: string;
   cancel_text?: string;
   skip_confirmation?: boolean;
   on_click: () => void;
-}
+};
 
 export function SaveTextButton({
   variant = "save",
@@ -33,6 +31,7 @@ export function SaveTextButton({
   cancel_text = "Cancel",
   skip_confirmation = false,
   on_click,
+  ...rest
 }: SaveTextButtonProps) {
   const [show_alert, set_show_alert] = useState(false);
   const resolved_label = label ?? (variant === "update" ? "Update" : "Save");
@@ -48,6 +47,7 @@ export function SaveTextButton({
   return (
     <>
       <TextButton
+        {...rest}
         label={resolved_label}
         color={color}
         fill={fill}
