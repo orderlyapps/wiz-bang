@@ -70,11 +70,14 @@ function MapMenu({
         is_map={is_map}
         screenshotMode={screenshotMode}
         can_add={can_add}
+        hasPendingChanges={hasPendingChanges}
         onToggleScreenshot={() => {
           onToggleScreenshot();
           if (!screenshotMode) closeMenu();
         }}
         onAddClick={() => set_show_add_flow(true)}
+        onCloseMenu={closeMenu}
+        onDeselect={onDeselect}
       />
       <AddBlockFlow
         is_open={show_add_flow}
@@ -104,8 +107,6 @@ function MapMenu({
         onRenameBlock={onRenameBlock}
         onEditBlock={onEditBlock}
         onDeleteBlock={onDeleteBlock}
-        onDeselect={onDeselect}
-        onCloseMenu={closeMenu}
       />
     </IonMenu>
   );

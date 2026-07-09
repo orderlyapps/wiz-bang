@@ -11,7 +11,6 @@ import type { ScreenshotSettings } from "@proclaimer-content/pages/home/service-
 import { ScreenshotSettingsSection } from "./components/screenshot-settings-section/ScreenshotSettingsSection";
 import { MapDetailsSection } from "./components/map-details-section/MapDetailsSection";
 import { MapActionsSection } from "./components/map-actions-section/MapActionsSection";
-import { FinishedButton } from "./components/finished-button/FinishedButton";
 
 type Props = {
   styleId: SelectableStyleId;
@@ -32,8 +31,6 @@ type Props = {
   onRenameBlock: (blockId: string, name: string) => void;
   onEditBlock: (block: Block) => void;
   onDeleteBlock: (blockId: string) => void;
-  onDeselect: () => void;
-  onCloseMenu: () => void;
 };
 
 export function MapMenuContent({
@@ -55,8 +52,6 @@ export function MapMenuContent({
   onRenameBlock,
   onEditBlock,
   onDeleteBlock,
-  onDeselect,
-  onCloseMenu,
 }: Props) {
   return (
     <IonContent className="content-wide">
@@ -91,12 +86,6 @@ export function MapMenuContent({
       )}
 
       <Space />
-
-      <FinishedButton
-        hasPendingChanges={hasPendingChanges}
-        onCloseMenu={onCloseMenu}
-        onDeselect={onDeselect}
-      />
     </IonContent>
   );
 }
