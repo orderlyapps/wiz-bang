@@ -21,7 +21,9 @@
     "deploy": "vp build && wrangler pages deploy dist --project-name=orderly --branch=wiz-bang && echo DEPLOYED TO WIZ BANG",
     "deploy:app": "bash scripts/deploy-app.sh",
     "deploy:app:base": "vp run deploy:app base",
-    "deploy:app:orderly": "vp run deploy:app admin"
+    "deploy:app:orderly": "vp run deploy:app admin",
+    "deploy:app:orderly:main": "vp run deploy:app -- proclaimer orderly main",
+    "deploy:app:proclaimer:main": "vp run deploy:app -- proclaimer proclaimer main"
   },
   "dependencies": {
     "@ionic/react": "^8.8.6",

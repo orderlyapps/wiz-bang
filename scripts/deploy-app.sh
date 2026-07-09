@@ -8,14 +8,18 @@ fi
 
 APP=$1
 if [ -z "$APP" ]; then
-  echo "Usage: vp run deploy:app -- <app-name>"
+  echo "Usage: vp run deploy:app -- <app-name> [project-name] [branch]"
   exit 1
 fi
+
+PROJECT=${2:-orderly}
+BRANCH=${3:-$APP}
+
 echo "Building app '$APP'..."
 vp run build:app -- "$APP"
 
 echo ""
-echo "Deploying app '$APP'..."
-wrangler pages deploy dist --project-name=orderly --branch="$APP"
+echo "Deploying app '$APP' to project '$PROJECT' (branch: $BRANCH)..."
+wrangler pages deploy dist --project-name="$PROJECT" --branch="$BRANCH"
 echo ""
-echo "✓ DEPLOYED TO $(echo "$APP" | tr '[:lower:]' '[:upper:]')"
+echo "✓ DEPLOYED $APP TO $PROJECT/$BRANCH"
