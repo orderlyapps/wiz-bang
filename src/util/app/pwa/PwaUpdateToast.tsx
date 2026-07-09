@@ -19,8 +19,10 @@ export function PwaUpdateToast() {
     }
 
     let refreshing = false;
+    const had_controller = !!navigator.serviceWorker?.controller;
     const handler = () => {
       if (refreshing) return;
+      if (!had_controller) return;
       refreshing = true;
       sessionStorage.setItem(UPDATED_KEY, "1");
       window.location.reload();
