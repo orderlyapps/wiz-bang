@@ -1,18 +1,15 @@
 import { IonList, IonItem, IonLabel, IonButtons, IonIcon } from "@ionic/react";
 import { create } from "ionicons/icons";
-import { TextButton } from "@ui/components/inputs/button/text/TextButton";
 import { EditIconButton } from "@ui/components/inputs/button/icon/edit/EditIconButton";
 import { AlertIconButton } from "@ui/components/inputs/button/icon/alert/AlertIconButton";
 import { DeleteIconButton } from "@ui/components/inputs/button/icon/delete/DeleteIconButton";
 import { RenameIconButton } from "@ui/components/inputs/button/icon/rename/RenameIconButton";
 import { Body } from "@ui/components/display/text/body/Body";
-import { Space } from "@ui/components/layout/space/Space";
 import type { Block } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/utils/types";
 
 type Props = {
   is_map: boolean;
   hasPendingChanges: boolean;
-  onSave: () => void;
   onEditBoundary: () => void;
   onDeleteMap: () => void;
   blocks: Block[] | null;
@@ -24,7 +21,6 @@ type Props = {
 export function MapActionsSection({
   is_map,
   hasPendingChanges,
-  onSave,
   onEditBoundary,
   onDeleteMap,
   blocks,
@@ -34,10 +30,6 @@ export function MapActionsSection({
 }: Props) {
   return (
     <IonList>
-      <TextButton label="Save Changes" disabled={!hasPendingChanges} on_click={onSave} />
-
-      <Space />
-
       {is_map && (
         <IonItem>
           <IonLabel>

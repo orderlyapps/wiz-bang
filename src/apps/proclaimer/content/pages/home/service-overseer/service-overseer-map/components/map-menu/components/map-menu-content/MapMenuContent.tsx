@@ -62,9 +62,14 @@ export function MapMenuContent({
 
   return (
     <IonContent className="content-wide">
-      {is_map && map_id && (
-        <TextButton label="Records" fill="clear" on_click={() => set_show_logs(true)} />
+      {hasPendingChanges && (
+        <>
+          <TextButton label="Save Changes" disabled={!hasPendingChanges} on_click={onSave} />
+          <Space />
+        </>
       )}
+
+      {is_map && map_id && <TextButton label="Records" on_click={() => set_show_logs(true)} />}
 
       {map_id && (
         <MapLogModal isOpen={show_logs} onDidDismiss={() => set_show_logs(false)} map_id={map_id} />
@@ -90,7 +95,6 @@ export function MapMenuContent({
         <MapActionsSection
           is_map={is_map}
           hasPendingChanges={hasPendingChanges}
-          onSave={onSave}
           onEditBoundary={onEditBoundary}
           onDeleteMap={onDeleteMap}
           blocks={blocks}
