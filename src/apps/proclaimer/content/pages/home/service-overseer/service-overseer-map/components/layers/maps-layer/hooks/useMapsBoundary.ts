@@ -3,7 +3,7 @@ import { mapCollection } from "@shared/database/collections/map";
 import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
 import { localStorageKeys } from "@util/constants/localStorageKeys";
 import { useMapFilters } from "@proclaimer-content/pages/ministry/door-to-door/door-to-door-header/components/map-modal/hooks/useMapFilters";
-import { useFilteredMaps } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/components/map-list-modal/hooks/useFilteredMaps";
+import { useFilteredMaps } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/service-overseer-map-header/map-list-modal/hooks/useFilteredMaps";
 import type { MapRow } from "@shared/database/schemas/map";
 import { isValidBoundary } from "@proclaimer-content/pages/home/service-overseer/service-overseer-map/utils/boundary";
 

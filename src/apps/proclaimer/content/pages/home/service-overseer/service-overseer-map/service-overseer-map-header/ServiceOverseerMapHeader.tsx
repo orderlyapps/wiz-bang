@@ -9,7 +9,7 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { mapOutline as mapIcon } from "ionicons/icons";
-import { MapListModal } from "../components/map-list-modal/MapListModal";
+import { MapListModal } from "./map-list-modal/MapListModal";
 import type { SelectedMap } from "../utils/types";
 
 type Props = {
