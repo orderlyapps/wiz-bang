@@ -96,6 +96,7 @@ export function MapLogList({ map_id }: MapLogListProps) {
             set_show_new_checkout(false);
           }}
           existing_log={editing_log}
+          map_id={map_id}
         />
       )}
     </IonList>

@@ -32,13 +32,16 @@ type CheckoutModalProps = {
   isOpen: boolean;
   onDidDismiss: () => void;
   existing_log?: MapLogRow;
+  map_id?: string;
 };
 
-export function CheckoutModal({ isOpen, onDidDismiss, existing_log }: CheckoutModalProps) {
+export function CheckoutModal({ isOpen, onDidDismiss, existing_log, map_id }: CheckoutModalProps) {
   const is_editing = !!existing_log;
   const did_dismiss = useRef(false);
   const initialized = useRef(false);
-  const [selected_map_id, set_selected_map_id] = useState<string | undefined>(existing_log?.map_id);
+  const [selected_map_id, set_selected_map_id] = useState<string | undefined>(
+    existing_log?.map_id ?? map_id,
+  );
   const [selected_map_name, set_selected_map_name] = useState("");
   const [show_map_modal, set_show_map_modal] = useState(false);
   const [selected_publisher_id, set_selected_publisher_id] = useState<string | undefined>(
@@ -116,15 +119,20 @@ export function CheckoutModal({ isOpen, onDidDismiss, existing_log }: CheckoutMo
   }
 
   useEffect(() => {
-    if (!is_editing || !existing_log || initialized.current) return;
+    if (initialized.current) return;
     const maps = (maps_data as MapRow[] | undefined) ?? [];
-    const map = maps.find((m) => m.id === existing_log.map_id);
+    const target_map_id = existing_log?.map_id ?? map_id;
+    const map = maps.find((m) => m.id === target_map_id);
     if (map) set_selected_map_name(map.name);
-    const publishers = (publishers_data as Publisher[] | undefined) ?? [];
-    const publisher = publishers.find((p) => p.id === existing_log.publisher_id);
-    if (publisher) set_selected_publisher_name(getPublisherDisplayName(publisher));
-    if (map && publisher) initialized.current = true;
-  }, [is_editing, existing_log, maps_data, publishers_data]);
+    if (is_editing && existing_log) {
+      const publishers = (publishers_data as Publisher[] | undefined) ?? [];
+      const publisher = publishers.find((p) => p.id === existing_log.publisher_id);
+      if (publisher) set_selected_publisher_name(getPublisherDisplayName(publisher));
+      if (map && publisher) initialized.current = true;
+    } else if (map) {
+      initialized.current = true;
+    }
+  }, [is_editing, existing_log, map_id, maps_data, publishers_data]);
 
   function handlePublisherSelect(publisher: Publisher) {
     set_selected_publisher_id(publisher.id);
