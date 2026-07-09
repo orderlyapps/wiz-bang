@@ -22,9 +22,9 @@ import { mapCollection } from "@shared/database/collections/map";
 import { mapMasterCollection } from "@shared/database/collections/map-master";
 import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
 import { localStorageKeys } from "@util/constants/localStorageKeys";
-import { useMapFilters } from "@proclaimer-content/pages/ministry/door-to-door/door-to-door-header/components/map-modal/hooks/useMapFilters";
-import { MapFilterModal } from "@proclaimer-content/pages/ministry/door-to-door/door-to-door-header/components/map-modal/components/map-filter-modal/MapFilterModal";
-import { useFilteredMaps } from "./hooks/useFilteredMaps";
+import { useMapLogPresets } from "@proclaimer-content/pages/home/service-overseer/map-log/map-log-content/components/use-map-log-presets/useMapLogPresets";
+import { useFilteredMapLogMaps } from "@proclaimer-content/pages/home/service-overseer/map-log/map-log-content/components/use-filtered-map-log-maps/useFilteredMapLogMaps";
+import { MapListFilterModal } from "./components/map-list-filter-modal/MapListFilterModal";
 import { boundaryToBounds } from "../../utils/boundary";
 import { kmlToGeoJSON } from "../../utils/kml-to-geojson";
 import { getRecentMapIds, recordRecentMap } from "../../utils/useRecentMaps";
@@ -49,11 +49,10 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect, onImportKml }: Ma
   const [search_query, set_search_query] = useState("");
   const [show_filters, set_show_filters] = useState(false);
   const file_input_ref = useRef<HTMLInputElement>(null);
-  const {
-    filters,
-    update: update_filters,
-    has_active_filters,
-  } = useMapFilters(localStorageKeys.serviceOverseerMapFilters);
+  const presets_api = useMapLogPresets(
+    localStorageKeys.soMapListFilterSortPresets,
+    localStorageKeys.soMapListFilterSortActivePreset,
+  );
 
   function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
@@ -87,7 +86,24 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect, onImportKml }: Ma
   const congregation_id = congregation?.id;
 
   const congregation_maps = maps?.filter((map) => map.congregation_id === congregation_id) ?? [];
-  const filtered_maps = useFilteredMaps(congregation_maps, search_query, filters);
+  const { maps: filtered_maps, checked_out_name_by_map_id } = useFilteredMapLogMaps(
+    congregation_maps,
+    presets_api.active_preset.filter,
+    presets_api.active_preset.sort_order,
+  );
+  const has_active_filters = presets_api.has_active_filters;
+
+  const search_filtered_maps = search_query.trim()
+    ? filtered_maps.filter((map) => {
+        const q = search_query.toLowerCase();
+        const checked_out_name = checked_out_name_by_map_id.get(map.id ?? "") ?? "";
+        return (
+          map.name.toLowerCase().includes(q) ||
+          (map.details ?? "").toLowerCase().includes(q) ||
+          checked_out_name.toLowerCase().includes(q)
+        );
+      })
+    : filtered_maps;
   const recent_ids = getRecentMapIds();
   const recent_maps = recent_ids
     .map((id) => congregation_maps.find((m) => m.id === id))
@@ -185,7 +201,7 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect, onImportKml }: Ma
             </IonLabel>
             <div slot="end">
               <Body size="sm">
-                {filtered_maps.length} of {congregation_maps.length}
+                {search_filtered_maps.length} of {congregation_maps.length}
               </Body>
             </div>
           </IonItem>
@@ -196,7 +212,7 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect, onImportKml }: Ma
             </IonItem>
           )}
 
-          {filtered_maps.map((map) => (
+          {search_filtered_maps.map((map) => (
             <IonItem button key={map.id ?? map.name} onClick={() => handleSelectMap(map)}>
               <IonLabel>
                 {map.name} {map.details ? `| ${map.details}` : ""}
@@ -205,11 +221,17 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect, onImportKml }: Ma
           ))}
         </IonList>
       </IonContent>
-      <MapFilterModal
+      <MapListFilterModal
         is_open={show_filters}
         on_dismiss={() => set_show_filters(false)}
-        filters={filters}
-        on_change={update_filters}
+        presets={presets_api.presets}
+        active_preset={presets_api.active_preset}
+        is_default_active={presets_api.is_default_active}
+        on_select_preset={presets_api.selectPreset}
+        on_create_preset={presets_api.createPreset}
+        on_rename_preset={presets_api.renamePreset}
+        on_delete_preset={presets_api.deletePreset}
+        on_change={presets_api.updatePreset}
       />
       <IonAlert
         isOpen={show_add_alert}

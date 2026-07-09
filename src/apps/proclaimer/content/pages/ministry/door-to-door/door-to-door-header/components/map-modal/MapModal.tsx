@@ -19,7 +19,7 @@ import { RecentMapsList } from "./components/RecentMapsList";
 import { MapImagePreview } from "./components/map-image-preview/MapImagePreview";
 import { MapFilterModal } from "./components/map-filter-modal/MapFilterModal";
 import { useRecentMaps } from "./hooks/useRecentMaps";
-import { useMapFilters } from "./hooks/useMapFilters";
+import { useMinistryMapPresets } from "./hooks/useMinistryMapPresets";
 import type { MapRow } from "@shared/database/schemas/map";
 import { Heading } from "@ui/components/display/text/heading/Heading";
 import { Space } from "@ui/components/layout/space/Space";
@@ -34,10 +34,11 @@ interface MapModalProps {
 
 export function MapModal({ is_open, on_dismiss, onMapSelect }: MapModalProps) {
   const { recentMaps, addToRecentMaps } = useRecentMaps();
-  const { filters, update: update_filters, has_active_filters } = useMapFilters();
+  const presets_api = useMinistryMapPresets();
   const [preview_url, set_preview_url] = useState<string | null>(null);
   const [search_query, set_search_query] = useState("");
   const [show_filters, set_show_filters] = useState(false);
+  const has_active_filters = presets_api.has_active_filters;
 
   function handleMapSelect(map: MapWithBoundary) {
     // Persist the selected map to recent maps
@@ -96,15 +97,22 @@ export function MapModal({ is_open, on_dismiss, onMapSelect }: MapModalProps) {
             onMapSelect={handleMapSelect}
             onPreviewImage={set_preview_url}
             search_query={search_query}
-            filters={filters}
+            filter={presets_api.active_preset.filter}
+            sort_order={presets_api.active_preset.sort_order}
           />
         </IonContent>
       </ResponsiveModal>
       <MapFilterModal
         is_open={show_filters}
         on_dismiss={() => set_show_filters(false)}
-        filters={filters}
-        on_change={update_filters}
+        presets={presets_api.presets}
+        active_preset={presets_api.active_preset}
+        is_default_active={presets_api.is_default_active}
+        on_select_preset={presets_api.selectPreset}
+        on_create_preset={presets_api.createPreset}
+        on_rename_preset={presets_api.renamePreset}
+        on_delete_preset={presets_api.deletePreset}
+        on_change={presets_api.updatePreset}
       />
       {preview_url && (
         <MapImagePreview url={preview_url} on_dismiss={() => set_preview_url(null)} />

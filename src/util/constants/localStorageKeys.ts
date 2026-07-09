@@ -19,11 +19,13 @@ export const localStorageKeys = {
   avFilterSortPresets: "av_filter_sort_presets",
   avFilterSortActivePreset: "av_filter_sort_active_preset",
   bulkEntryMapId: "bulk_entry_map_id",
-  mapModalFilters: "map_modal_filters",
-  serviceOverseerMapFilters: "service_overseer_map_filters",
   recentMapPublishers: "recent_map_publishers",
   mapLogFilterSortPresets: "map_log_filter_sort_presets",
   mapLogFilterSortActivePreset: "map_log_filter_sort_active_preset",
+  ministryMapFilterSortPresets: "ministry_map_filter_sort_presets",
+  ministryMapFilterSortActivePreset: "ministry_map_filter_sort_active_preset",
+  soMapListFilterSortPresets: "so_map_list_filter_sort_presets",
+  soMapListFilterSortActivePreset: "so_map_list_filter_sort_active_preset",
 } as const;
 
 export const localStorageKeyWithVariant = (

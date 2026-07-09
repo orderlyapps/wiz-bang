@@ -1,24 +1,43 @@
 import { useLiveQuery } from "@tanstack/react-db";
 import { mapLogCollection } from "@shared/database/collections/map-log";
 import { mapTagAssignmentCollection } from "@shared/database/collections/map-tag-assignment";
+import { publisherCollection } from "@shared/database/collections/publisher";
+import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
 import type { MapRow } from "@shared/database/schemas/map";
 import type { MapLogRow } from "@shared/database/schemas/map-log";
 import type { MapTagAssignmentRow } from "@shared/database/schemas/map-tag-assignment";
+import type { Publisher } from "@shared/database/schemas/publisher";
 import type { MapLogFilters, MapLogSortOrder } from "../use-map-log-presets/types";
 
-export function useFilteredMapLogMaps(
-  maps: MapRow[],
+export function useFilteredMapLogMaps<T extends MapRow>(
+  maps: T[],
   filters: MapLogFilters,
   sort_order: MapLogSortOrder,
-): { maps: MapRow[]; last_activity_by_map_id: Map<string, string> } {
+): {
+  maps: T[];
+  last_activity_by_map_id: Map<string, string>;
+  checked_out_name_by_map_id: Map<string, string>;
+} {
   const { data: logs_data } = useLiveQuery((q) => q.from({ l: mapLogCollection }));
   const { data: assignments_data } = useLiveQuery((q) => q.from({ a: mapTagAssignmentCollection }));
+  const { data: publishers_data } = useLiveQuery((q) => q.from({ p: publisherCollection }));
 
   const all_logs = (logs_data as MapLogRow[] | undefined) ?? [];
   const all_assignments = (assignments_data as MapTagAssignmentRow[] | undefined) ?? [];
+  const all_publishers = (publishers_data as Publisher[] | undefined) ?? [];
+
+  const publisher_name_by_id = new Map(
+    all_publishers.map((p) => [p.id ?? "", getPublisherDisplayName(p)]),
+  );
 
   const checked_out_map_ids = new Set(
     all_logs.filter((log) => log.checked_out_at && !log.checked_in_at).map((log) => log.map_id),
+  );
+
+  const checked_out_name_by_map_id = new Map(
+    all_logs
+      .filter((log) => log.checked_out_at && !log.checked_in_at)
+      .map((log) => [log.map_id, publisher_name_by_id.get(log.publisher_id) ?? ""]),
   );
 
   const last_activity_by_map_id = new Map<string, string>();
@@ -70,5 +89,5 @@ export function useFilteredMapLogMaps(
     return a_activity.localeCompare(b_activity) || a.name.localeCompare(b.name);
   });
 
-  return { maps: sorted, last_activity_by_map_id };
+  return { maps: sorted, last_activity_by_map_id, checked_out_name_by_map_id };
 }
