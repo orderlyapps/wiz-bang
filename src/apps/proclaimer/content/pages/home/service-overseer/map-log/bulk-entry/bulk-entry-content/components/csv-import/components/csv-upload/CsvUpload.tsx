@@ -48,6 +48,19 @@ function parseCsvLine(line: string): string[] {
   return fields;
 }
 
+function normalizeDate(value: string): string {
+  const trimmed = value.trim();
+  if (!trimmed) return "";
+  if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) return trimmed;
+  const m = trimmed.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (m) {
+    const day = m[1].padStart(2, "0");
+    const month = m[2].padStart(2, "0");
+    return `${m[3]}-${month}-${day}`;
+  }
+  return trimmed;
+}
+
 function parseCsv(text: string): ParsedRow[] {
   const lines = text.split(/\r?\n/).filter((l) => l.trim());
   if (lines.length < 2) return [];
@@ -64,8 +77,8 @@ function parseCsv(text: string): ParsedRow[] {
     rows.push({
       map_name: fields[col_map["map_name"] ?? 0] ?? "",
       publisher_name: fields[col_map["publisher_name"] ?? 1] ?? "",
-      checked_out_at: fields[col_map["checked_out_at"] ?? 2] ?? "",
-      checked_in_at: fields[col_map["checked_in_at"] ?? 3] ?? "",
+      checked_out_at: normalizeDate(fields[col_map["checked_out_at"] ?? 2] ?? ""),
+      checked_in_at: normalizeDate(fields[col_map["checked_in_at"] ?? 3] ?? ""),
       notes: fields[col_map["notes"] ?? 4] ?? "",
     });
   }
