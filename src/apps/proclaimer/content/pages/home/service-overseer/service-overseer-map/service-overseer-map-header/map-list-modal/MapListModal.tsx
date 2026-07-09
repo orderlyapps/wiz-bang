@@ -70,8 +70,6 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect, onImportKml }: Ma
 
   function handleSelectMap(map: MapRow) {
     if (!map.id) return;
-    const bounds = boundaryToBounds(map.boundary);
-    if (!bounds) return;
     recordRecentMap(map.id);
     onSelect({
       type: "map",
@@ -80,20 +78,18 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect, onImportKml }: Ma
       details: map.details,
       url: map.url,
       boundary: map.boundary,
-      bounds,
+      bounds: boundaryToBounds(map.boundary) ?? undefined,
       blocks: map.blocks,
     });
     onDidDismiss();
   }
 
   function handleSelectMaster(master: MapMaster) {
-    const bounds = boundaryToBounds(master.boundary);
-    if (!bounds) return;
     onSelect({
       type: "master",
       congregation_id: master.congregation_id,
       boundary: master.boundary,
-      bounds,
+      bounds: boundaryToBounds(master.boundary) ?? undefined,
     });
     onDidDismiss();
   }

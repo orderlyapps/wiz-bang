@@ -14,4 +14,4 @@ export type SelectedMap =
       bounds?: LngLatBoundsLike;
       blocks: MapRow["blocks"];
     }
-  | { type: "master"; congregation_id: string; boundary: unknown; bounds: LngLatBoundsLike };
+  | { type: "master"; congregation_id: string; boundary: unknown; bounds?: LngLatBoundsLike };
