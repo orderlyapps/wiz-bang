@@ -1,22 +1,5 @@
-import { useRef, useState } from "react";
-import {
-  IonActionSheet,
-  IonAlert,
-  IonButton,
-  IonButtons,
-  IonContent,
-  IonHeader,
-  IonItem,
-  IonLabel,
-  IonList,
-  IonModal,
-  IonTitle,
-  IonToolbar,
-  IonSearchbar,
-  IonIcon,
-} from "@ionic/react";
-import { addOutline, documentAttachOutline, filterOutline } from "ionicons/icons";
-import { AddIconButton } from "@ui/components/inputs/button/icon/add/AddIconButton";
+import { useState } from "react";
+import { IonModal } from "@ionic/react";
 import { useLiveQuery } from "@tanstack/react-db";
 import { mapCollection } from "@shared/database/collections/map";
 import { mapMasterCollection } from "@shared/database/collections/map-master";
@@ -25,16 +8,14 @@ import { localStorageKeys } from "@util/constants/localStorageKeys";
 import { useMapLogPresets } from "@proclaimer-content/pages/home/service-overseer/map-log/map-log-content/components/use-map-log-presets/useMapLogPresets";
 import { useFilteredMapLogMaps } from "@proclaimer-content/pages/home/service-overseer/map-log/map-log-content/components/use-filtered-map-log-maps/useFilteredMapLogMaps";
 import { MapListFilterModal } from "./components/map-list-filter-modal/MapListFilterModal";
+import { MapListModalHeader } from "./components/map-list-modal-header/MapListModalHeader";
+import { MapListModalContent } from "./components/map-list-modal-content/MapListModalContent";
+import { MapListModalAlerts } from "./components/map-list-modal-alerts/MapListModalAlerts";
 import { boundaryToBounds } from "../../utils/boundary";
-import { kmlToGeoJSON } from "../../utils/kml-to-geojson";
 import { getRecentMapIds, recordRecentMap } from "../../utils/useRecentMaps";
 import type { MapRow } from "@shared/database/schemas/map";
 import type { MapMaster } from "@shared/database/schemas/map-master";
 import type { SelectedMap } from "../../utils/types";
-import { Heading } from "@ui/components/display/text/heading/Heading";
-import { Space } from "@ui/components/layout/space/Space";
-import { Body } from "@ui/components/display/text/body/Body";
-import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 
 type MapListModalProps = {
   isOpen: boolean;
@@ -49,36 +30,11 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect, onImportKml }: Ma
   const [show_error_alert, set_show_error_alert] = useState(false);
   const [search_query, set_search_query] = useState("");
   const [show_filters, set_show_filters] = useState(false);
-  const file_input_ref = useRef<HTMLInputElement>(null);
   const presets_api = useMapLogPresets(
     localStorageKeys.soMapListFilterSortPresets,
     localStorageKeys.soMapListFilterSortActivePreset,
   );
 
-  function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      try {
-        const text = reader.result as string;
-        const geojson = kmlToGeoJSON(text);
-        if (geojson.features.length === 0) {
-          set_show_error_alert(true);
-          return;
-        }
-        onImportKml(geojson);
-        onDidDismiss();
-      } catch {
-        set_show_error_alert(true);
-      }
-    };
-    reader.onerror = () => {
-      set_show_error_alert(true);
-    };
-    reader.readAsText(file);
-    event.target.value = "";
-  }
   const { data: maps } = useLiveQuery((q) =>
     q.from({ m: mapCollection }).orderBy(({ m }) => m.name),
   );
@@ -144,84 +100,23 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect, onImportKml }: Ma
 
   return (
     <IonModal isOpen={isOpen} onDidDismiss={onDidDismiss}>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <CloseIconButton on_click={onDidDismiss} />
-          </IonButtons>
-          <IonTitle>Maps</IonTitle>
-          <IonButtons slot="end">
-            <IonButton
-              fill="clear"
-              color={has_active_filters ? "primary" : "medium"}
-              onClick={() => set_show_filters(true)}
-            >
-              <IonIcon slot="icon-only" icon={filterOutline} />
-            </IonButton>
-            <AddIconButton on_click={() => set_show_add_action_sheet(true)} />
-          </IonButtons>
-        </IonToolbar>
-        <IonToolbar>
-          <IonSearchbar
-            value={search_query}
-            onIonInput={(e) => set_search_query(e.detail.value ?? "")}
-            debounce={100}
-            placeholder="Search maps..."
-          />
-        </IonToolbar>
-      </IonHeader>
-      <IonContent className="content-wide">
-        <IonList>
-          {search_query.trim() === "" && recent_maps.length > 0 && (
-            <>
-              <IonItem>
-                <IonLabel>
-                  <Heading size="md" bold>
-                    Recent Maps
-                  </Heading>
-                </IonLabel>
-              </IonItem>
-
-              {recent_maps.map((map) => (
-                <IonItem button key={`recent-${map.id}`} onClick={() => handleSelectMap(map)}>
-                  <IonLabel>
-                    {map.name} {map.details ? `| ${map.details}` : ""}
-                  </IonLabel>
-                </IonItem>
-              ))}
-            </>
-          )}
-
-          <Space></Space>
-
-          <IonItem>
-            <IonLabel>
-              <Heading size="md" bold>
-                All Maps
-              </Heading>
-            </IonLabel>
-            <div slot="end">
-              <Body size="sm">
-                {search_filtered_maps.length} of {congregation_maps.length}
-              </Body>
-            </div>
-          </IonItem>
-
-          {master && (
-            <IonItem button onClick={() => handleSelectMaster(master)}>
-              <IonLabel>Master Map</IonLabel>
-            </IonItem>
-          )}
-
-          {search_filtered_maps.map((map) => (
-            <IonItem button key={map.id ?? map.name} onClick={() => handleSelectMap(map)}>
-              <IonLabel>
-                {map.name} {map.details ? `| ${map.details}` : ""}
-              </IonLabel>
-            </IonItem>
-          ))}
-        </IonList>
-      </IonContent>
+      <MapListModalHeader
+        search_query={search_query}
+        on_search_change={set_search_query}
+        has_active_filters={has_active_filters}
+        on_close={onDidDismiss}
+        on_show_filters={() => set_show_filters(true)}
+        on_add={() => set_show_add_action_sheet(true)}
+      />
+      <MapListModalContent
+        search_query={search_query}
+        recent_maps={recent_maps}
+        congregation_maps={congregation_maps}
+        search_filtered_maps={search_filtered_maps}
+        master={master}
+        on_select_map={handleSelectMap}
+        on_select_master={handleSelectMaster}
+      />
       <MapListFilterModal
         is_open={show_filters}
         on_dismiss={() => set_show_filters(false)}
@@ -234,71 +129,17 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect, onImportKml }: Ma
         on_delete_preset={presets_api.deletePreset}
         on_change={presets_api.updatePreset}
       />
-      <IonAlert
-        isOpen={show_add_alert}
-        header="New Map"
-        inputs={[{ name: "name", type: "text", placeholder: "Map name" }]}
-        buttons={[
-          { text: "Cancel", role: "cancel" },
-          {
-            text: "Create",
-            handler: (data: { name: string }) => {
-              const name = data.name.trim();
-              if (!name || !congregation_id) return;
-              const id = crypto.randomUUID();
-              mapCollection.insert({
-                id,
-                congregation_id,
-                name,
-                boundary: null,
-                blocks: null,
-              });
-              recordRecentMap(id);
-              onSelect({
-                type: "map",
-                id,
-                name,
-                details: null,
-                url: null,
-                boundary: null,
-                blocks: null,
-              });
-              onDidDismiss();
-            },
-          },
-        ]}
-        onDidDismiss={() => set_show_add_alert(false)}
-      />
-      <IonActionSheet
-        isOpen={show_add_action_sheet}
-        onDidDismiss={() => set_show_add_action_sheet(false)}
-        buttons={[
-          {
-            text: "Add Map",
-            icon: addOutline,
-            handler: () => set_show_add_alert(true),
-          },
-          {
-            text: "Import KML File",
-            icon: documentAttachOutline,
-            handler: () => file_input_ref.current?.click(),
-          },
-          { text: "Cancel", role: "cancel" },
-        ]}
-      />
-      <input
-        ref={file_input_ref}
-        type="file"
-        accept=".kml"
-        style={{ display: "none" }}
-        onChange={handleFileChange}
-      />
-      <IonAlert
-        isOpen={show_error_alert}
-        header="Import Failed"
-        message="Could not import the KML file. Please ensure it is a valid KML file with at least one placemark."
-        buttons={["OK"]}
-        onDidDismiss={() => set_show_error_alert(false)}
+      <MapListModalAlerts
+        show_add_alert={show_add_alert}
+        set_show_add_alert={set_show_add_alert}
+        show_add_action_sheet={show_add_action_sheet}
+        set_show_add_action_sheet={set_show_add_action_sheet}
+        show_error_alert={show_error_alert}
+        set_show_error_alert={set_show_error_alert}
+        congregation_id={congregation_id}
+        on_select={onSelect}
+        on_did_dismiss={onDidDismiss}
+        on_import_kml={onImportKml}
       />
     </IonModal>
   );
