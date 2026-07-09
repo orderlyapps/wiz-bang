@@ -109,6 +109,7 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect, onImportKml }: Ma
         recent_maps={recent_maps}
         congregation_maps={congregation_maps}
         search_filtered_maps={search_filtered_maps}
+        active_preset_name={presets_api.active_preset.name}
         master={master}
         on_select_map={handleSelectMap}
         on_select_master={handleSelectMaster}

@@ -10,6 +10,7 @@ type MapListModalContentProps = {
   recent_maps: MapRow[];
   congregation_maps: MapRow[];
   search_filtered_maps: MapRow[];
+  active_preset_name: string;
   master?: MapMaster;
   on_select_map: (map: MapRow) => void;
   on_select_master: (master: MapMaster) => void;
@@ -20,6 +21,7 @@ export function MapListModalContent({
   recent_maps,
   congregation_maps,
   search_filtered_maps,
+  active_preset_name,
   master,
   on_select_map,
   on_select_master,
@@ -52,7 +54,7 @@ export function MapListModalContent({
         <IonItem>
           <IonLabel>
             <Heading size="md" bold>
-              All Maps
+              {active_preset_name}
             </Heading>
           </IonLabel>
           <div slot="end">
