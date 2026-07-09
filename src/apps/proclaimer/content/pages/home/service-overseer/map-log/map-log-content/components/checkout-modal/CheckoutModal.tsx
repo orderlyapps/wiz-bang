@@ -25,6 +25,8 @@ import { MapSelectModal } from "./components/map-select-modal/MapSelectModal";
 import type { MapRow } from "@shared/database/schemas/map";
 import type { MapLogRow } from "@shared/database/schemas/map-log";
 import type { Publisher } from "@shared/database/schemas/publisher";
+import { DeleteTextButton } from "@ui/components/inputs/button/text/delete/DeleteTextButton";
+import { Space } from "@ui/components/layout/space/Space";
 
 type CheckoutModalProps = {
   isOpen: boolean;
@@ -98,6 +100,12 @@ export function CheckoutModal({ isOpen, onDidDismiss, existing_log }: CheckoutMo
         notes: notes.trim() || null,
       });
     }
+    dismiss();
+  }
+
+  function handleDelete() {
+    if (!existing_log?.id) return;
+    mapLogCollection.delete(existing_log.id);
     dismiss();
   }
 
@@ -204,6 +212,16 @@ export function CheckoutModal({ isOpen, onDidDismiss, existing_log }: CheckoutMo
             />
           </IonItem>
         </IonList>
+        {is_editing && (
+          <>
+            <Space />
+            <DeleteTextButton
+              alert_header="Delete Log"
+              alert_message="Are you sure you want to delete this map log?"
+              on_click={handleDelete}
+            />
+          </>
+        )}
       </IonContent>
     </ResponsiveModal>
   );
