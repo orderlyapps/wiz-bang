@@ -26,6 +26,9 @@ export const localStorageKeys = {
   ministryMapFilterSortActivePreset: "ministry_map_filter_sort_active_preset",
   soMapListFilterSortPresets: "so_map_list_filter_sort_presets",
   soMapListFilterSortActivePreset: "so_map_list_filter_sort_active_preset",
+  homeAssignmentsAccordion: "home_assignments_accordion",
+  homeEventsAccordion: "home_events_accordion",
+  homeToolsAccordion: "home_tools_accordion",
 } as const;
 
 export const localStorageKeyWithVariant = (

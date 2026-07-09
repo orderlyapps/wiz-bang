@@ -7,12 +7,15 @@ import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
 import { Heading } from "@ui/components/display/text/heading/Heading";
 import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
 import { EventItem } from "@proclaimer-content/pages/schedules/events/components/event-item/EventItem";
+import { localStorageKeys } from "@util/constants/localStorageKeys";
+import { useAccordionState } from "@util/hooks/use-accordion-state/useAccordionState";
 
 export function HomeEvents() {
   const congregation = useStoredCongregation();
   const congregation_id = congregation?.id;
   const permissions = usePermissions();
   const today_str = format(new Date(), "yyyy-MM-dd");
+  const { value, onIonChange } = useAccordionState(localStorageKeys.homeEventsAccordion, "events");
 
   const can_edit =
     permissions.has_events || permissions.has_congregation_admin || permissions.is_super_admin;
@@ -39,7 +42,7 @@ export function HomeEvents() {
   }
 
   return (
-    <IonAccordionGroup>
+    <IonAccordionGroup value={value} onIonChange={onIonChange}>
       <IonAccordion value="events">
         <IonItem slot="header">
           <IonLabel>

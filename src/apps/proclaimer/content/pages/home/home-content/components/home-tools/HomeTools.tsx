@@ -4,6 +4,8 @@ import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
 import { usePermissions } from "@proclaimer-shared/hooks/usePermissions";
 import { useChairmanWeeks } from "@proclaimer-content/pages/home/clam-chairman/useChairmanWeeks";
 import type { IonicColor } from "@util/vendor/ionic/types/IonicColor";
+import { localStorageKeys } from "@util/constants/localStorageKeys";
+import { useAccordionState } from "@util/hooks/use-accordion-state/useAccordionState";
 
 const COLOR: IonicColor = "medium";
 const CLASSNAME = "ion-text-end";
@@ -13,6 +15,7 @@ export function HomeTools() {
   const canSeeAll = permissions.has_congregation_admin || permissions.is_super_admin;
 
   const { is_chairman } = useChairmanWeeks();
+  const { value, onIonChange } = useAccordionState(localStorageKeys.homeToolsAccordion, "tools");
 
   const hasAnyTool =
     permissions.is_super_admin ||
@@ -38,7 +41,7 @@ export function HomeTools() {
   }
 
   return (
-    <IonAccordionGroup>
+    <IonAccordionGroup value={value} onIonChange={onIonChange}>
       <IonAccordion value="tools">
         <IonItem slot="header">
           <IonLabel>

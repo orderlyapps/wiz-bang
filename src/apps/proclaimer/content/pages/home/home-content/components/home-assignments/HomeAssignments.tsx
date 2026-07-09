@@ -3,17 +3,23 @@ import { Heading } from "@ui/components/display/text/heading/Heading";
 import { NavItem } from "@ui/components/navigation/nav-item/NavItem";
 import { useAssignments } from "@proclaimer-content/pages/home/assignments/useAssignments";
 import { AssignmentItem } from "@proclaimer-content/pages/home/assignments/components/assignment-item/AssignmentItem";
+import { localStorageKeys } from "@util/constants/localStorageKeys";
+import { useAccordionState } from "@util/hooks/use-accordion-state/useAccordionState";
 
 export function HomeAssignments() {
   const { assignments } = useAssignments();
   const upcoming_assignments = assignments.slice(0, 3);
+  const { value, onIonChange } = useAccordionState(
+    localStorageKeys.homeAssignmentsAccordion,
+    "assignments",
+  );
 
   if (!upcoming_assignments.length) {
     return null;
   }
 
   return (
-    <IonAccordionGroup>
+    <IonAccordionGroup value={value} onIonChange={onIonChange}>
       <IonAccordion value="assignments">
         <IonItem slot="header">
           <IonLabel>
