@@ -111,6 +111,7 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect, onImportKml }: Ma
         search_filtered_maps={search_filtered_maps}
         active_preset_name={presets_api.active_preset.name}
         master={master}
+        checked_out_name_by_map_id={checked_out_name_by_map_id}
         on_select_map={handleSelectMap}
         on_select_master={handleSelectMaster}
       />
