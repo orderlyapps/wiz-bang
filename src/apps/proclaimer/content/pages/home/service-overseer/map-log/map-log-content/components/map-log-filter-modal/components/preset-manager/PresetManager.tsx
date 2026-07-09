@@ -2,9 +2,8 @@ import { useState } from "react";
 import { IonAlert, IonItem, IonList, IonNote } from "@ionic/react";
 import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiColumnList";
 import { Select } from "@ui/components/inputs/select/Select";
-import { CopyIconButton } from "@ui/components/inputs/button/icon/copy/CopyIconButton";
-import { EditIconButton } from "@ui/components/inputs/button/icon/edit/EditIconButton";
-import { DeleteIconButton } from "@ui/components/inputs/button/icon/delete/DeleteIconButton";
+import { TextButton } from "@ui/components/inputs/button/text/TextButton";
+import { DeleteTextButton } from "@ui/components/inputs/button/text/delete/DeleteTextButton";
 import type { MapLogFilterSortPreset } from "../../../use-map-log-presets/types";
 import { DEFAULT_PRESET_IDS } from "../../../use-map-log-presets/defaultMapLogPresets";
 
@@ -30,7 +29,14 @@ export function PresetManager({
   const [show_save_alert, set_show_save_alert] = useState(false);
   const [show_rename_alert, set_show_rename_alert] = useState(false);
 
-  const preset_options = presets.map((p) => ({ label: p.name, value: p.id }));
+  const preset_options = [...presets]
+    .sort((a, b) => {
+      const a_is_default = DEFAULT_PRESET_IDS.has(a.id);
+      const b_is_default = DEFAULT_PRESET_IDS.has(b.id);
+      if (a_is_default !== b_is_default) return a_is_default ? 1 : -1;
+      return 0;
+    })
+    .map((p) => ({ label: p.name, value: p.id }));
   const active_preset_name = presets.find((p) => p.id === active_preset_id)?.name ?? "";
   const has_custom_presets = presets.some((p) => !DEFAULT_PRESET_IDS.has(p.id));
 
@@ -51,19 +57,32 @@ export function PresetManager({
     {
       id: "actions",
       node: (
-        <IonItem className="flex-left" lines="none">
-          <CopyIconButton on_click={() => set_show_save_alert(true)} />
-          <EditIconButton
-            disabled={is_default_active}
-            on_click={() => set_show_rename_alert(true)}
+        <div className="flex-left" style={{ padding: "8px 16px", gap: "4px" }}>
+          <TextButton
+            label="Duplicate"
+            fill="clear"
+            size="small"
+            on_click={() => set_show_save_alert(true)}
           />
-          <DeleteIconButton
-            disabled={is_default_active}
-            alert_header="Delete preset"
-            alert_message="Are you sure you want to delete this preset?"
-            on_click={() => on_delete(active_preset_id)}
-          />
-        </IonItem>
+          {!is_default_active && (
+            <TextButton
+              label="Rename"
+              fill="clear"
+              size="small"
+              on_click={() => set_show_rename_alert(true)}
+            />
+          )}
+          {!is_default_active && (
+            <DeleteTextButton
+              label="Delete"
+              fill="clear"
+              size="small"
+              alert_header="Delete preset"
+              alert_message="Are you sure you want to delete this preset?"
+              on_click={() => on_delete(active_preset_id)}
+            />
+          )}
+        </div>
       ),
     },
   ];
