@@ -34,6 +34,7 @@ import type { SelectedMap } from "../../utils/types";
 import { Heading } from "@ui/components/display/text/heading/Heading";
 import { Space } from "@ui/components/layout/space/Space";
 import { Body } from "@ui/components/display/text/body/Body";
+import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIconButton";
 
 type MapListModalProps = {
   isOpen: boolean;
@@ -146,7 +147,7 @@ export function MapListModal({ isOpen, onDidDismiss, onSelect, onImportKml }: Ma
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonButton onClick={onDidDismiss}>Close</IonButton>
+            <CloseIconButton on_click={onDidDismiss} />
           </IonButtons>
           <IonTitle>Maps</IonTitle>
           <IonButtons slot="end">
