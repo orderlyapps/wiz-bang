@@ -7,7 +7,8 @@ import { sortOrderLabels } from "@proclaimer-content/pages/home/clam-overseer/sc
 import type { AvFilterSortPreset, AvPublisherFilter } from "../../hooks/use-av-presets/types";
 import type { PublisherSortOrder } from "../../hooks/use-av-presets/types";
 import { getAvFilterInputItems } from "./AvFilterSection";
-import { PresetManager } from "./components/preset-manager/PresetManager";
+import { PresetManager } from "@proclaimer-shared/components/preset-manager/PresetManager";
+import { DEFAULT_AV_PRESET_ID } from "../../hooks/use-av-presets/defaultAvPresets";
 
 const sort_options: PublisherSortOrder[] = [
   "alphabetical",
@@ -72,6 +73,7 @@ export function AvFilterSelectModal({
           presets={presets}
           active_preset_id={active_preset.id}
           is_default_active={is_default_active}
+          default_preset_ids={new Set([DEFAULT_AV_PRESET_ID])}
           on_select={on_select_preset}
           on_create={on_create_preset}
           on_rename={on_rename_preset}

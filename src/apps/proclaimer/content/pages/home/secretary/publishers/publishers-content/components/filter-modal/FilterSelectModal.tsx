@@ -11,7 +11,8 @@ import { ResponsiveModal } from "@ui/components/display/responsive-modal/Respons
 import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiColumnList";
 import type { FilterSortPreset } from "../../hooks/use-presets/types";
 import type { PublisherFilter } from "../../hooks/use-publisher-filter/types";
-import { PresetManager } from "./components/preset-manager/PresetManager";
+import { PresetManager } from "@proclaimer-shared/components/preset-manager/PresetManager";
+import { DEFAULT_PRESET_ID } from "../../hooks/use-presets/defaultPresets";
 import { getFilterInputItems } from "./components/filter-section/FilterSection";
 import { Space } from "@ui/components/layout/space/Space";
 import { Body } from "@ui/components/display/text/body/Body";
@@ -57,6 +58,8 @@ export function FilterSelectModal({
           presets={presets}
           active_preset_id={active_preset.id}
           is_default_active={is_default_active}
+          default_preset_ids={new Set([DEFAULT_PRESET_ID])}
+          show_note={false}
           on_select={on_select_preset}
           on_create={on_create_preset}
           on_rename={on_rename_preset}

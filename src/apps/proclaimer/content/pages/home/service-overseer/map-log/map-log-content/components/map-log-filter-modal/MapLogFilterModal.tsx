@@ -7,7 +7,8 @@ import { Space } from "@ui/components/layout/space/Space";
 import { mapTagCollection } from "@shared/database/collections/map-tag";
 import { useStoredCongregation } from "@util/app/congregation/useStoredCongregation";
 import type { MapTagRow } from "@shared/database/schemas/map-tag";
-import { PresetManager } from "./components/preset-manager/PresetManager";
+import { PresetManager } from "@proclaimer-shared/components/preset-manager/PresetManager";
+import { DEFAULT_PRESET_IDS } from "../use-map-log-presets/defaultMapLogPresets";
 import { getMapLogFilterInputItems } from "./components/filter-section/MapLogFilterSection";
 import { sortOrderLabels } from "../use-map-log-presets/types";
 import type {
@@ -90,6 +91,7 @@ export function MapLogFilterModal({
           presets={presets}
           active_preset_id={active_preset.id}
           is_default_active={is_default_active}
+          default_preset_ids={DEFAULT_PRESET_IDS}
           on_select={on_select_preset}
           on_create={on_create_preset}
           on_rename={on_rename_preset}

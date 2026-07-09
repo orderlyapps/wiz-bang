@@ -15,7 +15,8 @@ import type {
   PublisherSortOrder,
 } from "../../hooks/use-weekend-presets/types";
 import { sortOrderLabels } from "../../hooks/use-weekend-presets/types";
-import { PresetManager } from "./components/preset-manager/PresetManager";
+import { PresetManager } from "@proclaimer-shared/components/preset-manager/PresetManager";
+import { DEFAULT_WEEKEND_PRESET_ID } from "../../hooks/use-weekend-presets/defaultWeekendPreset";
 
 const weekendAssignmentOptions = weekendAssignmentIDs.map((id) => ({
   label: weekendAssignmentLabels[id],
@@ -151,6 +152,7 @@ export function WeekendFilterSelectModal({
           presets={presets}
           active_preset_id={active_preset.id}
           is_default_active={is_default_active}
+          default_preset_ids={new Set([DEFAULT_WEEKEND_PRESET_ID])}
           on_select={on_select_preset}
           on_create={on_create_preset}
           on_rename={on_rename_preset}

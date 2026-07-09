@@ -4,34 +4,48 @@ import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiC
 import { Select } from "@ui/components/inputs/select/Select";
 import { TextButton } from "@ui/components/inputs/button/text/TextButton";
 import { DeleteTextButton } from "@ui/components/inputs/button/text/delete/DeleteTextButton";
-import type { WeekendFilterSortPreset } from "../../../../hooks/use-weekend-presets/types";
-import { DEFAULT_WEEKEND_PRESET_ID } from "../../../../hooks/use-weekend-presets/defaultWeekendPreset";
 
-interface PresetManagerProps {
-  presets: WeekendFilterSortPreset[];
+interface PresetLike {
+  id: string;
+  name: string;
+}
+
+interface PresetManagerProps<T extends PresetLike> {
+  presets: T[];
   active_preset_id: string;
   is_default_active: boolean;
+  default_preset_ids: Set<string>;
   on_select: (id: string) => void;
   on_create: (name: string) => void;
   on_rename: (id: string, name: string) => void;
   on_delete: (id: string) => void;
+  show_note?: boolean;
 }
 
-export function PresetManager({
+export function PresetManager<T extends PresetLike>({
   presets,
   active_preset_id,
   is_default_active,
+  default_preset_ids,
   on_select,
   on_create,
   on_rename,
   on_delete,
-}: PresetManagerProps) {
+  show_note = true,
+}: PresetManagerProps<T>) {
   const [show_save_alert, set_show_save_alert] = useState(false);
   const [show_rename_alert, set_show_rename_alert] = useState(false);
 
-  const preset_options = presets.map((p) => ({ label: p.name, value: p.id }));
+  const preset_options = [...presets]
+    .sort((a, b) => {
+      const a_is_default = default_preset_ids.has(a.id);
+      const b_is_default = default_preset_ids.has(b.id);
+      if (a_is_default !== b_is_default) return a_is_default ? 1 : -1;
+      return 0;
+    })
+    .map((p) => ({ label: p.name, value: p.id }));
   const active_preset_name = presets.find((p) => p.id === active_preset_id)?.name ?? "";
-  const has_custom_presets = presets.some((p) => p.id !== DEFAULT_WEEKEND_PRESET_ID);
+  const has_custom_presets = presets.some((p) => !default_preset_ids.has(p.id));
 
   const row_items = [
     {
@@ -90,7 +104,7 @@ export function PresetManager({
         column_offset={-1}
       />
 
-      {!has_custom_presets && (
+      {show_note && !has_custom_presets && (
         <IonItem lines="none">
           <IonNote>
             NOTE: Save the current filters as a preset using the Duplicate button above.
@@ -124,7 +138,7 @@ export function PresetManager({
             type: "text",
             placeholder: "New name",
             value:
-              presets.find((p) => p.id === active_preset_id && p.id !== DEFAULT_WEEKEND_PRESET_ID)
+              presets.find((p) => p.id === active_preset_id && !default_preset_ids.has(p.id))
                 ?.name ?? "",
           },
         ]}

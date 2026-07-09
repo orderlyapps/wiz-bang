@@ -6,7 +6,8 @@ import type {
   PublisherFilter,
   PublisherSortOrder,
 } from "../../../../hooks/use-presets/usePresets";
-import { PresetManager } from "./components/preset-manager/PresetManager";
+import { PresetManager } from "@proclaimer-shared/components/preset-manager/PresetManager";
+import { DEFAULT_PRESET_ID } from "../../../../hooks/use-presets/defaultPresets";
 import { getSortInputItem } from "./components/sort-section/SortSection";
 import { getFilterInputItems } from "./components/filter-section/FilterSection";
 import { Space } from "@ui/components/layout/space/Space";
@@ -51,6 +52,7 @@ export function FilterSelectModal({
           presets={presets}
           active_preset_id={active_preset.id}
           is_default_active={is_default_active}
+          default_preset_ids={new Set([DEFAULT_PRESET_ID])}
           on_select={on_select_preset}
           on_create={on_create_preset}
           on_rename={on_rename_preset}
