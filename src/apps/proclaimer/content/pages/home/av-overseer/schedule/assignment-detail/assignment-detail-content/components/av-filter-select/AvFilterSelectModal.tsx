@@ -15,9 +15,8 @@ import { ResponsiveModal } from "@ui/components/display/responsive-modal/Respons
 import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiColumnList";
 import { Select } from "@ui/components/inputs/select/Select";
 import { Space } from "@ui/components/layout/space/Space";
-import { CopyIconButton } from "@ui/components/inputs/button/icon/copy/CopyIconButton";
-import { EditIconButton } from "@ui/components/inputs/button/icon/edit/EditIconButton";
-import { DeleteIconButton } from "@ui/components/inputs/button/icon/delete/DeleteIconButton";
+import { TextButton } from "@ui/components/inputs/button/text/TextButton";
+import { DeleteTextButton } from "@ui/components/inputs/button/text/delete/DeleteTextButton";
 import { sortOrderLabels } from "@proclaimer-content/pages/home/clam-overseer/schedule/assignment-detail/assignment-detail-content/components/publisher-selector/hooks/use-publisher-sort/types";
 import type { AvFilterSortPreset, AvPublisherFilter } from "../../hooks/use-av-presets/types";
 import type { PublisherSortOrder } from "../../hooks/use-av-presets/types";
@@ -78,19 +77,32 @@ export function AvFilterSelectModal({
     {
       id: "actions",
       node: (
-        <IonItem className="flex-left" lines="none">
-          <CopyIconButton on_click={() => set_show_save_alert(true)} />
-          <EditIconButton
-            disabled={is_default_active}
-            on_click={() => set_show_rename_alert(true)}
+        <div className="flex-left" style={{ padding: "8px 16px" }}>
+          <TextButton
+            label="Duplicate"
+            fill="clear"
+            size="small"
+            on_click={() => set_show_save_alert(true)}
           />
-          <DeleteIconButton
-            disabled={is_default_active}
-            alert_header="Delete preset"
-            alert_message="Are you sure you want to delete this preset?"
-            on_click={() => on_delete_preset(active_preset.id)}
-          />
-        </IonItem>
+          {!is_default_active && (
+            <TextButton
+              label="Rename"
+              fill="clear"
+              size="small"
+              on_click={() => set_show_rename_alert(true)}
+            />
+          )}
+          {!is_default_active && (
+            <DeleteTextButton
+              label="Delete"
+              fill="clear"
+              size="small"
+              alert_header="Delete preset"
+              alert_message="Are you sure you want to delete this preset?"
+              on_click={() => on_delete_preset(active_preset.id)}
+            />
+          )}
+        </div>
       ),
     },
   ];
@@ -134,7 +146,7 @@ export function AvFilterSelectModal({
           {!has_custom_presets && (
             <IonItem lines="none">
               <IonNote>
-                NOTE: Save the current filters as a preset using the copy icon above.
+                NOTE: Save the current filters as a preset using the Duplicate button above.
               </IonNote>
             </IonItem>
           )}
@@ -155,7 +167,7 @@ export function AvFilterSelectModal({
         header="Save preset"
         inputs={[{ name: "name", type: "text", placeholder: "Preset name" }]}
         buttons={[
-          { text: "Cancel", role: "cancel", handler: () => set_show_save_alert(false) },
+          { text: "Cancel", role: "cancel" },
           {
             text: "Save",
             handler: (data: { name: string }) => {
@@ -180,7 +192,7 @@ export function AvFilterSelectModal({
           },
         ]}
         buttons={[
-          { text: "Cancel", role: "cancel", handler: () => set_show_rename_alert(false) },
+          { text: "Cancel", role: "cancel" },
           {
             text: "Rename",
             handler: (data: { name: string }) => {

@@ -57,7 +57,7 @@ export function PresetManager({
     {
       id: "actions",
       node: (
-        <div className="flex-left" style={{ padding: "8px 16px", gap: "4px" }}>
+        <div className="flex-left" style={{ padding: "8px 16px" }}>
           <TextButton
             label="Duplicate"
             fill="clear"
@@ -98,7 +98,9 @@ export function PresetManager({
       />
       {!has_custom_presets && (
         <IonItem lines="none">
-          <IonNote>NOTE: Save the current filters as a preset using the copy icon above.</IonNote>
+          <IonNote>
+            NOTE: Save the current filters as a preset using the Duplicate button above.
+          </IonNote>
         </IonItem>
       )}
       <IonAlert
