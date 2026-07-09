@@ -22,6 +22,7 @@ interface MapSelectModalProps {
   onSelect: (map: MapRow) => void;
   selectedId?: string;
   maps: MapRow[];
+  subtitle?: string;
 }
 
 export function MapSelectModal({
@@ -30,6 +31,7 @@ export function MapSelectModal({
   onSelect,
   selectedId,
   maps,
+  subtitle,
 }: MapSelectModalProps) {
   const [query, set_query] = useState("");
 
@@ -50,7 +52,10 @@ export function MapSelectModal({
     <ResponsiveModal isOpen={isOpen} onDidDismiss={handleDismiss}>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Select Map</IonTitle>
+          <IonTitle>
+            Select Map
+            {subtitle && <p style={{ fontSize: "0.8em", margin: 0 }}>{subtitle}</p>}
+          </IonTitle>
           <IonButtons slot="end">
             <IonButton onClick={handleDismiss}>Close</IonButton>
           </IonButtons>

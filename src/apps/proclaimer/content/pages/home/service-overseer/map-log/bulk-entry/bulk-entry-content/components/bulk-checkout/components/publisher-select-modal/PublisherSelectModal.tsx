@@ -63,7 +63,7 @@ export function PublisherSelectModal({
   );
 
   const publishers = ((data as Publisher[] | undefined) ?? []).filter(
-    (p) => p.congregation_id === congregation_id && !p.archived_at,
+    (p) => p.congregation_id === congregation_id,
   );
 
   const recent_ids = getRecentPublisherIds();
