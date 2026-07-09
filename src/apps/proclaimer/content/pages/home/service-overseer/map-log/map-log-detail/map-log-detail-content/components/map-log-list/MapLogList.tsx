@@ -9,7 +9,7 @@ import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherU
 import { Label } from "@ui/components/display/text/label/Label";
 import { Body } from "@ui/components/display/text/body/Body";
 import { Space } from "@ui/components/layout/space/Space";
-import { SaveTextButton } from "@ui/components/inputs/button/text/save/SaveTextButton";
+import { TextButton } from "@ui/components/inputs/button/text/TextButton";
 import { CheckoutModal } from "@proclaimer-content/pages/home/service-overseer/map-log/map-log-content/components/checkout-modal/CheckoutModal";
 
 function formatDate(date_str: string | null | undefined): string {
@@ -34,6 +34,7 @@ interface MapLogListProps {
 
 export function MapLogList({ map_id }: MapLogListProps) {
   const [editing_log, set_editing_log] = useState<MapLogRow | undefined>(undefined);
+  const [show_new_checkout, set_show_new_checkout] = useState(false);
   const { data: logs_data } = useLiveQuery((q) => q.from({ ml: mapLogCollection }));
   const { data: publishers_data } = useLiveQuery((q) => q.from({ p: publisherCollection }));
 
@@ -44,21 +45,26 @@ export function MapLogList({ map_id }: MapLogListProps) {
     .filter((log) => log.map_id === map_id)
     .sort((a, b) => (b.checked_out_at ?? "").localeCompare(a.checked_out_at ?? ""));
 
-  function handleCheckIn(log_id: string) {
-    mapLogCollection.update(log_id, (draft) => {
-      draft.checked_in_at = new Date().toISOString();
-    });
-  }
+  const has_checked_out = map_logs.some((log) => !log.checked_in_at);
 
   return (
     <IonList>
       <Space size="sm" />
       {map_logs.length === 0 && (
-        <IonItem>
-          <IonLabel className="ion-text-center">
-            <p>No logs for this map yet.</p>
-          </IonLabel>
-        </IonItem>
+        <>
+          <IonItem>
+            <IonLabel className="ion-text-center">
+              <p>No logs for this map yet.</p>
+            </IonLabel>
+          </IonItem>
+          <Space size="lg" />
+        </>
+      )}
+      {!has_checked_out && (
+        <>
+          <TextButton label="Check Out" on_click={() => set_show_new_checkout(true)} />
+          <Space size="sm" />
+        </>
       )}
       {map_logs.map((log) => {
         const is_checked_out = !log.checked_in_at;
@@ -66,12 +72,7 @@ export function MapLogList({ map_id }: MapLogListProps) {
           <Fragment key={log.id}>
             {is_checked_out && (
               <>
-                <SaveTextButton
-                  on_click={() => log.id && handleCheckIn(log.id)}
-                  label="Check In"
-                  confirm_text="Check In"
-                  alert_message="Are you sure you want check in this map?"
-                />
+                <TextButton label="Check In" on_click={() => set_editing_log(log)} />
                 <Space size="sm" />
               </>
             )}
@@ -93,11 +94,14 @@ export function MapLogList({ map_id }: MapLogListProps) {
           </Fragment>
         );
       })}
-      {editing_log && (
+      {(editing_log || show_new_checkout) && (
         <CheckoutModal
-          key={editing_log.id}
+          key={editing_log?.id ?? "new"}
           isOpen
-          onDidDismiss={() => set_editing_log(undefined)}
+          onDidDismiss={() => {
+            set_editing_log(undefined);
+            set_show_new_checkout(false);
+          }}
           existing_log={editing_log}
         />
       )}
