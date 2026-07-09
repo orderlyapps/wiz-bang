@@ -1,7 +1,10 @@
 import { useLiveQuery, eq } from "@tanstack/react-db";
+import { IonIcon, IonItem, IonLabel } from "@ionic/react";
+import { addCircleOutline } from "ionicons/icons";
 import { publisherLocalCollection } from "@shared/database/collections/publisher-local";
 import { DateInput } from "@ui/components/inputs/date/DateInput";
 import { LabelValueItem } from "@ui/components/display/data/label-value/LabelValueItem";
+import { Space } from "@ui/components/layout/space/Space";
 import { PhoneList } from "./components/phone-list/PhoneList";
 import { AddressList } from "./components/address-list/AddressList";
 import { EmailList } from "./components/email-list/EmailList";
@@ -20,7 +23,39 @@ export function PublisherLocalSection({ publisher_id, read_only = false }: Props
 
   const local = data?.[0];
 
-  if (!local) return null;
+  if (!local) {
+    if (read_only) return null;
+    return (
+      <>
+        <Space />
+        <IonItem
+          button
+          detail={false}
+          onClick={() =>
+            publisherLocalCollection.insert({
+              publisher_id,
+              confidential_id: crypto.randomUUID(),
+              phone: [],
+              address: [],
+              email: [],
+              emergency_contact: [],
+              birth_date: "",
+              baptism_date: "",
+              version: {
+                created_by: "",
+                updated_by: "",
+                created_at: Date.now(),
+                updated_at: Date.now(),
+              },
+            })
+          }
+        >
+          <IonIcon icon={addCircleOutline} slot="start" color="primary" />
+          <IonLabel>Add Contact Information</IonLabel>
+        </IonItem>
+      </>
+    );
+  }
 
   return (
     <>
