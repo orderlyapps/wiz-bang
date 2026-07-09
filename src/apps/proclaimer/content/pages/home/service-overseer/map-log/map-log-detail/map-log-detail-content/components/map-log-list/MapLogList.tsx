@@ -1,13 +1,5 @@
-import {
-  IonIcon,
-  IonItem,
-  IonItemSliding,
-  IonItemOptions,
-  IonItemOption,
-  IonLabel,
-  IonList,
-} from "@ionic/react";
-import { trashOutline } from "ionicons/icons";
+import { Fragment, useState } from "react";
+import { IonItem, IonLabel, IonList } from "@ionic/react";
 import { useLiveQuery } from "@tanstack/react-db";
 import { mapLogCollection } from "@shared/database/collections/map-log";
 import { publisherCollection } from "@shared/database/collections/publisher";
@@ -18,6 +10,7 @@ import { Label } from "@ui/components/display/text/label/Label";
 import { Body } from "@ui/components/display/text/body/Body";
 import { Space } from "@ui/components/layout/space/Space";
 import { SaveTextButton } from "@ui/components/inputs/button/text/save/SaveTextButton";
+import { CheckoutModal } from "@proclaimer-content/pages/home/service-overseer/map-log/map-log-content/components/checkout-modal/CheckoutModal";
 
 function formatDate(date_str: string | null | undefined): string {
   if (!date_str) return "—";
@@ -40,6 +33,7 @@ interface MapLogListProps {
 }
 
 export function MapLogList({ map_id }: MapLogListProps) {
+  const [editing_log, set_editing_log] = useState<MapLogRow | undefined>(undefined);
   const { data: logs_data } = useLiveQuery((q) => q.from({ ml: mapLogCollection }));
   const { data: publishers_data } = useLiveQuery((q) => q.from({ p: publisherCollection }));
 
@@ -56,10 +50,6 @@ export function MapLogList({ map_id }: MapLogListProps) {
     });
   }
 
-  function handleDeleteLog(log_id: string) {
-    mapLogCollection.delete(log_id);
-  }
-
   return (
     <IonList>
       <Space size="sm" />
@@ -73,7 +63,7 @@ export function MapLogList({ map_id }: MapLogListProps) {
       {map_logs.map((log) => {
         const is_checked_out = !log.checked_in_at;
         return (
-          <>
+          <Fragment key={log.id}>
             {is_checked_out && (
               <>
                 <SaveTextButton
@@ -85,27 +75,32 @@ export function MapLogList({ map_id }: MapLogListProps) {
                 <Space size="sm" />
               </>
             )}
-            <IonItemSliding key={log.id}>
-              <IonItem detail={false}>
-                <IonLabel>
-                  <Label>{getPublisherName(log.publisher_id, all_publishers)}</Label>
-                  <br />
-                  <Body>Out: {formatDate(log.checked_out_at)}</Body>
-                  <br />
-                  <Body>In: {formatDate(log.checked_in_at)}</Body>
-                  <br />
-                  <Body> {log.notes && <p>{log.notes}</p>}</Body>
-                </IonLabel>
-              </IonItem>
-              <IonItemOptions side="end">
-                <IonItemOption color="danger" onClick={() => log.id && handleDeleteLog(log.id)}>
-                  <IonIcon slot="icon-only" icon={trashOutline} />
-                </IonItemOption>
-              </IonItemOptions>
-            </IonItemSliding>
-          </>
+            <IonItem button detail={false} onClick={() => set_editing_log(log)}>
+              <IonLabel>
+                <Label>{getPublisherName(log.publisher_id, all_publishers)}</Label>
+                <br />
+                <Body>Out: {formatDate(log.checked_out_at)}</Body>
+                <br />
+                <Body>In: {formatDate(log.checked_in_at)}</Body>
+                {log.notes && (
+                  <>
+                    <br />
+                    <Body>{log.notes}</Body>
+                  </>
+                )}
+              </IonLabel>
+            </IonItem>
+          </Fragment>
         );
       })}
+      {editing_log && (
+        <CheckoutModal
+          key={editing_log.id}
+          isOpen
+          onDidDismiss={() => set_editing_log(undefined)}
+          existing_log={editing_log}
+        />
+      )}
     </IonList>
   );
 }
