@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { IonItem, IonLabel, IonList } from "@ionic/react";
 import { useLiveQuery } from "@tanstack/react-db";
 import { mapLogCollection } from "@shared/database/collections/map-log";
 import { publisherCollection } from "@shared/database/collections/publisher";
+import { CheckoutModal } from "@proclaimer-content/pages/home/service-overseer/map-log/map-log-content/components/checkout-modal/CheckoutModal";
 import type { MapLogRow } from "@shared/database/schemas/map-log";
 import type { Publisher } from "@shared/database/schemas/publisher";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
@@ -24,6 +26,7 @@ interface MapLogSummaryProps {
 }
 
 export function MapLogSummary({ map_id }: MapLogSummaryProps) {
+  const [editing_log, set_editing_log] = useState<MapLogRow | undefined>(undefined);
   const { data: logs_data } = useLiveQuery((q) => q.from({ ml: mapLogCollection }));
   const { data: publishers_data } = useLiveQuery((q) => q.from({ p: publisherCollection }));
 
@@ -51,7 +54,7 @@ export function MapLogSummary({ map_id }: MapLogSummaryProps) {
         </IonItem>
       ) : (
         map_logs.map((log) => (
-          <IonItem key={log.id} detail={false}>
+          <IonItem key={log.id} button detail={false} onClick={() => set_editing_log(log)}>
             <IonLabel>
               <Label>{getPublisherName(log.publisher_id)}</Label>
               <br />
@@ -67,6 +70,14 @@ export function MapLogSummary({ map_id }: MapLogSummaryProps) {
             </IonLabel>
           </IonItem>
         ))
+      )}
+      {editing_log && (
+        <CheckoutModal
+          key={editing_log.id}
+          isOpen
+          onDidDismiss={() => set_editing_log(undefined)}
+          existing_log={editing_log}
+        />
       )}
     </IonList>
   );
