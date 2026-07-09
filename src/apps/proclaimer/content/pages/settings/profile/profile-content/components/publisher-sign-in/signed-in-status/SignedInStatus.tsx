@@ -11,7 +11,7 @@ interface SignedInStatusProps {
 
 export function SignedInStatus({ session, on_sign_out }: SignedInStatusProps) {
   const handleSignOut = () => {
-    void supabase.auth.signOut().then(on_sign_out);
+    void supabase.auth.signOut({ scope: "local" }).then(on_sign_out);
   };
 
   const has_password = !!session.user.identities?.some((identity) => identity.provider === "email");
