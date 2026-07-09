@@ -52,7 +52,7 @@ export function CheckoutModal({ isOpen, onDidDismiss, existing_log, map_id }: Ch
   const [checked_out_date, set_checked_out_date] = useState(
     existing_log?.checked_out_at
       ? existing_log.checked_out_at.substring(0, 10)
-      : new Date().toISOString().substring(0, 10),
+      : new Date().toLocaleDateString("en-CA"),
   );
   const [checked_in_date, set_checked_in_date] = useState(
     existing_log?.checked_in_at ? existing_log.checked_in_at.substring(0, 10) : "",
@@ -87,10 +87,8 @@ export function CheckoutModal({ isOpen, onDidDismiss, existing_log, map_id }: Ch
       mapLogCollection.update(existing_log.id, (draft) => {
         draft.map_id = selected_map_id;
         draft.publisher_id = selected_publisher_id;
-        draft.checked_out_at = new Date(checked_out_date + "T00:00:00").toISOString();
-        draft.checked_in_at = checked_in_date
-          ? new Date(checked_in_date + "T00:00:00").toISOString()
-          : null;
+        draft.checked_out_at = checked_out_date + "T00:00:00.000Z";
+        draft.checked_in_at = checked_in_date ? checked_in_date + "T00:00:00.000Z" : null;
         draft.notes = notes.trim() || null;
       });
     } else {
@@ -98,7 +96,7 @@ export function CheckoutModal({ isOpen, onDidDismiss, existing_log, map_id }: Ch
         id: crypto.randomUUID(),
         map_id: selected_map_id,
         publisher_id: selected_publisher_id,
-        checked_out_at: new Date(checked_out_date + "T00:00:00").toISOString(),
+        checked_out_at: checked_out_date + "T00:00:00.000Z",
         checked_in_at: null,
         notes: notes.trim() || null,
       });
