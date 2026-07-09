@@ -38,10 +38,8 @@ export function BulkCheckout() {
 
   function handleBulkCheckout() {
     if (!selected_publisher_id || !selected_map?.id || !checked_out_date) return;
-    const checked_out_at = new Date(checked_out_date + "T00:00:00").toISOString();
-    const checked_in_at = checked_in_date
-      ? new Date(checked_in_date + "T00:00:00").toISOString()
-      : null;
+    const checked_out_at = checked_out_date;
+    const checked_in_at = checked_in_date || null;
     mapLogCollection.insert({
       id: crypto.randomUUID(),
       map_id: selected_map.id,

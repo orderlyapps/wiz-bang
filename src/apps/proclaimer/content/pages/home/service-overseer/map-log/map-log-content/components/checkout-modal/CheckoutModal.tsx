@@ -87,8 +87,8 @@ export function CheckoutModal({ isOpen, onDidDismiss, existing_log, map_id }: Ch
       mapLogCollection.update(existing_log.id, (draft) => {
         draft.map_id = selected_map_id;
         draft.publisher_id = selected_publisher_id;
-        draft.checked_out_at = checked_out_date + "T00:00:00.000Z";
-        draft.checked_in_at = checked_in_date ? checked_in_date + "T00:00:00.000Z" : null;
+        draft.checked_out_at = checked_out_date;
+        draft.checked_in_at = checked_in_date || null;
         draft.notes = notes.trim() || null;
       });
     } else {
@@ -96,7 +96,7 @@ export function CheckoutModal({ isOpen, onDidDismiss, existing_log, map_id }: Ch
         id: crypto.randomUUID(),
         map_id: selected_map_id,
         publisher_id: selected_publisher_id,
-        checked_out_at: checked_out_date + "T00:00:00.000Z",
+        checked_out_at: checked_out_date,
         checked_in_at: null,
         notes: notes.trim() || null,
       });
