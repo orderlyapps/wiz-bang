@@ -67,15 +67,8 @@ export function MapLogList({ map_id }: MapLogListProps) {
         </>
       )}
       {map_logs.map((log) => {
-        const is_checked_out = !log.checked_in_at;
         return (
           <Fragment key={log.id}>
-            {is_checked_out && (
-              <>
-                <TextButton label="Check In" on_click={() => set_editing_log(log)} />
-                <Space size="sm" />
-              </>
-            )}
             <IonItem button detail={false} onClick={() => set_editing_log(log)}>
               <IonLabel>
                 <Label>{getPublisherName(log.publisher_id, all_publishers)}</Label>
