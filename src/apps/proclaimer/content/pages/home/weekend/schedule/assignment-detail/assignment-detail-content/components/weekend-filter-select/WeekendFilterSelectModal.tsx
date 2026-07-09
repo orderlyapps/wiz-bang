@@ -1,22 +1,8 @@
-import { useState } from "react";
-import {
-  IonAlert,
-  IonButton,
-  IonButtons,
-  IonContent,
-  IonHeader,
-  IonItem,
-  IonList,
-  IonNote,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/react";
+import { IonButton, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar } from "@ionic/react";
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiColumnList";
 import { Select } from "@ui/components/inputs/select/Select";
 import { Space } from "@ui/components/layout/space/Space";
-import { TextButton } from "@ui/components/inputs/button/text/TextButton";
-import { DeleteTextButton } from "@ui/components/inputs/button/text/delete/DeleteTextButton";
 import { IncrementInput } from "@ui/components/inputs/increment-input/IncrementInput";
 import { AlertMultiSelect } from "@ui/components/inputs/alert-multi-select/AlertMultiSelect";
 import {
@@ -29,7 +15,7 @@ import type {
   PublisherSortOrder,
 } from "../../hooks/use-weekend-presets/types";
 import { sortOrderLabels } from "../../hooks/use-weekend-presets/types";
-import { DEFAULT_WEEKEND_PRESET_ID } from "../../hooks/use-weekend-presets/defaultWeekendPreset";
+import { PresetManager } from "./components/preset-manager/PresetManager";
 
 const weekendAssignmentOptions = weekendAssignmentIDs.map((id) => ({
   label: weekendAssignmentLabels[id],
@@ -61,59 +47,6 @@ export function WeekendFilterSelectModal({
   on_change,
   on_dismiss,
 }: WeekendFilterSelectModalProps) {
-  const [show_save_alert, set_show_save_alert] = useState(false);
-  const [show_rename_alert, set_show_rename_alert] = useState(false);
-
-  const preset_options = presets.map((p) => ({ label: p.name, value: p.id }));
-  const has_custom_presets = presets.some((p) => p.id !== DEFAULT_WEEKEND_PRESET_ID);
-
-  const preset_row_items = [
-    {
-      id: "select",
-      node: (
-        <Select
-          key={`${active_preset.id}:${active_preset.name}`}
-          label="Preset"
-          value={active_preset.id}
-          options={preset_options}
-          interface_type="popover"
-          on_change={(id) => on_select_preset(id as string)}
-        />
-      ),
-    },
-    {
-      id: "actions",
-      node: (
-        <div className="flex-left" style={{ padding: "8px 16px" }}>
-          <TextButton
-            label="Duplicate"
-            fill="clear"
-            size="small"
-            on_click={() => set_show_save_alert(true)}
-          />
-          {!is_default_active && (
-            <TextButton
-              label="Rename"
-              fill="clear"
-              size="small"
-              on_click={() => set_show_rename_alert(true)}
-            />
-          )}
-          {!is_default_active && (
-            <DeleteTextButton
-              label="Delete"
-              fill="clear"
-              size="small"
-              alert_header="Delete preset"
-              alert_message="Are you sure you want to delete this preset?"
-              on_click={() => on_delete_preset(active_preset.id)}
-            />
-          )}
-        </div>
-      ),
-    },
-  ];
-
   const sort_options: PublisherSortOrder[] = [
     "alphabetical",
     "weeks_away_closest",
@@ -214,22 +147,15 @@ export function WeekendFilterSelectModal({
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonList>
-          <MultiColumnList
-            items={preset_row_items}
-            get_id={(item) => item.id}
-            render_item={(item) => item.node}
-            gap="sm"
-            column_offset={-1}
-          />
-          {!has_custom_presets && (
-            <IonItem lines="none">
-              <IonNote>
-                NOTE: Save the current filters as a preset using the Duplicate button above.
-              </IonNote>
-            </IonItem>
-          )}
-        </IonList>
+        <PresetManager
+          presets={presets}
+          active_preset_id={active_preset.id}
+          is_default_active={is_default_active}
+          on_select={on_select_preset}
+          on_create={on_create_preset}
+          on_rename={on_rename_preset}
+          on_delete={on_delete_preset}
+        />
         <Space size="xl" />
         <MultiColumnList
           items={filter_items}
@@ -240,48 +166,6 @@ export function WeekendFilterSelectModal({
           row_gap="lg"
         />
       </IonContent>
-
-      <IonAlert
-        isOpen={show_save_alert}
-        header="Save preset"
-        inputs={[{ name: "name", type: "text", placeholder: "Preset name" }]}
-        buttons={[
-          { text: "Cancel", role: "cancel" },
-          {
-            text: "Save",
-            handler: (data: { name: string }) => {
-              if (data.name?.trim()) on_create_preset(data.name.trim());
-              set_show_save_alert(false);
-            },
-          },
-        ]}
-        onDidDismiss={() => set_show_save_alert(false)}
-      />
-      <IonAlert
-        isOpen={show_rename_alert}
-        header="Rename preset"
-        inputs={[
-          {
-            name: "name",
-            type: "text",
-            placeholder: "New name",
-            value:
-              presets.find((p) => p.id === active_preset.id && p.id !== DEFAULT_WEEKEND_PRESET_ID)
-                ?.name ?? "",
-          },
-        ]}
-        buttons={[
-          { text: "Cancel", role: "cancel" },
-          {
-            text: "Rename",
-            handler: (data: { name: string }) => {
-              if (data.name?.trim()) on_rename_preset(active_preset.id, data.name.trim());
-              set_show_rename_alert(false);
-            },
-          },
-        ]}
-        onDidDismiss={() => set_show_rename_alert(false)}
-      />
     </ResponsiveModal>
   );
 }
