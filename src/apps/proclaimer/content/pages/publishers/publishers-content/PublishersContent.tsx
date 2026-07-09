@@ -49,7 +49,7 @@ export function PublishersContent() {
         stat={ministerialServantsCount}
         to="/publishers/ministerial-servants"
       />
-      <NavItem label="Regular Pioneers" stat={pioneersCount} to="/publishers/regular-pioneers" />
+      <NavItem label="Pioneers" stat={pioneersCount} to="/publishers/regular-pioneers" />
       <NavItem label="Groups" stat={groupsCount} to="/publishers/groups" />
     </IonList>
   );
