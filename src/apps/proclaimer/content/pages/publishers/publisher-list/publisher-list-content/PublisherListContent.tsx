@@ -5,6 +5,7 @@ import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherU
 import type { Publisher } from "@shared/database/schemas/publisher";
 import { MultiColumnList } from "@ui/components/display/multi-column-list/MultiColumnList";
 import { Space } from "@ui/components/layout/space/Space";
+import { Body } from "@ui/components/display/text/body/Body";
 
 type PublisherListContentProps = {
   filter: (publisher: Publisher) => boolean;
@@ -39,11 +40,24 @@ export function PublisherListContent({ filter }: PublisherListContentProps) {
         items={filtered}
         get_id={(p) => p.id ?? ""}
         gap="sm"
-        render_item={(p) => (
-          <IonItem key={p.id}>
-            <IonLabel>{getPublisherDisplayName(p)}</IonLabel>
-          </IonItem>
-        )}
+        render_item={(p) => {
+          const suffix =
+            p.type === "special_pioneer"
+              ? "special"
+              : p.type === "continuous_auxiliary"
+                ? "auxiliary"
+                : null;
+          return (
+            <IonItem key={p.id}>
+              <IonLabel>{getPublisherDisplayName(p)}</IonLabel>
+              {suffix && (
+                <Body slot="end" color="medium">
+                  {suffix}
+                </Body>
+              )}
+            </IonItem>
+          );
+        }}
       />
       <Space />
     </IonList>

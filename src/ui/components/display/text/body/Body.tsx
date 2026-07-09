@@ -13,6 +13,7 @@ interface BodyProps {
   pretty?: boolean;
   className?: string;
   style?: React.CSSProperties;
+  slot?: string;
 }
 
 export function Body({
@@ -25,6 +26,7 @@ export function Body({
   pretty = false,
   className,
   style,
+  slot,
 }: BodyProps) {
   const getTextStyle = () => {
     const textStyle: React.CSSProperties = {};
@@ -61,6 +63,7 @@ export function Body({
   return (
     <IonText
       {...(color && { color })}
+      {...(slot && { slot })}
       style={{ ...getTextStyle(), ...style }}
       className={className}
     >

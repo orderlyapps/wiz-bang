@@ -4,8 +4,9 @@ import { PublisherListContent } from "@proclaimer-content/pages/publishers/publi
 import type { Publisher } from "@shared/database/schemas/publisher";
 
 function RegularPioneersPage() {
+  const pioneerTypes = ["regular_pioneer", "special_pioneer", "continuous_auxiliary"];
   const filter = (publisher: Publisher) =>
-    publisher.type === "regular_pioneer" && !publisher.archived_at;
+    pioneerTypes.includes(publisher.type) && !publisher.archived_at;
 
   return (
     <IonPage>

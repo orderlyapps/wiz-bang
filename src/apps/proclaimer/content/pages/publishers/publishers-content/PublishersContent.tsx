@@ -23,9 +23,11 @@ export function PublishersContent() {
         publisher.type !== "speaker" &&
         !publisher.archived_at,
     ).length ?? 0;
-  const regularPioneersCount =
+  const pioneersCount =
     publishers?.filter(
-      (publisher) => publisher.type === "regular_pioneer" && !publisher.archived_at,
+      (publisher) =>
+        ["regular_pioneer", "special_pioneer", "continuous_auxiliary"].includes(publisher.type) &&
+        !publisher.archived_at,
     ).length ?? 0;
   const congregation_id = getStoredCongregation()?.id;
   const groupsCount = groups_data?.filter((g) => g.congregation_id === congregation_id).length ?? 0;
@@ -47,11 +49,7 @@ export function PublishersContent() {
         stat={ministerialServantsCount}
         to="/publishers/ministerial-servants"
       />
-      <NavItem
-        label="Regular Pioneers"
-        stat={regularPioneersCount}
-        to="/publishers/regular-pioneers"
-      />
+      <NavItem label="Regular Pioneers" stat={pioneersCount} to="/publishers/regular-pioneers" />
       <NavItem label="Groups" stat={groupsCount} to="/publishers/groups" />
     </IonList>
   );
