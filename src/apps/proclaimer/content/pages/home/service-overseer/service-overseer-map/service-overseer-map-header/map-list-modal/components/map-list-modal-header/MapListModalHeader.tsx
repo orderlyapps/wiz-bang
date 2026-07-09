@@ -32,7 +32,7 @@ export function MapListModalHeader({
     <IonHeader>
       <IonToolbar>
         <IonButtons slot="start">
-          <CloseIconButton on_click={on_close} />
+          <CloseIconButton on_click={on_close} skip_confirmation />
         </IonButtons>
         <IonTitle>Maps</IonTitle>
         <IonButtons slot="end">
