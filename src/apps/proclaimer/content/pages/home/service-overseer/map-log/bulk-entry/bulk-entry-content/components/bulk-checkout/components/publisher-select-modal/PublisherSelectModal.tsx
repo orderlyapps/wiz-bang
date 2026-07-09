@@ -72,14 +72,7 @@ export function PublisherSelectModal({
   const filtered = publishers
     .filter((p) => getPublisherDisplayName(p).toLowerCase().includes(query.toLowerCase()))
     .filter((p) => p.id && (!show_recent_only || recent_id_set.has(p.id)))
-    .sort((a, b) => {
-      if (show_recent_only) {
-        const a_index = recent_ids.indexOf(a.id!);
-        const b_index = recent_ids.indexOf(b.id!);
-        return a_index - b_index;
-      }
-      return 0;
-    });
+    .sort((a, b) => getPublisherDisplayName(a).localeCompare(getPublisherDisplayName(b)));
 
   function handleSelect(publisher: Publisher) {
     if (publisher.id) addRecentPublisherId(publisher.id);
