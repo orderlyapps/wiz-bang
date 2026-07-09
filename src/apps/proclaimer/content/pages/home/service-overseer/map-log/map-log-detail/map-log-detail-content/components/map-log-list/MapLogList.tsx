@@ -1,5 +1,4 @@
 import {
-  IonButton,
   IonIcon,
   IonItem,
   IonItemSliding,
@@ -14,6 +13,11 @@ import { mapLogCollection } from "@shared/database/collections/map-log";
 import { publisherCollection } from "@shared/database/collections/publisher";
 import type { MapLogRow } from "@shared/database/schemas/map-log";
 import type { Publisher } from "@shared/database/schemas/publisher";
+import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
+import { Label } from "@ui/components/display/text/label/Label";
+import { Body } from "@ui/components/display/text/body/Body";
+import { Space } from "@ui/components/layout/space/Space";
+import { SaveTextButton } from "@ui/components/inputs/button/text/save/SaveTextButton";
 
 function formatDate(date_str: string | null | undefined): string {
   if (!date_str) return "—";
@@ -27,9 +31,8 @@ function formatDate(date_str: string | null | undefined): string {
 
 function getPublisherName(publisher_id: string, publishers: Publisher[]): string {
   const publisher = publishers.find((p) => p.id === publisher_id);
-  return (
-    publisher?.display_name ?? `${publisher?.first_name ?? ""} ${publisher?.last_name ?? ""}`.trim()
-  );
+  if (!publisher) return "Unknown";
+  return getPublisherDisplayName(publisher);
 }
 
 interface MapLogListProps {
@@ -59,6 +62,7 @@ export function MapLogList({ map_id }: MapLogListProps) {
 
   return (
     <IonList>
+      <Space size="sm" />
       {map_logs.length === 0 && (
         <IonItem>
           <IonLabel className="ion-text-center">
@@ -69,32 +73,37 @@ export function MapLogList({ map_id }: MapLogListProps) {
       {map_logs.map((log) => {
         const is_checked_out = !log.checked_in_at;
         return (
-          <IonItemSliding key={log.id}>
-            <IonItem detail={false}>
-              <IonLabel>
-                <h3>{getPublisherName(log.publisher_id, all_publishers)}</h3>
-                <p>
-                  Out: {formatDate(log.checked_out_at)} · In: {formatDate(log.checked_in_at)}
-                </p>
-                {log.notes && <p>{log.notes}</p>}
-              </IonLabel>
-              {is_checked_out && (
-                <IonButton
-                  slot="end"
-                  fill="outline"
-                  size="small"
-                  onClick={() => log.id && handleCheckIn(log.id)}
-                >
-                  Check In
-                </IonButton>
-              )}
-            </IonItem>
-            <IonItemOptions side="end">
-              <IonItemOption color="danger" onClick={() => log.id && handleDeleteLog(log.id)}>
-                <IonIcon slot="icon-only" icon={trashOutline} />
-              </IonItemOption>
-            </IonItemOptions>
-          </IonItemSliding>
+          <>
+            {is_checked_out && (
+              <>
+                <SaveTextButton
+                  on_click={() => log.id && handleCheckIn(log.id)}
+                  label="Check In"
+                  confirm_text="Check In"
+                  alert_message="Are you sure you want check in this map?"
+                />
+                <Space size="sm" />
+              </>
+            )}
+            <IonItemSliding key={log.id}>
+              <IonItem detail={false}>
+                <IonLabel>
+                  <Label>{getPublisherName(log.publisher_id, all_publishers)}</Label>
+                  <br />
+                  <Body>Out: {formatDate(log.checked_out_at)}</Body>
+                  <br />
+                  <Body>In: {formatDate(log.checked_in_at)}</Body>
+                  <br />
+                  <Body> {log.notes && <p>{log.notes}</p>}</Body>
+                </IonLabel>
+              </IonItem>
+              <IonItemOptions side="end">
+                <IonItemOption color="danger" onClick={() => log.id && handleDeleteLog(log.id)}>
+                  <IonIcon slot="icon-only" icon={trashOutline} />
+                </IonItemOption>
+              </IonItemOptions>
+            </IonItemSliding>
+          </>
         );
       })}
     </IonList>
