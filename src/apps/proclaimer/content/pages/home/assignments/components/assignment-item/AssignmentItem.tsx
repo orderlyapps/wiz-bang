@@ -12,6 +12,7 @@ export function AssignmentItem({ assignment }: AssignmentItemProps) {
       label={getTheocraticWeekLabel(assignment.week_id, {
         format: "week-range",
         useRelativeWeek: true,
+        relativeWeekStyle: "append",
       })}
       value={assignment.label}
     />

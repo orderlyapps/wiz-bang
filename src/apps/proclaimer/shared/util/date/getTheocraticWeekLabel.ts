@@ -8,6 +8,7 @@ interface FormatOptions {
     | "week-range-capital-case"
     | "event-date";
   useRelativeWeek?: boolean;
+  relativeWeekStyle?: "replace" | "append";
   end_date?: string | null;
 }
 
@@ -18,13 +19,15 @@ interface FormatOptions {
  * @returns Formatted date string
  */
 export const getTheocraticWeekLabel = (dateStr: string, options: FormatOptions = {}): string => {
-  const { format = "week-range", useRelativeWeek = false } = options;
+  const { format = "week-range", useRelativeWeek = false, relativeWeekStyle = "replace" } = options;
 
   if (!dateStr) {
     return "Invalid Date";
   }
 
   const [year, month, day] = dateStr.split("-").map(Number);
+
+  let relativeLabel: string | null = null;
 
   if (useRelativeWeek) {
     const date = new Date(year, month - 1, day);
@@ -40,25 +43,34 @@ export const getTheocraticWeekLabel = (dateStr: string, options: FormatOptions =
 
     // Check if date is in current week
     if (isWithinInterval(date, { start: currentWeekStart, end: currentWeekEnd })) {
-      return "This Week";
+      relativeLabel = "This Week";
     }
 
     // Check if date is in next week
     if (isWithinInterval(date, { start: nextWeekStart, end: nextWeekEnd })) {
-      return "Next Week";
+      relativeLabel = "Next Week";
     }
 
-    // Fall through to apply the specified format if not in current or next week
+    if (relativeLabel && relativeWeekStyle === "replace") {
+      return relativeLabel;
+    }
+
+    // For "append" style, fall through and add the label at the end
   }
+
+  const appendRelative = (str: string): string =>
+    relativeLabel ? `${str} (${relativeLabel})` : str;
 
   if (format === "week-label" || format === "week-label-capital-case") {
     // Format: "Monday, September 8"
     const date = new Date(year, month - 1, day);
-    return date.toLocaleDateString(undefined, {
-      weekday: "long",
-      month: "long",
-      day: "numeric",
-    });
+    return appendRelative(
+      date.toLocaleDateString(undefined, {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+      }),
+    );
   }
 
   if (format === "event-date") {
@@ -69,7 +81,7 @@ export const getTheocraticWeekLabel = (dateStr: string, options: FormatOptions =
       const dayName = startDate.toLocaleDateString(undefined, { weekday: "long" });
       const month = startDate.toLocaleDateString(undefined, { month: "long" });
       const day = startDate.toLocaleDateString(undefined, { day: "numeric" });
-      return `${month.toUpperCase()} ${day} (${dayName})`;
+      return appendRelative(`${month.toUpperCase()} ${day} (${dayName})`);
     }
 
     const [eYear, eMonth, eDay] = options.end_date.split("-").map(Number);
@@ -79,9 +91,9 @@ export const getTheocraticWeekLabel = (dateStr: string, options: FormatOptions =
     const endMonth = endDate.toLocaleDateString(undefined, { month: "long" });
 
     if (startMonth === endMonth) {
-      return `${startMonth} ${day}–${eDay}`.toUpperCase();
+      return appendRelative(`${startMonth} ${day}–${eDay}`.toUpperCase());
     }
-    return `${startMonth} ${day}–${endMonth} ${eDay}`.toUpperCase();
+    return appendRelative(`${startMonth} ${day}–${endMonth} ${eDay}`.toUpperCase());
   }
 
   // Default format: "MMMM DD - MMMM DD" (second month only if different)
@@ -98,8 +110,12 @@ export const getTheocraticWeekLabel = (dateStr: string, options: FormatOptions =
   const isCapitalCase = format === "week-range-capital-case";
 
   if (startMonth === endMonth) {
-    return `${!isCapitalCase ? startMonth.toUpperCase() : startMonth} ${startDay}–${endDay}`;
+    return appendRelative(
+      `${!isCapitalCase ? startMonth.toUpperCase() : startMonth} ${startDay}–${endDay}`,
+    );
   } else {
-    return `${!isCapitalCase ? startMonth.toUpperCase() : startMonth} ${startDay}–${!isCapitalCase ? endMonth.toUpperCase() : endMonth} ${endDay}`;
+    return appendRelative(
+      `${!isCapitalCase ? startMonth.toUpperCase() : startMonth} ${startDay}–${!isCapitalCase ? endMonth.toUpperCase() : endMonth} ${endDay}`,
+    );
   }
 };
