@@ -8,7 +8,7 @@ function ServiceOverseerPage() {
       <IonHeader>
         <ServiceOverseerHeader />
       </IonHeader>
-      <IonContent className="ion-padding">
+      <IonContent>
         <ServiceOverseerContent />
       </IonContent>
     </IonPage>

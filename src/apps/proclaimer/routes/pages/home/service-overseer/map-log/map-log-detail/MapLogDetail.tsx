@@ -23,7 +23,7 @@ function MapLogDetailPage({ match }: MapLogDetailPageProps) {
       <IonHeader>
         <MapLogDetailHeader map_name={map_name} />
       </IonHeader>
-      <IonContent className="content-wide">
+      <IonContent className="content-wide remove-top-padding ">
         <MapLogDetailContent map_id={map_id} />
       </IonContent>
     </IonPage>
