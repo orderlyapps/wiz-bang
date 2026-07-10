@@ -36,9 +36,18 @@ const typeLabels: Record<AssignmentType, string> = {
 };
 
 function getAssignmentLabel(type: AssignmentType, assignmentId?: string): string {
-  if (type === "av" && assignmentId) return avAssignmentLabels[assignmentId] ?? assignmentId;
-  if (type === "weekend" && assignmentId)
-    return weekendAssignmentLabels[assignmentId] ?? assignmentId;
+  if (type === "av" && assignmentId) {
+    const base = avAssignmentLabels[assignmentId] ?? assignmentId;
+    if (assignmentId.endsWith("_midweek")) return `${base} (Midweek)`;
+    if (assignmentId.endsWith("_weekend")) return `${base} (Weekend)`;
+    return base;
+  }
+  if (type === "weekend" && assignmentId) {
+    const base = weekendAssignmentLabels[assignmentId] ?? assignmentId;
+    if (assignmentId === "chairman") return `${base} (Weekend)`;
+    if (assignmentId === "reader") return `${base} (Watchtower)`;
+    return base;
+  }
   if (type === "midweek" && assignmentId) {
     return assignmentId.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
   }

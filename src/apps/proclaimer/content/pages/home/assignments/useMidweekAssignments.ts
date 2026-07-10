@@ -56,12 +56,14 @@ export function useMidweekAssignments(
       const parts = week_data ? getMeetingParts(week_data, week_assignments, show_school_2) : [];
       const part = parts.find((p) => p.assignmentId === a.assignment_id);
       const fallback = a.assignment_id.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+      const base_label = part?.title ?? fallback;
+      const label = a.assignment_id === "chairman_1" ? `${base_label} (Midweek)` : base_label;
 
       return {
         id: `${a.week_id}-midweek-${a.assignment_id}`,
         type: "midweek" as const,
         week_id: a.week_id,
-        label: part?.title ?? fallback,
+        label,
       };
     }) ?? []
   );
