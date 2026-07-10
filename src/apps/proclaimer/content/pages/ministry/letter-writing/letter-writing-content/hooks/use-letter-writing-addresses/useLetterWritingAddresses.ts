@@ -7,7 +7,7 @@ import type { NotAtHome } from "@shared/database/schemas/not-at-home";
 import type { Suburb } from "@shared/database/schemas/suburb";
 import type { Street } from "@shared/database/schemas/street";
 
-const MAX_ADDRESSES = 5;
+const MAX_ADDRESSES = 0;
 
 export function useLetterWritingAddresses(): {
   addresses: NotAtHome[];
