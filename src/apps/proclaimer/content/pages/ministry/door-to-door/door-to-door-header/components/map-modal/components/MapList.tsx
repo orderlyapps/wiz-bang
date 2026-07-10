@@ -1,11 +1,10 @@
-import { IonList, IonButtons, IonButton, IonIcon } from "@ionic/react";
-import { imageOutline } from "ionicons/icons";
+import { IonList } from "@ionic/react";
 import { useLiveQuery } from "@tanstack/react-db";
 import { useMapsList } from "../hooks/useMapsList";
 import { mapLogCollection } from "@shared/database/collections/map-log";
 import { mapTagAssignmentCollection } from "@shared/database/collections/map-tag-assignment";
 import { publisherCollection } from "@shared/database/collections/publisher";
-import { LabelValueItem } from "@ui/components/display/data/label-value/LabelValueItem";
+import { MapListItem } from "./map-list-item/MapListItem";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
 import type { MapRow } from "@shared/database/schemas/map";
 import type { MapLogRow } from "@shared/database/schemas/map-log";
@@ -116,28 +115,13 @@ export function MapList({
         const is_checked_out = checked_out_map_ids.has(map.id ?? "");
         const checked_out_name = checked_out_name_by_map_id.get(map.id ?? "") ?? "";
         return (
-          <LabelValueItem
+          <MapListItem
             key={map.id}
-            label={map.name}
+            map={map}
+            onMapSelect={onMapSelect}
+            onPreviewImage={onPreviewImage}
             label_color={is_checked_out ? "success" : undefined}
-            value={map.details ?? undefined}
             value_2={checked_out_name || undefined}
-            on_click={() => onMapSelect(map)}
-            end_detail={
-              map.url ? (
-                <IonButtons slot="end">
-                  <IonButton
-                    fill="clear"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onPreviewImage(map.url!);
-                    }}
-                  >
-                    <IonIcon slot="icon-only" icon={imageOutline} size="large" />
-                  </IonButton>
-                </IonButtons>
-              ) : undefined
-            }
           />
         );
       })}

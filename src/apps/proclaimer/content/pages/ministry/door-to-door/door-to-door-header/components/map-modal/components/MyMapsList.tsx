@@ -1,11 +1,10 @@
-import { IonList, IonItem, IonButtons, IonButton, IonIcon } from "@ionic/react";
-import { imageOutline } from "ionicons/icons";
+import { IonList, IonItem } from "@ionic/react";
 import { useLiveQuery } from "@tanstack/react-db";
 import { useMapsList } from "../hooks/useMapsList";
 import { mapLogCollection } from "@shared/database/collections/map-log";
 import { publisherCollection } from "@shared/database/collections/publisher";
 import { useAuthSession } from "@util/app/auth/useAuthSession";
-import { LabelValueItem } from "@ui/components/display/data/label-value/LabelValueItem";
+import { MapListItem } from "./map-list-item/MapListItem";
 import { Heading } from "@ui/components/display/text/heading/Heading";
 import type { MapRow } from "@shared/database/schemas/map";
 import type { MapLogRow } from "@shared/database/schemas/map-log";
@@ -51,27 +50,12 @@ export function MyMapsList({ onMapSelect, onPreviewImage }: MyMapsListProps) {
 
       <IonList>
         {myMaps.map((map) => (
-          <LabelValueItem
+          <MapListItem
             key={map.id}
-            label={map.name}
+            map={map}
+            onMapSelect={onMapSelect}
+            onPreviewImage={onPreviewImage}
             label_color="success"
-            value={map.details ?? undefined}
-            on_click={() => onMapSelect(map)}
-            end_detail={
-              map.url ? (
-                <IonButtons slot="end">
-                  <IonButton
-                    fill="clear"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onPreviewImage(map.url!);
-                    }}
-                  >
-                    <IonIcon slot="icon-only" icon={imageOutline} size="large" />
-                  </IonButton>
-                </IonButtons>
-              ) : undefined
-            }
           />
         ))}
       </IonList>
