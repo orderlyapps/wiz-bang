@@ -26,3 +26,5 @@ else
   echo "✗ Build output not found at dist/index.html"
   exit 1
 fi
+
+echo "✓ Finished at $(date '+%Y-%m-%d %H:%M:%S')"

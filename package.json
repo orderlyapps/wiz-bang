@@ -23,7 +23,8 @@
     "deploy:app:base": "vp run deploy:app base",
     "deploy:app:orderly": "vp run deploy:app admin",
     "deploy:app:orderly:main": "vp run deploy:app -- proclaimer orderly main",
-    "deploy:app:proclaimer:main": "vp run deploy:app -- proclaimer proclaimer main"
+    "deploy:app:proclaimer:main": "vp run deploy:app -- proclaimer proclaimer main",
+    "deploy:app:proclaimer:main:all": "bash scripts/deploy-proclaimer-main.sh"
   },
   "dependencies": {
     "@ionic/react": "^8.8.6",
