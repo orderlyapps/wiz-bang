@@ -55,6 +55,10 @@ import EventsPermissionsPage from "@proclaimer-routes/pages/home/congregation-ad
 import ElderPage from "@proclaimer-routes/pages/home/elder/Elder";
 import ContactsListPage from "@proclaimer-routes/pages/home/elder/contacts-list/ContactsList";
 import PdfsPage from "@proclaimer-routes/pages/home/elder/pdfs/Pdfs";
+import ElderReportsPage from "@proclaimer-routes/pages/home/elder/reports/Reports";
+import ElderStatsPage from "@proclaimer-routes/pages/home/elder/reports/stats/Stats";
+import ElderPublishersPage from "@proclaimer-routes/pages/home/elder/reports/publishers/Publishers";
+import ElderPublisherDetailPage from "@proclaimer-routes/pages/home/elder/reports/publishers/publisher-detail/PublisherDetail";
 import AudioVideoPage from "@proclaimer-routes/pages/home/elder/audio-video/AudioVideo";
 import ElderClamPage from "@proclaimer-routes/pages/home/elder/clam/Clam";
 import ClamOverseerPage from "@proclaimer-routes/pages/home/clam-overseer/ClamOverseer";
@@ -214,6 +218,14 @@ function App() {
         <Route path="/home/elder/contacts-list" component={ContactsListPage} exact />
         <Route path="/home/elder/pdfs" component={PdfsPage} exact />
         <Route path="/home/elder/audio-video" component={AudioVideoPage} exact />
+        <Route path="/home/elder/reports" component={ElderReportsPage} exact />
+        <Route path="/home/elder/reports/stats" component={ElderStatsPage} exact />
+        <Route path="/home/elder/reports/publishers" component={ElderPublishersPage} exact />
+        <Route
+          path="/home/elder/reports/publishers/:publisher_id"
+          component={ElderPublisherDetailPage}
+          exact
+        />
         <Route path="/home/elder/clam" component={ElderClamPage} exact />
         <Route path="/home/clam-overseer" component={ClamOverseerPage} exact />
         <Route path="/home/clam-chairman" component={ClamChairmanPage} exact />
