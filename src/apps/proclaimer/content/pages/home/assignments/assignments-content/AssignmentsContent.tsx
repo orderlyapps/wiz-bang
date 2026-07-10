@@ -2,7 +2,8 @@ import { IonItem, IonLabel, IonList } from "@ionic/react";
 import { Body } from "@ui/components/display/text/body/Body";
 import { Space } from "@ui/components/layout/space/Space";
 import { useAssignments } from "../useAssignments";
-import { AssignmentItem } from "../components/assignment-item/AssignmentItem";
+import { groupAssignmentsByMonth } from "../groupAssignmentsByMonth";
+import { AssignmentMonthGroup } from "../components/assignment-month-group/AssignmentMonthGroup";
 
 export function AssignmentsContent() {
   const { assignments } = useAssignments();
@@ -19,13 +20,13 @@ export function AssignmentsContent() {
     );
   }
 
+  const groups = groupAssignmentsByMonth(assignments);
+
   return (
     <>
-      <IonList>
-        {assignments.map((assignment) => (
-          <AssignmentItem key={assignment.id} assignment={assignment} />
-        ))}
-      </IonList>
+      {groups.map((group) => (
+        <AssignmentMonthGroup key={group.label} group={group} />
+      ))}
       <Space />
     </>
   );
