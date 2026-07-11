@@ -14,6 +14,61 @@ export interface BaseInputProps {
   max_length?: number;
   on_change: (value: string) => void;
   on_blur?: () => void;
+  autocomplete?:
+    | "additional-name"
+    | "address-level1"
+    | "address-level2"
+    | "address-level3"
+    | "address-level4"
+    | "address-line1"
+    | "address-line2"
+    | "address-line3"
+    | "bday"
+    | "bday-day"
+    | "bday-month"
+    | "bday-year"
+    | "cc-additional-name"
+    | "cc-csc"
+    | "cc-exp"
+    | "cc-exp-month"
+    | "cc-exp-year"
+    | "cc-family-name"
+    | "cc-given-name"
+    | "cc-name"
+    | "cc-number"
+    | "cc-type"
+    | "country"
+    | "country-name"
+    | "current-password"
+    | "email"
+    | "family-name"
+    | "given-name"
+    | "honorific-prefix"
+    | "honorific-suffix"
+    | "impp"
+    | "language"
+    | "name"
+    | "new-password"
+    | "nickname"
+    | "off"
+    | "on"
+    | "one-time-code"
+    | "organization"
+    | "organization-title"
+    | "photo"
+    | "postal-code"
+    | "sex"
+    | "street-address"
+    | "tel"
+    | "tel-area-code"
+    | "tel-country-code"
+    | "tel-extension"
+    | "tel-local"
+    | "tel-national"
+    | "transaction-amount"
+    | "transaction-currency"
+    | "url"
+    | "username";
 }
 
 export function BaseInput({
@@ -28,6 +83,7 @@ export function BaseInput({
   max_length,
   on_change,
   on_blur,
+  autocomplete,
 }: BaseInputProps) {
   return (
     <InputWrapper label={label} disabled={disabled}>
@@ -42,6 +98,7 @@ export function BaseInput({
         maxlength={max_length}
         onIonInput={(event) => on_change(event.detail.value ?? "")}
         onIonBlur={on_blur}
+        autocomplete={autocomplete}
       />
     </InputWrapper>
   );

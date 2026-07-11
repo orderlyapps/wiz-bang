@@ -30,6 +30,7 @@ export function UpdatePasswordForm({
           placeholder="At least 6 characters"
           on_change={on_password_change}
           disabled={loading}
+          autocomplete="new-password"
         />
         <PasswordInput
           label="Confirm password"
@@ -37,6 +38,7 @@ export function UpdatePasswordForm({
           placeholder="Re-enter password"
           on_change={on_confirm_change}
           disabled={loading}
+          autocomplete="new-password"
         />
         {error && (
           <IonItem lines="none">

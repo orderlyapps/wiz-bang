@@ -74,6 +74,7 @@ export function PasswordSignInModal({ publisher_id, onSignIn }: PasswordSignInMo
               placeholder="Enter your password"
               on_change={setPassword}
               disabled={loading}
+              autocomplete="current-password"
             />
             {error && (
               <IonItem lines="none">
