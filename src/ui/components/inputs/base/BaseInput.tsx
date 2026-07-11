@@ -1,4 +1,4 @@
-import { IonInput } from "@ionic/react";
+import { IonInput, IonInputPasswordToggle } from "@ionic/react";
 import { InputWrapper } from "@ui/components/display/input/InputWrapper";
 import type { IonicColor } from "@util/vendor/ionic/types/IonicColor";
 
@@ -99,7 +99,9 @@ export function BaseInput({
         onIonInput={(event) => on_change(event.detail.value ?? "")}
         onIonBlur={on_blur}
         autocomplete={autocomplete}
-      />
+      >
+        {type === "password" && <IonInputPasswordToggle slot="end"></IonInputPasswordToggle>}
+      </IonInput>
     </InputWrapper>
   );
 }
