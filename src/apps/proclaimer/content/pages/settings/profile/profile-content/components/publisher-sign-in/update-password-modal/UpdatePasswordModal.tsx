@@ -9,9 +9,10 @@ import { supabase } from "@util/vendor/supabase/supabase-client";
 
 interface UpdatePasswordModalProps {
   has_password: boolean;
+  email: string;
 }
 
-export function UpdatePasswordModal({ has_password }: UpdatePasswordModalProps) {
+export function UpdatePasswordModal({ has_password, email }: UpdatePasswordModalProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -72,6 +73,7 @@ export function UpdatePasswordModal({ has_password }: UpdatePasswordModalProps) 
             <UpdatePasswordSuccess on_done={handleClose} />
           ) : (
             <UpdatePasswordForm
+              email={email}
               password={password}
               confirm_password={confirmPassword}
               loading={loading}

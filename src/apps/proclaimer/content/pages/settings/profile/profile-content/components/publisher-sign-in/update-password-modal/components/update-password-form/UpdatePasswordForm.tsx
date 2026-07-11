@@ -3,6 +3,7 @@ import { PasswordInput } from "@ui/components/inputs/password/PasswordInput";
 import { Space } from "@ui/components/layout/space/Space";
 
 interface UpdatePasswordFormProps {
+  email: string;
   password: string;
   confirm_password: string;
   loading: boolean;
@@ -13,6 +14,7 @@ interface UpdatePasswordFormProps {
 }
 
 export function UpdatePasswordForm({
+  email,
   password,
   confirm_password,
   loading,
@@ -22,7 +24,20 @@ export function UpdatePasswordForm({
   on_save,
 }: UpdatePasswordFormProps) {
   return (
-    <>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        on_save();
+      }}
+      autoComplete="on"
+    >
+      <input
+        type="email"
+        value={email}
+        readOnly
+        autoComplete="username"
+        style={{ display: "none" }}
+      />
       <IonList inset>
         <PasswordInput
           label="New password"
@@ -51,13 +66,13 @@ export function UpdatePasswordForm({
       <Space />
       <IonButton
         expand="block"
+        type="submit"
         className="ion-margin-horizontal"
         style={{ maxWidth: 360, marginInline: "auto" }}
-        onClick={on_save}
         disabled={!password || !confirm_password || loading}
       >
         {loading ? "Saving…" : "Save Password"}
       </IonButton>
-    </>
+    </form>
   );
 }

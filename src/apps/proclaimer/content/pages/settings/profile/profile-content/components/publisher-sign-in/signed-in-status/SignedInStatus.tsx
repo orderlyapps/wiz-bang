@@ -18,7 +18,7 @@ export function SignedInStatus({ session, on_sign_out }: SignedInStatusProps) {
 
   return (
     <>
-      <UpdatePasswordModal has_password={has_password} />
+      <UpdatePasswordModal has_password={has_password} email={session.user.email ?? ""} />
       <Space />
       <TextButton fill="outline" on_click={handleSignOut} label="Sign Out" />
     </>
