@@ -30,7 +30,7 @@ type Props = {
 
 export function MapViewInner({
   id,
-  initialViewState = { longitude: 0, latitude: 20, zoom: 1.5 },
+  initialViewState = { longitude: 134, latitude: -25, zoom: 3.5 },
   initialStyleId = "custom",
   styleId: controlledStyleId,
   height = "100%",
