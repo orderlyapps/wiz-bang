@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { IonAlert } from "@ionic/react";
+import { IonAlert, type AlertButton } from "@ionic/react";
 import { formatDistanceToNow, isValid } from "date-fns";
 import { ConfirmationAlert } from "@ui/components/display/alert/ConfirmationAlert";
 import type { DoNotCall } from "../../types";
@@ -35,7 +35,7 @@ export function DoNotCallAlert({ selected, onDismiss, onDelete }: DoNotCallAlert
       })()
     : undefined;
 
-  const buttons = [{ text: "OK", role: "cancel", handler: onDismiss }];
+  const buttons: AlertButton[] = [{ text: "OK", role: "cancel", handler: onDismiss }];
   if (selected && onDelete) {
     buttons.unshift({
       text: "Delete",
@@ -43,6 +43,16 @@ export function DoNotCallAlert({ selected, onDismiss, onDelete }: DoNotCallAlert
       handler: () => setShowConfirmation(true),
     });
   }
+  buttons.unshift({
+    text: "Info",
+    handler: () => {
+      window.open(
+        "https://www.jw.org/finder?srcid=jwlshare&wtlocale=E&prefer=lang&docid=201994204",
+        "_blank",
+      );
+      onDismiss();
+    },
+  });
 
   function handleConfirmDelete() {
     const id = selected?.id ?? selectedIdRef.current;
