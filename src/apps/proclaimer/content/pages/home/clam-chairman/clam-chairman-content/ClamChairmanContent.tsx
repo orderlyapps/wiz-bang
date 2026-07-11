@@ -37,6 +37,7 @@ function ChairmanWeekSchedule({
   const week_label = getTheocraticWeekLabel(week_id, {
     format: "week-range",
     useRelativeWeek: true,
+    relativeWeekStyle: "append",
   });
 
   const rows: (AssignmentRow & {
