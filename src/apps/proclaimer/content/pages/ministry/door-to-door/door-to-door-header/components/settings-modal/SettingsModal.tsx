@@ -3,6 +3,7 @@ import { CloseIconButton } from "@ui/components/inputs/button/icon/close/CloseIc
 import { ResponsiveModal } from "@ui/components/display/responsive-modal/ResponsiveModal";
 import { MapDisplaySetting } from "./components/MapDisplaySetting";
 import { MapStyleSetting } from "./components/MapStyleSetting";
+import { QuickLinksSetting } from "./components/QuickLinksSetting";
 
 interface SettingsModalProps {
   is_open: boolean;
@@ -23,6 +24,7 @@ export function SettingsModal({ is_open, on_dismiss }: SettingsModalProps) {
       <IonContent>
         <MapStyleSetting />
         <MapDisplaySetting />
+        <QuickLinksSetting />
       </IonContent>
     </ResponsiveModal>
   );

@@ -29,6 +29,7 @@ export const localStorageKeys = {
   homeAssignmentsAccordion: "home_assignments_accordion",
   homeEventsAccordion: "home_events_accordion",
   homeToolsAccordion: "home_tools_accordion",
+  quickLinksFabVisible: "quick_links_fab_visible",
 } as const;
 
 export const localStorageKeyWithVariant = (

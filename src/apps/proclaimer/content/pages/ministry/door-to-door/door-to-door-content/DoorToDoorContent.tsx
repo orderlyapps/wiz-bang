@@ -17,6 +17,8 @@ import { DoNotCallSource } from "./components/layers/do-not-call-source/DoNotCal
 import { DoNotCallAlert } from "./components/layers/do-not-call-source/components/do-not-call-alert/DoNotCallAlert";
 import type { DoNotCall } from "./components/layers/do-not-call-source/types";
 import { useMapStyle } from "@proclaimer-content/pages/ministry/door-to-door/shared/hooks/useMapStyleContext";
+import { useQuickLinks } from "@proclaimer-content/pages/ministry/door-to-door/shared/hooks/useQuickLinksContext";
+import { QuickLinksFab } from "./components/quick-links-fab/QuickLinksFab";
 
 type ShareLocation = {
   lat: number;
@@ -31,6 +33,7 @@ export function DoorToDoorContent() {
   const [selectedDoNotCall, setSelectedDoNotCall] = useState<DoNotCall | null>(null);
   const { zoomToRef } = useMapZoom();
   const { styleId } = useMapStyle();
+  const { fabVisible } = useQuickLinks();
 
   return (
     <>
@@ -54,6 +57,8 @@ export function DoorToDoorContent() {
           <IonIcon icon={add} />
         </IonFabButton>
       </IonFab>
+
+      {fabVisible && <QuickLinksFab />}
 
       <DoorToDoorModal
         isOpen={isModalOpen}
