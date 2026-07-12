@@ -27,7 +27,7 @@ export function AuthUsersContent() {
 
   const handleSelect = (publisherId: string, name: string, hasAuth: boolean) => {
     if (!hasAuth) {
-      presentAlert({
+      void presentAlert({
         header: "Create auth user?",
         message: `This will create a passwordless account for ${name}.`,
         buttons: [
@@ -37,13 +37,13 @@ export function AuthUsersContent() {
             handler: async () => {
               try {
                 await createAuthUser(publisherId);
-                presentToast({
+                void presentToast({
                   message: `Auth user created for ${name}`,
                   duration: 2000,
                   color: "success",
                 });
               } catch (err) {
-                presentToast({
+                void presentToast({
                   message: `Error: ${(err as Error).message}`,
                   duration: 4000,
                   color: "danger",
