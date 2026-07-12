@@ -14,21 +14,39 @@ const shared = StyleSheet.create({
   // First column: bold right border separating it from columns 2-5
   firstCol: { flex: 1, borderRightWidth: 3, borderRightColor: "#000" },
   // First column, left sub-column ("Terr. no."): thin right divider
-  firstColSub: { flex: 1, borderRightWidth: 0.5, borderRightColor: "#000", padding: 4 },
+  firstColSub: {
+    flex: 1,
+    borderRightWidth: 0.5,
+    borderRightColor: "#000",
+    padding: 1,
+    justifyContent: "center",
+  },
   // First column, right sub-column ("Last date completed*")
-  firstColSubLast: { flex: 2, padding: 4 },
+  firstColSubLast: { flex: 2, padding: 1, justifyContent: "center" },
   // Columns 2-4: bold right border
   rightCol: { flex: 1, borderRightWidth: 2, borderRightColor: "#000" },
   // Column 5 (last): no right border (table border provides it)
   rightColLast: { flex: 1 },
   // Top row of columns 2-5 ("Assigned to"): thin bottom divider
-  rightColTop: { flex: 1, borderBottomWidth: 0.5, borderBottomColor: "#000", padding: 4 },
+  rightColTop: {
+    flex: 1,
+    borderBottomWidth: 0.5,
+    borderBottomColor: "#000",
+    padding: 1,
+    justifyContent: "center",
+  },
   // Bottom row of columns 2-5 (contains "Date assigned" | "Date completed")
   rightColBottom: { flex: 2 },
   // Bottom row, left sub-column ("Date assigned"): thin right divider
-  rightColSubBottom: { flex: 1, borderRightWidth: 0.5, borderRightColor: "#000", padding: 1 },
+  rightColSubBottom: {
+    flex: 1,
+    borderRightWidth: 0.5,
+    borderRightColor: "#000",
+    padding: 1,
+    justifyContent: "center",
+  },
   // Bottom row, right sub-column ("Date completed")
-  rightColSubBottomLast: { flex: 1, padding: 1 },
+  rightColSubBottomLast: { flex: 1, padding: 1, justifyContent: "center" },
 });
 
 // Header row specific styles
@@ -123,7 +141,7 @@ export function TerritoryAssignmentRecordPdf() {
             TERRITORY ASSIGNMENT RECORD
           </PdfText>
           <PdfText style={{ textAlign: "left", marginTop: 0, fontSize: 12, fontWeight: "bold" }}>
-            Service Year:
+            Service Year: {new Date().getFullYear()}
           </PdfText>
         </PdfView>
         <PdfView style={shared.table}>
