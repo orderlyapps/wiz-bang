@@ -118,12 +118,14 @@ export function TerritoryAssignmentRecordPdf() {
   return (
     <PdfDocument>
       <PdfPage>
-        <PdfText style={{ textAlign: "center", fontSize: 14, fontWeight: "bold" }}>
-          TERRITORY ASSIGNMENT RECORD
-        </PdfText>
-        <PdfText style={{ textAlign: "left", marginTop: 0, fontSize: 12, fontWeight: "bold" }}>
-          Service Year:
-        </PdfText>
+        <PdfView fixed>
+          <PdfText style={{ textAlign: "center", fontSize: 14, fontWeight: "bold" }}>
+            TERRITORY ASSIGNMENT RECORD
+          </PdfText>
+          <PdfText style={{ textAlign: "left", marginTop: 0, fontSize: 12, fontWeight: "bold" }}>
+            Service Year:
+          </PdfText>
+        </PdfView>
         <PdfView style={shared.table}>
           {Array.from({ length: 21 }, (_, i) => (
             <TableRow key={i} isHeader={i === 0} isLast={i === 20} />
