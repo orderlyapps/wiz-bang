@@ -39,7 +39,16 @@ export function useDoNotCallClickHandler({
         return;
       }
 
-      onSelectRef.current(feature.properties as unknown as DoNotCall);
+      const geometryCoordinates =
+        feature.geometry?.type === "Point" ? feature.geometry.coordinates : null;
+      const selected = {
+        ...feature.properties,
+        coordinates:
+          Array.isArray(geometryCoordinates) && geometryCoordinates.length === 2
+            ? ([geometryCoordinates[0], geometryCoordinates[1]] as [number, number])
+            : (feature.properties.coordinates as [number, number]),
+      };
+      onSelectRef.current(selected as unknown as DoNotCall);
     }
 
     currentMap.on("click", handleClick);

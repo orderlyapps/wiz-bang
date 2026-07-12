@@ -18,6 +18,9 @@ import {
 import { doNotCallCollection } from "@shared/database/collections/do-not-call";
 import { DoNotCallSource } from "@proclaimer-content/pages/ministry/door-to-door/door-to-door-content/components/layers/do-not-call-source/DoNotCallSource";
 import { DoNotCallAlert } from "@proclaimer-content/pages/ministry/door-to-door/door-to-door-content/components/layers/do-not-call-source/components/do-not-call-alert/DoNotCallAlert";
+import { DoNotCallEditLocationMarker } from "@proclaimer-content/pages/ministry/door-to-door/door-to-door-content/components/layers/do-not-call-source/components/do-not-call-location-editor/DoNotCallEditLocationMarker";
+import { DoNotCallEditLocationFabs } from "@proclaimer-content/pages/ministry/door-to-door/door-to-door-content/components/layers/do-not-call-source/components/do-not-call-location-editor/DoNotCallEditLocationFabs";
+import { useDoNotCallLocationEditor } from "@proclaimer-content/pages/ministry/door-to-door/door-to-door-content/components/layers/do-not-call-source/hooks/useDoNotCallLocationEditor";
 import type { DoNotCall } from "@proclaimer-content/pages/ministry/door-to-door/door-to-door-content/components/layers/do-not-call-source/types";
 import { DoNotCallModal } from "../components/do-not-call-modal/DoNotCallModal";
 import { DoNotCallUnitModal } from "../components/do-not-call-unit-modal/DoNotCallUnitModal";
@@ -58,6 +61,14 @@ export function ServiceOverseerMapContent({
   const [selectedDoNotCallGroupKey, setSelectedDoNotCallGroupKey] = useState<string | null>(null);
   const [kmlPolygonBoundary, setKmlPolygonBoundary] = useState<number[][] | null>(null);
   const [showKmlAlert, setShowKmlAlert] = useState(false);
+  const {
+    isEditing,
+    editingCoordinates,
+    startEditing,
+    updateCoordinates,
+    saveEditing,
+    cancelEditing,
+  } = useDoNotCallLocationEditor();
 
   function handleMapPress(_lngLat: LngLat, features: GeoJSONFeature[]) {
     if (!kmlGeoJson || selectedMap) return;
@@ -107,6 +118,12 @@ export function ServiceOverseerMapContent({
               onSelect={setSelectedDoNotCall}
               onSelectGroup={setSelectedDoNotCallGroupKey}
             />
+            {editingCoordinates && (
+              <DoNotCallEditLocationMarker
+                coordinates={editingCoordinates}
+                onChange={updateCoordinates}
+              />
+            )}
             {selectedMap && <MapBlocksLayer selectedMap={selectedMap} />}
             {selectedBlock && (
               <MapBlockEditor block={selectedBlock} onPendingChange={onBlockPendingChange} />
@@ -130,6 +147,8 @@ export function ServiceOverseerMapContent({
         </IonFab>
       )}
 
+      {isEditing && <DoNotCallEditLocationFabs onSave={saveEditing} onCancel={cancelEditing} />}
+
       <DoNotCallModal
         isOpen={isModalOpen}
         onDidDismiss={() => setIsModalOpen(false)}
@@ -147,6 +166,12 @@ export function ServiceOverseerMapContent({
         selected={selectedDoNotCall}
         onDismiss={() => setSelectedDoNotCall(null)}
         onDelete={(id) => doNotCallCollection.delete(id)}
+        onEditLocation={() => {
+          if (selectedDoNotCall) {
+            startEditing(selectedDoNotCall);
+            setSelectedDoNotCall(null);
+          }
+        }}
       />
 
       <DoNotCallUnitModal

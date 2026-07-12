@@ -8,9 +8,15 @@ type DoNotCallAlertProps = {
   selected: DoNotCall | null;
   onDismiss: () => void;
   onDelete?: (id: string) => void;
+  onEditLocation?: () => void;
 };
 
-export function DoNotCallAlert({ selected, onDismiss, onDelete }: DoNotCallAlertProps) {
+export function DoNotCallAlert({
+  selected,
+  onDismiss,
+  onDelete,
+  onEditLocation,
+}: DoNotCallAlertProps) {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const selectedIdRef = useRef<string | undefined>(undefined);
 
@@ -41,6 +47,15 @@ export function DoNotCallAlert({ selected, onDismiss, onDelete }: DoNotCallAlert
       text: "Delete",
       role: "destructive",
       handler: () => setShowConfirmation(true),
+    });
+  }
+  if (selected && onEditLocation) {
+    buttons.unshift({
+      text: "Edit Location",
+      handler: () => {
+        onEditLocation();
+        onDismiss();
+      },
     });
   }
   buttons.unshift({
