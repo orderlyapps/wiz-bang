@@ -9,6 +9,8 @@ import type { NotAtHome } from "./components/not-at-home-source/types";
 import { DoorToDoorModal } from "./components/door-to-door-modal/DoorToDoorModal";
 import { MapZoomToController } from "./components/map-zoom-to-controller/MapZoomToController";
 import { MapShareActionSheet } from "./components/map-share-action-sheet/MapShareActionSheet";
+import { NotAtHomeEditLocationMarker } from "./components/not-at-home-source/components/not-at-home-location-editor/NotAtHomeEditLocationMarker";
+import { NotAtHomeEditLocationFabs } from "./components/not-at-home-source/components/not-at-home-location-editor/NotAtHomeEditLocationFabs";
 import { MapMasterLayer } from "./components/layers/map-master-layer/MapMasterLayer";
 import { MapsLayer } from "./components/layers/maps-layer/MapsLayer";
 import { BlocksLayer } from "./components/layers/blocks-layer/BlocksLayer";
@@ -19,6 +21,7 @@ import type { DoNotCall } from "./components/layers/do-not-call-source/types";
 import { useMapStyle } from "@proclaimer-content/pages/ministry/door-to-door/shared/hooks/useMapStyleContext";
 import { useQuickLinks } from "@proclaimer-content/pages/ministry/door-to-door/shared/hooks/useQuickLinksContext";
 import { QuickLinksFab } from "./components/quick-links-fab/QuickLinksFab";
+import { useNotAtHomeLocationEditor } from "./hooks/useNotAtHomeLocationEditor";
 
 type ShareLocation = {
   lat: number;
@@ -31,6 +34,14 @@ export function DoorToDoorContent() {
   const [selectedUnitsKey, setSelectedUnitsKey] = useState<string | null>(null);
   const [shareLocation, setShareLocation] = useState<ShareLocation | null>(null);
   const [selectedDoNotCall, setSelectedDoNotCall] = useState<DoNotCall | null>(null);
+  const {
+    isEditing,
+    editingCoordinates,
+    startEditing,
+    updateCoordinates,
+    saveEditing,
+    cancelEditing,
+  } = useNotAtHomeLocationEditor();
   const { zoomToRef } = useMapZoom();
   const { styleId } = useMapStyle();
   const { fabVisible } = useQuickLinks();
@@ -49,6 +60,12 @@ export function DoorToDoorContent() {
         <BlocksLayer />
         <DoNotCallSource onSelect={setSelectedDoNotCall} />
         <NotAtHomeSource onSelect={setSelectedNotAtHome} onSelectUnits={setSelectedUnitsKey} />
+        {editingCoordinates && (
+          <NotAtHomeEditLocationMarker
+            coordinates={editingCoordinates}
+            onChange={updateCoordinates}
+          />
+        )}
         <MapZoomToController zoomToRef={zoomToRef} />
       </MapView>
 
@@ -59,6 +76,7 @@ export function DoorToDoorContent() {
       </IonFab>
 
       {fabVisible && <QuickLinksFab />}
+      {isEditing && <NotAtHomeEditLocationFabs onSave={saveEditing} onCancel={cancelEditing} />}
 
       <DoorToDoorModal
         isOpen={isModalOpen}
@@ -70,7 +88,16 @@ export function DoorToDoorContent() {
       />
 
       <DoNotCallAlert selected={selectedDoNotCall} onDismiss={() => setSelectedDoNotCall(null)} />
-      <NotAtHomeAlert selected={selectedNotAtHome} onDismiss={() => setSelectedNotAtHome(null)} />
+      <NotAtHomeAlert
+        selected={selectedNotAtHome}
+        onDismiss={() => setSelectedNotAtHome(null)}
+        onEditLocation={() => {
+          if (selectedNotAtHome) {
+            startEditing(selectedNotAtHome);
+            setSelectedNotAtHome(null);
+          }
+        }}
+      />
       <NotAtHomeUnitModal groupKey={selectedUnitsKey} onDismiss={() => setSelectedUnitsKey(null)} />
 
       <MapShareActionSheet

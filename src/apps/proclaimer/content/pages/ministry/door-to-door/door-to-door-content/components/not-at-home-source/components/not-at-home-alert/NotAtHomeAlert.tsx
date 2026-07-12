@@ -8,9 +8,10 @@ import type { NotAtHome } from "../../types";
 type NotAtHomeAlertProps = {
   selected: NotAtHome | null;
   onDismiss: () => void;
+  onEditLocation?: () => void;
 };
 
-export function NotAtHomeAlert({ selected, onDismiss }: NotAtHomeAlertProps) {
+export function NotAtHomeAlert({ selected, onDismiss, onEditLocation }: NotAtHomeAlertProps) {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const record = selected;
@@ -60,6 +61,7 @@ export function NotAtHomeAlert({ selected, onDismiss }: NotAtHomeAlertProps) {
             text: record?.write ? "Move to Return List" : "Move to Write List",
             handler: handleToggle,
           },
+          { text: "Edit Location", handler: () => onEditLocation?.() },
           { text: "Cancel", role: "cancel", handler: onDismiss },
         ]}
         onDidDismiss={onDismiss}

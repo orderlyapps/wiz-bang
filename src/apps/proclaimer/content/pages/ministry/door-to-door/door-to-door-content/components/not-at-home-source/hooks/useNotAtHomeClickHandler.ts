@@ -43,7 +43,16 @@ export function useNotAtHomeClickHandler({
       const layerId = feature.layer?.id;
 
       if (layerId === "not-at-home-house-points") {
-        onSelectRef.current(properties as unknown as NotAtHome);
+        const geometryCoordinates =
+          feature.geometry?.type === "Point" ? feature.geometry.coordinates : null;
+        const selected = {
+          ...properties,
+          coordinates:
+            Array.isArray(geometryCoordinates) && geometryCoordinates.length === 2
+              ? ([geometryCoordinates[0], geometryCoordinates[1]] as [number, number])
+              : (properties.coordinates as [number, number]),
+        };
+        onSelectRef.current(selected as unknown as NotAtHome);
         return;
       }
 
