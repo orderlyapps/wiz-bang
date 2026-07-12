@@ -89,7 +89,7 @@ export function MapLogDownload() {
           Generating...
         </>
       ) : (
-        "Map Log (S-13)"
+        "Territory Assignment Record (S-13)"
       )}
     </IonButton>
   );
