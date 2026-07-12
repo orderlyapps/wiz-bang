@@ -6,6 +6,7 @@ export function PdfsContent() {
     <IonList>
       <NavItem label="CLAM" to="/home/elder/clam" />
       <NavItem label="Audio Video" to="/home/elder/audio-video" />
+      <NavItem label="Cleaning" to="/home/elder/cleaning-schedule" />
     </IonList>
   );
 }

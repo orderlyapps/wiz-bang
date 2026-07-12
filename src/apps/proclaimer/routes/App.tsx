@@ -60,6 +60,7 @@ import ElderStatsPage from "@proclaimer-routes/pages/home/elder/reports/stats/St
 import ElderPublishersPage from "@proclaimer-routes/pages/home/elder/reports/publishers/Publishers";
 import ElderPublisherDetailPage from "@proclaimer-routes/pages/home/elder/reports/publishers/publisher-detail/PublisherDetail";
 import AudioVideoPage from "@proclaimer-routes/pages/home/elder/audio-video/AudioVideo";
+import CleaningSchedulePage from "@proclaimer-routes/pages/home/elder/cleaning-schedule/CleaningSchedule";
 import ElderClamPage from "@proclaimer-routes/pages/home/elder/clam/Clam";
 import ClamOverseerPage from "@proclaimer-routes/pages/home/clam-overseer/ClamOverseer";
 import ClamChairmanPage from "@proclaimer-routes/pages/home/clam-chairman/ClamChairman";
@@ -218,6 +219,7 @@ function App() {
         <Route path="/home/elder" component={ElderPage} exact />
         <Route path="/home/elder/contacts-list" component={ContactsListPage} exact />
         <Route path="/home/elder/pdfs" component={PdfsPage} exact />
+        <Route path="/home/elder/cleaning-schedule" component={CleaningSchedulePage} exact />
         <Route path="/home/elder/audio-video" component={AudioVideoPage} exact />
         <Route path="/home/elder/reports" component={ElderReportsPage} exact />
         <Route path="/home/elder/reports/stats" component={ElderStatsPage} exact />

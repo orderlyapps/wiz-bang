@@ -1,4 +1,5 @@
-import { IonToolbar, IonTitle, IonButtons, IonBackButton } from "@ionic/react";
+import { IonToolbar, IonTitle, IonButtons, IonBackButton, IonButton } from "@ionic/react";
+import { Icon } from "@ui/components/icons/Icon";
 
 export function CleaningHeader() {
   return (
@@ -7,6 +8,11 @@ export function CleaningHeader() {
         <IonBackButton />
       </IonButtons>
       <IonTitle>Cleaning</IonTitle>
+      <IonButtons slot="end">
+        <IonButton routerLink="/home/elder/cleaning-schedule">
+          <Icon slot="icon-only" name="pdf" />
+        </IonButton>
+      </IonButtons>
     </IonToolbar>
   );
 }
