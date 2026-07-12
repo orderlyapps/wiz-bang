@@ -15,6 +15,7 @@ import { DeleteTextButton } from "@ui/components/inputs/button/text/delete/Delet
 import { publisherLocalCollection } from "@shared/database/collections/publisher-local";
 import type { Address } from "@shared/database/rxdb/collections/publisher";
 import type { AddressValue } from "@ui/components/inputs/address/types";
+import { Space } from "@ui/components/layout/space/Space";
 
 type AddressEntry = NonNullable<Address>[number];
 
@@ -122,6 +123,9 @@ export function AddressAddModal({
           />
           <AddressInput label="Address" value={address_value} on_change={set_address_value} />
         </IonList>
+
+        <Space size="lg" />
+
         {entry && (
           <DeleteTextButton
             label="Delete Address"

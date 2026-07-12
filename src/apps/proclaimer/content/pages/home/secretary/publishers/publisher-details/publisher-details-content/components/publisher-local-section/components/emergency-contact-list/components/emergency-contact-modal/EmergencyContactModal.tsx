@@ -15,6 +15,7 @@ import { Select } from "@ui/components/inputs/select/Select";
 import { DeleteTextButton } from "@ui/components/inputs/button/text/delete/DeleteTextButton";
 import { publisherLocalCollection } from "@shared/database/collections/publisher-local";
 import type { EmergencyContact, Phone } from "@shared/database/rxdb/collections/publisher";
+import { Space } from "@ui/components/layout/space/Space";
 
 type Contact = NonNullable<EmergencyContact>[number];
 type PhoneEntry = NonNullable<Phone>[number];
@@ -162,6 +163,7 @@ export function EmergencyContactModal({ is_open, on_dismiss, publisher_id, conta
             />
           ))}
         </IonList>
+        <Space size="lg" />
         {contact && (
           <DeleteTextButton
             label="Delete Contact"

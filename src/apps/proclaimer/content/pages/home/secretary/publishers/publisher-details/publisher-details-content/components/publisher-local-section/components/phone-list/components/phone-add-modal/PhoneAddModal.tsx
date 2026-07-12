@@ -14,6 +14,7 @@ import { Select } from "@ui/components/inputs/select/Select";
 import { DeleteTextButton } from "@ui/components/inputs/button/text/delete/DeleteTextButton";
 import { publisherLocalCollection } from "@shared/database/collections/publisher-local";
 import type { Phone } from "@shared/database/rxdb/collections/publisher";
+import { Space } from "@ui/components/layout/space/Space";
 
 type PhoneEntry = NonNullable<Phone>[number];
 
@@ -100,6 +101,9 @@ export function PhoneAddModal({ is_open, on_dismiss, publisher_id, entry }: Prop
           />
           <PhoneInput label="Number" value={number} on_change={set_number} />
         </IonList>
+
+        <Space size="lg" />
+
         {entry && (
           <DeleteTextButton
             label="Delete Phone"

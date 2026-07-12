@@ -14,6 +14,7 @@ import { Select } from "@ui/components/inputs/select/Select";
 import { DeleteTextButton } from "@ui/components/inputs/button/text/delete/DeleteTextButton";
 import { publisherLocalCollection } from "@shared/database/collections/publisher-local";
 import type { Email } from "@shared/database/rxdb/collections/publisher";
+import { Space } from "@ui/components/layout/space/Space";
 
 type EmailEntry = NonNullable<Email>[number];
 
@@ -100,6 +101,9 @@ export function EmailAddModal({ is_open, on_dismiss, publisher_id, entry }: Prop
           />
           <EmailInput label="Email" value={address} on_change={set_address} />
         </IonList>
+
+        <Space size="lg" />
+
         {entry && (
           <DeleteTextButton
             label="Delete Email"
