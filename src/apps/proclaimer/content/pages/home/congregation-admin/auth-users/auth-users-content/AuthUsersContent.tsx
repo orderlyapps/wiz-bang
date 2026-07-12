@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { IonItem, IonLabel, IonList, useIonAlert, useIonToast } from "@ionic/react";
+import { IonItem, IonLabel, IonList, IonToggle, useIonAlert, useIonToast } from "@ionic/react";
 import { useLiveQuery } from "@tanstack/react-db";
 import { publisherCollection } from "@shared/database/collections/publisher";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
+import { localStorageKeys } from "@util/constants/localStorageKeys";
 import { useCreatePublisherAuthUser } from "./hooks/useCreatePublisherAuthUser";
 import { useGeneratePublisherOtp } from "./hooks/useGeneratePublisherOtp";
 import { usePublisherPhoneLookup } from "./hooks/usePublisherPhone";
@@ -18,12 +19,21 @@ export function AuthUsersContent() {
   const [otp, setOtp] = useState<string | null>(null);
   const [smsPhone, setSmsPhone] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [activeOnly, setActiveOnly] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem(localStorageKeys.authUsersActiveOnly) === "true";
+    } catch {
+      return false;
+    }
+  });
 
   const { data: publishers } = useLiveQuery((q) =>
     q.from({ p: publisherCollection }).orderBy(({ p }) => p.last_name),
   );
 
-  const sorted = publishers?.filter((p) => !p.archived_at) ?? [];
+  const sorted = (publishers?.filter((p) => !p.archived_at) ?? []).filter(
+    (p) => !activeOnly || !!p.auth_id,
+  );
 
   const handleSelect = (publisherId: string, name: string, hasAuth: boolean) => {
     if (!hasAuth) {
@@ -67,9 +77,26 @@ export function AuthUsersContent() {
     }
   };
 
+  const toggleActiveOnly = (checked: boolean) => {
+    setActiveOnly(checked);
+    try {
+      localStorage.setItem(localStorageKeys.authUsersActiveOnly, String(checked));
+    } catch {
+      // Silently fail if localStorage is not available
+    }
+  };
+
   return (
     <>
       <IonList>
+        <IonItem>
+          <IonLabel>Active only</IonLabel>
+          <IonToggle
+            checked={activeOnly}
+            onIonChange={(e) => toggleActiveOnly(e.detail.checked)}
+            slot="end"
+          />
+        </IonItem>
         {sorted.map((p) => (
           <IonItem
             key={p.id}

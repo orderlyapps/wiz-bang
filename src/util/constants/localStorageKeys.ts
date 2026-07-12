@@ -32,6 +32,7 @@ export const localStorageKeys = {
   quickLinksFabVisible: "quick_links_fab_visible",
   myMapsAccordion: "my_maps_accordion",
   recentMapsAccordion: "recent_maps_accordion",
+  authUsersActiveOnly: "auth_users_active_only",
 } as const;
 
 export const localStorageKeyWithVariant = (
