@@ -56,6 +56,7 @@ import ElderPage from "@proclaimer-routes/pages/home/elder/Elder";
 import ContactsListPage from "@proclaimer-routes/pages/home/elder/contacts-list/ContactsList";
 import PdfsPage from "@proclaimer-routes/pages/home/elder/pdfs/Pdfs";
 import GroupsPdfPage from "@proclaimer-routes/pages/home/elder/pdfs/groups/Groups";
+import ElderSpeakerSchedulePage from "@proclaimer-routes/pages/home/elder/pdfs/speaker-schedule/SpeakerSchedule";
 import ElderReportsPage from "@proclaimer-routes/pages/home/elder/reports/Reports";
 import ElderStatsPage from "@proclaimer-routes/pages/home/elder/reports/stats/Stats";
 import ElderPublishersPage from "@proclaimer-routes/pages/home/elder/reports/publishers/Publishers";
@@ -222,6 +223,11 @@ function App() {
         <Route path="/home/elder/contacts-list" component={ContactsListPage} exact />
         <Route path="/home/elder/pdfs" component={PdfsPage} exact />
         <Route path="/home/elder/pdfs/groups" component={GroupsPdfPage} exact />
+        <Route
+          path="/home/elder/pdfs/speaker-schedule"
+          component={ElderSpeakerSchedulePage}
+          exact
+        />
         <Route path="/home/elder/cleaning-schedule" component={CleaningSchedulePage} exact />
         <Route path="/home/elder/audio-video" component={AudioVideoPage} exact />
         <Route path="/home/elder/reports" component={ElderReportsPage} exact />
