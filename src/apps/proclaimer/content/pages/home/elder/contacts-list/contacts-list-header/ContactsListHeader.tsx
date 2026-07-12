@@ -4,7 +4,7 @@ export function ContactsListHeader() {
   return (
     <IonToolbar>
       <IonButtons slot="start">
-        <IonBackButton defaultHref="/home/elder" />
+        <IonBackButton defaultHref="/home/elder/pdfs" />
       </IonButtons>
       <IonTitle>Contacts List</IonTitle>
     </IonToolbar>
