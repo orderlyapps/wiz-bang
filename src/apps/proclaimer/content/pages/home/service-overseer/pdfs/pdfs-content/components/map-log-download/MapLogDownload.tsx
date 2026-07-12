@@ -50,6 +50,8 @@ export function MapLogDownload() {
   const { data: logs_data } = useLiveQuery((q) => q.from({ l: mapLogCollection }));
   const { data: publishers_data } = useLiveQuery((q) => q.from({ p: publisherCollection }));
 
+  const has_data = !!maps_data?.length && !!logs_data?.length && !!publishers_data?.length;
+
   const handle_download = async () => {
     set_is_generating(true);
     try {
@@ -75,7 +77,12 @@ export function MapLogDownload() {
   };
 
   return (
-    <IonButton expand="block" fill="outline" onClick={handle_download} disabled={is_generating}>
+    <IonButton
+      expand="block"
+      fill="outline"
+      onClick={handle_download}
+      disabled={is_generating || !has_data}
+    >
       {is_generating ? (
         <>
           <IonSpinner name="crescent" style={{ marginRight: 8 }} />
