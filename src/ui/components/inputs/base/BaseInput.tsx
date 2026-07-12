@@ -12,6 +12,8 @@ export interface BaseInputProps {
   readonly?: boolean;
   clear_input?: boolean;
   max_length?: number;
+  name?: string;
+  id?: string;
   on_change: (value: string) => void;
   on_blur?: () => void;
   autocomplete?:
@@ -81,6 +83,8 @@ export function BaseInput({
   readonly = false,
   clear_input = true,
   max_length,
+  name,
+  id,
   on_change,
   on_blur,
   autocomplete,
@@ -96,6 +100,8 @@ export function BaseInput({
         readonly={readonly}
         clearInput={clear_input}
         maxlength={max_length}
+        name={name}
+        id={id}
         onIonInput={(event) => on_change(event.detail.value ?? "")}
         onIonBlur={on_blur}
         autocomplete={autocomplete}

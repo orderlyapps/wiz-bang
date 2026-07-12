@@ -50,6 +50,44 @@ export function UpdatePasswordModal({ has_password, email }: UpdatePasswordModal
     if (updateError) {
       setError(updateError.message);
     } else {
+      // iOS Safari password save support
+      if (
+        typeof window !== "undefined" &&
+        "PasswordCredential" in window &&
+        navigator.credentials
+      ) {
+        try {
+          // Define PasswordCredential interface for TypeScript
+          interface PasswordCredentialData {
+            id: string;
+            password: string;
+            name: string;
+          }
+
+          interface PasswordCredential {
+            id: string;
+            password: string;
+            name: string;
+            type: string;
+          }
+
+          interface PasswordCredentialConstructor {
+            new (data: PasswordCredentialData): PasswordCredential;
+          }
+
+          const PasswordCredentialClass = (window as Record<string, unknown>)
+            .PasswordCredential as PasswordCredentialConstructor;
+          const credential = new PasswordCredentialClass({
+            id: email,
+            password: password,
+            name: email,
+          });
+          await navigator.credentials.store(credential);
+        } catch {
+          // Fallback for browsers that don't support Credential Management API
+          console.log("Credential Management API not supported");
+        }
+      }
       setSuccess(true);
       setPassword("");
       setConfirmPassword("");

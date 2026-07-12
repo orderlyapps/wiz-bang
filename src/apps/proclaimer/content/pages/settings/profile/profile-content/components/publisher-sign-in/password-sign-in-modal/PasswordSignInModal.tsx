@@ -48,6 +48,44 @@ export function PasswordSignInModal({ publisher_id, onSignIn }: PasswordSignInMo
     if (signInError) {
       setError(signInError.message);
     } else {
+      // iOS Safari password save support
+      if (
+        typeof window !== "undefined" &&
+        "PasswordCredential" in window &&
+        navigator.credentials
+      ) {
+        try {
+          // Define PasswordCredential interface for TypeScript
+          interface PasswordCredentialData {
+            id: string;
+            password: string;
+            name: string;
+          }
+
+          interface PasswordCredential {
+            id: string;
+            password: string;
+            name: string;
+            type: string;
+          }
+
+          interface PasswordCredentialConstructor {
+            new (data: PasswordCredentialData): PasswordCredential;
+          }
+
+          const PasswordCredentialClass = (window as Record<string, unknown>)
+            .PasswordCredential as PasswordCredentialConstructor;
+          const credential = new PasswordCredentialClass({
+            id: email,
+            password: password,
+            name: email,
+          });
+          await navigator.credentials.store(credential);
+        } catch {
+          // Fallback for browsers that don't support Credential Management API
+          console.log("Credential Management API not supported");
+        }
+      }
       handleClose();
       onSignIn();
     }
@@ -67,33 +105,49 @@ export function PasswordSignInModal({ publisher_id, onSignIn }: PasswordSignInMo
         </IonHeader>
 
         <IonContent className="ion-padding">
-          <IonList inset>
-            <PasswordInput
-              label="Password"
-              value={password}
-              placeholder="Enter your password"
-              on_change={setPassword}
-              disabled={loading}
-              autocomplete="current-password"
-            />
-            {error && (
-              <IonItem lines="none">
-                <IonNote color="danger" slot="start">
-                  {error}
-                </IonNote>
-              </IonItem>
-            )}
-          </IonList>
-          <Space />
-          <IonButton
-            expand="block"
-            className="ion-margin-horizontal"
-            style={{ maxWidth: 360, marginInline: "auto" }}
-            onClick={() => void handleSignIn()}
-            disabled={!password || loading}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              void handleSignIn();
+            }}
+            autoComplete="on"
           >
-            {loading ? "Signing in…" : "Sign In"}
-          </IonButton>
+            <input
+              type="email"
+              name="username"
+              value={email}
+              readOnly
+              autoComplete="username"
+              style={{ display: "none" }}
+            />
+            <IonList inset>
+              <PasswordInput
+                label="Password"
+                value={password}
+                placeholder="Enter your password"
+                on_change={setPassword}
+                disabled={loading}
+                autocomplete="current-password"
+              />
+              {error && (
+                <IonItem lines="none">
+                  <IonNote color="danger" slot="start">
+                    {error}
+                  </IonNote>
+                </IonItem>
+              )}
+            </IonList>
+            <Space />
+            <IonButton
+              expand="block"
+              type="submit"
+              className="ion-margin-horizontal"
+              style={{ maxWidth: 360, marginInline: "auto" }}
+              disabled={!password || loading}
+            >
+              {loading ? "Signing in…" : "Sign In"}
+            </IonButton>
+          </form>
         </IonContent>
       </ResponsiveModal>
     </>

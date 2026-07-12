@@ -33,6 +33,7 @@ export function UpdatePasswordForm({
     >
       <input
         type="email"
+        name="username"
         value={email}
         readOnly
         autoComplete="username"
@@ -41,6 +42,8 @@ export function UpdatePasswordForm({
       <IonList inset>
         <PasswordInput
           label="New password"
+          name="new-password"
+          id="new-password"
           value={password}
           placeholder="At least 6 characters"
           on_change={on_password_change}
@@ -49,6 +52,7 @@ export function UpdatePasswordForm({
         />
         <PasswordInput
           label="Confirm password"
+          name="new-password-confirm"
           value={confirm_password}
           placeholder="Re-enter password"
           on_change={on_confirm_change}
