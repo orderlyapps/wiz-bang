@@ -70,6 +70,7 @@ export function PhoneList({ publisher_id, phone, read_only = false }: Props) {
                   onClick={() => {
                     window.location.href = `sms:${entry.number}`;
                   }}
+                  className="ion-margin-end"
                 >
                   <IonIcon slot="icon-only" icon={chatbubbleEllipsesOutline} />
                 </IonButton>
@@ -80,6 +81,7 @@ export function PhoneList({ publisher_id, phone, read_only = false }: Props) {
                   onClick={() => {
                     window.location.href = `tel:${entry.number}`;
                   }}
+                  className="ion-margin-start"
                 >
                   <IonIcon slot="icon-only" icon={callOutline} />
                 </IonButton>

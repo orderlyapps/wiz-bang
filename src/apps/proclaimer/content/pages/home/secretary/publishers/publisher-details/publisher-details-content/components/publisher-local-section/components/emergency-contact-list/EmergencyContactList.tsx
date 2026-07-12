@@ -67,6 +67,7 @@ export function EmergencyContactList({
                       e.stopPropagation();
                       window.location.href = `sms:${p.number}`;
                     }}
+                    className="ion-margin-end"
                   >
                     <IonIcon slot="icon-only" icon={chatbubbleEllipsesOutline} />
                   </IonButton>
@@ -78,6 +79,7 @@ export function EmergencyContactList({
                       e.stopPropagation();
                       window.location.href = `tel:${p.number}`;
                     }}
+                    className="ion-margin-start"
                   >
                     <IonIcon slot="icon-only" icon={callOutline} />
                   </IonButton>
