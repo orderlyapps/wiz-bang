@@ -7,6 +7,7 @@ export function SpeakerContent() {
       <NavItem to="/home/speaker/schedule" label="Schedule" />
       <NavItem to="/home/speaker/local-speakers" label="Local Speakers" />
       <NavItem to="/home/speaker/visiting-speakers" label="Visiting Speakers" />
+      <NavItem to="/home/speaker/pdf" label="PDF" />
     </IonList>
   );
 }

@@ -85,6 +85,7 @@ import LocalSpeakersPage from "@proclaimer-routes/pages/home/speaker/local-speak
 import LocalSpeakerDetailPage from "@proclaimer-routes/pages/home/speaker/local-speakers/speaker-detail/SpeakerDetail";
 import VisitingSpeakersPage from "@proclaimer-routes/pages/home/speaker/visiting-speakers/VisitingSpeakers";
 import VisitingSpeakerDetailPage from "@proclaimer-routes/pages/home/speaker/visiting-speakers/speaker-detail/SpeakerDetail";
+import SpeakerPdfPage from "@proclaimer-routes/pages/home/speaker/pdf/Pdf";
 import WeekendPage from "@proclaimer-routes/pages/home/weekend/Weekend";
 import WeekendSchedulePage from "@proclaimer-routes/pages/home/weekend/schedule/Schedule";
 import WeekendAssignmentDetailPage from "@proclaimer-routes/pages/home/weekend/schedule/assignment-detail/WeekendAssignmentDetail";
@@ -341,6 +342,7 @@ function App() {
           component={VisitingSpeakerDetailPage}
           exact
         />
+        <Route path="/home/speaker/pdf" component={SpeakerPdfPage} exact />
         <Route path="/home/weekend" component={WeekendPage} exact />
         <Route
           path="/home/weekend/schedule/:week_id/assignment/:assignment_id"
