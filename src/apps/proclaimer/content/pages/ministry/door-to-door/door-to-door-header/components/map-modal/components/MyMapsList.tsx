@@ -1,4 +1,4 @@
-import { IonList, IonItem } from "@ionic/react";
+import { IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonList } from "@ionic/react";
 import { useLiveQuery } from "@tanstack/react-db";
 import { useMapsList } from "../hooks/useMapsList";
 import { mapLogCollection } from "@shared/database/collections/map-log";
@@ -6,6 +6,8 @@ import { publisherCollection } from "@shared/database/collections/publisher";
 import { useAuthSession } from "@util/app/auth/useAuthSession";
 import { MapListItem } from "./map-list-item/MapListItem";
 import { Heading } from "@ui/components/display/text/heading/Heading";
+import { localStorageKeys } from "@util/constants/localStorageKeys";
+import { useAccordionState } from "@util/hooks/use-accordion-state/useAccordionState";
 import type { MapRow } from "@shared/database/schemas/map";
 import type { MapLogRow } from "@shared/database/schemas/map-log";
 import type { Publisher } from "@shared/database/schemas/publisher";
@@ -37,28 +39,32 @@ export function MyMapsList({ onMapSelect, onPreviewImage }: MyMapsListProps) {
   );
 
   const myMaps = allMaps.filter((map) => map.id && my_checked_out_map_ids.has(map.id));
+  const { value, onIonChange } = useAccordionState(localStorageKeys.myMapsAccordion, "my-maps");
 
   if (myMaps.length === 0) {
     return null;
   }
 
   return (
-    <>
-      <IonItem>
-        <Heading>My Maps</Heading>
-      </IonItem>
-
-      <IonList>
-        {myMaps.map((map) => (
-          <MapListItem
-            key={map.id}
-            map={map}
-            onMapSelect={onMapSelect}
-            onPreviewImage={onPreviewImage}
-            label_color="success"
-          />
-        ))}
-      </IonList>
-    </>
+    <IonAccordionGroup value={value} onIonChange={onIonChange}>
+      <IonAccordion value="my-maps">
+        <IonItem slot="header">
+          <IonLabel>
+            <Heading>My Maps</Heading>
+          </IonLabel>
+        </IonItem>
+        <IonList slot="content">
+          {myMaps.map((map) => (
+            <MapListItem
+              key={map.id}
+              map={map}
+              onMapSelect={onMapSelect}
+              onPreviewImage={onPreviewImage}
+              label_color="success"
+            />
+          ))}
+        </IonList>
+      </IonAccordion>
+    </IonAccordionGroup>
   );
 }

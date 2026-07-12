@@ -30,6 +30,8 @@ export const localStorageKeys = {
   homeEventsAccordion: "home_events_accordion",
   homeToolsAccordion: "home_tools_accordion",
   quickLinksFabVisible: "quick_links_fab_visible",
+  myMapsAccordion: "my_maps_accordion",
+  recentMapsAccordion: "recent_maps_accordion",
 } as const;
 
 export const localStorageKeyWithVariant = (

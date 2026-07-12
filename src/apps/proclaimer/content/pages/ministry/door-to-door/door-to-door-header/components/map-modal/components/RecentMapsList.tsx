@@ -1,14 +1,16 @@
-import { IonList, IonItem } from "@ionic/react";
+import { IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonList } from "@ionic/react";
 import { useLiveQuery } from "@tanstack/react-db";
 import { useMapsList } from "../hooks/useMapsList";
 import { mapLogCollection } from "@shared/database/collections/map-log";
 import { publisherCollection } from "@shared/database/collections/publisher";
 import { MapListItem } from "./map-list-item/MapListItem";
 import { getPublisherDisplayName } from "@proclaimer-shared/publisher/publisherUtils";
+import { Heading } from "@ui/components/display/text/heading/Heading";
+import { localStorageKeys } from "@util/constants/localStorageKeys";
+import { useAccordionState } from "@util/hooks/use-accordion-state/useAccordionState";
 import type { MapRow } from "@shared/database/schemas/map";
 import type { MapLogRow } from "@shared/database/schemas/map-log";
 import type { Publisher } from "@shared/database/schemas/publisher";
-import { Heading } from "@ui/components/display/text/heading/Heading";
 
 interface RecentMapsListProps {
   recentMapIds: string[];
@@ -42,33 +44,40 @@ export function RecentMapsList({ recentMapIds, onMapSelect, onPreviewImage }: Re
   const recentMaps = recentMapIds
     .map((id) => allMaps.find((map) => map.id === id))
     .filter(Boolean) as (MapRow & { boundary: number[][] })[];
+  const { value, onIonChange } = useAccordionState(
+    localStorageKeys.recentMapsAccordion,
+    "recent-maps",
+  );
 
   if (recentMaps.length === 0) {
     return null;
   }
 
   return (
-    <>
-      <IonItem>
-        <Heading>Recent Maps</Heading>
-      </IonItem>
-
-      <IonList>
-        {recentMaps.map((map) => {
-          const is_checked_out = checked_out_map_ids.has(map.id ?? "");
-          const checked_out_name = checked_out_name_by_map_id.get(map.id ?? "") ?? "";
-          return (
-            <MapListItem
-              key={map.id}
-              map={map}
-              onMapSelect={onMapSelect}
-              onPreviewImage={onPreviewImage}
-              label_color={is_checked_out ? "success" : undefined}
-              value_2={checked_out_name || undefined}
-            />
-          );
-        })}
-      </IonList>
-    </>
+    <IonAccordionGroup value={value} onIonChange={onIonChange}>
+      <IonAccordion value="recent-maps">
+        <IonItem slot="header">
+          <IonLabel>
+            <Heading>Recent Maps</Heading>
+          </IonLabel>
+        </IonItem>
+        <IonList slot="content">
+          {recentMaps.map((map) => {
+            const is_checked_out = checked_out_map_ids.has(map.id ?? "");
+            const checked_out_name = checked_out_name_by_map_id.get(map.id ?? "") ?? "";
+            return (
+              <MapListItem
+                key={map.id}
+                map={map}
+                onMapSelect={onMapSelect}
+                onPreviewImage={onPreviewImage}
+                label_color={is_checked_out ? "success" : undefined}
+                value_2={checked_out_name || undefined}
+              />
+            );
+          })}
+        </IonList>
+      </IonAccordion>
+    </IonAccordionGroup>
   );
 }
